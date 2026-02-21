@@ -10,9 +10,9 @@
 #                           |
 #   Phase 2 (Generate) -> Claude creates full listing content
 #                           |
-#   Phase 3 (Publish)  -> Save to Sheets queue + create Etsy drafts
+#   Phase 3 (Export)   -> Search Canva for matching designs, export PNG/PDF
 #                           |
-#   Phase 4 (Export)   -> Search Canva for matching designs, export PNG/PDF
+#   Phase 4 (Publish)  -> Save to Sheets + create Etsy drafts + upload images
 # =============================================================================
 
 import sys
@@ -206,54 +206,21 @@ def main():
         if gen_stats["failed"] > 0:
             print(f"     Failed: {gen_stats['failed']}")
 
-        # ==== PHASE 3: Publish ====
-        print(f"\n[4c] Phase 3: Publishing listings...")
-        publish_result = _run_phase(
-            logger, "Phase 3: Publish Listings",
-            tool=PublishListingsTool(),
-            params={
-                "generated_listings": gen_data["generated_listings"],
-                "credentials_file": GOOGLE_CREDENTIALS_FILE,
-                "spreadsheet_id": GOOGLE_SPREADSHEET_ID,
-                "queue_sheet_name": LISTING_QUEUE_SHEET,
-                "api_key": ETSY_API_KEY,
-                "shop_id": ETSY_SHOP_ID,
-                "token_file": TOKEN_FILE,
-                "create_drafts": create_drafts,
-                "taxonomy_id": DEFAULT_TAXONOMY_ID,
-                "currency": DEFAULT_CURRENCY,
-            },
-            validator=ListingsPublishedValidator(),
-        )
-
-        if publish_result["success"]:
-            pub_data = publish_result["data"]
-            print(f"     Queue: {pub_data['queue_rows']} listings saved to Sheets")
-            if create_drafts:
-                print(f"     Etsy drafts: {pub_data['drafts_created']} created")
-                if pub_data["draft_errors"] > 0:
-                    print(f"     Draft errors: {pub_data['draft_errors']}")
-            overall_success = True
-        else:
-            print(f"     Publish failed: {publish_result.get('error')}")
-
-        # ==== PHASE 4: Canva export (optional) ====
+        # ==== PHASE 3: Canva export (before publish so images are ready) ====
+        image_map = {}  # index -> png_path
         if CANVA_CLIENT_ID:
-            print(f"\n[4d] Phase 4: Exporting designs from Canva...")
-            # Build search queries from the generated listing titles
+            print(f"\n[4c] Phase 3: Exporting designs from Canva...")
             canva_queries = []
             for listing in gen_data["generated_listings"]:
-                # Extract key product type words for Canva search
                 product_type = listing.get("product_type", "")
                 if product_type:
                     canva_queries.append(f"tattoo {product_type}")
                 else:
-                    # Use first few meaningful words from title
                     title_words = listing["title"].split(",")[0].strip()
                     canva_queries.append(title_words)
 
             canva_result = _run_phase(
-                logger, "Phase 4: Canva Export",
+                logger, "Phase 3: Canva Export",
                 tool=CanvaExportTool(),
                 params={
                     "search_queries": canva_queries,
@@ -268,11 +235,52 @@ def main():
                 canva_data = canva_result["data"]
                 print(f"     Exported: {canva_data['exported_count']}/{canva_data['total_queries']} designs")
                 print(f"     Files in: {canva_data['export_dir']}")
+                # Build image_map: listing index -> list of PNG paths (all pages)
+                for i, export in enumerate(canva_data.get("exports", [])):
+                    png_paths = export.get("png_paths", [])
+                    if png_paths:
+                        # Filter to only existing files
+                        valid_paths = [p for p in png_paths if os.path.exists(p)]
+                        if valid_paths:
+                            image_map[i] = valid_paths
             else:
                 print(f"     Canva export skipped: {canva_result.get('error', 'No token')}")
                 print(f"     Run: python workflows/auto_listing_creator/canva_oauth.py")
         else:
-            print(f"\n[4d] Phase 4: Canva export skipped (no CANVA_CLIENT_ID)")
+            print(f"\n[4c] Phase 3: Canva export skipped (no CANVA_CLIENT_ID)")
+
+        # ==== PHASE 4: Publish (Sheets + Etsy drafts + upload images) ====
+        print(f"\n[4d] Phase 4: Publishing listings...")
+        publish_result = _run_phase(
+            logger, "Phase 4: Publish Listings",
+            tool=PublishListingsTool(),
+            params={
+                "generated_listings": gen_data["generated_listings"],
+                "credentials_file": GOOGLE_CREDENTIALS_FILE,
+                "spreadsheet_id": GOOGLE_SPREADSHEET_ID,
+                "queue_sheet_name": LISTING_QUEUE_SHEET,
+                "api_key": ETSY_API_KEY,
+                "shop_id": ETSY_SHOP_ID,
+                "token_file": TOKEN_FILE,
+                "create_drafts": create_drafts,
+                "taxonomy_id": DEFAULT_TAXONOMY_ID,
+                "currency": DEFAULT_CURRENCY,
+                "image_map": image_map,
+            },
+            validator=ListingsPublishedValidator(),
+        )
+
+        if publish_result["success"]:
+            pub_data = publish_result["data"]
+            print(f"     Queue: {pub_data['queue_rows']} listings saved to Sheets")
+            if create_drafts:
+                print(f"     Etsy drafts: {pub_data['drafts_created']} created")
+                print(f"     Images uploaded: {pub_data.get('images_uploaded', 0)}")
+                if pub_data["draft_errors"] > 0:
+                    print(f"     Draft errors: {pub_data['draft_errors']}")
+            overall_success = True
+        else:
+            print(f"     Publish failed: {publish_result.get('error')}")
 
         db.table("executions").update({
             "status": "completed" if overall_success else "failed",

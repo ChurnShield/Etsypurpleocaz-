@@ -58,8 +58,10 @@ class PublishListingsTool(BaseTool):
         shop_id           = kwargs.get("shop_id", "")
         token_file        = kwargs.get("token_file", "")
         create_drafts     = kwargs.get("create_drafts", False)
-        taxonomy_id       = kwargs.get("taxonomy_id", 69150467)
+        taxonomy_id       = kwargs.get("taxonomy_id", 1874)
         currency          = kwargs.get("currency", "GBP")
+        # Image map: listing index -> local PNG path (from Canva export)
+        image_map         = kwargs.get("image_map", {})
 
         if not listings:
             return {
@@ -70,11 +72,12 @@ class PublishListingsTool(BaseTool):
 
         try:
             drafts_created = 0
+            images_uploaded = 0
             draft_errors = []
 
             # -- Optionally create Etsy drafts --
             if create_drafts and api_key and shop_id and token_file:
-                print("     [3a] Creating draft listings on Etsy...", flush=True)
+                print("     [4a] Creating draft listings on Etsy...", flush=True)
                 access_token = self._load_access_token(token_file, api_key)
 
                 if access_token:
@@ -88,6 +91,27 @@ class PublishListingsTool(BaseTool):
                             drafts_created += 1
                             print(f"          Draft {i+1}/{len(listings)}: "
                                   f"{listing['title'][:40]}... (ID: {draft_id})", flush=True)
+
+                            # Upload listing images if available
+                            # image_map[i] can be a single path (str) or list of paths
+                            img_data = image_map.get(i)
+                            if img_data:
+                                img_paths = img_data if isinstance(img_data, list) else [img_data]
+                                for rank, img_path in enumerate(img_paths, start=1):
+                                    if img_path and os.path.exists(img_path):
+                                        try:
+                                            self._upload_listing_image(
+                                                api_key, shop_id, draft_id,
+                                                access_token, img_path, rank=rank,
+                                            )
+                                            images_uploaded += 1
+                                            print(f"            Image {rank}/{len(img_paths)}: "
+                                                  f"{os.path.basename(img_path)}", flush=True)
+                                            time.sleep(0.3)
+                                        except Exception as img_err:
+                                            print(f"            Image {rank} failed: "
+                                                  f"{str(img_err)[:80]}", flush=True)
+
                             time.sleep(0.5)
                         except Exception as e:
                             err_msg = str(e)[:100]
@@ -104,7 +128,7 @@ class PublishListingsTool(BaseTool):
                     listing["etsy_draft_id"] = "NOT ATTEMPTED"
 
             # -- Save to Google Sheets queue --
-            print("     [3b] Saving to Listing Queue sheet...", flush=True)
+            print("     [4b] Saving to Listing Queue sheet...", flush=True)
             queue_rows = 0
 
             if _GSPREAD and os.path.exists(credentials_file) and spreadsheet_id:
@@ -154,6 +178,7 @@ class PublishListingsTool(BaseTool):
                 "data": {
                     "queue_rows": queue_rows,
                     "drafts_created": drafts_created,
+                    "images_uploaded": images_uploaded,
                     "draft_errors": len(draft_errors),
                     "listings": listings,
                 },
@@ -162,6 +187,7 @@ class PublishListingsTool(BaseTool):
                 "metadata": {
                     "queue_rows": queue_rows,
                     "drafts_created": drafts_created,
+                    "images_uploaded": images_uploaded,
                     "draft_errors": len(draft_errors),
                 },
             }
@@ -180,38 +206,85 @@ class PublishListingsTool(BaseTool):
 
     def _create_etsy_draft(self, api_key, shop_id, access_token,
                            listing, taxonomy_id, currency):
-        """Create a draft listing on Etsy via API."""
-        # Build the listing payload
-        # Price must be in the minor unit (pence/cents)
+        """Create a draft listing on Etsy via API.
+
+        Etsy v3 createDraftListing uses application/x-www-form-urlencoded,
+        NOT JSON. Tags are sent as repeated 'tags[]' fields.
+        """
         price_float = float(listing.get("price", 4.99))
-        price_amount = int(price_float * 100)
+        # Etsy tags: max 13, each max 20 chars
+        raw_tags = listing.get("tags", [])[:13]
+        tags = [t[:20] for t in raw_tags if t.strip()]
 
-        payload = {
-            "quantity": 999,
-            "title": listing["title"][:140],
-            "description": listing.get("description", ""),
-            "price": price_float,
-            "who_made": "i_did",
-            "when_made": "2020_2025",
-            "taxonomy_id": taxonomy_id,
-            "tags": listing.get("tags", [])[:13],
-            "type": "download",  # digital product
-            "is_supply": False,
-        }
+        # Build form data — Etsy expects form-urlencoded
+        form_fields = [
+            ("quantity", "999"),
+            ("title", listing["title"][:140]),
+            ("description", listing.get("description", "")),
+            ("price", str(price_float)),
+            ("who_made", "i_did"),
+            ("when_made", "2020_2025"),
+            ("taxonomy_id", str(taxonomy_id)),
+            ("type", "download"),
+            ("is_supply", "false"),
+        ]
+        # Tags sent as comma-separated string
+        if tags:
+            form_fields.append(("tags", ",".join(tags)))
 
-        data = json.dumps(payload).encode("utf-8")
+        data = urllib.parse.urlencode(form_fields).encode("utf-8")
         url = f"{ETSY_BASE_URL}/shops/{shop_id}/listings"
 
         req = urllib.request.Request(url, data=data, method="POST")
         req.add_header("x-api-key", api_key)
         req.add_header("Authorization", f"Bearer {access_token}")
-        req.add_header("Content-Type", "application/json")
+        req.add_header("Content-Type", "application/x-www-form-urlencoded")
         req.add_header("Accept", "application/json")
 
-        with urllib.request.urlopen(req, timeout=30) as resp:
-            result = json.loads(resp.read().decode("utf-8"))
+        try:
+            with urllib.request.urlopen(req, timeout=30) as resp:
+                result = json.loads(resp.read().decode("utf-8"))
+            return result.get("listing_id")
+        except urllib.error.HTTPError as e:
+            body = e.read().decode("utf-8", errors="replace")
+            raise RuntimeError(f"Etsy {e.code}: {body[:300]}")
 
-        return result.get("listing_id")
+    def _upload_listing_image(self, api_key, shop_id, listing_id,
+                              access_token, image_path, rank=1):
+        """Upload an image to an Etsy listing via multipart/form-data."""
+        boundary = f"----EtsyBoundary{int(time.time() * 1000)}"
+        filename = os.path.basename(image_path)
+
+        with open(image_path, "rb") as f:
+            image_data = f.read()
+
+        # Build multipart body
+        body = bytearray()
+        # rank field
+        body += f"--{boundary}\r\n".encode()
+        body += b"Content-Disposition: form-data; name=\"rank\"\r\n\r\n"
+        body += f"{rank}\r\n".encode()
+        # image file
+        body += f"--{boundary}\r\n".encode()
+        body += f"Content-Disposition: form-data; name=\"image\"; filename=\"{filename}\"\r\n".encode()
+        body += b"Content-Type: image/png\r\n\r\n"
+        body += image_data
+        body += b"\r\n"
+        body += f"--{boundary}--\r\n".encode()
+
+        url = f"{ETSY_BASE_URL}/shops/{shop_id}/listings/{listing_id}/images"
+        req = urllib.request.Request(url, data=bytes(body), method="POST")
+        req.add_header("x-api-key", api_key)
+        req.add_header("Authorization", f"Bearer {access_token}")
+        req.add_header("Content-Type", f"multipart/form-data; boundary={boundary}")
+        req.add_header("Accept", "application/json")
+
+        try:
+            with urllib.request.urlopen(req, timeout=60) as resp:
+                return json.loads(resp.read().decode("utf-8"))
+        except urllib.error.HTTPError as e:
+            body_text = e.read().decode("utf-8", errors="replace")
+            raise RuntimeError(f"Image upload {e.code}: {body_text[:200]}")
 
     def _load_access_token(self, token_file, api_key):
         """Load and validate OAuth access token."""

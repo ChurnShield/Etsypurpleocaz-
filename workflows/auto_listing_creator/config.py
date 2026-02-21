@@ -43,9 +43,9 @@ WHO_MADE         = "i_did"
 WHEN_MADE        = "2020_2025"
 IS_DIGITAL       = True
 IS_SUPPLY        = False
-# Etsy taxonomy ID for "Craft Supplies & Tools > Templates"
-# (covers digital templates / printable downloads)
-DEFAULT_TAXONOMY_ID = 69150467
+# Etsy taxonomy ID — matches existing PurpleOcaz listings
+# (1874 = Paper & Party Supplies > Paper > Stationery > Templates)
+DEFAULT_TAXONOMY_ID = 1874
 
 # -- OAuth tokens (for creating draft listings on Etsy)
 TOKEN_FILE = os.path.join(os.path.dirname(os.path.abspath(__file__)),

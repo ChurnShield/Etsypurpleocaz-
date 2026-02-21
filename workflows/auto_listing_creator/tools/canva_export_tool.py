@@ -3,8 +3,13 @@
 #
 # Canva integration for the Auto Listing Creator:
 #   - Search your existing Canva designs by keyword
-#   - Export designs as PNG (listing thumbnails) and PDF (previews)
+#   - Export ALL PAGES of each design as separate PNGs (for Etsy listing images)
+#   - Export full design as PDF (for digital download preview)
 #   - Download exported files to a local folder
+#
+# Your Canva designs have 5 pages each matching the Etsy listing image pattern:
+#   Page 1 = Hero image (bundle overview)
+#   Pages 2-5 = Individual template variants
 #
 # Requires: Canva OAuth tokens (run canva_oauth.py first)
 # =============================================================================
@@ -30,9 +35,14 @@ CANVA_API_URL = "https://api.canva.com/rest/v1"
 CANVA_TOKEN_FILE = os.path.join(_workflow, "canva_tokens.json")
 EXPORT_DIR = os.path.join(_workflow, "exports")
 
+# Match existing PurpleOcaz listing image dimensions (portrait)
+EXPORT_WIDTH = 2250
+EXPORT_HEIGHT = 3000
+MAX_PAGES = 5  # Etsy allows up to 10 images, shop standard is 5
+
 
 class CanvaExportTool(BaseTool):
-    """Search Canva designs and export as PNG/PDF for Etsy listings."""
+    """Search Canva designs and export all pages as PNG for Etsy listing images."""
 
     def execute(self, **kwargs) -> dict:
         search_queries    = kwargs.get("search_queries", [])
@@ -42,7 +52,6 @@ class CanvaExportTool(BaseTool):
         export_pdf        = kwargs.get("export_pdf", True)
 
         try:
-            # Load Canva OAuth token
             access_token = self._load_token(canva_client_id, canva_secret)
             if not access_token:
                 return {
@@ -51,7 +60,6 @@ class CanvaExportTool(BaseTool):
                     "tool_name": self.get_name(), "metadata": {},
                 }
 
-            # Ensure export directory exists
             os.makedirs(EXPORT_DIR, exist_ok=True)
 
             all_exports = []
@@ -59,7 +67,6 @@ class CanvaExportTool(BaseTool):
             for query in search_queries:
                 print(f"     Searching Canva for: '{query}'...", flush=True)
 
-                # Search for designs matching the query
                 designs = self._search_designs(access_token, query)
                 print(f"       Found {len(designs)} designs", flush=True)
 
@@ -68,8 +75,9 @@ class CanvaExportTool(BaseTool):
                         "query": query,
                         "design_id": None,
                         "design_title": None,
-                        "png_path": None,
+                        "png_paths": [],
                         "pdf_path": None,
+                        "page_count": 0,
                         "status": "NO DESIGNS FOUND",
                     })
                     continue
@@ -78,7 +86,8 @@ class CanvaExportTool(BaseTool):
                 design = designs[0]
                 design_id = design.get("id", "")
                 design_title = design.get("title", "Untitled")
-                print(f"       Best match: '{design_title}' ({design_id})", flush=True)
+                page_count = design.get("page_count", 1)
+                print(f"       Best match: '{design_title}' ({design_id}, {page_count} pages)", flush=True)
 
                 export_result = {
                     "query": query,
@@ -86,28 +95,42 @@ class CanvaExportTool(BaseTool):
                     "design_title": design_title,
                     "thumbnail": design.get("thumbnail", {}).get("url", ""),
                     "edit_url": design.get("urls", {}).get("edit_url", ""),
-                    "png_path": None,
+                    "png_paths": [],
                     "pdf_path": None,
+                    "page_count": page_count,
                     "status": "FOUND",
                 }
 
-                # Export as PNG
+                # Export all pages as separate PNGs (up to MAX_PAGES)
                 if export_png:
                     try:
-                        png_path = self._export_design(
-                            access_token, design_id, "png", design_title
+                        pages_to_export = min(page_count, MAX_PAGES)
+                        png_paths = self._export_all_pages(
+                            access_token, design_id, design_title, pages_to_export,
                         )
-                        export_result["png_path"] = png_path
+                        export_result["png_paths"] = png_paths
                         export_result["status"] = "EXPORTED"
-                        print(f"       PNG exported: {os.path.basename(png_path)}", flush=True)
+                        print(f"       {len(png_paths)} page PNGs exported", flush=True)
+                        for i, p in enumerate(png_paths):
+                            print(f"         Image {i+1}: {os.path.basename(p)}", flush=True)
                     except Exception as e:
                         print(f"       PNG export failed: {e}", flush=True)
+                        # Fallback: try single-page export
+                        try:
+                            single_path = self._export_single_page(
+                                access_token, design_id, "png", design_title,
+                            )
+                            export_result["png_paths"] = [single_path]
+                            export_result["status"] = "EXPORTED"
+                            print(f"       Fallback single PNG: {os.path.basename(single_path)}", flush=True)
+                        except Exception as e2:
+                            print(f"       Fallback also failed: {e2}", flush=True)
 
-                # Export as PDF
+                # Export full PDF
                 if export_pdf:
                     try:
-                        pdf_path = self._export_design(
-                            access_token, design_id, "pdf", design_title
+                        pdf_path = self._export_single_page(
+                            access_token, design_id, "pdf", design_title,
                         )
                         export_result["pdf_path"] = pdf_path
                         print(f"       PDF exported: {os.path.basename(pdf_path)}", flush=True)
@@ -163,16 +186,72 @@ class CanvaExportTool(BaseTool):
 
         return data.get("items", [])
 
-    def _export_design(self, access_token, design_id, format_type, title):
-        """Export a Canva design as PNG or PDF. Returns local file path."""
-        # Step 1: Create export job
+    def _export_all_pages(self, access_token, design_id, title, page_count):
+        """Export all pages of a design as separate PNG files.
+
+        Returns list of file paths, one per page.
+        """
+        pages_to_export = list(range(1, page_count + 1))
+
+        payload = {
+            "design_id": design_id,
+            "format": {
+                "type": "png",
+                "width": EXPORT_WIDTH,
+                "height": EXPORT_HEIGHT,
+                "pages": pages_to_export,
+            },
+        }
+
+        data = json.dumps(payload).encode("utf-8")
+        req = urllib.request.Request(
+            f"{CANVA_API_URL}/exports", data=data, method="POST",
+        )
+        req.add_header("Authorization", f"Bearer {access_token}")
+        req.add_header("Content-Type", "application/json")
+        req.add_header("Accept", "application/json")
+
+        with urllib.request.urlopen(req, timeout=30) as resp:
+            job = json.loads(resp.read().decode("utf-8"))
+
+        job_id = job.get("job", {}).get("id", "")
+
+        # Poll until complete
+        wait = 3
+        for _ in range(25):
+            time.sleep(wait)
+            status_req = urllib.request.Request(f"{CANVA_API_URL}/exports/{job_id}")
+            status_req.add_header("Authorization", f"Bearer {access_token}")
+            status_req.add_header("Accept", "application/json")
+
+            with urllib.request.urlopen(status_req, timeout=30) as resp:
+                status = json.loads(resp.read().decode("utf-8"))
+
+            job_status = status.get("job", {}).get("status", "")
+            if job_status == "success":
+                urls = status.get("job", {}).get("urls", [])
+                # Download each page as a separate file
+                paths = []
+                for i, url in enumerate(urls):
+                    page_num = i + 1
+                    filepath = self._download_file(url, title, "png", page_num)
+                    paths.append(filepath)
+                return paths
+            elif job_status == "failed":
+                raise RuntimeError(f"Multi-page export failed: {status}")
+            wait = min(wait * 1.3, 8)
+
+        raise RuntimeError("Multi-page export timed out")
+
+    def _export_single_page(self, access_token, design_id, format_type, title):
+        """Export page 1 of a design as PNG or full PDF. Returns file path."""
         if format_type == "png":
             payload = {
                 "design_id": design_id,
                 "format": {
                     "type": "png",
-                    "width": 2000,
-                    "height": 2000,
+                    "width": EXPORT_WIDTH,
+                    "height": EXPORT_HEIGHT,
                 },
             }
         else:
@@ -186,7 +265,7 @@ class CanvaExportTool(BaseTool):
 
         data = json.dumps(payload).encode("utf-8")
         req = urllib.request.Request(
-            f"{CANVA_API_URL}/exports", data=data, method="POST"
+            f"{CANVA_API_URL}/exports", data=data, method="POST",
         )
         req.add_header("Authorization", f"Bearer {access_token}")
         req.add_header("Content-Type", "application/json")
@@ -197,7 +276,6 @@ class CanvaExportTool(BaseTool):
 
         job_id = job.get("job", {}).get("id", "")
 
-        # Step 2: Poll until complete (exponential backoff)
         wait = 2
         for _ in range(20):
             time.sleep(wait)
@@ -212,22 +290,24 @@ class CanvaExportTool(BaseTool):
             if job_status == "success":
                 urls = status.get("job", {}).get("urls", [])
                 if urls:
-                    # Download the file
                     return self._download_file(urls[0], title, format_type)
                 break
             elif job_status == "failed":
                 raise RuntimeError(f"Export failed: {status}")
-
             wait = min(wait * 1.5, 10)
 
         raise RuntimeError("Export timed out")
 
-    def _download_file(self, url, title, format_type):
+    def _download_file(self, url, title, format_type, page_num=None):
         """Download exported file to local exports directory."""
-        # Clean title for filename
         safe_title = "".join(c if c.isalnum() or c in " -_" else "" for c in title)
-        safe_title = safe_title.strip()[:60]
-        filename = f"{safe_title}.{format_type}"
+        safe_title = safe_title.strip()[:50]
+
+        if page_num:
+            filename = f"{safe_title}_page{page_num}.{format_type}"
+        else:
+            filename = f"{safe_title}.{format_type}"
+
         filepath = os.path.join(EXPORT_DIR, filename)
 
         req = urllib.request.Request(url)

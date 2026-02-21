@@ -10,7 +10,7 @@
 #                           |
 #   Phase 2 (Generate) -> Claude creates full listing content
 #                           |
-#   Phase 3 (Export)   -> Search Canva for matching designs, export PNG/PDF
+#   Phase 3 (Create)   -> Generate product images (HTML templates + Playwright)
 #                           |
 #   Phase 4 (Publish)  -> Save to Sheets + create Etsy drafts + upload images
 # =============================================================================
@@ -43,6 +43,7 @@ from lib.orchestrator.execution_logger import ExecutionLogger
 from tools.load_opportunities_tool      import LoadOpportunitiesTool
 from tools.generate_listing_content_tool import GenerateListingContentTool
 from tools.publish_listings_tool         import PublishListingsTool
+from tools.product_creator_tool          import ProductCreatorTool
 from tools.canva_export_tool             import CanvaExportTool
 
 from validators.opportunities_loaded_validator import OpportunitiesLoadedValidator
@@ -206,48 +207,31 @@ def main():
         if gen_stats["failed"] > 0:
             print(f"     Failed: {gen_stats['failed']}")
 
-        # ==== PHASE 3: Canva export (before publish so images are ready) ====
-        image_map = {}  # index -> png_path
-        if CANVA_CLIENT_ID:
-            print(f"\n[4c] Phase 3: Exporting designs from Canva...")
-            canva_queries = []
-            for listing in gen_data["generated_listings"]:
-                product_type = listing.get("product_type", "")
-                if product_type:
-                    canva_queries.append(f"tattoo {product_type}")
-                else:
-                    title_words = listing["title"].split(",")[0].strip()
-                    canva_queries.append(title_words)
+        # ==== PHASE 3: Create product images ====
+        image_map = {}  # index -> list of png paths
+        print(f"\n[4c] Phase 3: Creating product images...")
+        create_result = _run_phase(
+            logger, "Phase 3: Create Products",
+            tool=ProductCreatorTool(),
+            params={
+                "generated_listings": gen_data["generated_listings"],
+                "anthropic_api_key": ANTHROPIC_API_KEY,
+                "model": ANTHROPIC_MODEL,
+                "focus_niche": FOCUS_NICHE,
+            },
+        )
 
-            canva_result = _run_phase(
-                logger, "Phase 3: Canva Export",
-                tool=CanvaExportTool(),
-                params={
-                    "search_queries": canva_queries,
-                    "canva_client_id": CANVA_CLIENT_ID,
-                    "canva_client_secret": CANVA_CLIENT_SECRET,
-                    "export_png": True,
-                    "export_pdf": True,
-                },
-            )
-
-            if canva_result["success"]:
-                canva_data = canva_result["data"]
-                print(f"     Exported: {canva_data['exported_count']}/{canva_data['total_queries']} designs")
-                print(f"     Files in: {canva_data['export_dir']}")
-                # Build image_map: listing index -> list of PNG paths (all pages)
-                for i, export in enumerate(canva_data.get("exports", [])):
-                    png_paths = export.get("png_paths", [])
-                    if png_paths:
-                        # Filter to only existing files
-                        valid_paths = [p for p in png_paths if os.path.exists(p)]
-                        if valid_paths:
-                            image_map[i] = valid_paths
-            else:
-                print(f"     Canva export skipped: {canva_result.get('error', 'No token')}")
-                print(f"     Run: python workflows/auto_listing_creator/canva_oauth.py")
+        if create_result["success"]:
+            create_data = create_result["data"]
+            print(f"     Created: {create_data['created_count']}/{create_data['total_listings']} products")
+            print(f"     Files in: {create_data['export_dir']}")
+            # Use the image_map from the product creator
+            image_map = create_data.get("image_map", {})
+            # Convert string keys back to int (JSON serialisation quirk)
+            image_map = {int(k): v for k, v in image_map.items()}
         else:
-            print(f"\n[4c] Phase 3: Canva export skipped (no CANVA_CLIENT_ID)")
+            print(f"     Product creation failed: {create_result.get('error')}")
+            print(f"     Continuing without images...")
 
         # ==== PHASE 4: Publish (Sheets + Etsy drafts + upload images) ====
         print(f"\n[4d] Phase 4: Publishing listings...")
@@ -319,7 +303,7 @@ def main():
         print(f"  Check  : Google Sheets '{LISTING_QUEUE_SHEET}' tab")
         if create_drafts:
             print(f"  Next   : Review drafts in Etsy Shop Manager > Listings > Drafts")
-            print(f"           Attach Canva template files + images, then publish")
+            print(f"           Product images auto-created and uploaded")
     else:
         print(f"  RESULT : FAILED")
         print(f"  Debug  : python scripts/show_logs.py {WORKFLOW_NAME} --last 1")

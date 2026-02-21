@@ -37,7 +37,7 @@ from config import ETSY_API_KEYSTRING, ETSY_SHARED_SECRET
 
 # -- OAuth settings --
 REDIRECT_URI  = "http://localhost:3847/callback"
-SCOPES        = "shops_r transactions_r listings_r listings_w"
+SCOPES        = "shops_r transactions_r listings_r listings_w listings_d"
 TOKEN_FILE    = os.path.join(_here, "etsy_tokens.json")
 AUTH_URL_BASE = "https://www.etsy.com/oauth/connect"
 TOKEN_URL     = "https://api.etsy.com/v3/public/oauth/token"

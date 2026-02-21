@@ -1,0 +1,226 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ChurnShield - Exit Survey Demo</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background: linear-gradient(135deg, #0f172a 0%, #1e293b 100%);
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+            color: #f8fafc;
+        }
+
+        .test-banner {
+            background-color: #fef3c7;
+            border: 1px solid #f59e0b;
+            border-radius: 8px;
+            padding: 12px 20px;
+            margin-bottom: 20px;
+            max-width: 500px;
+            width: 100%;
+            text-align: center;
+        }
+
+        .test-banner p {
+            color: #92400e;
+            font-size: 14px;
+            font-weight: 600;
+            margin-bottom: 4px;
+        }
+
+        .test-banner .details {
+            color: #b45309;
+            font-size: 12px;
+        }
+
+        .widget-card {
+            background: #1e293b;
+            border: 1px solid #334155;
+            border-radius: 16px;
+            padding: 40px;
+            max-width: 500px;
+            width: 100%;
+            box-shadow: 0 20px 50px rgba(0, 0, 0, 0.5);
+        }
+
+        .logo {
+            text-align: center;
+            margin-bottom: 32px;
+        }
+
+        .logo h1 {
+            color: #3b82f6;
+            font-size: 24px;
+            font-weight: 700;
+        }
+
+        .heading {
+            text-align: center;
+            margin-bottom: 24px;
+        }
+
+        .heading h2 {
+            font-size: 24px;
+            font-weight: 600;
+            margin-bottom: 12px;
+            color: #f8fafc;
+        }
+
+        .heading p {
+            font-size: 16px;
+            color: #94a3b8;
+            line-height: 1.5;
+        }
+
+        .survey-options {
+            margin: 32px 0;
+        }
+
+        .option {
+            background: #0f172a;
+            border: 2px solid #334155;
+            border-radius: 12px;
+            padding: 16px 20px;
+            margin-bottom: 12px;
+            cursor: pointer;
+            transition: all 0.2s;
+            display: flex;
+            align-items: center;
+        }
+
+        .option:hover {
+            border-color: #3b82f6;
+            background: #1e293b;
+        }
+
+        .option input[type="radio"] {
+            width: 20px;
+            height: 20px;
+            margin-right: 12px;
+            cursor: pointer;
+            accent-color: #3b82f6;
+        }
+
+        .option label {
+            font-size: 15px;
+            color: #e2e8f0;
+            cursor: pointer;
+            flex: 1;
+        }
+
+        .button {
+            background: linear-gradient(135deg, #3b82f6 0%, #2563eb 100%);
+            color: white;
+            border: none;
+            border-radius: 10px;
+            padding: 14px 32px;
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+            width: 100%;
+            transition: all 0.2s;
+            box-shadow: 0 4px 12px rgba(59, 130, 246, 0.3);
+        }
+
+        .button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(59, 130, 246, 0.4);
+        }
+
+        .footer-text {
+            text-align: center;
+            margin-top: 24px;
+            font-size: 13px;
+            color: #64748b;
+        }
+
+        .emoji {
+            font-size: 32px;
+            margin-bottom: 16px;
+            display: block;
+            text-align: center;
+        }
+    </style>
+</head>
+<body>
+    <div class="test-banner">
+        <p>⚠️ TEST MODE - No real changes will be made</p>
+        <p class="details">Customer: Sarah Johnson • Plan: Pro Plan • $49/mo</p>
+    </div>
+
+    <div class="widget-card">
+        <div class="logo">
+            <h1>🛡️ ChurnShield</h1>
+        </div>
+
+        <div class="heading">
+            <span class="emoji">😔</span>
+            <h2>We're sorry to see you go!</h2>
+            <p>Before you cancel, could you tell us why you're leaving? Your feedback helps us improve.</p>
+        </div>
+
+        <div class="survey-options">
+            <div class="option">
+                <input type="radio" id="expensive" name="reason" value="expensive">
+                <label for="expensive">💰 It's too expensive</label>
+            </div>
+
+            <div class="option">
+                <input type="radio" id="not-using" name="reason" value="not-using">
+                <label for="not-using">📊 I'm not using it enough</label>
+            </div>
+
+            <div class="option">
+                <input type="radio" id="missing-features" name="reason" value="missing-features">
+                <label for="missing-features">🔧 Missing features I need</label>
+            </div>
+
+            <div class="option">
+                <input type="radio" id="alternative" name="reason" value="alternative">
+                <label for="alternative">🔄 Found a better alternative</label>
+            </div>
+
+            <div class="option">
+                <input type="radio" id="other" name="reason" value="other">
+                <label for="other">💬 Other reason</label>
+            </div>
+        </div>
+
+        <button class="button">Continue</button>
+
+        <p class="footer-text">Your privacy is important to us. This information is kept confidential.</p>
+    </div>
+
+    <script>
+        // Make it feel interactive
+        document.querySelectorAll('.option').forEach(option => {
+            option.addEventListener('click', function() {
+                const radio = this.querySelector('input[type="radio"]');
+                radio.checked = true;
+            });
+        });
+
+        document.querySelector('.button').addEventListener('click', function() {
+            const selected = document.querySelector('input[name="reason"]:checked');
+            if (selected) {
+                alert('Perfect! Now you can take this screenshot.\n\nFor Screenshot 2, you would see the discount offer next.');
+            } else {
+                alert('Please select a reason to continue (for the screenshot, select "It\'s too expensive")');
+            }
+        });
+    </script>
+</body>
+</html>

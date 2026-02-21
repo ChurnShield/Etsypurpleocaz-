@@ -1,0 +1,66 @@
+.env
+.env.local
+.env.*.local
+
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.Python
+build/
+develop-eggs/
+dist/
+downloads/
+eggs/
+.eggs/
+# NOTE: Do NOT ignore lib/ - it contains core system libraries
+lib64/
+parts/
+sdist/
+var/
+wheels/
+*.egg-info/
+.installed.cfg
+*.egg
+
+# Virtual environments
+venv/
+env/
+ENV/
+
+# IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+.DS_Store
+
+# Database
+data/system.db
+data/*.db
+
+# Testing
+.pytest_cache/
+.coverage
+htmlcov/
+
+# Google service account credentials (NEVER commit these)
+google-credentials.json
+*-credentials.json
+service-account*.json
+
+# OAuth tokens (NEVER commit these - contain secrets)
+*_tokens.json
+.seo_checkpoint.json
+
+# Canva exports (large binary files)
+workflows/auto_listing_creator/exports/
+
+# API credentials folder
+ETSY API/
+
+# Logs
+logs/
+*.log

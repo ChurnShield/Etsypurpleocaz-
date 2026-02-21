@@ -1,0 +1,306 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ChurnShield - Stripe Integration Demo</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background: #0f172a;
+            min-height: 100vh;
+            padding: 20px;
+            color: #f8fafc;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .container {
+            max-width: 600px;
+            width: 100%;
+        }
+
+        .header {
+            text-align: center;
+            margin-bottom: 32px;
+        }
+
+        .logo {
+            font-size: 32px;
+            font-weight: 700;
+            color: #3b82f6;
+            margin-bottom: 16px;
+        }
+
+        .page-title {
+            font-size: 28px;
+            font-weight: 700;
+            margin-bottom: 8px;
+        }
+
+        .page-subtitle {
+            font-size: 16px;
+            color: #94a3b8;
+        }
+
+        .card {
+            background: #1e293b;
+            border: 1px solid #334155;
+            border-radius: 16px;
+            padding: 40px;
+            box-shadow: 0 20px 50px rgba(0, 0, 0, 0.5);
+        }
+
+        .stripe-logo {
+            text-align: center;
+            margin-bottom: 32px;
+        }
+
+        .stripe-logo img {
+            width: 120px;
+            opacity: 0.9;
+        }
+
+        .stripe-text {
+            font-size: 48px;
+            font-weight: 700;
+            color: #635bff;
+        }
+
+        .benefits-list {
+            margin: 32px 0;
+        }
+
+        .benefit-item {
+            display: flex;
+            align-items: start;
+            padding: 16px;
+            background: #0f172a;
+            border-radius: 10px;
+            margin-bottom: 12px;
+        }
+
+        .benefit-icon {
+            font-size: 24px;
+            margin-right: 16px;
+        }
+
+        .benefit-content h3 {
+            font-size: 16px;
+            font-weight: 600;
+            margin-bottom: 4px;
+            color: #f8fafc;
+        }
+
+        .benefit-content p {
+            font-size: 14px;
+            color: #94a3b8;
+            line-height: 1.5;
+        }
+
+        .connect-button {
+            width: 100%;
+            background: #635bff;
+            color: white;
+            border: none;
+            border-radius: 10px;
+            padding: 16px 32px;
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 12px;
+            transition: all 0.2s;
+            box-shadow: 0 4px 12px rgba(99, 91, 255, 0.3);
+        }
+
+        .connect-button:hover {
+            background: #5851df;
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(99, 91, 255, 0.4);
+        }
+
+        .stripe-icon {
+            width: 24px;
+            height: 24px;
+        }
+
+        .security-badges {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 24px;
+            margin-top: 24px;
+            padding-top: 24px;
+            border-top: 1px solid #334155;
+        }
+
+        .badge {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            font-size: 13px;
+            color: #94a3b8;
+        }
+
+        .badge-icon {
+            font-size: 18px;
+        }
+
+        .setup-time {
+            text-align: center;
+            margin-top: 24px;
+            padding: 12px;
+            background: #22c55e20;
+            border: 1px solid #22c55e40;
+            border-radius: 10px;
+        }
+
+        .setup-time strong {
+            color: #22c55e;
+            font-size: 18px;
+        }
+
+        .setup-time span {
+            color: #94a3b8;
+            font-size: 14px;
+        }
+
+        .info-box {
+            background: #1e40af20;
+            border: 1px solid #3b82f640;
+            border-radius: 10px;
+            padding: 16px;
+            margin-top: 24px;
+        }
+
+        .info-box p {
+            font-size: 13px;
+            color: #93c5fd;
+            line-height: 1.6;
+        }
+
+        .feature-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 12px;
+            margin: 24px 0;
+        }
+
+        .feature-tag {
+            background: #0f172a;
+            border: 1px solid #334155;
+            border-radius: 8px;
+            padding: 12px;
+            font-size: 13px;
+            color: #e2e8f0;
+            text-align: center;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <div class="logo">🛡️ ChurnShield</div>
+            <h1 class="page-title">Connect Your Stripe Account</h1>
+            <p class="page-subtitle">Secure OAuth connection in 30 seconds</p>
+        </div>
+
+        <div class="card">
+            <div class="stripe-logo">
+                <div class="stripe-text">stripe</div>
+            </div>
+
+            <div class="benefits-list">
+                <div class="benefit-item">
+                    <div class="benefit-icon">🔄</div>
+                    <div class="benefit-content">
+                        <h3>Auto-sync Subscribers</h3>
+                        <p>Automatically sync your Stripe customers and subscription data</p>
+                    </div>
+                </div>
+
+                <div class="benefit-item">
+                    <div class="benefit-icon">⚡</div>
+                    <div class="benefit-content">
+                        <h3>Instant Setup</h3>
+                        <p>One-click OAuth - no API keys, no technical knowledge needed</p>
+                    </div>
+                </div>
+
+                <div class="benefit-item">
+                    <div class="benefit-icon">💰</div>
+                    <div class="benefit-content">
+                        <h3>Track Revenue</h3>
+                        <p>See exactly how much revenue you're retaining in real-time</p>
+                    </div>
+                </div>
+
+                <div class="benefit-item">
+                    <div class="benefit-icon">🔐</div>
+                    <div class="benefit-content">
+                        <h3>Bank-Level Security</h3>
+                        <p>We never see your Stripe credentials - secured by OAuth 2.0</p>
+                    </div>
+                </div>
+            </div>
+
+            <button class="connect-button">
+                <svg class="stripe-icon" viewBox="0 0 24 24" fill="currentColor">
+                    <path d="M13.976 9.15c-2.172-.806-3.356-1.426-3.356-2.409 0-.831.683-1.305 1.901-1.305 2.227 0 4.515.858 6.09 1.631l.89-5.494C18.252.975 15.697 0 12.165 0 9.667 0 7.589.654 6.104 1.872 4.56 3.147 3.757 4.992 3.757 7.218c0 4.039 2.467 5.76 6.476 7.219 2.585.92 3.445 1.574 3.445 2.583 0 .98-.84 1.545-2.354 1.545-1.875 0-4.965-.921-6.99-2.109l-.9 5.555C5.175 22.99 8.385 24 11.714 24c2.641 0 4.843-.624 6.328-1.813 1.664-1.305 2.525-3.236 2.525-5.732 0-4.128-2.524-5.851-6.594-7.305h.003z"/>
+                </svg>
+                Connect with Stripe
+            </button>
+
+            <div class="setup-time">
+                <strong>⏱️ 30 seconds</strong>
+                <span> • </span>
+                <span>Setup time</span>
+            </div>
+
+            <div class="feature-grid">
+                <div class="feature-tag">✓ Read-only access</div>
+                <div class="feature-tag">✓ Revoke anytime</div>
+                <div class="feature-tag">✓ No data stored</div>
+                <div class="feature-tag">✓ SOC 2 compliant</div>
+            </div>
+
+            <div class="security-badges">
+                <div class="badge">
+                    <span class="badge-icon">🔒</span>
+                    <span>256-bit SSL</span>
+                </div>
+                <div class="badge">
+                    <span class="badge-icon">✅</span>
+                    <span>OAuth 2.0</span>
+                </div>
+                <div class="badge">
+                    <span class="badge-icon">🛡️</span>
+                    <span>PCI Compliant</span>
+                </div>
+            </div>
+
+            <div class="info-box">
+                <p>
+                    💡 <strong>How it works:</strong> When you click "Connect with Stripe", you'll be redirected to Stripe's secure login page. After authorizing ChurnShield, you'll be automatically redirected back. We only request read-only access to subscription data.
+                </p>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        document.querySelector('.connect-button').addEventListener('click', function() {
+            alert('Perfect! This shows the Stripe integration screen.\n\nThis demonstrates the secure OAuth connection process that takes only 30 seconds.');
+        });
+    </script>
+</body>
+</html>

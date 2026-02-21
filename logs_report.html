@@ -1,0 +1,229 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Workflow Log Report</title>
+  <style>
+* { box-sizing: border-box; margin: 0; padding: 0; }
+body {
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+  font-size: 13px;
+  background: #f0f2f5;
+  color: #222;
+  padding: 20px;
+}
+
+/* ── Summary box ───────────────────────────────── */
+.summary-box {
+  background: white;
+  padding: 20px 24px;
+  border-radius: 8px;
+  margin-bottom: 18px;
+  box-shadow: 0 1px 4px rgba(0,0,0,.12);
+}
+.summary-box h1 { font-size: 20px; margin-bottom: 10px; }
+.filter-row { margin-bottom: 14px; }
+.stats-row  { display: flex; gap: 32px; flex-wrap: wrap; }
+.stat-val   { font-size: 28px; font-weight: 700; }
+.stat-val.ok   { color: #2e7d32; }
+.stat-val.fail { color: #c62828; }
+.stat-lbl   { font-size: 11px; color: #777; margin-top: 2px; }
+
+/* ── Execution collapsible blocks ─────────────── */
+details { margin-bottom: 8px; border-radius: 6px; overflow: hidden; }
+details summary::-webkit-details-marker { display: none; }
+
+.exec-summary {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 10px 14px;
+  cursor: pointer;
+  list-style: none;
+  color: white;
+  font-size: 12px;
+  flex-wrap: wrap;
+}
+.exec-summary:hover { filter: brightness(1.08); }
+.hdr-completed { background: #2e7d32; }
+.hdr-failed    { background: #c62828; }
+.hdr-running   { background: #1565c0; }
+.hdr-unknown   { background: #555; }
+.wf-name  { font-weight: 700; font-size: 13px; }
+.sep      { opacity: 0.4; }
+.ts       { opacity: 0.9; }
+.status-label { font-weight: 700; letter-spacing: .5px; }
+.exec-id  { opacity: 0.65; font-family: monospace; }
+.event-count { opacity: 0.8; }
+
+.exec-body {
+  background: white;
+  border: 1px solid #ddd;
+  border-top: none;
+  padding: 12px;
+}
+.full-id { font-size: 11px; color: #888; margin-bottom: 10px; }
+code {
+  background: #f5f5f5;
+  padding: 1px 4px;
+  border-radius: 3px;
+  font-size: 11px;
+  font-family: monospace;
+}
+
+/* ── Log event table ───────────────────────────── */
+table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 11px;
+  font-family: monospace;
+}
+thead th {
+  background: #f5f5f5;
+  padding: 6px 8px;
+  text-align: left;
+  border-bottom: 2px solid #ddd;
+  font-size: 10px;
+  text-transform: uppercase;
+  letter-spacing: .5px;
+  white-space: nowrap;
+}
+tbody td {
+  padding: 5px 8px;
+  border-bottom: 1px solid #eee;
+  vertical-align: top;
+}
+
+/* Row background colours by event type */
+.row-phase       { background: #e3f2fd; }   /* blue — phase markers      */
+.row-tool-call   { background: #fff8e1; }   /* amber — before tool runs  */
+.row-success     { background: #e8f5e9; }   /* green — passed            */
+.row-fail        { background: #ffebee; }   /* red — failed              */
+.row-error       { background: #ffcdd2; }   /* dark red — exceptions     */
+
+/* ── Badges ────────────────────────────────────── */
+.badge {
+  display: inline-block;
+  padding: 2px 6px;
+  border-radius: 3px;
+  font-size: 9px;
+  font-weight: 700;
+  letter-spacing: .5px;
+  white-space: nowrap;
+}
+.bdg-pass     { background: #4caf50; color: white; }
+.bdg-fail     { background: #f44336; color: white; }
+.bdg-phase    { background: #1e88e5; color: white; }
+.bdg-tool     { background: #f57c00; color: white; }
+.bdg-validate { background: #6a1b9a; color: white; }
+.bdg-error    { background: #c62828; color: white; }
+
+/* ── Metadata mini-table ───────────────────────── */
+.meta-cell { max-width: 320px; }
+.meta-tbl  { border-left: 3px solid #ddd; padding-left: 4px; width: 100%; }
+.meta-tbl td { padding: 1px 4px; border: none; vertical-align: top; }
+.mk { color: #888; white-space: nowrap; padding-right: 8px; }
+.mv { color: #333; word-break: break-all; white-space: pre-wrap; }
+
+/* ── Misc ──────────────────────────────────────── */
+.none { color: #bbb; font-style: italic; }
+.err  { color: #c62828; }
+.hint { font-size: 12px; color: #666; margin-bottom: 10px; }
+.footer {
+  margin-top: 24px;
+  text-align: center;
+  font-size: 11px;
+  color: #aaa;
+}
+</style>
+</head>
+<body>
+  
+<div class="summary-box">
+  <h1>Workflow Log Report</h1>
+  <div class="filter-row">Filters:&nbsp; <span class="badge bdg-validate">example_workflow</span>&nbsp;<span class="badge bdg-tool">last 2</span></div>
+  <div class="stats-row">
+    <div class="stat">
+      <div class="stat-val">2</div>
+      <div class="stat-lbl">Total Runs</div>
+    </div>
+    <div class="stat">
+      <div class="stat-val ok">2</div>
+      <div class="stat-lbl">Completed</div>
+    </div>
+    <div class="stat">
+      <div class="stat-val fail">0</div>
+      <div class="stat-lbl">Failed</div>
+    </div>
+    <div class="stat">
+      <div class="stat-val">100%</div>
+      <div class="stat-lbl">Success Rate</div>
+    </div>
+    <div class="stat">
+      <div class="stat-val">0.02s</div>
+      <div class="stat-lbl">Avg Duration</div>
+    </div>
+  </div>
+</div>
+
+
+  <p class="hint">
+    Showing 2 execution(s), newest first &mdash;
+    click any bar to expand its event log.
+  </p>
+
+  
+<details>
+  <summary class="exec-summary hdr-completed">
+    <span class="wf-name">example_workflow</span>
+    <span class="sep">|</span>
+    <span class="ts">2026-02-19T07:46:28</span>
+    &nbsp;|&nbsp; 0.02s
+    <span class="sep">|</span>
+    <span class="status-label">COMPLETED</span>
+    <span class="sep">|</span>
+    <span class="exec-id">bd25ea65…</span>
+    <span class="sep">|</span>
+    <span class="event-count">5 event(s) &mdash; click to expand</span>
+  </summary>
+  <div class="exec-body">
+    <p class="full-id">Full execution ID: <code>bd25ea65-d8a6-4245-9e9e-151834e40999</code></p>
+    <table><thead><tr><th>Time</th><th>Phase</th><th>Event</th><th>Tool / Validator</th><th>Result</th><th>Duration</th><th>Metadata</th><th>Error</th></tr></thead><tbody><tr class="row-phase"><td>07:46:28.222</td><td>Phase 1: Process Text</td><td><span class="badge bdg-phase">PHASE START</span></td><td></td><td><span class="badge bdg-pass">PASS</span></td><td>—</td><td class="meta-cell"><span class="none">—</span></td><td>—</td></tr><tr class="row-tool-call"><td>07:46:28.222</td><td>Phase 1: Process Text</td><td><span class="badge bdg-tool">TOOL CALL</span></td><td>ExampleTool</td><td></td><td>—</td><td class="meta-cell"><table class="meta-tbl"><tr><td class="mk">text</td><td class="mv">hello world — this is my workflow input</td></tr></table></td><td>—</td></tr><tr class="row-success"><td>07:46:28.222</td><td>Phase 1: Process Text</td><td><span class="badge bdg-tool">TOOL RESULT</span></td><td>ExampleTool</td><td><span class="badge bdg-pass">PASS</span></td><td>0&thinsp;ms</td><td class="meta-cell"><table class="meta-tbl"><tr><td class="mk">success</td><td class="mv">True</td></tr><tr><td class="mk">data</td><td class="mv">{
+  &quot;processed_text&quot;: &quot;HELLO WORLD \u2014 THIS IS MY WORKFLOW INPUT&quot;
+}</td></tr><tr><td class="mk">error</td><td class="mv">None</td></tr><tr><td class="mk">tool_name</td><td class="mv">ExampleTool</td></tr><tr><td class="mk">metadata</td><td class="mv">{
+  &quot;input_length&quot;: 39
+}</td></tr></table></td><td>—</td></tr><tr class="row-success"><td>07:46:28.222</td><td>Phase 1: Process Text</td><td><span class="badge bdg-validate">VALIDATE</span></td><td>ExampleValidator</td><td><span class="badge bdg-pass">PASS</span></td><td>—</td><td class="meta-cell"><table class="meta-tbl"><tr><td class="mk">issues</td><td class="mv">[]</td></tr></table></td><td>—</td></tr><tr class="row-phase"><td>07:46:28.222</td><td>Phase 1: Process Text</td><td><span class="badge bdg-phase">PHASE END</span></td><td></td><td><span class="badge bdg-pass">PASS</span></td><td>—</td><td class="meta-cell"><span class="none">—</span></td><td>—</td></tr></tbody></table>
+  </div>
+</details>
+
+
+<details>
+  <summary class="exec-summary hdr-completed">
+    <span class="wf-name">example_workflow</span>
+    <span class="sep">|</span>
+    <span class="ts">2026-02-19T07:45:35</span>
+    &nbsp;|&nbsp; 0.03s
+    <span class="sep">|</span>
+    <span class="status-label">COMPLETED</span>
+    <span class="sep">|</span>
+    <span class="exec-id">3ffc5ab6…</span>
+    <span class="sep">|</span>
+    <span class="event-count">5 event(s) &mdash; click to expand</span>
+  </summary>
+  <div class="exec-body">
+    <p class="full-id">Full execution ID: <code>3ffc5ab6-0935-4aeb-abed-b421cc05eb53</code></p>
+    <table><thead><tr><th>Time</th><th>Phase</th><th>Event</th><th>Tool / Validator</th><th>Result</th><th>Duration</th><th>Metadata</th><th>Error</th></tr></thead><tbody><tr class="row-phase"><td>07:45:35.859</td><td>Phase 1: Process Text</td><td><span class="badge bdg-phase">PHASE START</span></td><td></td><td><span class="badge bdg-pass">PASS</span></td><td>—</td><td class="meta-cell"><span class="none">—</span></td><td>—</td></tr><tr class="row-tool-call"><td>07:45:35.859</td><td>Phase 1: Process Text</td><td><span class="badge bdg-tool">TOOL CALL</span></td><td>ExampleTool</td><td></td><td>—</td><td class="meta-cell"><table class="meta-tbl"><tr><td class="mk">text</td><td class="mv">hello world — this is my workflow input</td></tr></table></td><td>—</td></tr><tr class="row-success"><td>07:45:35.864</td><td>Phase 1: Process Text</td><td><span class="badge bdg-tool">TOOL RESULT</span></td><td>ExampleTool</td><td><span class="badge bdg-pass">PASS</span></td><td>2&thinsp;ms</td><td class="meta-cell"><table class="meta-tbl"><tr><td class="mk">success</td><td class="mv">True</td></tr><tr><td class="mk">data</td><td class="mv">{
+  &quot;processed_text&quot;: &quot;HELLO WORLD \u2014 THIS IS MY WORKFLOW INPUT&quot;
+}</td></tr><tr><td class="mk">error</td><td class="mv">None</td></tr><tr><td class="mk">tool_name</td><td class="mv">ExampleTool</td></tr><tr><td class="mk">metadata</td><td class="mv">{
+  &quot;input_length&quot;: 39
+}</td></tr></table></td><td>—</td></tr><tr class="row-success"><td>07:45:35.864</td><td>Phase 1: Process Text</td><td><span class="badge bdg-validate">VALIDATE</span></td><td>ExampleValidator</td><td><span class="badge bdg-pass">PASS</span></td><td>—</td><td class="meta-cell"><table class="meta-tbl"><tr><td class="mk">issues</td><td class="mv">[]</td></tr></table></td><td>—</td></tr><tr class="row-phase"><td>07:45:35.864</td><td>Phase 1: Process Text</td><td><span class="badge bdg-phase">PHASE END</span></td><td></td><td><span class="badge bdg-pass">PASS</span></td><td>—</td><td class="meta-cell"><span class="none">—</span></td><td>—</td></tr></tbody></table>
+  </div>
+</details>
+
+
+  <div class="footer">
+    Generated 2026-02-19 07:53:41 &mdash; source: data/system.db
+  </div>
+</body>
+</html>

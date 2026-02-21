@@ -1,0 +1,375 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ChurnShield - Cancel Flow Builder Demo</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background: #0f172a;
+            min-height: 100vh;
+            padding: 20px;
+            color: #f8fafc;
+        }
+
+        .header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 32px;
+            padding-bottom: 20px;
+            border-bottom: 1px solid #334155;
+        }
+
+        .logo {
+            font-size: 24px;
+            font-weight: 700;
+            color: #3b82f6;
+        }
+
+        .save-button {
+            background: linear-gradient(135deg, #22c55e 0%, #16a34a 100%);
+            color: white;
+            border: none;
+            padding: 10px 24px;
+            border-radius: 8px;
+            font-weight: 600;
+            cursor: pointer;
+        }
+
+        .page-title {
+            font-size: 32px;
+            font-weight: 700;
+            margin-bottom: 8px;
+        }
+
+        .page-subtitle {
+            font-size: 16px;
+            color: #94a3b8;
+            margin-bottom: 32px;
+        }
+
+        .builder-container {
+            display: grid;
+            grid-template-columns: 300px 1fr;
+            gap: 24px;
+        }
+
+        .sidebar {
+            background: #1e293b;
+            border: 1px solid #334155;
+            border-radius: 12px;
+            padding: 24px;
+            height: fit-content;
+        }
+
+        .sidebar-title {
+            font-size: 16px;
+            font-weight: 600;
+            margin-bottom: 16px;
+            color: #f8fafc;
+        }
+
+        .section {
+            margin-bottom: 24px;
+        }
+
+        .section-header {
+            font-size: 14px;
+            font-weight: 600;
+            color: #94a3b8;
+            margin-bottom: 12px;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .toggle-item {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 12px;
+            background: #0f172a;
+            border-radius: 8px;
+            margin-bottom: 8px;
+        }
+
+        .toggle-label {
+            font-size: 14px;
+            color: #e2e8f0;
+        }
+
+        .toggle-switch {
+            width: 44px;
+            height: 24px;
+            background: #3b82f6;
+            border-radius: 12px;
+            position: relative;
+            cursor: pointer;
+        }
+
+        .toggle-switch::after {
+            content: '';
+            position: absolute;
+            width: 18px;
+            height: 18px;
+            background: white;
+            border-radius: 50%;
+            top: 3px;
+            right: 3px;
+            transition: all 0.2s;
+        }
+
+        .toggle-switch.off {
+            background: #475569;
+        }
+
+        .toggle-switch.off::after {
+            right: calc(100% - 21px);
+        }
+
+        .input-group {
+            margin-bottom: 16px;
+        }
+
+        .input-label {
+            font-size: 13px;
+            color: #94a3b8;
+            margin-bottom: 6px;
+            display: block;
+        }
+
+        .input-field {
+            width: 100%;
+            background: #0f172a;
+            border: 1px solid #334155;
+            border-radius: 6px;
+            padding: 8px 12px;
+            color: #f8fafc;
+            font-size: 14px;
+        }
+
+        .canvas {
+            background: #1e293b;
+            border: 1px solid #334155;
+            border-radius: 12px;
+            padding: 32px;
+            min-height: 600px;
+        }
+
+        .canvas-title {
+            font-size: 18px;
+            font-weight: 600;
+            margin-bottom: 24px;
+            color: #f8fafc;
+        }
+
+        .flow-step {
+            background: #0f172a;
+            border: 2px solid #334155;
+            border-radius: 12px;
+            padding: 20px;
+            margin-bottom: 20px;
+            position: relative;
+        }
+
+        .flow-step.active {
+            border-color: #3b82f6;
+        }
+
+        .step-number {
+            position: absolute;
+            top: -12px;
+            left: 16px;
+            background: #3b82f6;
+            color: white;
+            width: 24px;
+            height: 24px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 12px;
+            font-weight: 700;
+        }
+
+        .step-title {
+            font-size: 16px;
+            font-weight: 600;
+            margin-bottom: 8px;
+            color: #f8fafc;
+        }
+
+        .step-description {
+            font-size: 14px;
+            color: #94a3b8;
+            margin-bottom: 12px;
+        }
+
+        .step-preview {
+            background: #1e293b;
+            border: 1px solid #334155;
+            border-radius: 8px;
+            padding: 12px;
+            font-size: 13px;
+            color: #cbd5e1;
+        }
+
+        .flow-arrow {
+            text-align: center;
+            color: #3b82f6;
+            font-size: 24px;
+            margin: 8px 0;
+        }
+
+        .badge {
+            display: inline-block;
+            background: #22c55e;
+            color: white;
+            padding: 4px 12px;
+            border-radius: 12px;
+            font-size: 11px;
+            font-weight: 600;
+            text-transform: uppercase;
+            margin-left: 8px;
+        }
+    </style>
+</head>
+<body>
+    <div class="header">
+        <div class="logo">🛡️ ChurnShield</div>
+        <button class="save-button">💾 Save & Publish</button>
+    </div>
+
+    <h1 class="page-title">🔧 Cancel Flow Builder</h1>
+    <p class="page-subtitle">Build your custom cancellation flow in minutes - no code required</p>
+
+    <div class="builder-container">
+        <div class="sidebar">
+            <div class="sidebar-title">Flow Settings</div>
+
+            <div class="section">
+                <div class="section-header">Survey Questions</div>
+                <div class="toggle-item">
+                    <span class="toggle-label">💰 Price concern</span>
+                    <div class="toggle-switch"></div>
+                </div>
+                <div class="toggle-item">
+                    <span class="toggle-label">📊 Low usage</span>
+                    <div class="toggle-switch"></div>
+                </div>
+                <div class="toggle-item">
+                    <span class="toggle-label">🔧 Missing features</span>
+                    <div class="toggle-switch"></div>
+                </div>
+                <div class="toggle-item">
+                    <span class="toggle-label">🔄 Found alternative</span>
+                    <div class="toggle-switch"></div>
+                </div>
+            </div>
+
+            <div class="section">
+                <div class="section-header">Discount Offer</div>
+                <div class="input-group">
+                    <label class="input-label">Discount Percentage</label>
+                    <input type="number" class="input-field" value="40" />
+                </div>
+                <div class="input-group">
+                    <label class="input-label">Duration (months)</label>
+                    <input type="number" class="input-field" value="3" />
+                </div>
+            </div>
+
+            <div class="section">
+                <div class="section-header">Pause Offer</div>
+                <div class="input-group">
+                    <label class="input-label">Pause Duration (months)</label>
+                    <input type="number" class="input-field" value="2" />
+                </div>
+            </div>
+
+            <div class="section">
+                <div class="section-header">Notifications</div>
+                <div class="toggle-item">
+                    <span class="toggle-label">📧 Email alerts</span>
+                    <div class="toggle-switch"></div>
+                </div>
+                <div class="toggle-item">
+                    <span class="toggle-label">📱 Slack alerts</span>
+                    <div class="toggle-switch off"></div>
+                </div>
+            </div>
+        </div>
+
+        <div class="canvas">
+            <div class="canvas-title">Flow Preview <span class="badge">Live</span></div>
+
+            <div class="flow-step active">
+                <span class="step-number">1</span>
+                <div class="step-title">📝 Exit Survey</div>
+                <div class="step-description">Customer selects their reason for canceling</div>
+                <div class="step-preview">
+                    <strong>Question:</strong> "Why are you leaving?"<br>
+                    <strong>Options:</strong> Price, Low usage, Missing features, Found alternative
+                </div>
+            </div>
+
+            <div class="flow-arrow">↓</div>
+
+            <div class="flow-step">
+                <span class="step-number">2</span>
+                <div class="step-title">🎁 Personalized Offer</div>
+                <div class="step-description">Show relevant offer based on exit reason</div>
+                <div class="step-preview">
+                    <strong>If "Price":</strong> 40% off for 3 months<br>
+                    <strong>If "Low usage":</strong> Pause for 2 months<br>
+                    <strong>If "Missing features":</strong> Feature highlights<br>
+                    <strong>If "Found alternative":</strong> Feedback request
+                </div>
+            </div>
+
+            <div class="flow-arrow">↓</div>
+
+            <div class="flow-step">
+                <span class="step-number">3</span>
+                <div class="step-title">✅ Outcome</div>
+                <div class="step-description">Customer accepts offer or proceeds with cancellation</div>
+                <div class="step-preview">
+                    <strong>Accept:</strong> Apply discount/pause, mark as "saved"<br>
+                    <strong>Decline:</strong> Complete cancellation, request feedback
+                </div>
+            </div>
+
+            <div class="flow-arrow">↓</div>
+
+            <div class="flow-step">
+                <span class="step-number">4</span>
+                <div class="step-title">📊 Analytics</div>
+                <div class="step-description">Track save rate and revenue retained</div>
+                <div class="step-preview">
+                    <strong>Data captured:</strong> Exit reason, offer shown, outcome, revenue impact<br>
+                    <strong>Notifications:</strong> Email alert to team
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        document.querySelectorAll('.toggle-switch').forEach(toggle => {
+            toggle.addEventListener('click', function() {
+                this.classList.toggle('off');
+            });
+        });
+
+        document.querySelector('.save-button').addEventListener('click', function() {
+            alert('Perfect! This shows the no-code flow builder.\n\nCustomers can configure their cancellation flow without any technical knowledge.');
+        });
+    </script>
+</body>
+</html>

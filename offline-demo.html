@@ -1,0 +1,541 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ChurnShield Cancel Flow Widget - Offline Demo</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background: linear-gradient(135deg, #0f172a 0%, #1e293b 100%);
+            min-height: 100vh;
+            color: #f8fafc;
+            overflow-x: hidden;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 40px 20px;
+        }
+
+        .header {
+            text-align: center;
+            margin-bottom: 60px;
+        }
+
+        .header h1 {
+            font-size: 48px;
+            font-weight: 700;
+            margin-bottom: 16px;
+            background: linear-gradient(135deg, #3b82f6, #8b5cf6);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .header p {
+            font-size: 20px;
+            color: #94a3b8;
+            max-width: 600px;
+            margin: 0 auto;
+        }
+
+        .demo-section {
+            background: rgba(30, 41, 59, 0.8);
+            border: 1px solid #334155;
+            border-radius: 16px;
+            padding: 40px;
+            margin-bottom: 40px;
+            backdrop-filter: blur(10px);
+        }
+
+        .section-title {
+            font-size: 28px;
+            font-weight: 600;
+            margin-bottom: 20px;
+            color: #f8fafc;
+            text-align: center;
+        }
+
+        .demo-flow {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 30px;
+            margin-bottom: 40px;
+        }
+
+        .step {
+            background: rgba(15, 23, 42, 0.8);
+            border: 1px solid #334155;
+            border-radius: 12px;
+            padding: 25px;
+            text-align: center;
+            transition: all 0.3s ease;
+            cursor: pointer;
+        }
+
+        .step:hover {
+            transform: translateY(-5px);
+            border-color: #3b82f6;
+            box-shadow: 0 20px 40px rgba(59, 130, 246, 0.2);
+        }
+
+        .step.active {
+            border-color: #3b82f6;
+            background: rgba(59, 130, 246, 0.1);
+        }
+
+        .step-number {
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, #3b82f6, #8b5cf6);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 20px;
+            font-weight: 700;
+            margin: 0 auto 15px;
+            color: white;
+        }
+
+        .step h3 {
+            font-size: 18px;
+            font-weight: 600;
+            margin-bottom: 10px;
+            color: #f8fafc;
+        }
+
+        .step p {
+            color: #94a3b8;
+            font-size: 14px;
+            line-height: 1.5;
+        }
+
+        .demo-area {
+            background: rgba(15, 23, 42, 0.9);
+            border: 1px solid #334155;
+            border-radius: 12px;
+            padding: 30px;
+            margin-bottom: 30px;
+            min-height: 400px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .demo-placeholder {
+            text-align: center;
+            color: #94a3b8;
+        }
+
+        .demo-placeholder h3 {
+            font-size: 24px;
+            margin-bottom: 10px;
+            color: #f8fafc;
+        }
+
+        .demo-placeholder p {
+            font-size: 16px;
+            margin-bottom: 20px;
+        }
+
+        .demo-btn {
+            background: linear-gradient(135deg, #3b82f6, #8b5cf6);
+            color: white;
+            border: none;
+            padding: 12px 24px;
+            border-radius: 8px;
+            font-size: 16px;
+            font-weight: 500;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+
+        .demo-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 20px rgba(59, 130, 246, 0.3);
+        }
+
+        .controls {
+            display: flex;
+            justify-content: center;
+            gap: 15px;
+            margin-bottom: 30px;
+        }
+
+        .status-panel {
+            background: rgba(30, 41, 59, 0.8);
+            border: 1px solid #334155;
+            border-radius: 12px;
+            padding: 20px;
+            margin-bottom: 30px;
+        }
+
+        .status-title {
+            font-size: 18px;
+            font-weight: 600;
+            margin-bottom: 15px;
+            color: #f8fafc;
+        }
+
+        .status-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 8px 0;
+            border-bottom: 1px solid #334155;
+        }
+
+        .status-item:last-child {
+            border-bottom: none;
+        }
+
+        .status-label {
+            color: #94a3b8;
+        }
+
+        .status-value {
+            color: #f8fafc;
+            font-weight: 500;
+        }
+
+        .status-value.success {
+            color: #10b981;
+        }
+
+        .status-value.error {
+            color: #ef4444;
+        }
+
+        .narrative {
+            background: rgba(30, 41, 59, 0.8);
+            border: 1px solid #334155;
+            border-radius: 12px;
+            padding: 25px;
+            margin-bottom: 30px;
+        }
+
+        .narrative h3 {
+            font-size: 20px;
+            font-weight: 600;
+            margin-bottom: 15px;
+            color: #f8fafc;
+        }
+
+        .narrative p {
+            color: #94a3b8;
+            line-height: 1.6;
+            margin-bottom: 15px;
+        }
+
+        .highlight {
+            background: rgba(59, 130, 246, 0.1);
+            border-left: 3px solid #3b82f6;
+            padding: 15px;
+            margin: 15px 0;
+            border-radius: 0 8px 8px 0;
+        }
+
+        .highlight strong {
+            color: #3b82f6;
+        }
+
+        @media (max-width: 768px) {
+            .header h1 {
+                font-size: 32px;
+            }
+
+            .demo-flow {
+                grid-template-columns: 1fr;
+            }
+
+            .controls {
+                flex-direction: column;
+                align-items: center;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>🛡️ ChurnShield Cancel Flow Widget</h1>
+            <p>Interactive Offline Demo - See how we turn cancellations into saves</p>
+        </div>
+
+        <!-- Demo Flow Steps -->
+        <div class="demo-section">
+            <div class="section-title">Demo Flow</div>
+            <div class="demo-flow">
+                <div class="step active" id="step1" onclick="showStep(1)">
+                    <div class="step-number">1</div>
+                    <h3>Exit Survey</h3>
+                    <p>Customer clicks cancel and sees a friendly survey</p>
+                </div>
+                <div class="step" id="step2" onclick="showStep(2)">
+                    <div class="step-number">2</div>
+                    <h3>Smart Offer</h3>
+                    <p>AI generates personalized retention offer</p>
+                </div>
+                <div class="step" id="step3" onclick="showStep(3)">
+                    <div class="step-number">3</div>
+                    <h3>Accept Offer</h3>
+                    <p>Customer accepts and gets saved</p>
+                </div>
+                <div class="step" id="step4" onclick="showStep(4)">
+                    <div class="step-number">4</div>
+                    <h3>Stripe Integration</h3>
+                    <p>Discount applied automatically</p>
+                </div>
+            </div>
+
+            <div class="controls">
+                <button class="demo-btn" onclick="previousStep()">← Previous</button>
+                <button class="demo-btn" onclick="nextStep()">Next →</button>
+                <button class="demo-btn" onclick="resetDemo()">Reset Demo</button>
+            </div>
+        </div>
+
+        <!-- Live Demo Area -->
+        <div class="demo-section">
+            <div class="section-title">Live Demo</div>
+            <div class="demo-area" id="demoArea">
+                <div class="demo-placeholder">
+                    <h3>Click a step above to see the demo</h3>
+                    <p>This shows exactly what customers experience</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Status Panel -->
+        <div class="status-panel">
+            <div class="status-title">Demo Status</div>
+            <div class="status-item">
+                <span class="status-label">Current Step:</span>
+                <span class="status-value" id="currentStep">Exit Survey</span>
+            </div>
+            <div class="status-item">
+                <span class="status-label">Customer Action:</span>
+                <span class="status-value" id="customerAction">Viewing survey</span>
+            </div>
+            <div class="status-item">
+                <span class="status-label">Offer Status:</span>
+                <span class="status-value" id="offerStatus">Not presented</span>
+            </div>
+            <div class="status-item">
+                <span class="status-label">Revenue Impact:</span>
+                <span class="status-value success" id="revenueImpact">$0 saved</span>
+            </div>
+        </div>
+
+        <!-- Narrative Section -->
+        <div class="narrative">
+            <h3>What Just Happened</h3>
+            <div id="narrativeContent">
+                <p><strong>Step 1: The Exit Survey</strong></p>
+                <p>Instead of immediately canceling, customers see a friendly survey asking why they're leaving. This crucial intelligence allows us to create personalized retention strategies.</p>
+
+                <div class="highlight">
+                    <strong>Why this works:</strong> 80% of customers are willing to stay if offered help. Generic "Are you sure?" popups convert at 5%. Personalized offers convert at 20-50%.
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        let currentStep = 1;
+        const totalSteps = 4;
+
+        const stepData = {
+            1: {
+                title: "Exit Survey",
+                action: "Viewing survey",
+                offer: "Not presented",
+                revenue: "$0 saved",
+                narrative: `
+                    <p><strong>Step 1: The Exit Survey</strong></p>
+                    <p>Instead of immediately canceling, customers see a friendly survey asking why they're leaving. This crucial intelligence allows us to create personalized retention strategies.</p>
+
+                    <div class="highlight">
+                        <strong>Why this works:</strong> 80% of customers are willing to stay if offered help. Generic "Are you sure?" popups convert at 5%. Personalized offers convert at 20-50%.
+                    </div>
+
+                    <p><strong>What the customer sees:</strong> A modal asking "Why are you canceling?" with options like "Too expensive", "Not using enough", "Found alternative", etc.</p>
+                `,
+                demo: `
+                    <div style="text-align: center; padding: 40px;">
+                        <div style="background: rgba(15, 23, 42, 0.8); border: 1px solid #334155; border-radius: 12px; padding: 30px; max-width: 400px; margin: 0 auto;">
+                            <h3 style="color: #f8fafc; margin-bottom: 20px;">Why are you canceling?</h3>
+                            <div style="display: flex; flex-direction: column; gap: 10px;">
+                                <button style="background: #0f172a; border: 1px solid #334155; color: #f8fafc; padding: 12px; border-radius: 8px; cursor: pointer;">💰 It's too expensive</button>
+                                <button style="background: #0f172a; border: 1px solid #334155; color: #f8fafc; padding: 12px; border-radius: 8px; cursor: pointer;">📊 Not using it enough</button>
+                                <button style="background: #0f172a; border: 1px solid #334155; color: #f8fafc; padding: 12px; border-radius: 8px; cursor: pointer;">🔍 Missing features</button>
+                                <button style="background: #0f172a; border: 1px solid #334155; color: #f8fafc; padding: 12px; border-radius: 8px; cursor: pointer;">🔄 Found a better alternative</button>
+                            </div>
+                            <button style="background: #3b82f6; color: white; border: none; padding: 12px 24px; border-radius: 8px; margin-top: 20px; cursor: pointer;">Continue</button>
+                        </div>
+                    </div>
+                `
+            },
+            2: {
+                title: "Smart Offer",
+                action: "Considering offer",
+                offer: "30% discount presented",
+                revenue: "$0 saved",
+                narrative: `
+                    <p><strong>Step 2: AI-Powered Offer Generation</strong></p>
+                    <p>Based on the customer's reason ("too expensive"), our AI generates a personalized offer. For price concerns, we offer a discount. For other reasons, we might suggest a subscription pause or feature upgrade.</p>
+
+                    <div class="highlight">
+                        <strong>Personalization matters:</strong> Customers who cite price get discounts. Customers who say "not using enough" get usage guidance or pauses. This relevance drives higher acceptance rates.
+                    </div>
+
+                    <p><strong>The offer:</strong> "How about 30% off for 3 months? That would save you $14.97/month."</p>
+                `,
+                demo: `
+                    <div style="text-align: center; padding: 40px;">
+                        <div style="background: rgba(15, 23, 42, 0.8); border: 1px solid #334155; border-radius: 12px; padding: 30px; max-width: 400px; margin: 0 auto;">
+                            <div style="width: 64px; height: 64px; border-radius: 50%; background: linear-gradient(135deg, #3b82f6, #8b5cf6); display: flex; align-items: center; justify-content: center; margin: 0 auto 20px; font-size: 24px;">💰</div>
+                            <h3 style="color: #f8fafc; margin-bottom: 10px;">We'd love to keep you!</h3>
+                            <div style="font-size: 36px; font-weight: 700; color: #3b82f6; margin: 20px 0;">30% OFF</div>
+                            <p style="color: #94a3b8; margin-bottom: 20px;">For your next 3 months<br><span style="color: #10b981; font-weight: 600;">Save $14.97/month</span></p>
+                            <div style="display: flex; gap: 10px; justify-content: center;">
+                                <button style="background: #10b981; color: white; border: none; padding: 12px 20px; border-radius: 8px; cursor: pointer;">Accept Offer</button>
+                                <button style="background: transparent; color: #94a3b8; border: 1px solid #334155; padding: 12px 20px; border-radius: 8px; cursor: pointer;">Cancel Anyway</button>
+                            </div>
+                        </div>
+                    </div>
+                `
+            },
+            3: {
+                title: "Accept Offer",
+                action: "Accepted offer",
+                offer: "30% discount accepted",
+                revenue: "$44.91 saved",
+                narrative: `
+                    <p><strong>Step 3: Customer Accepts - Retention Success!</strong></p>
+                    <p>The customer accepts the offer and gets saved. This single interaction just retained a $49/month customer and prevented $588 annual revenue loss.</p>
+
+                    <div class="highlight">
+                        <strong>The math:</strong> Without intervention, this customer cancels and you lose $49/month. With ChurnShield, they accept the discount and you keep $34.30/month (70% of original). Net benefit: $34.30/month retained vs $0.
+                    </div>
+
+                    <p><strong>What happens next:</strong> The discount is automatically applied to their Stripe subscription, and they're redirected back to your app as a happy customer.</p>
+                `,
+                demo: `
+                    <div style="text-align: center; padding: 40px;">
+                        <div style="background: rgba(15, 23, 42, 0.8); border: 1px solid #334155; border-radius: 12px; padding: 30px; max-width: 400px; margin: 0 auto;">
+                            <div style="width: 64px; height: 64px; border-radius: 50%; background: rgba(16, 185, 129, 0.2); display: flex; align-items: center; justify-content: center; margin: 0 auto 20px; font-size: 24px; color: #10b981;">✅</div>
+                            <h3 style="color: #f8fafc; margin-bottom: 10px;">You're all set!</h3>
+                            <p style="color: #94a3b8; margin-bottom: 20px;">Your 30% discount has been applied to your subscription.<br><strong style="color: #10b981;">Welcome back!</strong></p>
+                            <div style="background: rgba(16, 185, 129, 0.1); border: 1px solid #10b981; border-radius: 8px; padding: 15px; margin-bottom: 20px;">
+                                <div style="color: #10b981; font-weight: 600;">Discount Applied</div>
+                                <div style="color: #94a3b8; font-size: 14px;">30% off for 3 months • $14.97/month savings</div>
+                            </div>
+                            <button style="background: #3b82f6; color: white; border: none; padding: 12px 24px; border-radius: 8px; cursor: pointer;">Continue to Dashboard</button>
+                        </div>
+                    </div>
+                `
+            },
+            4: {
+                title: "Stripe Integration",
+                action: "Subscription updated",
+                offer: "Discount applied",
+                revenue: "$44.91 saved",
+                narrative: `
+                    <p><strong>Step 4: Automatic Stripe Integration</strong></p>
+                    <p>Behind the scenes, ChurnShield automatically applies the discount to the customer's Stripe subscription. No manual work required - the integration handles everything.</p>
+
+                    <div class="highlight">
+                        <strong>Zero manual work:</strong> No logging into Stripe, no manual discount creation, no customer communication. The entire flow is automated from offer acceptance to Stripe update.
+                    </div>
+
+                    <p><strong>Analytics tracking:</strong> Every interaction is logged and analyzed by our AI to continuously improve offer effectiveness and identify trends across your customer base.</p>
+                `,
+                demo: `
+                    <div style="text-align: center; padding: 40px;">
+                        <div style="background: rgba(15, 23, 42, 0.8); border: 1px solid #334155; border-radius: 12px; padding: 30px; max-width: 500px; margin: 0 auto;">
+                            <h3 style="color: #f8fafc; margin-bottom: 20px;">🔄 Stripe Integration</h3>
+
+                            <div style="display: flex; align-items: center; justify-content: center; gap: 20px; margin-bottom: 30px;">
+                                <div style="text-align: center;">
+                                    <div style="width: 48px; height: 48px; border-radius: 50%; background: #3b82f6; display: flex; align-items: center; justify-content: center; margin: 0 auto 10px; font-size: 18px;">🛡️</div>
+                                    <div style="color: #94a3b8; font-size: 12px;">ChurnShield</div>
+                                </div>
+                                <div style="color: #3b82f6; font-size: 24px;">→</div>
+                                <div style="text-align: center;">
+                                    <div style="width: 48px; height: 48px; border-radius: 50%; background: #635bff; display: flex; align-items: center; justify-content: center; margin: 0 auto 10px; font-size: 18px;">💳</div>
+                                    <div style="color: #94a3b8; font-size: 12px;">Stripe</div>
+                                </div>
+                            </div>
+
+                            <div style="background: rgba(99, 91, 255, 0.1); border: 1px solid #635bff; border-radius: 8px; padding: 20px; margin-bottom: 20px;">
+                                <div style="color: #635bff; font-weight: 600; margin-bottom: 10px;">✅ Discount Applied Successfully</div>
+                                <div style="color: #94a3b8; font-size: 14px;">
+                                    Subscription: sub_xxx...<br>
+                                    Discount: 30% off<br>
+                                    Duration: 3 months<br>
+                                    Next billing: $34.30
+                                </div>
+                            </div>
+
+                            <div style="background: rgba(16, 185, 129, 0.1); border: 1px solid #10b981; border-radius: 8px; padding: 15px;">
+                                <div style="color: #10b981; font-weight: 600;">Revenue Saved: $44.91</div>
+                                <div style="color: #94a3b8; font-size: 12px;">3 months × $14.97 savings</div>
+                            </div>
+                        </div>
+                    </div>
+                `
+            }
+        };
+
+        function showStep(step) {
+            currentStep = step;
+
+            // Update step styling
+            document.querySelectorAll('.step').forEach((el, index) => {
+                el.classList.toggle('active', index + 1 === step);
+            });
+
+            // Update demo area
+            document.getElementById('demoArea').innerHTML = stepData[step].demo;
+
+            // Update status panel
+            document.getElementById('currentStep').textContent = stepData[step].title;
+            document.getElementById('customerAction').textContent = stepData[step].action;
+            document.getElementById('offerStatus').textContent = stepData[step].offer;
+            document.getElementById('revenueImpact').textContent = stepData[step].revenue;
+
+            // Update narrative
+            document.getElementById('narrativeContent').innerHTML = stepData[step].narrative;
+        }
+
+        function nextStep() {
+            if (currentStep < totalSteps) {
+                showStep(currentStep + 1);
+            }
+        }
+
+        function previousStep() {
+            if (currentStep > 1) {
+                showStep(currentStep - 1);
+            }
+        }
+
+        function resetDemo() {
+            showStep(1);
+        }
+
+        // Initialize
+        showStep(1);
+    </script>
+</body>
+</html>

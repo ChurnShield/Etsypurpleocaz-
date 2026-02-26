@@ -12,6 +12,7 @@
 import json
 import time
 import urllib.request
+import urllib.error
 import sys
 import os
 
@@ -138,26 +139,36 @@ RESPOND IN EXACT JSON FORMAT:
 }}"""
 
     def _call_claude(self, api_key, model, prompt):
-        """Call the Anthropic Claude API."""
+        """Call the Anthropic Claude API with retry/backoff on 529 (overloaded)."""
         payload = json.dumps({
             "model": model,
             "max_tokens": 4096,
             "messages": [{"role": "user", "content": prompt}],
         }).encode("utf-8")
 
-        req = urllib.request.Request(ANTHROPIC_API_URL, data=payload, method="POST")
-        req.add_header("x-api-key", api_key)
-        req.add_header("anthropic-version", "2023-06-01")
-        req.add_header("Content-Type", "application/json")
+        max_attempts = 4
+        for attempt in range(1, max_attempts + 1):
+            req = urllib.request.Request(ANTHROPIC_API_URL, data=payload, method="POST")
+            req.add_header("x-api-key", api_key)
+            req.add_header("anthropic-version", "2023-06-01")
+            req.add_header("Content-Type", "application/json")
 
-        with urllib.request.urlopen(req, timeout=120) as resp:
-            data = json.loads(resp.read().decode("utf-8"))
-
-        content = data.get("content", [])
-        for block in content:
-            if block.get("type") == "text":
-                return block.get("text", "")
-        return ""
+            try:
+                with urllib.request.urlopen(req, timeout=120) as resp:
+                    data = json.loads(resp.read().decode("utf-8"))
+                content = data.get("content", [])
+                for block in content:
+                    if block.get("type") == "text":
+                        return block.get("text", "")
+                return ""
+            except urllib.error.HTTPError as e:
+                if e.code == 529 and attempt < max_attempts:
+                    wait = 15 * attempt  # 15s, 30s, 45s
+                    print(f"       API overloaded (529), waiting {wait}s "
+                          f"(attempt {attempt}/{max_attempts})...", flush=True)
+                    time.sleep(wait)
+                    continue
+                raise
 
     def _parse_response(self, response_text, opportunity):
         """Parse Claude's JSON response into a structured listing."""

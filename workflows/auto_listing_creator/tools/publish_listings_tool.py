@@ -60,8 +60,10 @@ class PublishListingsTool(BaseTool):
         create_drafts     = kwargs.get("create_drafts", False)
         taxonomy_id       = kwargs.get("taxonomy_id", 1874)
         currency          = kwargs.get("currency", "GBP")
-        # Image map: listing index -> local PNG path (from Canva export)
+        # Image map: listing index -> list of local PNG paths
         image_map         = kwargs.get("image_map", {})
+        # PDF map: listing index -> local PDF path (digital download file)
+        pdf_map           = kwargs.get("pdf_map", {})
 
         if not listings:
             return {
@@ -111,6 +113,21 @@ class PublishListingsTool(BaseTool):
                                         except Exception as img_err:
                                             print(f"            Image {rank} failed: "
                                                   f"{str(img_err)[:80]}", flush=True)
+
+                            # Upload digital file (PDF) if available
+                            pdf_path = pdf_map.get(i)
+                            if pdf_path and os.path.exists(pdf_path):
+                                try:
+                                    self._upload_digital_file(
+                                        api_key, shop_id, draft_id,
+                                        access_token, pdf_path,
+                                    )
+                                    print(f"            Digital file: "
+                                          f"{os.path.basename(pdf_path)}", flush=True)
+                                    time.sleep(0.3)
+                                except Exception as pdf_err:
+                                    print(f"            Digital file FAILED: "
+                                          f"{str(pdf_err)[:80]}", flush=True)
 
                             time.sleep(0.5)
                         except Exception as e:
@@ -285,6 +302,49 @@ class PublishListingsTool(BaseTool):
         except urllib.error.HTTPError as e:
             body_text = e.read().decode("utf-8", errors="replace")
             raise RuntimeError(f"Image upload {e.code}: {body_text[:200]}")
+
+    def _upload_digital_file(self, api_key, shop_id, listing_id,
+                             access_token, file_path):
+        """Upload a digital file (PDF) to an Etsy listing.
+
+        This is the actual downloadable product the customer receives.
+        Uses: POST /v3/application/shops/{shop_id}/listings/{listing_id}/files
+        """
+        boundary = f"----EtsyFileBoundary{int(time.time() * 1000)}"
+        filename = os.path.basename(file_path)
+
+        with open(file_path, "rb") as f:
+            file_data = f.read()
+
+        # Build multipart body
+        body = bytearray()
+        # name field (display name for the file)
+        body += f"--{boundary}\r\n".encode()
+        body += b"Content-Disposition: form-data; name=\"name\"\r\n\r\n"
+        body += f"{filename}\r\n".encode()
+        # file field
+        body += f"--{boundary}\r\n".encode()
+        body += (f"Content-Disposition: form-data; name=\"file\"; "
+                 f"filename=\"{filename}\"\r\n").encode()
+        body += b"Content-Type: application/pdf\r\n\r\n"
+        body += file_data
+        body += b"\r\n"
+        body += f"--{boundary}--\r\n".encode()
+
+        url = f"{ETSY_BASE_URL}/shops/{shop_id}/listings/{listing_id}/files"
+        req = urllib.request.Request(url, data=bytes(body), method="POST")
+        req.add_header("x-api-key", api_key)
+        req.add_header("Authorization", f"Bearer {access_token}")
+        req.add_header("Content-Type",
+                        f"multipart/form-data; boundary={boundary}")
+        req.add_header("Accept", "application/json")
+
+        try:
+            with urllib.request.urlopen(req, timeout=60) as resp:
+                return json.loads(resp.read().decode("utf-8"))
+        except urllib.error.HTTPError as e:
+            body_text = e.read().decode("utf-8", errors="replace")
+            raise RuntimeError(f"File upload {e.code}: {body_text[:200]}")
 
     def _load_access_token(self, token_file, api_key):
         """Load and validate OAuth access token."""

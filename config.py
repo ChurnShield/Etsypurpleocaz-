@@ -21,3 +21,10 @@ MIN_PATTERN_CONFIDENCE = 0.7       # Only propose if 70%+ confidence
 # ── Big Brain Settings ──
 BIG_BRAIN_MIN_WORKFLOWS = 2        # Need at least 2 workflows to compare
 BIG_BRAIN_MIN_RUNS_PER_WORKFLOW = 10  # Need enough data per workflow
+BIG_BRAIN_CACHE_TTL_SECONDS = 300          # 5 min cache for health metrics
+BIG_BRAIN_FAILURE_RATE_CRITICAL = 0.50     # 50% system-wide = critical
+BIG_BRAIN_FAILURE_RATE_DEGRADED = 0.25     # 25% system-wide = degraded
+BIG_BRAIN_RECURRING_ERROR_THRESHOLD = 10   # Same error 10+ times in 24h
+BIG_BRAIN_TIMEOUT_THRESHOLD = 5            # 5+ timeouts in 24h
+BIG_BRAIN_DB_MAX_SIZE_MB = 500             # Database size limit in MB
+BIG_BRAIN_PERF_DEGRADATION_FACTOR = 1.5    # 50% slower = flagged

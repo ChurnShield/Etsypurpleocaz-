@@ -51,6 +51,9 @@ DEFAULT_TAXONOMY_ID = 1874
 TOKEN_FILE = os.path.join(os.path.dirname(os.path.abspath(__file__)),
                           "..", "etsy_analytics", "etsy_tokens.json")
 
+# -- Gemini API (Nano Banana -- AI image generation for Tier 1 products)
+GEMINI_API_KEY = os.getenv("GEMINI_API_KEY", "")
+
 # -- Canva API (for design export)
 CANVA_CLIENT_ID     = os.getenv("CANVA_CLIENT_ID", "")
 CANVA_CLIENT_SECRET = os.getenv("CANVA_CLIENT_SECRET", "")

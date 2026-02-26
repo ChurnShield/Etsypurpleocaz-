@@ -34,6 +34,7 @@ from config import (
     LISTING_QUEUE_SHEET, FOCUS_NICHE,
     DEFAULT_CURRENCY, DEFAULT_TAXONOMY_ID, TOKEN_FILE,
     CANVA_CLIENT_ID, CANVA_CLIENT_SECRET,
+    GEMINI_API_KEY,
     PROPOSAL_THRESHOLD_RUNS,
 )
 
@@ -55,7 +56,7 @@ def _run_phase(logger, phase_name, tool, params, validator=None, max_retries=MAX
     logger.phase_start(phase_name)
     log_params = {}
     for k, v in params.items():
-        if k in ("api_key", "anthropic_api_key"):
+        if k in ("api_key", "anthropic_api_key", "gemini_api_key"):
             continue
         if isinstance(v, list):
             log_params[k] = f"[{len(v)} items]"
@@ -120,12 +121,16 @@ def _update_workflow_stats(db, wid, success):
 
 
 def main():
+    nano_banana_enabled = bool(GEMINI_API_KEY)
+
     print(f"\n{'=' * 60}")
     print(f"  Workflow  : {WORKFLOW_NAME}")
     print(f"  Shop ID   : {ETSY_SHOP_ID}")
     print(f"  Niche     : {FOCUS_NICHE}")
     print(f"  Model     : {ANTHROPIC_MODEL}")
     print(f"  Currency  : {DEFAULT_CURRENCY}")
+    nano_status = "enabled" if nano_banana_enabled else "disabled (no key)"
+    print(f"  NanoBanana: {nano_status}")
     print(f"{'=' * 60}")
 
     if not ETSY_API_KEY or ETSY_API_KEY == ":":
@@ -134,6 +139,8 @@ def main():
     if not ANTHROPIC_API_KEY:
         print("\n  ERROR: ANTHROPIC_API_KEY not set in .env")
         return {"success": False}
+
+    pdf_map = {}  # listing index -> PDF path (for digital file upload)
 
     # Check if Etsy draft creation is possible
     create_drafts = os.path.exists(TOKEN_FILE)
@@ -218,6 +225,7 @@ def main():
                 "anthropic_api_key": ANTHROPIC_API_KEY,
                 "model": ANTHROPIC_MODEL,
                 "focus_niche": FOCUS_NICHE,
+                "gemini_api_key": GEMINI_API_KEY,
             },
         )
 
@@ -225,10 +233,12 @@ def main():
             create_data = create_result["data"]
             print(f"     Created: {create_data['created_count']}/{create_data['total_listings']} products")
             print(f"     Files in: {create_data['export_dir']}")
-            # Use the image_map from the product creator
+            # Use the image_map and pdf_map from the product creator
             image_map = create_data.get("image_map", {})
             # Convert string keys back to int (JSON serialisation quirk)
             image_map = {int(k): v for k, v in image_map.items()}
+            pdf_map = create_data.get("pdf_map", {})
+            pdf_map = {int(k): v for k, v in pdf_map.items()}
         else:
             print(f"     Product creation failed: {create_result.get('error')}")
             print(f"     Continuing without images...")
@@ -250,6 +260,7 @@ def main():
                 "taxonomy_id": DEFAULT_TAXONOMY_ID,
                 "currency": DEFAULT_CURRENCY,
                 "image_map": image_map,
+                "pdf_map": pdf_map,
             },
             validator=ListingsPublishedValidator(),
         )
@@ -296,6 +307,10 @@ def main():
             print(f"    {len(proposals)} proposal(s) saved.")
     except Exception as brain_err:
         print(f"    SmallBrain skipped: {brain_err}")
+
+    # ── 7b. BigBrain system health check ─────────────────────────────────
+    from lib.big_brain.hooks import post_workflow_check
+    post_workflow_check(db)
 
     print(f"\n{'=' * 60}")
     if overall_success:

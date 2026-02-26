@@ -196,6 +196,12 @@ def main():
         print(f"    Query: SELECT title, description FROM proposals "
               f"WHERE workflow_id = '{WORKFLOW_NAME}';")
 
+    # ── 7b. BigBrain system health check ─────────────────────────────────
+    # Runs automatically after every workflow.  Uses 5-min cache so
+    # repeated runs are fast.  Generates proposals if degraded/critical.
+    from lib.big_brain.hooks import post_workflow_check
+    post_workflow_check(db)
+
     # ── 8. Final result ───────────────────────────────────────────────────────
     print(f"\n{'=' * 55}")
     if result["success"]:

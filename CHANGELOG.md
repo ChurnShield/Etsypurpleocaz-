@@ -11,6 +11,37 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ---
 
+## [0.9.0] - 2026-02-25
+
+### Added
+
+- **`docs/architecture/` directory** -- 11 architecture documentation files covering
+  every built component in the system:
+  - `00-index.md` -- Navigation hub with quick-find table and reading paths
+  - `01-overview.md` -- System overview, tech stack, 3-layer architecture diagram
+  - `02-orchestrator.md` -- SimpleOrchestrator, ExecutionLogger, _run_phase pattern
+  - `03-tool-patterns.md` -- BaseTool contract, return format, all 18 existing tools
+  - `04-validator-patterns.md` -- BaseValidator contract, return format, all 15 validators
+  - `05-database.md` -- SQLiteClient query builder, full schema (4 tables), standard queries
+  - `06-brain.md` -- SmallBrain analysis patterns, proposal format, thresholds
+  - `07-workflows.md` -- All 5 workflows documented with phase tables, adding new workflows
+  - `08-configuration.md` -- Config pattern, environment variables, LLM client
+  - `09-testing.md` -- pytest patterns, test organization, running tests
+  - `10-operations.md` -- Running workflows, debugging, show_logs, troubleshooting table
+
+### Changed
+
+- **`CLAUDE.md` rewritten from 805 lines to 111 lines** -- now a lean navigational
+  file that routes to `docs/architecture/` for details. Contains only:
+  - Architecture reference table (links to all 11 docs)
+  - Critical rules (DO NOT / ALWAYS / NEVER)
+  - Project conventions (one-liner summaries)
+  - Quick task guide (6 reading paths)
+  - Emergency procedures (5 common failures with fix links)
+  - No implementation details (all moved to architecture files)
+
+---
+
 ## [0.8.0] - 2026-02-20
 
 ### Added
@@ -212,7 +243,9 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ---
 
-[Unreleased]: https://github.com/your-org/your-repo/compare/v0.7.0...HEAD
+[Unreleased]: https://github.com/your-org/your-repo/compare/v0.9.0...HEAD
+[0.9.0]: https://github.com/your-org/your-repo/compare/v0.8.0...v0.9.0
+[0.8.0]: https://github.com/your-org/your-repo/compare/v0.7.0...v0.8.0
 [0.7.0]: https://github.com/your-org/your-repo/compare/v0.6.0...v0.7.0
 [0.6.0]: https://github.com/your-org/your-repo/compare/v0.5.0...v0.6.0
 [0.5.0]: https://github.com/your-org/your-repo/compare/v0.4.0...v0.5.0

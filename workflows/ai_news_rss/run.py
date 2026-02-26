@@ -371,6 +371,10 @@ def main():
     except Exception as brain_err:
         print(f"    SmallBrain skipped: {brain_err}")
 
+    # ── 8b. BigBrain system health check ─────────────────────────────────
+    from lib.big_brain.hooks import post_workflow_check
+    post_workflow_check(db)
+
     # ── 9. Final summary ──────────────────────────────────────────────────────
     print(f"\n{'=' * 60}")
     if overall_success:

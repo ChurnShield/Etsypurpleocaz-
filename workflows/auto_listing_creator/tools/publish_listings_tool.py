@@ -114,7 +114,7 @@ class PublishListingsTool(BaseTool):
                                             print(f"            Image {rank} failed: "
                                                   f"{str(img_err)[:80]}", flush=True)
 
-                            # Upload digital file (PDF) if available
+                            # Upload digital file (PDF/ZIP) if available
                             pdf_path = pdf_map.get(i)
                             if pdf_path and os.path.exists(pdf_path):
                                 try:
@@ -124,6 +124,15 @@ class PublishListingsTool(BaseTool):
                                     )
                                     print(f"            Digital file: "
                                           f"{os.path.basename(pdf_path)}", flush=True)
+                                    # Activate digital delivery — required
+                                    # PATCH after file upload so Etsy UI
+                                    # recognises the file
+                                    self._activate_digital_delivery(
+                                        api_key, shop_id, draft_id,
+                                        access_token,
+                                    )
+                                    print("            Digital delivery activated",
+                                          flush=True)
                                     time.sleep(0.3)
                                 except Exception as pdf_err:
                                     print(f"            Digital file FAILED: "
@@ -345,6 +354,32 @@ class PublishListingsTool(BaseTool):
         except urllib.error.HTTPError as e:
             body_text = e.read().decode("utf-8", errors="replace")
             raise RuntimeError(f"File upload {e.code}: {body_text[:200]}")
+
+    def _activate_digital_delivery(self, api_key, shop_id, listing_id,
+                                    access_token):
+        """PATCH listing with type=download to activate digital delivery.
+
+        Etsy requires this step AFTER uploading a digital file — without
+        it the file exists in the API but does not appear in the listing
+        editor UI and buyers cannot download it.
+        """
+        data = urllib.parse.urlencode({"type": "download"}).encode("utf-8")
+        url = f"{ETSY_BASE_URL}/shops/{shop_id}/listings/{listing_id}"
+
+        req = urllib.request.Request(url, data=data, method="PATCH")
+        req.add_header("x-api-key", api_key)
+        req.add_header("Authorization", f"Bearer {access_token}")
+        req.add_header("Content-Type", "application/x-www-form-urlencoded")
+        req.add_header("Accept", "application/json")
+
+        try:
+            with urllib.request.urlopen(req, timeout=30) as resp:
+                return json.loads(resp.read().decode("utf-8"))
+        except urllib.error.HTTPError as e:
+            body = e.read().decode("utf-8", errors="replace")
+            raise RuntimeError(
+                f"Activate digital delivery {e.code}: {body[:300]}"
+            )
 
     def _load_access_token(self, token_file, api_key):
         """Load and validate OAuth access token."""

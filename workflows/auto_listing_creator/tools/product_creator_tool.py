@@ -32,6 +32,7 @@ from tools.image_compositor import composite_hero, copy_boilerplate_pages
 from tools.tier_config import classify_tier, TIER_1, BADGE_TEXT
 from tools.gemini_image_client import generate_product_image, build_product_prompt
 from tools.editable_pdf_generator import create_editable_pdf
+from tools.affiliate_guide_generator import create_affiliate_guide
 
 
 class ProductCreatorTool(BaseTool):
@@ -93,12 +94,14 @@ class ProductCreatorTool(BaseTool):
                         png_paths = result["png_paths"]
                         pdf_path = result["pdf_path"]
 
+                        guide_path = result.get("guide_path")
                         export_result = {
                             "listing_index": i, "title": title,
                             "product_type": product_type,
                             "tier": tier,
                             "png_paths": png_paths,
                             "pdf_path": pdf_path,
+                            "guide_path": guide_path,
                             "page_count": len(png_paths),
                             "status": "CREATED",
                         }
@@ -237,9 +240,15 @@ class ProductCreatorTool(BaseTool):
                   flush=True)
             pdf_path = create_pdf(browser, listing, niche)
 
+        # Step 7: Create affiliate Getting Started guide
+        print("       Creating Getting Started guide...", flush=True)
+        guide_result = create_affiliate_guide(listing, product_type, TIER_1)
+        guide_path = guide_result.get("pdf_path") if guide_result["success"] else None
+
         return {
             "png_paths": png_paths,
             "pdf_path": pdf_path,
+            "guide_path": guide_path,
             "has_editable_pdf": pdf_result["success"],
         }
 
@@ -298,9 +307,16 @@ class ProductCreatorTool(BaseTool):
         # Step 7: Standard Playwright PDF
         pdf_path = create_pdf(browser, listing, niche)
 
+        # Step 8: Create affiliate Getting Started guide
+        from tools.tier_config import TIER_2
+        print("       Creating Getting Started guide...", flush=True)
+        guide_result = create_affiliate_guide(listing, product_type, TIER_2)
+        guide_path = guide_result.get("pdf_path") if guide_result["success"] else None
+
         return {
             "png_paths": png_paths,
             "pdf_path": pdf_path,
+            "guide_path": guide_path,
             "has_editable_pdf": False,
         }
 

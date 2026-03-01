@@ -104,6 +104,50 @@ Do NOT:
 
 ---
 
+## Anti-Gravity Strategy (Etsy Growth Engine)
+
+The pipeline implements three compounding flywheels designed to produce increasing returns with decreasing effort:
+
+### 1. Algorithmic Flywheel (Etsy quality score)
+
+- **Long-tail keywords**: `NICHE_KEYWORD_STRATEGIES` in `generate_listing_content_tool.py` provides niche-specific keyword research data
+- **Dwell-time descriptions**: Listings include PERFECT FOR, FAQ, and use-case sections to increase time-on-page (2026 algorithm signal)
+- **Tag formula**: 13 tags split across core product, format/modifier, buyer intent, adjacent niche, and seasonal angles
+- **Bundle tags**: Every listing gets `bundle_tags` for automatic grouping
+
+### 2. Catalog Flywheel (compounding assets)
+
+- **Bundle auto-creator**: `BundleCreatorTool` in `tools/bundle_creator_tool.py` groups products into Starter Kit / Complete Bundle / Mega Pack tiers
+- **Niche expansion**: `EXPANSION_NICHES` in config supports multi-niche catalog growth (tattoo, nail, hair, beauty, spa)
+- **Cross-pollination**: Each bundle references its component listings, driving traffic between them
+
+### 3. Operational Flywheel (automation leverage)
+
+- **Zero marginal cost**: Digital products created once, sold infinitely
+- **Affiliate guide**: Every PDF includes branded Getting Started guide with affiliate links
+- **Pipeline phases**: Load -> Generate (anti-gravity keywords) -> Bundle -> Create -> Publish
+
+### Key Config
+
+| Setting | Location | Default |
+|---------|----------|---------|
+| `FOCUS_NICHE` | workflow config.py | `tattoo` |
+| `EXPANSION_NICHES` | env / config.py | `[FOCUS_NICHE]` |
+| `ENABLE_BUNDLES` | env / config.py | `true` |
+| `MIN_BUNDLE_SIZE` | env / config.py | `3` |
+
+### Pipeline Flow (Updated)
+
+```
+Phase 1  -> Load opportunities from Trend Monitor
+Phase 2  -> Generate listing content (anti-gravity keyword engine)
+Phase 2b -> Auto-bundle creation (groups products into value bundles)
+Phase 3  -> Create product images (Tier 1: Gemini AI / Tier 2: HTML)
+Phase 4  -> Publish to Sheets + Etsy drafts + upload images/PDFs
+```
+
+---
+
 ## Quick Start
 
 1. Read this file (critical rules and conventions)

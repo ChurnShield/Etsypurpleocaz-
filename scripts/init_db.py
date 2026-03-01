@@ -72,6 +72,17 @@ def init_db():
             FOREIGN KEY (workflow_id) REFERENCES workflows(id)
         );
 
+        CREATE TABLE IF NOT EXISTS activity_log (
+            id TEXT PRIMARY KEY,
+            timestamp DATETIME DEFAULT CURRENT_TIMESTAMP,
+            source TEXT NOT NULL,
+            action TEXT NOT NULL,
+            target_type TEXT,
+            target_id TEXT,
+            detail TEXT,
+            metadata TEXT
+        );
+
         CREATE INDEX IF NOT EXISTS idx_execution_logs_execution_id
             ON execution_logs(execution_id);
         CREATE INDEX IF NOT EXISTS idx_execution_logs_workflow_id
@@ -80,6 +91,10 @@ def init_db():
             ON execution_logs(timestamp);
         CREATE INDEX IF NOT EXISTS idx_executions_workflow_id
             ON executions(workflow_id);
+        CREATE INDEX IF NOT EXISTS idx_activity_log_timestamp
+            ON activity_log(timestamp);
+        CREATE INDEX IF NOT EXISTS idx_activity_log_source
+            ON activity_log(source);
     """)
 
     conn.commit()

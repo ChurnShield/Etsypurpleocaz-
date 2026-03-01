@@ -6,13 +6,15 @@
 #   python workflows/auto_listing_creator/run.py
 #
 # Pipeline:
-#   Phase 1 (Load)     -> Read opportunities from Tattoo Trend Monitor
-#                           |
-#   Phase 2 (Generate) -> Claude creates full listing content
-#                           |
-#   Phase 3 (Create)   -> Generate product images (HTML templates + Playwright)
-#                           |
-#   Phase 4 (Publish)  -> Save to Sheets + create Etsy drafts + upload images
+#   Phase 1  (Load)     -> Read opportunities from Tattoo Trend Monitor
+#                            |
+#   Phase 2  (Generate) -> Claude creates full listing content (anti-gravity keywords)
+#                            |
+#   Phase 2b (Bundle)   -> Auto-group products into value bundles (optional)
+#                            |
+#   Phase 3  (Create)   -> Generate product images (HTML templates + Playwright)
+#                            |
+#   Phase 4  (Publish)  -> Save to Sheets + create Etsy drafts + upload images
 # =============================================================================
 
 import sys
@@ -36,6 +38,7 @@ from config import (
     CANVA_CLIENT_ID, CANVA_CLIENT_SECRET,
     GEMINI_API_KEY,
     PROPOSAL_THRESHOLD_RUNS,
+    ENABLE_BUNDLES, MIN_BUNDLE_SIZE,
 )
 
 from lib.common_tools.sqlite_client import SQLiteClient
@@ -43,6 +46,7 @@ from lib.orchestrator.execution_logger import ExecutionLogger
 
 from tools.load_opportunities_tool      import LoadOpportunitiesTool
 from tools.generate_listing_content_tool import GenerateListingContentTool
+from tools.bundle_creator_tool           import BundleCreatorTool
 from tools.publish_listings_tool         import PublishListingsTool
 from tools.product_creator_tool          import ProductCreatorTool
 from tools.canva_export_tool             import CanvaExportTool
@@ -131,6 +135,8 @@ def main():
     print(f"  Currency  : {DEFAULT_CURRENCY}")
     nano_status = "enabled" if nano_banana_enabled else "disabled (no key)"
     print(f"  NanoBanana: {nano_status}")
+    bundle_status = "enabled" if ENABLE_BUNDLES else "disabled"
+    print(f"  Bundles   : {bundle_status} (min {MIN_BUNDLE_SIZE} items)")
     print(f"{'=' * 60}")
 
     if not ETSY_API_KEY or ETSY_API_KEY == ":":
@@ -213,6 +219,64 @@ def main():
         print(f"     Generated: {gen_stats['listings_generated']}/{gen_stats['total_opportunities']}")
         if gen_stats["failed"] > 0:
             print(f"     Failed: {gen_stats['failed']}")
+
+        # ==== PHASE 2b: Auto-bundle creation (Anti-Gravity) ====
+        all_listings = gen_data["generated_listings"]
+
+        if ENABLE_BUNDLES and len(all_listings) >= MIN_BUNDLE_SIZE:
+            print(f"\n[4b+] Phase 2b: Creating bundles (Anti-Gravity)...")
+            bundle_result = _run_phase(
+                logger, "Phase 2b: Bundle Creation",
+                tool=BundleCreatorTool(),
+                params={
+                    "generated_listings": all_listings,
+                    "anthropic_api_key": ANTHROPIC_API_KEY,
+                    "model": ANTHROPIC_MODEL,
+                    "focus_niche": FOCUS_NICHE,
+                    "currency": DEFAULT_CURRENCY,
+                    "min_bundle_size": MIN_BUNDLE_SIZE,
+                },
+            )
+
+            if bundle_result["success"]:
+                bundle_data = bundle_result["data"]
+                bundles = bundle_data.get("bundles", [])
+                b_stats = bundle_data.get("stats", {})
+                print(f"     Bundles created: {b_stats.get('bundles_created', 0)}")
+                print(f"     Items bundled: {b_stats.get('total_items_bundled', 0)}")
+
+                # Append bundle listings to the main listings array
+                for bundle in bundles:
+                    bundle_listing = {
+                        "title": bundle.get("title", ""),
+                        "description": bundle.get("description", ""),
+                        "tags": bundle.get("tags", []),
+                        "price": bundle.get("bundle_price", 9.99),
+                        "product_type": bundle.get("product_type", "bundle"),
+                        "bundle_tags": [],
+                        "source_rank": 0,
+                        "source_priority": "HIGH",
+                        "source_effort": "LOW",
+                        "source_why": (
+                            f"Anti-Gravity bundle: {bundle['tier']} tier, "
+                            f"{bundle['item_count']} items, "
+                            f"save {bundle['savings_pct']}%"
+                        ),
+                        "is_bundle": True,
+                        "bundle_item_titles": bundle.get("item_titles", []),
+                    }
+                    all_listings.append(bundle_listing)
+
+                # Update gen_data to include bundles
+                gen_data["generated_listings"] = all_listings
+                gen_data["stats"]["bundles_created"] = len(bundles)
+            else:
+                print(f"     Bundle creation skipped: {bundle_result.get('error')}")
+        else:
+            if not ENABLE_BUNDLES:
+                print(f"\n[4b+] Bundles: disabled in config")
+            else:
+                print(f"\n[4b+] Bundles: not enough listings ({len(all_listings)} < {MIN_BUNDLE_SIZE})")
 
         # ==== PHASE 3: Create product images ====
         image_map = {}  # index -> list of png paths

@@ -47,6 +47,19 @@ IS_SUPPLY        = False
 # (1874 = Paper & Party Supplies > Paper > Stationery > Templates)
 DEFAULT_TAXONOMY_ID = 1874
 
+# -- Anti-Gravity: Niche expansion targets --
+# Additional niches to expand into (each multiplies catalog x product types).
+# Set via comma-separated env var, or defaults to just the focus niche.
+EXPANSION_NICHES = [
+    n.strip() for n in
+    os.getenv("EXPANSION_NICHES", "").split(",")
+    if n.strip()
+] or [FOCUS_NICHE]
+
+# -- Anti-Gravity: Bundle auto-creation --
+ENABLE_BUNDLES     = os.getenv("ENABLE_BUNDLES", "true").lower() == "true"
+MIN_BUNDLE_SIZE    = int(os.getenv("MIN_BUNDLE_SIZE", "3"))
+
 # -- OAuth tokens (for creating draft listings on Etsy)
 TOKEN_FILE = os.path.join(os.path.dirname(os.path.abspath(__file__)),
                           "..", "etsy_analytics", "etsy_tokens.json")

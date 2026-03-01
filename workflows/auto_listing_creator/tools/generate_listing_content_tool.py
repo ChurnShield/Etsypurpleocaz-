@@ -26,6 +26,118 @@ from lib.orchestrator.base_tool import BaseTool
 
 ANTHROPIC_API_URL = "https://api.anthropic.com/v1/messages"
 
+# =============================================================================
+# Anti-Gravity: Niche-specific long-tail keyword strategies
+#
+# Each niche has curated keyword research data:
+#   - long_tail_examples: proven high-intent, low-competition search terms
+#   - buyer_intent_modifiers: words that signal purchase readiness
+#   - product_categories: canonical product types for bundle grouping
+# =============================================================================
+NICHE_KEYWORD_STRATEGIES = {
+    "tattoo": {
+        "long_tail_examples": [
+            "tattoo gift card", "ink studio voucher",
+            "tattoo consent form", "aftercare card template",
+            "tattoo price list", "tattoo appointment card",
+            "tattoo business card", "tattoo studio branding",
+            "tattoo waiver form", "tattoo client intake",
+            "flash sheet template", "tattoo social media",
+        ],
+        "buyer_intent_modifiers": [
+            "editable", "printable", "instant download",
+            "canva template", "professional", "custom",
+            "small business", "studio", "shop owner",
+        ],
+        "product_categories": [
+            "gift certificate", "gift voucher", "consent form",
+            "aftercare card", "price list", "service menu",
+            "business card", "appointment card", "intake form",
+            "flash sheet", "social media template", "branding bundle",
+            "waiver form", "release form", "instagram template",
+        ],
+    },
+    "nail": {
+        "long_tail_examples": [
+            "nail salon gift card", "nail tech voucher",
+            "nail price list", "nail service menu",
+            "nail salon branding", "nail appointment card",
+            "nail tech business card", "manicure gift card",
+            "nail art price list", "nail studio template",
+        ],
+        "buyer_intent_modifiers": [
+            "editable", "printable", "instant download",
+            "canva template", "nail tech", "salon owner",
+            "small business", "professional", "custom",
+        ],
+        "product_categories": [
+            "gift certificate", "gift voucher", "price list",
+            "service menu", "business card", "appointment card",
+            "social media template", "branding bundle",
+            "consent form", "client card", "instagram template",
+        ],
+    },
+    "hair": {
+        "long_tail_examples": [
+            "hair salon gift card", "hairdresser voucher",
+            "barber price list", "salon service menu",
+            "hair stylist branding", "salon appointment card",
+            "barber business card", "salon social media",
+            "hairstylist gift card", "barber shop template",
+        ],
+        "buyer_intent_modifiers": [
+            "editable", "printable", "instant download",
+            "canva template", "salon owner", "barber shop",
+            "small business", "professional", "stylist",
+        ],
+        "product_categories": [
+            "gift certificate", "gift voucher", "price list",
+            "service menu", "business card", "appointment card",
+            "social media template", "branding bundle",
+            "consultation form", "client card", "instagram template",
+        ],
+    },
+    "beauty": {
+        "long_tail_examples": [
+            "beauty salon gift card", "spa voucher template",
+            "esthetician price list", "beauty service menu",
+            "lash tech business card", "beauty appointment card",
+            "spa branding bundle", "facial gift certificate",
+            "waxing consent form", "beauty social media",
+        ],
+        "buyer_intent_modifiers": [
+            "editable", "printable", "instant download",
+            "canva template", "esthetician", "spa owner",
+            "lash tech", "beauty professional", "custom",
+        ],
+        "product_categories": [
+            "gift certificate", "gift voucher", "price list",
+            "service menu", "business card", "appointment card",
+            "consent form", "social media template", "branding bundle",
+            "aftercare card", "client intake form", "instagram template",
+        ],
+    },
+    "default": {
+        "long_tail_examples": [
+            "small business template", "editable gift card",
+            "business branding kit", "printable price list",
+            "service menu template", "appointment card",
+            "business card template", "social media kit",
+        ],
+        "buyer_intent_modifiers": [
+            "editable", "printable", "instant download",
+            "canva template", "professional", "custom",
+            "small business", "shop owner", "branding",
+        ],
+        "product_categories": [
+            "gift certificate", "gift voucher", "price list",
+            "service menu", "business card", "appointment card",
+            "social media template", "branding bundle",
+            "consent form", "intake form", "instagram template",
+        ],
+    },
+}
+
 
 class GenerateListingContentTool(BaseTool):
     """Use Claude to generate complete Etsy listing content."""
@@ -100,8 +212,23 @@ class GenerateListingContentTool(BaseTool):
             }
 
     def _build_prompt(self, opportunity, focus_niche, currency):
-        """Build a Claude prompt for generating a complete Etsy listing."""
+        """Build a Claude prompt for generating a complete Etsy listing.
+
+        Anti-Gravity keyword strategy:
+        - Long-tail keywords with high purchase intent, low competition
+        - Niche-specific buyer language (what shop owners actually search)
+        - Dwell-time optimised descriptions with FAQs and use cases
+        - Bundle-ready product_type classification for auto-bundling
+        """
         target_kws = ", ".join(opportunity.get("target_keywords", []))
+
+        # Build niche-specific keyword guidance
+        niche_kw_guidance = NICHE_KEYWORD_STRATEGIES.get(
+            focus_niche, NICHE_KEYWORD_STRATEGIES["default"]
+        )
+        kw_examples = ", ".join(f'"{kw}"' for kw in niche_kw_guidance["long_tail_examples"][:6])
+        buyer_intent = ", ".join(f'"{bi}"' for bi in niche_kw_guidance["buyer_intent_modifiers"][:6])
+        product_categories = ", ".join(f'"{pc}"' for pc in niche_kw_guidance["product_categories"][:8])
 
         return f"""You are an expert Etsy seller specializing in digital Canva templates for the {focus_niche} industry. You have a shop called "PurpleOcaz" that sells editable templates.
 
@@ -114,20 +241,39 @@ PRODUCT IDEA:
 
 TASK: Generate a COMPLETE Etsy listing for this product. This is a digital Canva template that buyers can edit in Canva.
 
-REQUIREMENTS:
-1. TITLE (max 140 chars): SEO-optimised, front-load the most important keywords. Include "Editable", "Canva Template", and the product type. Example format: "Tattoo Gift Certificate Template, Editable Canva Voucher, Tattoo Studio Gift Card"
+KEYWORD STRATEGY (critical for Etsy algorithm ranking):
+- Use LONG-TAIL keywords with HIGH PURCHASE INTENT and LOW competition
+- Think about what a {focus_niche} business owner types into Etsy search when READY TO BUY
+- Avoid generic single-word tags — every tag should be 2-4 words
+- Examples of good long-tail tags for this niche: {kw_examples}
+- Buyer intent modifiers to weave in: {buyer_intent}
+- Product categories in this niche: {product_categories}
 
-2. DESCRIPTION: Write a compelling Etsy description with these sections:
-   - Opening hook (2-3 sentences about the product)
+REQUIREMENTS:
+1. TITLE (max 140 chars): Front-load the highest-intent long-tail keyword phrase. Include "Editable", the template format, and the product type. Separate keyword phrases with commas. Example: "Tattoo Gift Certificate Template, Editable Voucher for Tattoo Studio, Printable Gift Card"
+
+2. DESCRIPTION: Write a conversion-optimised Etsy description with these sections:
+   - Opening hook (2-3 sentences — address the buyer's problem, e.g. "Looking for a professional way to offer gift certificates at your {focus_niche} studio?")
    - WHAT'S INCLUDED section (bullet points)
    - HOW TO EDIT section (Canva instructions)
    - FEATURES section (bullet points)
+   - PERFECT FOR section (3-5 specific use cases — this increases dwell time)
+   - FAQ section (2-3 common questions with answers — increases dwell time and reduces returns)
    - PLEASE NOTE section (digital download disclaimer)
    Use emoji sparingly (1-2 max). Keep it professional.
 
-3. TAGS: Exactly 13 tags, each max 20 characters. Long-tail, buyer-intent keywords. What would a {focus_niche} shop owner search for on Etsy?
+3. TAGS: Exactly 13 tags, each max 20 characters. Apply this tag formula:
+   - Tags 1-3: Core product + niche (e.g. "tattoo gift card", "tattoo voucher")
+   - Tags 4-6: Format + modifier (e.g. "editable template", "canva template", "printable voucher")
+   - Tags 7-9: Buyer intent + occasion (e.g. "last minute gift", "business branding", "client gift")
+   - Tags 10-11: Adjacent niche terms (e.g. "ink studio", "body art gift")
+   - Tags 12-13: Seasonal or trending angles (e.g. "holiday gift card", "small business")
 
 4. PRICE: Suggested price in {currency}
+
+5. PRODUCT_TYPE: A precise product category label from this list: {product_categories}. This is used for auto-bundling related products.
+
+6. BUNDLE_TAGS: 2-3 category tags for grouping this product into bundles (e.g. ["gift-certificates", "client-facing", "tattoo-studio-essentials"])
 
 RESPOND IN EXACT JSON FORMAT:
 {{
@@ -135,7 +281,8 @@ RESPOND IN EXACT JSON FORMAT:
   "description": "Full description text with line breaks",
   "tags": ["tag1", "tag2", "tag3", "tag4", "tag5", "tag6", "tag7", "tag8", "tag9", "tag10", "tag11", "tag12", "tag13"],
   "price": 4.99,
-  "product_type": "Brief product type label"
+  "product_type": "Precise product category label",
+  "bundle_tags": ["category-tag-1", "category-tag-2"]
 }}"""
 
     def _call_claude(self, api_key, model, prompt):
@@ -207,6 +354,7 @@ RESPOND IN EXACT JSON FORMAT:
             "tags": tags,
             "price": parsed.get("price", opportunity.get("suggested_price", 4.99)),
             "product_type": parsed.get("product_type", ""),
+            "bundle_tags": parsed.get("bundle_tags", []),
             "source_rank": opportunity.get("rank", 0),
             "source_priority": opportunity.get("priority", ""),
             "source_effort": opportunity.get("effort", ""),

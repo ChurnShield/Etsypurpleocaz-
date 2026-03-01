@@ -21,6 +21,7 @@ if _project_root not in sys.path:
     sys.path.insert(0, _project_root)
 
 from lib.orchestrator.base_tool import BaseTool
+from config import PAGINATION_MAX_PAGES
 
 ETSY_BASE_URL = "https://openapi.etsy.com/v3/application"
 
@@ -279,7 +280,7 @@ class FetchTrendsTool(BaseTool):
         all_listings = []
         offset = 0
 
-        while True:
+        for _page in range(PAGINATION_MAX_PAGES):
             url = (
                 f"{ETSY_BASE_URL}/shops/{shop_id}/listings/active"
                 f"?limit={page_limit}&offset={offset}"

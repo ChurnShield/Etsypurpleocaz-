@@ -23,6 +23,7 @@ if _project_root not in sys.path:
     sys.path.insert(0, _project_root)
 
 from lib.orchestrator.base_tool import BaseTool
+from config import MAX_RETRIES
 
 ANTHROPIC_API_URL = "https://api.anthropic.com/v1/messages"
 
@@ -146,7 +147,7 @@ RESPOND IN EXACT JSON FORMAT:
             "messages": [{"role": "user", "content": prompt}],
         }).encode("utf-8")
 
-        max_attempts = 4
+        max_attempts = MAX_RETRIES + 1
         for attempt in range(1, max_attempts + 1):
             req = urllib.request.Request(ANTHROPIC_API_URL, data=payload, method="POST")
             req.add_header("x-api-key", api_key)
@@ -163,7 +164,7 @@ RESPOND IN EXACT JSON FORMAT:
                 return ""
             except urllib.error.HTTPError as e:
                 if e.code == 529 and attempt < max_attempts:
-                    wait = 15 * attempt  # 15s, 30s, 45s
+                    wait = 10 * attempt  # 10s, 20s, 30s
                     print(f"       API overloaded (529), waiting {wait}s "
                           f"(attempt {attempt}/{max_attempts})...", flush=True)
                     time.sleep(wait)

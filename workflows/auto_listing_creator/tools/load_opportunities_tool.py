@@ -18,6 +18,7 @@ if _project_root not in sys.path:
     sys.path.insert(0, _project_root)
 
 from lib.orchestrator.base_tool import BaseTool
+from config import PAGINATION_MAX_PAGES
 
 ETSY_BASE_URL = "https://openapi.etsy.com/v3/application"
 
@@ -145,7 +146,9 @@ class LoadOpportunitiesTool(BaseTool):
         titles = []
         offset = 0
 
-        while True:
+        import time
+
+        for _page in range(PAGINATION_MAX_PAGES):
             url = (
                 f"{ETSY_BASE_URL}/shops/{shop_id}/listings/active"
                 f"?limit={page_limit}&offset={offset}"
@@ -170,7 +173,6 @@ class LoadOpportunitiesTool(BaseTool):
             if offset >= total:
                 break
 
-            import time
             time.sleep(0.3)
 
         return titles

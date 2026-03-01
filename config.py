@@ -14,6 +14,13 @@ DATABASE_PATH = os.getenv("DATABASE_PATH", "data/system.db")
 DEFAULT_TIMEOUT_SECONDS = 120
 MAX_RETRIES = 3
 
+# ── Timeout & Safety Limits ──
+PLAYWRIGHT_PAGE_TIMEOUT_MS = 30_000       # 30s max for page.set_content()
+PAGINATION_MAX_PAGES = 50                 # Cap all while-True pagination loops
+LLM_REQUEST_TIMEOUT_SECONDS = 120        # Timeout for LLM API calls
+CANVA_POLL_MAX_ITERATIONS = 20           # Cap Canva export polling
+CANVA_POLL_MAX_WAIT_SECONDS = 8          # Max per-iteration wait
+
 # ── Small Brain Settings ──
 PROPOSAL_THRESHOLD_RUNS = 15       # Generate proposals after N runs
 MIN_PATTERN_CONFIDENCE = 0.7       # Only propose if 70%+ confidence

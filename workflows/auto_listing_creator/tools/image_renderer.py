@@ -25,6 +25,7 @@ from tools.html_templates import (
     tmpl_aftercare_card,
     tmpl_generic,
 )
+from config import PLAYWRIGHT_PAGE_TIMEOUT_MS
 
 
 def render_template(browser, listing, niche, accent, safe_title):
@@ -46,7 +47,7 @@ def render_template(browser, listing, niche, accent, safe_title):
         viewport={"width": TMPL_W, "height": TMPL_H},
         device_scale_factor=1,
     )
-    page.set_content(html, wait_until="networkidle")
+    page.set_content(html, wait_until="networkidle", timeout=PLAYWRIGHT_PAGE_TIMEOUT_MS)
     page.wait_for_timeout(2000)
 
     path = os.path.join(EXPORT_DIR, f"{safe_title}_template.png")
@@ -90,7 +91,7 @@ body {{
 </body></html>'''
 
     page = browser.new_page(viewport={"width": IMG_W, "height": BAND_H})
-    page.set_content(html, wait_until="networkidle")
+    page.set_content(html, wait_until="networkidle", timeout=PLAYWRIGHT_PAGE_TIMEOUT_MS)
     page.wait_for_timeout(1500)
 
     path = os.path.join(EXPORT_DIR, f"{safe_title}_band.png")
@@ -137,7 +138,7 @@ html, body {{ width:{size}px; height:{size}px; overflow:hidden; background: tran
 </body></html>'''
 
     page = browser.new_page(viewport={"width": size, "height": size})
-    page.set_content(html, wait_until="networkidle")
+    page.set_content(html, wait_until="networkidle", timeout=PLAYWRIGHT_PAGE_TIMEOUT_MS)
     page.wait_for_timeout(1000)
 
     path = os.path.join(EXPORT_DIR, f"{safe_title}_badge.png")
@@ -291,7 +292,7 @@ body {{
         viewport={"width": IMG_W, "height": IMG_H},
         device_scale_factor=1,
     )
-    page.set_content(html, wait_until="networkidle")
+    page.set_content(html, wait_until="networkidle", timeout=PLAYWRIGHT_PAGE_TIMEOUT_MS)
     page.wait_for_timeout(2000)
 
     path = os.path.join(EXPORT_DIR, f"{safe_title}_page2.png")
@@ -467,7 +468,7 @@ body {{
 </body></html>'''
 
     page = browser.new_page(viewport={"width": 794, "height": 1123})
-    page.set_content(html, wait_until="networkidle")
+    page.set_content(html, wait_until="networkidle", timeout=PLAYWRIGHT_PAGE_TIMEOUT_MS)
     page.wait_for_timeout(2000)
 
     path = os.path.join(EXPORT_DIR, f"{safe_title_str}_download.pdf")

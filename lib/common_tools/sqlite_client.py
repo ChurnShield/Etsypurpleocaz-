@@ -1,6 +1,7 @@
 import sqlite3
 import json
 from typing import Any, Optional
+from config import DEFAULT_TIMEOUT_SECONDS
 
 _client = None
 
@@ -23,7 +24,7 @@ class SQLiteClient:
 
     def __init__(self, db_path: str):
         self.db_path = db_path
-        self.conn = sqlite3.connect(db_path)
+        self.conn = sqlite3.connect(db_path, timeout=DEFAULT_TIMEOUT_SECONDS)
         self.conn.row_factory = sqlite3.Row
         self._reset()
 

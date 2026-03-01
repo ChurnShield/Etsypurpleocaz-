@@ -30,6 +30,7 @@ if _project_root not in sys.path:
     sys.path.insert(0, _project_root)
 
 from lib.orchestrator.base_tool import BaseTool
+from config import CANVA_POLL_MAX_ITERATIONS, CANVA_POLL_MAX_WAIT_SECONDS
 
 CANVA_API_URL = "https://api.canva.com/rest/v1"
 CANVA_TOKEN_FILE = os.path.join(_workflow, "canva_tokens.json")
@@ -218,7 +219,7 @@ class CanvaExportTool(BaseTool):
 
         # Poll until complete
         wait = 3
-        for _ in range(25):
+        for _ in range(CANVA_POLL_MAX_ITERATIONS):
             time.sleep(wait)
             status_req = urllib.request.Request(f"{CANVA_API_URL}/exports/{job_id}")
             status_req.add_header("Authorization", f"Bearer {access_token}")
@@ -239,7 +240,7 @@ class CanvaExportTool(BaseTool):
                 return paths
             elif job_status == "failed":
                 raise RuntimeError(f"Multi-page export failed: {status}")
-            wait = min(wait * 1.3, 8)
+            wait = min(wait * 1.3, CANVA_POLL_MAX_WAIT_SECONDS)
 
         raise RuntimeError("Multi-page export timed out")
 
@@ -277,7 +278,7 @@ class CanvaExportTool(BaseTool):
         job_id = job.get("job", {}).get("id", "")
 
         wait = 2
-        for _ in range(20):
+        for _ in range(CANVA_POLL_MAX_ITERATIONS):
             time.sleep(wait)
             status_req = urllib.request.Request(f"{CANVA_API_URL}/exports/{job_id}")
             status_req.add_header("Authorization", f"Bearer {access_token}")
@@ -294,7 +295,7 @@ class CanvaExportTool(BaseTool):
                 break
             elif job_status == "failed":
                 raise RuntimeError(f"Export failed: {status}")
-            wait = min(wait * 1.5, 10)
+            wait = min(wait * 1.5, CANVA_POLL_MAX_WAIT_SECONDS)
 
         raise RuntimeError("Export timed out")
 

@@ -24,6 +24,7 @@ if _project_root not in sys.path:
     sys.path.insert(0, _project_root)
 
 from lib.orchestrator.base_tool import BaseTool
+from config import PAGINATION_MAX_PAGES
 
 ETSY_BASE_URL = "https://openapi.etsy.com/v3/application"
 TOKEN_FILE    = os.path.join(_workflow, "etsy_tokens.json")
@@ -60,7 +61,7 @@ class FetchEtsyDataTool(BaseTool):
             offset = 0
             total  = None
 
-            while True:
+            for _page in range(PAGINATION_MAX_PAGES):
                 url = (
                     f"{ETSY_BASE_URL}/shops/{shop_id}/listings/active"
                     f"?limit={page_limit}&offset={offset}"
@@ -248,7 +249,7 @@ class FetchEtsyDataTool(BaseTool):
         revenue_by_listing = {}
         offset = 0
 
-        while True:
+        for _page in range(PAGINATION_MAX_PAGES):
             url = (
                 f"{ETSY_BASE_URL}/shops/{shop_id}/transactions"
                 f"?limit={page_limit}&offset={offset}"

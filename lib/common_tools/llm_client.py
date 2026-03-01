@@ -1,5 +1,5 @@
 import anthropic
-from config import ANTHROPIC_API_KEY, ANTHROPIC_MODEL
+from config import ANTHROPIC_API_KEY, ANTHROPIC_MODEL, LLM_REQUEST_TIMEOUT_SECONDS
 
 
 def get_llm_client():
@@ -36,7 +36,7 @@ def call_llm(prompt: str, system: str = None, max_tokens: int = 4096,
         if system:
             kwargs["system"] = system
 
-        response = client.messages.create(**kwargs)
+        response = client.messages.create(**kwargs, timeout=LLM_REQUEST_TIMEOUT_SECONDS)
 
         return {
             "success": True,

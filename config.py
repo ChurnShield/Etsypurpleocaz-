@@ -6,6 +6,11 @@ load_dotenv()
 # ── API Configuration ──
 ANTHROPIC_API_KEY = os.getenv("ANTHROPIC_API_KEY")
 ANTHROPIC_MODEL = os.getenv("ANTHROPIC_MODEL", "claude-sonnet-4-20250514")
+GEMINI_API_KEY = os.getenv("GEMINI_API_KEY")
+GOOGLE_SPREADSHEET_ID = os.getenv("GOOGLE_SPREADSHEET_ID")
+GOOGLE_SHEET_NAME = os.getenv("GOOGLE_SHEET_NAME", "AI News")
+GOOGLE_CREDENTIALS_FILE = os.getenv("GOOGLE_CREDENTIALS_FILE", "google-credentials.json")
+
 
 # ── Database ──
 DATABASE_PATH = os.getenv("DATABASE_PATH", "data/system.db")

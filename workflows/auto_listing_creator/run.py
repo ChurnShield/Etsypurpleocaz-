@@ -181,6 +181,7 @@ def main():
                 "credentials_file": GOOGLE_CREDENTIALS_FILE,
                 "spreadsheet_id": GOOGLE_SPREADSHEET_ID,
                 "opportunities_sheet_name": "Tattoo Opportunities",
+                "market_intel_sheet_name": "Market Intelligence",
                 "api_key": ETSY_API_KEY,
                 "shop_id": ETSY_SHOP_ID,
                 "page_limit": ETSY_PAGE_LIMIT,

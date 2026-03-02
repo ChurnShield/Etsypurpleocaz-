@@ -39,12 +39,13 @@ class LoadOpportunitiesTool(BaseTool):
     """Load product opportunities from Tattoo Trend Monitor + existing listings."""
 
     def execute(self, **kwargs) -> dict:
-        credentials_file = kwargs.get("credentials_file", "")
-        spreadsheet_id   = kwargs.get("spreadsheet_id", "")
-        opps_sheet_name  = kwargs.get("opportunities_sheet_name", "Tattoo Opportunities")
-        api_key          = kwargs.get("api_key", "")
-        shop_id          = kwargs.get("shop_id", "")
-        page_limit       = kwargs.get("page_limit", 100)
+        credentials_file    = kwargs.get("credentials_file", "")
+        spreadsheet_id      = kwargs.get("spreadsheet_id", "")
+        opps_sheet_name     = kwargs.get("opportunities_sheet_name", "Tattoo Opportunities")
+        mi_sheet_name       = kwargs.get("market_intel_sheet_name", "Market Intelligence")
+        api_key             = kwargs.get("api_key", "")
+        shop_id             = kwargs.get("shop_id", "")
+        page_limit          = kwargs.get("page_limit", 100)
 
         if not _GSPREAD:
             return {
@@ -86,6 +87,63 @@ class LoadOpportunitiesTool(BaseTool):
                 })
 
             print(f"          {len(opportunities)} opportunities loaded", flush=True)
+
+            # -- Also load from Market Intelligence sheet (if it exists) --
+            mi_opportunities = []
+            try:
+                mi_ws = spreadsheet.worksheet(mi_sheet_name)
+                mi_rows = mi_ws.get_all_records()
+                for row in mi_rows:
+                    mi_opportunities.append({
+                        "rank": row.get("Rank", 0),
+                        "product_title": row.get("Product Title", ""),
+                        "why": row.get("Why", ""),
+                        "suggested_price": row.get("Suggested Price", 0),
+                        "priority": row.get("Priority", ""),
+                        "effort": row.get("Effort", ""),
+                        "target_keywords": [
+                            k.strip()
+                            for k in str(row.get("Target Keywords", "")).split(",")
+                            if k.strip()
+                        ],
+                        "opportunity_score": row.get("Opportunity Score", 0),
+                        "source": "market_intelligence",
+                    })
+                print(f"          {len(mi_opportunities)} opportunities from Market Intelligence", flush=True)
+            except Exception:
+                print(f"          Market Intelligence sheet not found (skipped)", flush=True)
+
+            # Tag trend monitor opportunities with source
+            for opp in opportunities:
+                opp["source"] = opp.get("source", "tattoo_trend_monitor")
+                opp["opportunity_score"] = opp.get("opportunity_score", opp.get("rank", 50))
+
+            # Merge and cross-source deduplicate
+            all_opportunities = opportunities + mi_opportunities
+            seen_titles = {}
+            merged = []
+            for opp in all_opportunities:
+                title_lower = opp["product_title"].lower()
+                title_words = set(title_lower.split())
+                is_dup = False
+                for seen_title, seen_idx in seen_titles.items():
+                    seen_words = set(seen_title.split())
+                    if len(title_words) > 0 and len(seen_words) > 0:
+                        overlap = len(title_words & seen_words) / len(title_words)
+                        if overlap > 0.6:
+                            existing = merged[seen_idx]
+                            if float(opp.get("opportunity_score", 0)) > float(existing.get("opportunity_score", 0)):
+                                merged[seen_idx] = opp
+                            is_dup = True
+                            break
+                if not is_dup:
+                    seen_titles[title_lower] = len(merged)
+                    merged.append(opp)
+
+            # Sort by opportunity score
+            merged.sort(key=lambda x: float(x.get("opportunity_score", 0)), reverse=True)
+            opportunities = merged
+            print(f"          {len(opportunities)} merged opportunities (after cross-dedup)", flush=True)
 
             # -- Load existing titles to avoid duplicates --
             print("     [1b] Loading existing shop listings...", flush=True)

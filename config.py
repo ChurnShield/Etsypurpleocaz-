@@ -29,6 +29,7 @@ CANVA_POLL_MAX_WAIT_SECONDS = 8          # Max per-iteration wait
 # ── Small Brain Settings ──
 PROPOSAL_THRESHOLD_RUNS = 15       # Generate proposals after N runs
 MIN_PATTERN_CONFIDENCE = 0.7       # Only propose if 70%+ confidence
+SLOW_TOOL_THRESHOLD_MS = 10000     # Default slow tool threshold (10s)
 
 # ── Big Brain Settings ──
 BIG_BRAIN_MIN_WORKFLOWS = 2        # Need at least 2 workflows to compare

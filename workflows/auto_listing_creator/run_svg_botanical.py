@@ -284,7 +284,76 @@ def main():
     print(f"  Run ID   : {execution_id}")
     print(f"{'=' * 60}\n")
 
+    # Auto-open review page in browser
+    if overall_success:
+        review_path = _build_review_page(OUTPUT_DIR, design_count, category_counts)
+        print(f"[8] Opening review page: {review_path}")
+        import webbrowser
+        webbrowser.open(f"file:///{review_path.replace(os.sep, '/')}")
+
     return {"success": overall_success, "execution_id": execution_id}
+
+
+def _build_review_page(output_dir, design_count, category_counts):
+    """Generate an HTML review page and return its path."""
+    thumb_dir = os.path.join(output_dir, "thumbnails")
+    svg_dir = os.path.join(output_dir, "svg")
+
+    # Thumbnail images
+    thumb_imgs = ""
+    for f in sorted(os.listdir(thumb_dir)):
+        if f.endswith(".png"):
+            p = os.path.join(thumb_dir, f).replace(os.sep, "/")
+            thumb_imgs += (
+                f'<div style="text-align:center">'
+                f'<img src="file:///{p}" style="width:360px;border-radius:8px;'
+                f'box-shadow:0 4px 20px rgba(0,0,0,0.3)">'
+                f'<div style="margin-top:8px;font-size:14px;color:#888">{f}</div>'
+                f'</div>\n'
+            )
+
+    # Sample SVGs (first 2 per category)
+    svg_previews = ""
+    for cat in sorted(os.listdir(svg_dir)):
+        cat_path = os.path.join(svg_dir, cat)
+        if not os.path.isdir(cat_path):
+            continue
+        files = sorted(f for f in os.listdir(cat_path) if f.endswith(".svg"))
+        for f in files[:2]:
+            p = os.path.join(cat_path, f).replace(os.sep, "/")
+            svg_previews += (
+                f'<div style="background:#fff;border-radius:8px;padding:12px;'
+                f'text-align:center">'
+                f'<img src="file:///{p}" style="width:180px;height:180px">'
+                f'<div style="font-size:12px;color:#888;margin-top:4px">'
+                f'{cat}/{f}</div></div>\n'
+            )
+
+    html = f"""<!DOCTYPE html><html><head>
+    <title>Bundle Review - {design_count} Designs</title>
+    <style>
+    * {{ margin:0; padding:0; box-sizing:border-box; }}
+    body {{ background:#111; color:#eee; font-family:system-ui; padding:40px; }}
+    h1 {{ font-size:28px; margin-bottom:8px; }}
+    h2 {{ font-size:20px; color:#C9A84C; margin:40px 0 16px; }}
+    .stats {{ color:#888; margin-bottom:30px; }}
+    .thumbs {{ display:flex; gap:20px; flex-wrap:wrap; }}
+    .svgs {{ display:grid; grid-template-columns:repeat(auto-fill,210px);
+             gap:12px; }}
+    </style></head><body>
+    <h1>Bundle Review</h1>
+    <div class="stats">{design_count} designs &middot; 5 formats &middot;
+    {design_count * 5} total files</div>
+    <h2>Etsy Listing Thumbnails</h2>
+    <div class="thumbs">{thumb_imgs}</div>
+    <h2>Sample Designs (2 per category)</h2>
+    <div class="svgs">{svg_previews}</div>
+    </body></html>"""
+
+    review_path = os.path.join(output_dir, "_review.html")
+    with open(review_path, "w", encoding="utf-8") as f:
+        f.write(html)
+    return review_path
 
 
 if __name__ == "__main__":

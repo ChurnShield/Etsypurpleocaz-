@@ -23,18 +23,24 @@ _project_root = os.path.dirname(os.path.dirname(_here))
 sys.path.insert(0, _project_root)
 sys.path.insert(1, _here)
 
-from config import DATABASE_PATH, MAX_RETRIES, PLAYWRIGHT_PAGE_TIMEOUT_MS
+from config import DATABASE_PATH, GEMINI_API_KEY, MAX_RETRIES, PLAYWRIGHT_PAGE_TIMEOUT_MS
 
 from lib.common_tools.sqlite_client import SQLiteClient
 from lib.orchestrator.execution_logger import ExecutionLogger
 
 from tools.svg_botanical.svg_generator_tool import SvgGeneratorTool
+from tools.svg_botanical.ai_design_generator_tool import AiDesignGeneratorTool
 from tools.svg_botanical.format_converter_tool import FormatConverterTool
 from tools.svg_botanical.bundle_packager_tool import BundlePackagerTool
 from tools.svg_botanical.thumbnail_generator_tool import ThumbnailGeneratorTool
 
 WORKFLOW_NAME = "svg_botanical_bundle"
 OUTPUT_DIR = os.path.join(_here, "exports", "svg_bundles")
+
+# ── Generator mode toggle ──
+# Set SVG_GENERATOR_MODE=code to fall back to code-generated designs
+USE_AI_GENERATOR = os.getenv("SVG_GENERATOR_MODE", "ai").lower() == "ai"
+CATEGORY_FILTER = os.getenv("SVG_CATEGORY_FILTER", "")
 
 
 def _run_phase(logger, phase_name, tool, params, max_retries=MAX_RETRIES):
@@ -104,6 +110,9 @@ def main():
     print(f"\n{'=' * 60}")
     print(f"  Workflow : {WORKFLOW_NAME}")
     print(f"  Product  : Fine-Line Botanical Tattoo SVG/PNG Bundle")
+    print(f"  Generator: {'AI (Gemini + potrace)' if USE_AI_GENERATOR else 'Code (svgwrite)'}")
+    if CATEGORY_FILTER:
+        print(f"  Filter   : {CATEGORY_FILTER}")
     print(f"  Output   : {OUTPUT_DIR}")
     print(f"{'=' * 60}")
 
@@ -128,12 +137,31 @@ def main():
 
     try:
         # ==== PHASE 1: Generate SVG designs ====
-        print(f"\n[4a] Phase 1: Generating SVG designs...")
-        gen_result = _run_phase(
-            logger, "Phase 1: Generate SVGs",
-            tool=SvgGeneratorTool(),
-            params={"output_dir": OUTPUT_DIR},
-        )
+        if USE_AI_GENERATOR:
+            if not GEMINI_API_KEY:
+                raise RuntimeError(
+                    "GEMINI_API_KEY required for AI generator. "
+                    "Set SVG_GENERATOR_MODE=code to use code fallback.")
+            print(f"\n[4a] Phase 1: Generating SVG designs (AI)...")
+            gen_params = {
+                "output_dir": OUTPUT_DIR,
+                "gemini_api_key": GEMINI_API_KEY,
+            }
+            if CATEGORY_FILTER:
+                gen_params["category_filter"] = CATEGORY_FILTER
+            gen_result = _run_phase(
+                logger, "Phase 1: Generate SVGs (AI)",
+                tool=AiDesignGeneratorTool(),
+                params=gen_params,
+                max_retries=1,
+            )
+        else:
+            print(f"\n[4a] Phase 1: Generating SVG designs (code)...")
+            gen_result = _run_phase(
+                logger, "Phase 1: Generate SVGs",
+                tool=SvgGeneratorTool(),
+                params={"output_dir": OUTPUT_DIR},
+            )
 
         if not gen_result["success"]:
             raise RuntimeError(

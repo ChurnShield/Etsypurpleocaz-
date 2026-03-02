@@ -2,38 +2,42 @@
 # thumbnail_generator_tool.py
 #
 # BaseTool generating 5 Etsy listing images at 2250x3000px.
+# Dark luxury aesthetic with gold accents for buyer psychology.
 #
-# Page 1: Hero flatlay (sample designs on light bg, purple banner)
-# Page 2: "What You Get" (format overview, design count, grid preview)
-# Page 3: "Please note" (digital download disclaimer, PurpleOcaz logo)
-# Page 4: Usage mockup (stencil, Cricut, wall art, t-shirt examples)
-# Page 5: Category preview (all 8 categories with representative designs)
+# Page 1: Hero (scattered designs, dark bg, gold "120+" anchor)
+# Page 2: "What You Get" (format cards, stats bar, sample grid)
+# Page 3: "Please Note" (trust signals, commercial license badge)
+# Page 4: "Endless Possibilities" (use-case cards, editorial style)
+# Page 5: Category Preview (8 categories, counts, samples)
 # =============================================================================
 
 import os
+import re
 from typing import Any, Dict
 
 from lib.orchestrator.base_tool import BaseTool
 from config import PLAYWRIGHT_PAGE_TIMEOUT_MS
 
 IMG_W, IMG_H = 2250, 3000
-BRAND_PURPLE = "#6B3E9E"
-BRAND_PURPLE_LIGHT = "#9B59B6"
-HERO_BG = "#F5F5F5"
-TEXT_DARK = "#2C2C2C"
-TEXT_LIGHT = "#FFFFFF"
-TEXT_GRAY = "#999999"
+
+# ── Dark luxury palette ──
+BG_DARK = "#0D0D0D"
+BG_CARD = "#1A1A1A"
+GOLD = "#C9A84C"
+GOLD_LIGHT = "#E0C97F"
+TEXT_WHITE = "#F5F5F0"
+TEXT_DIM = "#8A8A8A"
 
 FONTS_CSS = (
     "@import url('https://fonts.googleapis.com/css2?"
-    "family=Playfair+Display:ital,wght@0,400;0,700;0,900;1,400"
-    "&family=Montserrat:wght@300;400;600;700;800"
+    "family=Playfair+Display:ital,wght@0,400;0,600;0,700;0,900;1,400"
+    "&family=Montserrat:wght@300;400;500;600;700;800"
     "&family=Great+Vibes&display=swap');"
 )
 
 
 class ThumbnailGeneratorTool(BaseTool):
-    """Generate 5 Etsy listing thumbnail images."""
+    """Generate 5 Etsy listing thumbnail images with dark luxury aesthetic."""
 
     def get_name(self) -> str:
         return "ThumbnailGeneratorTool"
@@ -52,415 +56,415 @@ class ThumbnailGeneratorTool(BaseTool):
             }
 
         try:
-            thumb_dir = os.path.join(output_dir, "thumbnails")
-            os.makedirs(thumb_dir, exist_ok=True)
-
-            # Collect sample SVG content for previews
-            samples = _collect_sample_svgs(svg_dir, count=24)
-            sample_svgs = [s["content"] for s in samples]
-
-            generated = []
-            errors = []
-
-            pages = [
-                ("01-Hero", _page1_hero_html(
-                    sample_svgs[:6], design_count)),
-                ("02-What-You-Get", _page2_what_you_get_html(
-                    sample_svgs[:12], design_count)),
-                ("03-Please-Note", _page3_please_note_html()),
-                ("04-Usage-Ideas", _page4_usage_ideas_html(
-                    sample_svgs[:4])),
-                ("05-Category-Preview", _page5_categories_html(
-                    svg_dir, category_counts)),
-            ]
-
             from playwright.sync_api import sync_playwright
-
-            with sync_playwright() as p:
-                browser = p.chromium.launch()
-                page = browser.new_page(
-                    viewport={"width": IMG_W, "height": IMG_H},
-                    device_scale_factor=1,
-                )
-
-                for filename, html in pages:
-                    try:
-                        out_path = os.path.join(
-                            thumb_dir, f"{filename}.png")
-                        page.set_content(
-                            html, wait_until="networkidle",
-                            timeout=PLAYWRIGHT_PAGE_TIMEOUT_MS)
-                        page.wait_for_timeout(1500)
-                        page.screenshot(
-                            path=out_path,
-                            clip={"x": 0, "y": 0,
-                                  "width": IMG_W, "height": IMG_H},
-                        )
-                        generated.append(out_path)
-                    except Exception as e:
-                        errors.append({
-                            "page": filename, "error": str(e)})
-
-                page.close()
-                browser.close()
-
-            return {
-                "success": len(generated) > 0,
-                "data": {
-                    "thumbnail_dir": thumb_dir,
-                    "generated": generated,
-                    "count": len(generated),
-                },
-                "error": None if not errors else f"{len(errors)} pages failed",
-                "tool_name": self.get_name(),
-                "metadata": {"pages_generated": len(generated)},
-            }
-
-        except Exception as e:
+        except ImportError:
             return {
                 "success": False, "data": None,
-                "error": str(e),
+                "error": "playwright not installed",
                 "tool_name": self.get_name(), "metadata": {},
             }
 
+        thumb_dir = os.path.join(output_dir, "thumbnails")
+        os.makedirs(thumb_dir, exist_ok=True)
 
-# ── Sample SVG Collection ────────────────────────────────────────────────────
+        samples = _collect_sample_svgs(svg_dir, max_per_cat=4)
+        cat_samples = _collect_category_samples(svg_dir)
 
-def _collect_sample_svgs(svg_dir, count=24):
-    """Collect sample SVGs for thumbnails, spread across categories."""
+        pages = [
+            ("01-Hero", _page1_hero(samples, design_count)),
+            ("02-What-You-Get", _page2_what_you_get(samples, design_count)),
+            ("03-Please-Note", _page3_please_note()),
+            ("04-Usage-Ideas", _page4_usage(samples)),
+            ("05-Categories", _page5_categories(cat_samples, category_counts)),
+        ]
+
+        generated = []
+        try:
+            with sync_playwright() as p:
+                browser = p.chromium.launch()
+                for name, html in pages:
+                    page = browser.new_page(
+                        viewport={"width": IMG_W, "height": IMG_H},
+                        device_scale_factor=1,
+                    )
+                    page.set_content(html, wait_until="networkidle",
+                                     timeout=PLAYWRIGHT_PAGE_TIMEOUT_MS)
+                    page.wait_for_timeout(2000)
+                    out_path = os.path.join(thumb_dir, f"{name}.png")
+                    page.screenshot(
+                        path=out_path,
+                        clip={"x": 0, "y": 0, "width": IMG_W, "height": IMG_H},
+                    )
+                    page.close()
+                    generated.append(out_path)
+                    print(f"       {name}.png")
+                browser.close()
+        except Exception as e:
+            return {
+                "success": False, "data": None, "error": str(e),
+                "tool_name": self.get_name(), "metadata": {},
+            }
+
+        return {
+            "success": True,
+            "data": {"count": len(generated), "paths": generated,
+                     "thumb_dir": thumb_dir},
+            "error": None, "tool_name": self.get_name(),
+            "metadata": {"pages": len(generated)},
+        }
+
+
+# ── Helpers ──────────────────────────────────────────────────────────────────
+
+def _collect_sample_svgs(svg_dir, max_per_cat=4):
+    """Collect sample SVG content strings spread across categories."""
     samples = []
-    if not os.path.isdir(svg_dir):
-        return samples
-
-    categories = sorted(
-        d for d in os.listdir(svg_dir)
-        if os.path.isdir(os.path.join(svg_dir, d))
-    )
-
-    per_cat = max(count // max(len(categories), 1), 1)
-    for cat in categories:
-        cat_dir = os.path.join(svg_dir, cat)
-        files = sorted(
-            f for f in os.listdir(cat_dir) if f.endswith(".svg"))
-        for fn in files[:per_cat]:
+    for cat_name in sorted(os.listdir(svg_dir)):
+        cat_path = os.path.join(svg_dir, cat_name)
+        if not os.path.isdir(cat_path):
+            continue
+        files = sorted(f for f in os.listdir(cat_path) if f.endswith(".svg"))
+        for f in files[:max_per_cat]:
             try:
-                with open(os.path.join(cat_dir, fn), "r",
-                          encoding="utf-8") as fh:
-                    content = fh.read()
-                samples.append({
-                    "name": fn[:-4], "category": cat,
-                    "content": content})
+                with open(os.path.join(cat_path, f), "r", encoding="utf-8") as fh:
+                    samples.append(fh.read())
             except Exception:
-                pass
-        if len(samples) >= count:
-            break
-
-    return samples[:count]
+                continue
+    return samples
 
 
-def _svg_inline(svg_content, width=200, height=200):
-    """Wrap SVG content for inline HTML display at given size."""
-    # Strip xml declaration if present
-    content = svg_content
+def _collect_category_samples(svg_dir):
+    """Collect one sample SVG per category."""
+    cat_map = {}
+    for cat_name in sorted(os.listdir(svg_dir)):
+        cat_path = os.path.join(svg_dir, cat_name)
+        if not os.path.isdir(cat_path):
+            continue
+        files = sorted(f for f in os.listdir(cat_path) if f.endswith(".svg"))
+        if files:
+            try:
+                with open(os.path.join(cat_path, files[0]), "r",
+                          encoding="utf-8") as fh:
+                    cat_map[cat_name] = fh.read()
+            except Exception:
+                continue
+    return cat_map
+
+
+def _svg_inline(content, w=200, h=200, invert=True):
+    """Prepare SVG for inline embedding at given size."""
     if content.startswith("<?xml"):
         content = content[content.index("?>") + 2:].strip()
-    # Override size
-    import re
-    content = re.sub(r'width="[^"]*"', f'width="{width}"', content, count=1)
-    content = re.sub(
-        r'height="[^"]*"', f'height="{height}"', content, count=1)
+    content = re.sub(r'width="[^"]*"', f'width="{w}"', content, count=1)
+    content = re.sub(r'height="[^"]*"', f'height="{h}"', content, count=1)
+    if invert:
+        return (f'<span style="display:inline-block;'
+                f'filter:invert(1) brightness(1.5)">{content}</span>')
     return content
 
 
-# ── Page HTML Templates ──────────────────────────────────────────────────────
-
-def _page1_hero_html(sample_svgs, design_count):
-    """Hero flatlay: sample designs arranged on light bg with purple banner."""
-    # Arrange 6 sample designs in a 3x2 grid above the banner
-    grid_items = ""
-    for i, svg in enumerate(sample_svgs[:6]):
-        grid_items += f"""<div class="design-card">
-            {_svg_inline(svg, 320, 320)}
-        </div>"""
-
-    return f"""<!DOCTYPE html><html><head><style>
+def _base_css():
+    """Shared CSS for all pages."""
+    return f"""
     {FONTS_CSS}
+    :root {{ --bg:{BG_DARK}; --card:{BG_CARD}; --gold:{GOLD};
+             --gold-lt:{GOLD_LIGHT}; --wh:{TEXT_WHITE}; --dim:{TEXT_DIM}; }}
     * {{ margin:0; padding:0; box-sizing:border-box; }}
-    body {{ width:{IMG_W}px; height:{IMG_H}px; background:{HERO_BG};
-           font-family:'Montserrat',sans-serif; overflow:hidden; }}
-    .hero-area {{ display:flex; flex-wrap:wrap; justify-content:center;
-                  align-items:center; gap:40px; padding:120px 80px 60px;
-                  height:{IMG_H - 750}px; }}
-    .design-card {{ background:white; border-radius:20px; padding:30px;
-                    box-shadow:0 8px 30px rgba(0,0,0,0.08);
-                    display:flex; align-items:center; justify-content:center; }}
-    .banner {{ position:absolute; bottom:0; width:100%; height:750px;
-              background:{BRAND_PURPLE}; display:flex; flex-direction:column;
-              align-items:center; justify-content:center; }}
-    .banner h1 {{ font-family:'Montserrat'; font-weight:800; font-size:92px;
-                  color:{TEXT_LIGHT}; text-transform:uppercase;
-                  letter-spacing:4px; text-align:center; line-height:1.1; }}
-    .banner p {{ font-family:'Montserrat'; font-weight:400; font-size:38px;
-                color:rgba(255,255,255,0.85); text-transform:uppercase;
-                letter-spacing:6px; margin-top:20px; }}
-    .badge {{ position:absolute; bottom:40px; right:60px; width:200px;
-             height:200px; background:{TEXT_DARK}; border-radius:50%;
-             display:flex; align-items:center; justify-content:center;
-             flex-direction:column; }}
-    .badge span {{ color:{TEXT_LIGHT}; font-family:'Montserrat';
-                  font-weight:700; font-size:22px; text-transform:uppercase;
-                  letter-spacing:2px; text-align:center; line-height:1.3; }}
-    .count-badge {{ position:absolute; top:40px; right:60px;
-                   background:{BRAND_PURPLE}; color:white; padding:18px 40px;
-                   border-radius:40px; font-weight:700; font-size:32px;
-                   font-family:'Montserrat'; }}
-    </style></head><body>
-    <div class="count-badge">{design_count} DESIGNS</div>
-    <div class="hero-area">{grid_items}</div>
-    <div class="banner">
-        <h1>Fine-Line Botanical<br>Tattoo Bundle</h1>
-        <p>SVG &bull; PNG &bull; DXF &bull; PDF &bull; EPS</p>
-        <div class="badge"><span>INSTANT<br>DOWNLOAD</span></div>
-    </div>
-    </body></html>"""
-
-
-def _page2_what_you_get_html(sample_svgs, design_count):
-    """What You Get page: format overview, count, grid preview."""
-    grid = ""
-    for svg in sample_svgs[:12]:
-        grid += f"""<div class="preview-cell">
-            {_svg_inline(svg, 160, 160)}
-        </div>"""
-
-    return f"""<!DOCTYPE html><html><head><style>
-    {FONTS_CSS}
-    * {{ margin:0; padding:0; box-sizing:border-box; }}
-    body {{ width:{IMG_W}px; height:{IMG_H}px; background:white;
-           font-family:'Montserrat',sans-serif; overflow:hidden; }}
-    .header {{ background:{BRAND_PURPLE}; padding:60px; text-align:center; }}
-    .header h1 {{ font-family:'Playfair Display'; font-size:72px;
-                  color:white; font-weight:700; }}
-    .formats {{ display:flex; justify-content:center; gap:30px;
-               padding:50px 60px 30px; flex-wrap:wrap; }}
-    .fmt {{ background:#F8F6F3; border-radius:16px; padding:24px 36px;
-           text-align:center; min-width:180px; }}
-    .fmt .name {{ font-weight:700; font-size:28px; color:{BRAND_PURPLE}; }}
-    .fmt .desc {{ font-size:18px; color:{TEXT_GRAY}; margin-top:6px; }}
-    .stats {{ display:flex; justify-content:center; gap:60px; padding:30px;
-             background:{HERO_BG}; margin:20px 60px; border-radius:16px; }}
-    .stat {{ text-align:center; }}
-    .stat .num {{ font-size:56px; font-weight:800; color:{BRAND_PURPLE}; }}
-    .stat .label {{ font-size:20px; color:{TEXT_GRAY}; margin-top:4px; }}
-    .grid {{ display:grid; grid-template-columns:repeat(4,1fr); gap:20px;
-            padding:30px 80px; }}
-    .preview-cell {{ background:{HERO_BG}; border-radius:12px; padding:15px;
-                    display:flex; align-items:center; justify-content:center; }}
-    </style></head><body>
-    <div class="header"><h1>What You Get</h1></div>
-    <div class="formats">
-        <div class="fmt"><div class="name">SVG</div><div class="desc">Vector</div></div>
-        <div class="fmt"><div class="name">PNG</div><div class="desc">4096px</div></div>
-        <div class="fmt"><div class="name">DXF</div><div class="desc">CAD</div></div>
-        <div class="fmt"><div class="name">PDF</div><div class="desc">Print</div></div>
-        <div class="fmt"><div class="name">EPS</div><div class="desc">Pro</div></div>
-    </div>
-    <div class="stats">
-        <div class="stat"><div class="num">{design_count}</div>
-            <div class="label">Unique Designs</div></div>
-        <div class="stat"><div class="num">5</div>
-            <div class="label">File Formats</div></div>
-        <div class="stat"><div class="num">{design_count * 5}</div>
-            <div class="label">Total Files</div></div>
-    </div>
-    <div class="grid">{grid}</div>
-    </body></html>"""
-
-
-def _page3_please_note_html():
-    """Please Note page: digital download disclaimer."""
-    return f"""<!DOCTYPE html><html><head><style>
-    {FONTS_CSS}
-    * {{ margin:0; padding:0; box-sizing:border-box; }}
-    body {{ width:{IMG_W}px; height:{IMG_H}px; background:#F8F6F3;
+    body {{ width:{IMG_W}px; height:{IMG_H}px; background:var(--bg);
            font-family:'Montserrat',sans-serif; overflow:hidden;
-           display:flex; flex-direction:column; align-items:center;
-           justify-content:center; }}
-    h1 {{ font-family:'Great Vibes'; font-size:120px; color:{TEXT_DARK};
-         margin-bottom:20px; }}
-    .divider {{ width:200px; height:2px; background:{TEXT_DARK};
-               margin:10px auto 60px; position:relative; }}
-    .divider::after {{ content:'\\2665'; position:absolute; top:-14px;
-                      left:50%; transform:translateX(-50%);
-                      background:#F8F6F3; padding:0 15px;
-                      font-size:20px; color:{BRAND_PURPLE}; }}
-    .notes {{ max-width:1600px; padding:0 100px; }}
-    .note {{ display:flex; align-items:flex-start; gap:30px;
-            margin-bottom:40px; }}
-    .note .icon {{ width:60px; height:60px; background:{BRAND_PURPLE};
-                  border-radius:50%; display:flex; align-items:center;
-                  justify-content:center; flex-shrink:0; }}
-    .note .icon span {{ color:white; font-size:28px; font-weight:700; }}
-    .note p {{ font-size:32px; color:{TEXT_DARK}; line-height:1.5;
-              padding-top:8px; }}
-    .logo {{ margin-top:80px; text-align:center; }}
-    .logo-text {{ font-family:'Playfair Display'; font-size:36px;
-                 color:{BRAND_PURPLE}; font-weight:700; }}
-    </style></head><body>
-    <h1>Please note</h1>
-    <div class="divider"></div>
-    <div class="notes">
-        <div class="note">
-            <div class="icon"><span>1</span></div>
-            <p>This is a <b>downloadable digital product</b>.
-               You will receive instant access to all files after purchase.</p>
-        </div>
-        <div class="note">
-            <div class="icon"><span>2</span></div>
-            <p>There will be <b>NO physical product</b> shipped to you.
-               All designs are delivered as digital files.</p>
-        </div>
-        <div class="note">
-            <div class="icon"><span>3</span></div>
-            <p>Files include <b>SVG, PNG, DXF, PDF, and EPS</b> formats.
-               Compatible with Cricut, Silhouette, and all design software.</p>
-        </div>
-        <div class="note">
-            <div class="icon"><span>4</span></div>
-            <p>Designs are <b>black line art on transparent background</b>.
-               Perfect for tattoo stencils, vinyl cutting, and printing.</p>
-        </div>
-    </div>
-    <div class="logo">
-        <div class="logo-text">Purple OCAZ</div>
-    </div>
-    </body></html>"""
+           color:var(--wh); }}
+    .serif {{ font-family:'Playfair Display',serif; }}
+    .script {{ font-family:'Great Vibes',cursive; }}
+    .gold {{ color:var(--gold); }}
+    .gold-lt {{ color:var(--gold-lt); }}
+    .dim {{ color:var(--dim); }}
+    .divider {{ width:200px; height:2px; background:var(--gold);
+                margin:20px auto; opacity:0.5; }}
+    """
 
 
-def _page4_usage_ideas_html(sample_svgs):
-    """Usage ideas page showing different use cases."""
-    sample = _svg_inline(sample_svgs[0], 200, 200) if sample_svgs else ""
+# ── Page 1: Hero ─────────────────────────────────────────────────────────────
+
+def _page1_hero(samples, design_count):
+    count_str = f"{design_count}+" if design_count >= 100 else str(design_count)
+
+    # Scatter 12 designs across upper 60% of canvas
+    placements = [
+        (120, 100, 260, -8), (520, 60, 220, 5), (920, 180, 250, -12),
+        (1380, 80, 200, 10), (1740, 200, 240, -5), (280, 420, 200, 12),
+        (720, 380, 280, -6), (1130, 460, 230, 8), (1530, 400, 240, -10),
+        (380, 740, 210, 5), (880, 700, 260, -8), (1380, 720, 220, 12),
+    ]
+
+    svg_items = ""
+    for i, (x, y, sz, rot) in enumerate(placements):
+        if i >= len(samples):
+            break
+        svg_items += (
+            f'<div class="float" style="left:{x}px;top:{y}px;'
+            f'width:{sz}px;height:{sz}px;'
+            f'transform:rotate({rot}deg)">'
+            f'{_svg_inline(samples[i], sz, sz)}</div>\n'
+        )
 
     return f"""<!DOCTYPE html><html><head><style>
-    {FONTS_CSS}
-    * {{ margin:0; padding:0; box-sizing:border-box; }}
-    body {{ width:{IMG_W}px; height:{IMG_H}px; background:white;
-           font-family:'Montserrat',sans-serif; overflow:hidden; }}
-    .header {{ background:{BRAND_PURPLE}; padding:50px; text-align:center; }}
-    .header h1 {{ font-family:'Playfair Display'; font-size:68px;
-                  color:white; font-weight:700; }}
-    .ideas {{ padding:60px 80px; display:grid;
-             grid-template-columns:1fr 1fr; gap:40px; }}
-    .idea {{ background:{HERO_BG}; border-radius:20px; padding:50px;
-            text-align:center; }}
-    .idea .emoji {{ font-size:80px; margin-bottom:20px; display:block; }}
-    .idea h2 {{ font-size:36px; color:{TEXT_DARK}; margin-bottom:12px; }}
-    .idea p {{ font-size:22px; color:{TEXT_GRAY}; line-height:1.5; }}
-    .idea .sample {{ margin-top:20px; opacity:0.7; }}
-    .bottom {{ background:{HERO_BG}; margin:20px 80px; border-radius:20px;
-              padding:50px; text-align:center; }}
-    .bottom h2 {{ font-size:40px; color:{TEXT_DARK}; margin-bottom:15px; }}
-    .bottom p {{ font-size:24px; color:{TEXT_GRAY}; }}
-    .pills {{ display:flex; gap:20px; justify-content:center;
-             flex-wrap:wrap; margin-top:25px; }}
-    .pill {{ background:{BRAND_PURPLE}; color:white; padding:14px 32px;
-            border-radius:30px; font-size:22px; font-weight:600; }}
+    {_base_css()}
+    .frame {{ position:absolute; inset:30px; border:2px solid var(--gold);
+              pointer-events:none; }}
+    .float {{ position:absolute; opacity:0.5; }}
+    .badge {{ position:absolute; top:50px; right:60px; background:var(--gold);
+              color:{BG_DARK}; padding:14px 38px; font-weight:700;
+              font-size:24px; letter-spacing:3px; text-transform:uppercase; }}
+    .hero {{ position:absolute; bottom:100px; width:100%; text-align:center; }}
+    .num {{ font-size:200px; font-weight:900; line-height:1;
+            text-shadow:0 4px 30px rgba(201,168,76,0.3); }}
+    .title {{ font-size:74px; font-weight:700; margin-top:10px;
+              letter-spacing:2px; }}
+    .sub {{ font-size:68px; font-weight:400; font-style:italic;
+            margin-top:5px; }}
+    .fmts {{ font-size:28px; letter-spacing:8px; text-transform:uppercase;
+             margin-top:40px; }}
+    .logo {{ position:absolute; bottom:35px; width:100%; text-align:center;
+             font-size:26px; letter-spacing:5px; opacity:0.5; }}
     </style></head><body>
-    <div class="header"><h1>Endless Possibilities</h1></div>
-    <div class="ideas">
-        <div class="idea">
-            <span class="emoji"></span>
-            <h2>Tattoo Stencils</h2>
-            <p>Print on stencil paper for clean, professional tattoo transfers</p>
-        </div>
-        <div class="idea">
-            <span class="emoji"></span>
-            <h2>Cutting Machines</h2>
-            <p>SVG files work perfectly with Cricut and Silhouette</p>
-        </div>
-        <div class="idea">
-            <span class="emoji"></span>
-            <h2>Wall Art & Prints</h2>
-            <p>Print at any size for beautiful botanical wall decor</p>
-        </div>
-        <div class="idea">
-            <span class="emoji"></span>
-            <h2>Apparel & Products</h2>
-            <p>Use on t-shirts, tote bags, mugs, and more</p>
-        </div>
+    <div class="frame"></div>
+    <div class="badge">INSTANT DOWNLOAD</div>
+    {svg_items}
+    <div class="hero">
+        <div class="num serif gold">{count_str}</div>
+        <div class="title serif">Fine-Line Botanical</div>
+        <div class="sub serif gold-lt">Tattoo Designs</div>
+        <div class="fmts dim">SVG &middot; PNG &middot; DXF &middot; PDF &middot; EPS</div>
     </div>
-    <div class="bottom">
-        <h2>Also perfect for...</h2>
-        <div class="pills">
-            <span class="pill">Stickers</span>
-            <span class="pill">Invitations</span>
-            <span class="pill">Journals</span>
-            <span class="pill">Engraving</span>
-            <span class="pill">Embroidery</span>
-            <span class="pill">Nail Art</span>
-        </div>
-    </div>
+    <div class="logo serif gold">PURPLEOCAZ</div>
     </body></html>"""
 
 
-def _page5_categories_html(svg_dir, category_counts):
-    """Category preview showing all 8 categories with sample designs."""
-    cat_blocks = ""
-    for cat, cnt in sorted(category_counts.items()):
-        # Get one sample SVG from this category
-        sample_svg = ""
-        cat_path = os.path.join(svg_dir, cat)
-        if os.path.isdir(cat_path):
-            files = sorted(f for f in os.listdir(cat_path)
-                           if f.endswith(".svg"))
-            if files:
-                try:
-                    with open(os.path.join(cat_path, files[0]), "r",
-                              encoding="utf-8") as fh:
-                        sample_svg = _svg_inline(fh.read(), 180, 180)
-                except Exception:
-                    pass
+# ── Page 2: What You Get ─────────────────────────────────────────────────────
 
-        display_name = cat.replace("-", " ").replace("and", "&")
-        cat_blocks += f"""<div class="cat-card">
-            <div class="cat-preview">{sample_svg}</div>
-            <div class="cat-name">{display_name}</div>
-            <div class="cat-count">{cnt} designs</div>
+def _page2_what_you_get(samples, design_count):
+    total_files = design_count * 5
+
+    formats = [
+        ("SVG", "Scalable Vector", "Infinite scaling, edit in Illustrator"),
+        ("PNG", "4096 &times; 4096px", "High-res transparent background"),
+        ("DXF", "CAD Format", "Cricut, Silhouette, laser cutters"),
+        ("PDF", "Print Ready", "Perfect for professional printing"),
+        ("EPS", "Professional", "Industry-standard vector format"),
+    ]
+
+    fmt_cards = ""
+    for ext, label, desc in formats:
+        fmt_cards += f"""
+        <div class="fmt-card">
+            <div class="ext">{ext}</div>
+            <div class="label">{label}</div>
+            <div class="desc dim">{desc}</div>
+        </div>"""
+
+    grid_items = ""
+    for i, s in enumerate(samples[:12]):
+        grid_items += f'<div class="cell">{_svg_inline(s, 160, 160)}</div>'
+
+    return f"""<!DOCTYPE html><html><head><style>
+    {_base_css()}
+    .head {{ text-align:center; padding:80px 0 40px; }}
+    .head h1 {{ font-size:72px; font-weight:700; letter-spacing:3px; }}
+    .formats {{ display:flex; justify-content:center; gap:30px;
+                padding:20px 60px; flex-wrap:wrap; }}
+    .fmt-card {{ background:var(--card); border-radius:16px; padding:30px 28px;
+                 width:380px; text-align:center;
+                 border:1px solid rgba(201,168,76,0.2); }}
+    .ext {{ font-size:42px; font-weight:800; }}
+    .label {{ font-size:22px; font-weight:600; margin-top:6px; }}
+    .desc {{ font-size:18px; margin-top:4px; }}
+    .stats {{ display:flex; justify-content:center; gap:80px;
+              padding:50px 0; text-align:center; }}
+    .stat-num {{ font-size:96px; font-weight:900; line-height:1; }}
+    .stat-label {{ font-size:24px; font-weight:400; margin-top:8px; }}
+    .times {{ font-size:60px; padding-top:20px; }}
+    .grid {{ display:grid; grid-template-columns:repeat(4,1fr); gap:20px;
+             padding:0 100px; }}
+    .cell {{ background:var(--card); border-radius:12px; padding:20px;
+             display:flex; align-items:center; justify-content:center; }}
+    </style></head><body>
+    <div class="head"><h1 class="serif gold">What You Get</h1>
+    <div class="divider"></div></div>
+    <div class="formats">{fmt_cards}</div>
+    <div class="stats">
+        <div><div class="stat-num serif gold">{design_count}+</div>
+             <div class="stat-label dim">Designs</div></div>
+        <div class="times gold">&times;</div>
+        <div><div class="stat-num serif gold">5</div>
+             <div class="stat-label dim">Formats</div></div>
+        <div class="times gold">=</div>
+        <div><div class="stat-num serif gold">{total_files}+</div>
+             <div class="stat-label dim">Total Files</div></div>
+    </div>
+    <div class="grid">{grid_items}</div>
+    </body></html>"""
+
+
+# ── Page 3: Please Note ──────────────────────────────────────────────────────
+
+def _page3_please_note():
+    notes = [
+        ("1", "Digital Download Product",
+         "Instant access after purchase &mdash; download from your Etsy receipt"),
+        ("2", "No Physical Product Shipped",
+         "All designs are delivered as digital files only"),
+        ("3", "5 File Formats Included",
+         "SVG, PNG, DXF, PDF &amp; EPS &mdash; works with Cricut &amp; Silhouette"),
+        ("4", "Black Line Art on Transparent",
+         "Perfect for tattoo stencils, cutting machines &amp; printing"),
+    ]
+
+    items = ""
+    for num, title, desc in notes:
+        items += f"""
+        <div class="note">
+            <div class="num">{num}</div>
+            <div class="note-text">
+                <div class="note-title">{title}</div>
+                <div class="note-desc dim">{desc}</div>
+            </div>
         </div>"""
 
     return f"""<!DOCTYPE html><html><head><style>
-    {FONTS_CSS}
-    * {{ margin:0; padding:0; box-sizing:border-box; }}
-    body {{ width:{IMG_W}px; height:{IMG_H}px; background:white;
-           font-family:'Montserrat',sans-serif; overflow:hidden; }}
-    .header {{ background:{BRAND_PURPLE}; padding:50px; text-align:center; }}
-    .header h1 {{ font-family:'Playfair Display'; font-size:68px;
-                  color:white; font-weight:700; }}
-    .header p {{ font-size:28px; color:rgba(255,255,255,0.8);
-                margin-top:10px; }}
-    .grid {{ display:grid; grid-template-columns:1fr 1fr;
-            gap:30px; padding:50px 80px; }}
-    .cat-card {{ background:{HERO_BG}; border-radius:20px; padding:35px;
-                display:flex; align-items:center; gap:25px; }}
-    .cat-preview {{ background:white; border-radius:12px; padding:15px;
-                   width:210px; height:210px; display:flex;
-                   align-items:center; justify-content:center;
-                   flex-shrink:0; }}
-    .cat-name {{ font-size:30px; font-weight:700; color:{TEXT_DARK}; }}
-    .cat-count {{ font-size:22px; color:{BRAND_PURPLE}; font-weight:600;
-                 margin-top:6px; }}
-    .footer {{ position:absolute; bottom:0; width:100%; height:120px;
-              background:{BRAND_PURPLE}; display:flex; align-items:center;
-              justify-content:center; }}
-    .footer span {{ color:white; font-size:32px; font-weight:600;
-                   letter-spacing:2px; }}
+    {_base_css()}
+    body {{ display:flex; flex-direction:column; align-items:center;
+           justify-content:center; padding:120px 160px; }}
+    h1 {{ font-size:120px; margin-bottom:10px; }}
+    .notes {{ margin-top:60px; width:100%; }}
+    .note {{ display:flex; align-items:flex-start; gap:36px;
+             margin-bottom:50px; }}
+    .num {{ width:70px; height:70px; border-radius:50%; background:var(--gold);
+            color:{BG_DARK}; font-size:32px; font-weight:800;
+            display:flex; align-items:center; justify-content:center;
+            flex-shrink:0; }}
+    .note-title {{ font-size:36px; font-weight:700; }}
+    .note-desc {{ font-size:26px; margin-top:6px; }}
+    .trust {{ margin-top:70px; border:2px solid var(--gold);
+              border-radius:16px; padding:40px 60px; text-align:center;
+              width:100%; }}
+    .trust-title {{ font-size:32px; font-weight:700; letter-spacing:3px; }}
+    .trust-sub {{ font-size:24px; margin-top:8px; }}
+    .logo {{ margin-top:80px; font-size:36px; letter-spacing:5px;
+             opacity:0.6; }}
     </style></head><body>
-    <div class="header">
-        <h1>Design Categories</h1>
-        <p>Something for every style</p>
+    <h1 class="script gold">Please Note</h1>
+    <div class="divider"></div>
+    <div class="notes">{items}</div>
+    <div class="trust">
+        <div class="trust-title gold">&#9733; COMMERCIAL LICENSE INCLUDED &#9733;</div>
+        <div class="trust-sub dim">Personal &amp; commercial use permitted</div>
     </div>
-    <div class="grid">{cat_blocks}</div>
-    <div class="footer">
-        <span>PURPLEOCAZ &bull; FINE-LINE BOTANICAL COLLECTION</span>
+    <div class="logo serif gold">PURPLEOCAZ</div>
+    </body></html>"""
+
+
+# ── Page 4: Usage Ideas ──────────────────────────────────────────────────────
+
+def _page4_usage(samples):
+    uses = [
+        ("Tattoo Stencils", "Professional fine-line tattoo references"),
+        ("Cricut &amp; Cutting", "SVG &amp; DXF ready for cutting machines"),
+        ("Wall Art &amp; Prints", "High-res PNG for gallery-quality prints"),
+        ("Apparel &amp; Products", "Sublimation, embroidery, engraving"),
+    ]
+
+    cards = ""
+    for i, (title, desc) in enumerate(uses):
+        svg = _svg_inline(samples[i], 280, 280) if i < len(samples) else ""
+        cards += f"""
+        <div class="use-card">
+            <div class="use-svg">{svg}</div>
+            <div class="use-overlay">
+                <div class="use-title">{title}</div>
+                <div class="use-desc">{desc}</div>
+            </div>
+        </div>"""
+
+    pills = ["Stickers", "Invitations", "Journals", "Engraving",
+             "Embroidery", "Nail Art"]
+    pill_html = "".join(
+        f'<span class="pill">{p}</span>' for p in pills)
+
+    return f"""<!DOCTYPE html><html><head><style>
+    {_base_css()}
+    .head {{ text-align:center; padding:80px 0 50px; }}
+    .head h1 {{ font-size:68px; font-weight:700; letter-spacing:3px; }}
+    .grid {{ display:grid; grid-template-columns:1fr 1fr; gap:30px;
+             padding:0 80px; }}
+    .use-card {{ background:var(--card); border-radius:20px;
+                 height:560px; position:relative; overflow:hidden;
+                 display:flex; align-items:center; justify-content:center;
+                 border:1px solid rgba(201,168,76,0.15); }}
+    .use-svg {{ opacity:0.35; }}
+    .use-overlay {{ position:absolute; bottom:0; left:0; right:0;
+                    padding:40px 36px;
+                    background:linear-gradient(transparent, rgba(0,0,0,0.85) 40%); }}
+    .use-title {{ font-size:40px; font-weight:700; }}
+    .use-desc {{ font-size:22px; margin-top:8px; }}
+    .also {{ text-align:center; padding:50px 80px 0; }}
+    .also-label {{ font-size:28px; font-weight:600; margin-bottom:20px; }}
+    .pills {{ display:flex; justify-content:center; gap:18px;
+              flex-wrap:wrap; }}
+    .pill {{ border:2px solid var(--gold); border-radius:40px;
+             padding:14px 32px; font-size:22px; font-weight:600; }}
+    </style></head><body>
+    <div class="head"><h1 class="serif gold">Endless Possibilities</h1>
+    <div class="divider"></div></div>
+    <div class="grid">{cards}</div>
+    <div class="also">
+        <div class="also-label dim">Also perfect for</div>
+        <div class="pills">{pill_html}</div>
     </div>
+    </body></html>"""
+
+
+# ── Page 5: Category Preview ─────────────────────────────────────────────────
+
+def _page5_categories(cat_samples, category_counts):
+    cards = ""
+    for cat_name in sorted(category_counts.keys()):
+        count = category_counts[cat_name]
+        svg = _svg_inline(cat_samples.get(cat_name, ""), 180, 180)
+        display_name = cat_name.replace("-", " ")
+        cards += f"""
+        <div class="cat-card">
+            <div class="cat-svg">{svg}</div>
+            <div class="cat-info">
+                <div class="cat-name">{display_name}</div>
+                <div class="cat-count gold">{count} designs</div>
+            </div>
+        </div>"""
+
+    return f"""<!DOCTYPE html><html><head><style>
+    {_base_css()}
+    .head {{ text-align:center; padding:80px 0 50px; }}
+    .head h1 {{ font-size:68px; font-weight:700; letter-spacing:3px; }}
+    .head p {{ font-size:28px; margin-top:12px; }}
+    .grid {{ display:grid; grid-template-columns:1fr 1fr; gap:28px;
+             padding:0 80px; }}
+    .cat-card {{ background:var(--card); border-radius:16px; padding:28px;
+                 display:flex; align-items:center; gap:28px;
+                 border:1px solid rgba(201,168,76,0.15); }}
+    .cat-svg {{ background:rgba(255,255,255,0.04); border-radius:12px;
+                padding:10px; flex-shrink:0;
+                width:200px; height:200px;
+                display:flex; align-items:center; justify-content:center; }}
+    .cat-name {{ font-size:32px; font-weight:700; }}
+    .cat-count {{ font-size:24px; margin-top:6px; font-weight:600; }}
+    .footer {{ position:absolute; bottom:0; left:0; right:0;
+               background:var(--card); padding:30px; text-align:center;
+               font-size:22px; letter-spacing:5px; font-weight:600; }}
+    </style></head><body>
+    <div class="head">
+        <h1 class="serif gold">8 Design Categories</h1>
+        <div class="divider"></div>
+        <p class="dim">Something for every style</p>
+    </div>
+    <div class="grid">{cards}</div>
+    <div class="footer gold serif">PURPLEOCAZ &middot; FINE-LINE BOTANICAL COLLECTION</div>
     </body></html>"""

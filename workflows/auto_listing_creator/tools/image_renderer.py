@@ -15,7 +15,7 @@ from io import BytesIO
 
 from tools.design_constants import (
     EXPORT_DIR, IMG_W, IMG_H, BAND_H, TMPL_W, TMPL_H,
-    BRAND_PURPLE, DARK_BG, ACCENT_ORANGE, FONTS_CSS,
+    BRAND_PURPLE, DARK_BG, ACCENT_ORANGE, GOLD_FOIL, FONTS_CSS,
     esc, safe_filename,
 )
 from tools.html_templates import (
@@ -59,9 +59,51 @@ def render_template(browser, listing, niche, accent, safe_title):
     return path
 
 
-def render_band(browser, title, tagline, band_color, safe_title):
-    """Render the bottom title band via Playwright."""
-    html = f'''<!DOCTYPE html>
+def render_band(browser, title, tagline, band_color, safe_title,
+                 warm_variant=False):
+    """Render the bottom title band via Playwright.
+
+    Args:
+        warm_variant: When True renders a warm beige band (#E8D5B7) with
+                      dark text and a white tagline bar — matching the
+                      premium Etsy appointment-card mockup style.
+    """
+    if warm_variant:
+        html = f'''<!DOCTYPE html>
+<html><head><meta charset="utf-8">
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;700;800&display=swap');
+* {{ margin:0; padding:0; box-sizing:border-box; }}
+html, body {{ width:{IMG_W}px; height:{BAND_H}px; overflow:hidden; }}
+body {{
+    background: #E8D5B7;
+    display: flex; flex-direction: column;
+    justify-content: center; align-items: center;
+    text-align: center; padding: 40px 160px; gap: 30px;
+}}
+.title {{
+    font-family: 'Montserrat', sans-serif;
+    font-size: 82px; font-weight: 800;
+    color: #1C1C1C; line-height: 1.15;
+    letter-spacing: 2px;
+}}
+.tagline-bar {{
+    background: #FFFFFF;
+    padding: 18px 50px;
+    border-radius: 4px;
+}}
+.tagline {{
+    font-family: 'Montserrat', sans-serif;
+    font-size: 26px; font-weight: 700;
+    color: #1C1C1C; letter-spacing: 4px;
+    text-transform: uppercase;
+}}
+</style></head><body>
+<div class="title">{esc(title)}</div>
+<div class="tagline-bar"><div class="tagline">{esc(tagline)}</div></div>
+</body></html>'''
+    else:
+        html = f'''<!DOCTYPE html>
 <html><head><meta charset="utf-8">
 <style>
 @import url('https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700;900&family=Montserrat:wght@400;600&display=swap');
@@ -103,8 +145,16 @@ body {{
     return path
 
 
-def render_badge(browser, text_top, text_bottom, safe_title):
-    """Render an orange circular badge via Playwright."""
+def render_badge(browser, text_top, text_bottom, safe_title,
+                  badge_color=None):
+    """Render a circular badge via Playwright.
+
+    Args:
+        badge_color: Override the badge background colour. Defaults to
+                     ACCENT_ORANGE. Pass '#2C2C2C' for the dark-gray
+                     variant used on warm/gold mockups.
+    """
+    bg = badge_color or ACCENT_ORANGE
     size = 240
     html = f'''<!DOCTYPE html>
 <html><head><meta charset="utf-8">
@@ -115,7 +165,7 @@ html, body {{ width:{size}px; height:{size}px; overflow:hidden; background: tran
 .badge {{
     width: {size}px; height: {size}px;
     border-radius: 50%;
-    background: {ACCENT_ORANGE};
+    background: {bg};
     display: flex; flex-direction: column;
     justify-content: center; align-items: center;
     gap: 2px;

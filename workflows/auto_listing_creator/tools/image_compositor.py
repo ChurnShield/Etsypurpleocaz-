@@ -11,15 +11,22 @@ import shutil
 
 from tools.design_constants import (
     EXPORT_DIR, IMG_W, IMG_H, BAND_H, TMPL_W, TMPL_H,
-    DARK_BG_RGB, BOILERPLATE_PAGES,
+    DARK_BG_RGB, BOILERPLATE_PAGES, BEIGE_RGB,
 )
 
 
-def composite_hero(template_path, band_path, badge_path, safe_title):
-    """Composite the hero image (page 1) with dark background."""
+def composite_hero(template_path, band_path, badge_path, safe_title,
+                    light_bg=False):
+    """Composite the hero image (page 1).
+
+    Args:
+        light_bg: When True uses a warm beige/fabric background matching
+                  the Etsy flat-lay mockup aesthetic instead of dark.
+    """
     from PIL import Image, ImageDraw, ImageFilter
 
-    hero = Image.new("RGBA", (IMG_W, IMG_H), DARK_BG_RGB + (255,))
+    bg_rgb = BEIGE_RGB if light_bg else DARK_BG_RGB
+    hero = Image.new("RGBA", (IMG_W, IMG_H), bg_rgb + (255,))
 
     template = Image.open(template_path).convert("RGBA")
 

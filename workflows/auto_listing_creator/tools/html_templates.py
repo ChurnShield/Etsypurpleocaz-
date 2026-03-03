@@ -7,14 +7,20 @@
 
 from tools.design_constants import (
     FONTS_CSS, TMPL_W, TMPL_H,
-    DARK_BG, DARK_CARD, ACCENT_ORANGE, ACCENT_GOLD, esc,
+    DARK_BG, DARK_CARD, ACCENT_ORANGE, ACCENT_GOLD, GOLD_FOIL, esc,
 )
 
 
-# -- Appointment Card (two-panel front/back with torn paper edges) -----------
+# -- Appointment Card (black + gold foil split with torn-paper edge) ---------
 
 def tmpl_appointment_card():
-    """B&W appointment card with torn paper edges on black background."""
+    """Black + gold foil split appointment card with torn-paper diagonal edge.
+
+    Matches the premium Etsy template aesthetic: left 38% gold foil texture,
+    right 62% solid black, separated by an irregular torn-paper polygon.
+    Front: script title, form fields (NAME/DATE/TIME), weekday selector.
+    Back: circular logo placeholder, script title, contact block.
+    """
     return f'''<!DOCTYPE html>
 <html><head><meta charset="utf-8">
 <style>
@@ -22,168 +28,214 @@ def tmpl_appointment_card():
 * {{ margin:0; padding:0; box-sizing:border-box; }}
 html, body {{ width:{TMPL_W}px; height:{TMPL_H}px; overflow:hidden; }}
 body {{
-    background: #000;
+    background: #0D0D0D;
     display: flex;
     align-items: center;
     justify-content: center;
     gap: 50px;
     padding: 20px 50px;
 }}
+
+/* ---------- shared card shell ---------- */
 .face {{
     position: relative;
     width: 880px; height: 890px;
+    border-radius: 16px;
+    overflow: hidden;
 }}
-.front-card, .back-card {{
-    width: 100%; height: 100%;
-    background: #F5F2ED;
-    clip-path: polygon(
-        0% 1%, 2% 0%, 5% 1.5%, 7% 0.3%, 10% 1%, 13% 0%,
-        16% 1.2%, 19% 0.5%, 22% 1.8%, 25% 0%, 28% 0.8%,
-        31% 0.2%, 34% 1.5%, 37% 0%, 40% 1%, 43% 0.3%,
-        46% 1.2%, 49% 0%, 52% 1.6%, 55% 0.4%, 58% 1%,
-        61% 0%, 64% 1.3%, 67% 0.2%, 70% 0.9%, 73% 0%,
-        76% 1.5%, 79% 0.3%, 82% 1.1%, 85% 0%, 88% 0.7%,
-        91% 0.1%, 94% 1.4%, 97% 0%, 100% 0.8%,
-        100% 2%, 99.5% 5%, 100% 8%, 99.3% 11%, 100% 14%,
-        99.7% 17%, 100% 20%, 99.4% 23%, 100% 26%, 99.8% 29%,
-        100% 32%, 99.2% 35%, 100% 38%, 99.6% 41%, 100% 44%,
-        99.3% 47%, 100% 50%, 99.7% 53%, 100% 56%, 99.1% 59%,
-        100% 62%, 99.5% 65%, 100% 68%, 99.4% 71%, 100% 74%,
-        99.8% 77%, 100% 80%, 99.2% 83%, 100% 86%, 99.6% 89%,
-        100% 92%, 99.3% 95%, 100% 98%, 99.5% 100%,
-        97% 99.2%, 94% 100%, 91% 99.5%, 88% 100%, 85% 99.1%,
-        82% 100%, 79% 99.6%, 76% 100%, 73% 99.3%, 70% 100%,
-        67% 99.8%, 64% 100%, 61% 99.2%, 58% 100%, 55% 99.5%,
-        52% 100%, 49% 99.7%, 46% 100%, 43% 99.1%, 40% 100%,
-        37% 99.4%, 34% 100%, 31% 99.6%, 28% 100%, 25% 99.2%,
-        22% 100%, 19% 99.8%, 16% 100%, 13% 99.3%, 10% 100%,
-        7% 99.7%, 4% 100%, 1% 99.1%, 0% 100%,
-        0.5% 97%, 0% 94%, 0.7% 91%, 0% 88%, 0.4% 85%,
-        0% 82%, 0.8% 79%, 0% 76%, 0.3% 73%, 0% 70%,
-        0.6% 67%, 0% 64%, 0.5% 61%, 0% 58%, 0.9% 55%,
-        0% 52%, 0.4% 49%, 0% 46%, 0.7% 43%, 0% 40%,
-        0.3% 37%, 0% 34%, 0.8% 31%, 0% 28%, 0.5% 25%,
-        0% 22%, 0.6% 19%, 0% 16%, 0.4% 13%, 0% 10%,
-        0.7% 7%, 0% 4%
-    );
-    display: flex; flex-direction: column;
-}}
-.front-card::before, .back-card::before {{
-    content: '';
+
+/* ---------- gold / black split background ---------- */
+.card-split {{
     position: absolute; inset: 0;
-    background: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.03'/%3E%3C/svg%3E");
-    pointer-events: none;
-    z-index: 1;
+    display: flex;
 }}
+.gold-side {{
+    width: 38%; height: 100%;
+    background:
+        url("data:image/svg+xml,%3Csvg viewBox='0 0 300 300' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='f'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.65' numOctaves='5' stitchTiles='stitch'/%3E%3CfeColorMatrix type='saturate' values='0.3'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23f)' opacity='0.18'/%3E%3C/svg%3E"),
+        linear-gradient(135deg, #E8D5A8 0%, {GOLD_FOIL} 30%, #B8944A 55%, {GOLD_FOIL} 75%, #E8D5A8 100%);
+}}
+.black-side {{
+    width: 62%; height: 100%;
+    background: #0F0F0F;
+}}
+
+/* ---------- torn-paper diagonal edge overlay ---------- */
+.torn-edge {{
+    position: absolute;
+    top: 0; left: 34%; width: 12%; height: 100%;
+    z-index: 2;
+    background: #0F0F0F;
+    clip-path: polygon(
+        40% 0%, 35% 2%, 42% 4%, 32% 6%, 44% 8%,
+        30% 10%, 38% 12%, 28% 14%, 40% 16%, 26% 18%,
+        36% 20%, 24% 22%, 38% 24%, 22% 26%, 34% 28%,
+        20% 30%, 32% 32%, 18% 34%, 30% 36%, 16% 38%,
+        28% 40%, 14% 42%, 26% 44%, 12% 46%, 24% 48%,
+        10% 50%, 22% 52%, 8% 54%, 20% 56%, 6% 58%,
+        18% 60%, 4% 62%, 16% 64%, 2% 66%, 14% 68%,
+        0% 70%, 12% 72%, 0% 74%, 10% 76%, 0% 78%,
+        8% 80%, 0% 82%, 6% 84%, 0% 86%, 4% 88%,
+        0% 90%, 2% 92%, 0% 94%, 0% 96%, 0% 98%, 0% 100%,
+        100% 100%, 100% 0%
+    );
+}}
+
+/* ---------- content layer (above split) ---------- */
+.card-content {{
+    position: relative; z-index: 3;
+    width: 100%; height: 100%;
+    display: flex; flex-direction: column;
+}}
+
+/* === FRONT CARD === */
 .front-body {{
-    flex: 1; padding: 60px 55px 50px;
+    flex: 1;
+    padding: 65px 55px 50px 400px;
     display: flex; flex-direction: column;
-    justify-content: space-between;
-    position: relative;
-}}
-.studio-name {{
-    font-family: 'Oswald', sans-serif;
-    font-size: 48px; font-weight: 700;
-    color: #111; letter-spacing: 4px;
-    text-transform: uppercase; line-height: 1.1;
-}}
-.studio-sub {{
-    font-family: 'Montserrat', sans-serif;
-    font-size: 13px; font-weight: 600;
-    color: #555; letter-spacing: 6px;
-    text-transform: uppercase; margin-top: 12px;
-}}
-.front-line {{
-    width: 80px; height: 3px;
-    background: #111; margin: 30px 0;
-}}
-.contacts {{ display: flex; flex-direction: column; gap: 16px; }}
-.c-row {{
-    display: flex; align-items: center; gap: 14px;
-    font-family: 'Montserrat', sans-serif;
-    font-size: 14px; color: #444; letter-spacing: 0.5px;
-}}
-.c-icon {{
-    width: 20px; height: 20px;
-    display: flex; align-items: center;
     justify-content: center;
-    flex-shrink: 0;
-    font-size: 14px; color: #222;
+    gap: 28px;
 }}
+.front-title {{
+    font-family: 'Great Vibes', cursive;
+    font-size: 52px;
+    color: #FFFFFF;
+    line-height: 1.2;
+}}
+.form-group {{
+    display: flex; flex-direction: column; gap: 20px;
+}}
+.form-row {{
+    display: flex; align-items: center; gap: 12px;
+}}
+.form-label {{
+    font-family: 'Montserrat', sans-serif;
+    font-size: 12px; font-weight: 700;
+    color: #FFFFFF; letter-spacing: 2px;
+    text-transform: uppercase;
+    white-space: nowrap;
+    min-width: 60px;
+}}
+.form-field {{
+    flex: 1; height: 24px;
+    background: #FFFFFF;
+    border-radius: 4px;
+}}
+.weekday-row {{
+    display: flex; gap: 10px;
+    margin-top: 12px;
+}}
+.day-btn {{
+    width: 62px; height: 30px;
+    background: #FFFFFF;
+    border-radius: 6px;
+    display: flex; align-items: center; justify-content: center;
+    font-family: 'Montserrat', sans-serif;
+    font-size: 10px; font-weight: 700;
+    color: #1C1C1C; letter-spacing: 1px;
+}}
+
+/* === BACK CARD === */
 .back-body {{
-    flex: 1; padding: 55px 55px 45px;
+    flex: 1;
+    padding: 50px 55px 50px 400px;
     display: flex; flex-direction: column;
-    position: relative;
+    align-items: center;
+    justify-content: center;
+    gap: 20px;
 }}
-.appt-h {{
-    font-family: 'Oswald', sans-serif;
-    font-size: 40px; font-weight: 700;
-    color: #111; letter-spacing: 8px;
-    text-transform: uppercase; text-align: center;
+.logo-circle {{
+    width: 150px; height: 150px;
+    border-radius: 50%;
+    border: 3px solid #FFFFFF;
+    display: flex; flex-direction: column;
+    align-items: center; justify-content: center;
+    gap: 4px;
 }}
-.appt-sub {{
+.logo-text {{
     font-family: 'Montserrat', sans-serif;
-    font-size: 11px; color: #777;
-    text-align: center; letter-spacing: 2px;
+    font-size: 10px; font-weight: 600;
+    color: #FFFFFF; letter-spacing: 2px;
     text-transform: uppercase;
-    margin-top: 8px; margin-bottom: 35px;
+    text-align: center;
 }}
-.back-line {{
-    width: 50px; height: 3px;
-    background: #111;
-    margin: 0 auto 35px;
+.back-title {{
+    font-family: 'Great Vibes', cursive;
+    font-size: 42px;
+    color: #FFFFFF;
+    text-align: center;
 }}
-.fields {{ flex: 1; display: flex; flex-direction: column; justify-content: space-between; }}
-.fg {{ display: flex; flex-direction: column; gap: 8px; }}
-.fl {{
+.contact-block {{
+    display: flex; flex-direction: column;
+    align-items: center; gap: 10px;
+    margin-top: 10px;
+}}
+.contact-line {{
     font-family: 'Montserrat', sans-serif;
-    font-size: 11px; font-weight: 700;
-    color: #333; letter-spacing: 3px;
-    text-transform: uppercase;
-}}
-.fline {{ height: 1px; background: #CCC; }}
-.corner-brand {{
-    position: absolute; bottom: 30px; right: 40px;
-    font-family: 'Montserrat', sans-serif;
-    font-size: 9px; color: #BBB;
-    letter-spacing: 3px; text-transform: uppercase;
+    font-size: 13px; color: #FFFFFF;
+    letter-spacing: 0.5px;
 }}
 </style></head><body>
+
+<!-- ====== FRONT CARD ====== -->
 <div class="face">
-    <div class="front-card">
+    <div class="card-split">
+        <div class="gold-side"></div>
+        <div class="black-side"></div>
+    </div>
+    <div class="torn-edge"></div>
+    <div class="card-content">
         <div class="front-body">
-            <div>
-                <div class="studio-name">Your Studio<br>Name</div>
-                <div class="studio-sub">Tattoo &amp; Piercing</div>
-                <div class="front-line"></div>
+            <div class="front-title">Appointment Card</div>
+            <div class="form-group">
+                <div class="form-row">
+                    <div class="form-label">NAME:</div>
+                    <div class="form-field"></div>
+                </div>
+                <div class="form-row">
+                    <div class="form-label">DATE:</div>
+                    <div class="form-field"></div>
+                </div>
+                <div class="form-row">
+                    <div class="form-label">TIME:</div>
+                    <div class="form-field"></div>
+                </div>
             </div>
-            <div class="contacts">
-                <div class="c-row"><div class="c-icon">&#9993;</div> email@yourstudio.com</div>
-                <div class="c-row"><div class="c-icon">&#9742;</div> +1 (234) 567-890</div>
-                <div class="c-row"><div class="c-icon">&#9758;</div> www.yourstudio.com</div>
-                <div class="c-row"><div class="c-icon">&#9679;</div> 123 Ink Street, Any City</div>
+            <div class="weekday-row">
+                <div class="day-btn">MON</div>
+                <div class="day-btn">TUE</div>
+                <div class="day-btn">WED</div>
+                <div class="day-btn">THU</div>
+                <div class="day-btn">FRI</div>
+                <div class="day-btn">SAT</div>
             </div>
-            <div class="corner-brand">Editable Template</div>
         </div>
     </div>
 </div>
+
+<!-- ====== BACK CARD ====== -->
 <div class="face">
-    <div class="back-card">
+    <div class="card-split">
+        <div class="gold-side"></div>
+        <div class="black-side"></div>
+    </div>
+    <div class="torn-edge"></div>
+    <div class="card-content">
         <div class="back-body">
-            <div class="appt-h">Appointment</div>
-            <div class="appt-sub">Please keep this card for your records</div>
-            <div class="back-line"></div>
-            <div class="fields">
-                <div class="fg"><div class="fl">Client Name</div><div class="fline"></div></div>
-                <div class="fg"><div class="fl">Date</div><div class="fline"></div></div>
-                <div class="fg"><div class="fl">Time</div><div class="fline"></div></div>
-                <div class="fg"><div class="fl">Artist</div><div class="fline"></div></div>
-                <div class="fg"><div class="fl">Notes</div><div class="fline"></div></div>
+            <div class="logo-circle">
+                <div class="logo-text">LOGO</div>
+                <div class="logo-text">HERE</div>
             </div>
-            <div class="corner-brand">Editable Template</div>
+            <div class="back-title">Book Appointment</div>
+            <div class="contact-block">
+                <div class="contact-line">name@yourbusiness.com</div>
+                <div class="contact-line">555-555-5555</div>
+                <div class="contact-line">WWW.YOURBUSINESS.COM</div>
+            </div>
         </div>
     </div>
 </div>
+
 </body></html>'''
 
 

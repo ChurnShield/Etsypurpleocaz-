@@ -279,19 +279,27 @@ class ProductCreatorTool(BaseTool):
                 os.path.join(canva_dir, os.path.basename(template_path)),
             )
 
+        # Appointment cards use the warm beige variant (gold/black split)
+        is_appointment = "appointment" in product_type.lower()
+
         # Step 2: Render bottom band
         print("       Rendering title band...", flush=True)
         band_path = render_band(
             browser, hero_title, tagline, accent["band"], safe_title,
+            warm_variant=is_appointment,
         )
 
         # Step 3: Render badge
-        badge_path = render_badge(browser, "EDIT IN", "CANVA", safe_title)
+        badge_path = render_badge(
+            browser, "EDIT IN", "CANVA", safe_title,
+            badge_color="#2C2C2C" if is_appointment else None,
+        )
 
         # Step 4: Composite hero image (page 1)
         print("       Compositing hero image...", flush=True)
         hero_path = composite_hero(
             template_path, band_path, badge_path, safe_title,
+            light_bg=is_appointment,
         )
 
         # Step 5: Create page 2 (What You Get)

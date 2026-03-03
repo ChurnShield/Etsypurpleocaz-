@@ -32,6 +32,8 @@ DARK_CARD = "#1A1A1A"
 DARK_BG_RGB = (13, 13, 13)
 ACCENT_ORANGE = "#FF6B00"
 ACCENT_GOLD = "#C9A84C"
+GOLD_FOIL = "#D4AF77"          # Metallic gold foil base (crinkled texture)
+GOLD_FOIL_RGB = (212, 175, 119)
 
 # ---- Shared Google Fonts import --------------------------------------------
 FONTS_CSS = (

@@ -14,7 +14,7 @@ import urllib.error
 
 GEMINI_API_URL = (
     "https://generativelanguage.googleapis.com/v1beta/models/"
-    "gemini-2.5-flash-image:generateContent"
+    "gemini-3.1-flash-image-preview:generateContent"
 )
 
 # ---------------------------------------------------------------------------
@@ -182,7 +182,7 @@ _DEFAULT_PROMPT_PARTS = {
 
 def generate_product_image(api_key, prompt, aspect_ratio="3:4",
                            image_size="2K", max_retries=2):
-    """Call Gemini 2.5 Flash to generate a product mockup image.
+    """Call Gemini 3.1 Flash to generate a product mockup image.
 
     Args:
         api_key: Gemini API key (never logged).

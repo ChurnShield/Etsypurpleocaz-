@@ -112,12 +112,13 @@ def _update_workflow_stats(db, wid, success):
 
 def main():
     print(f"\n{'=' * 60}")
-    print(f"  Workflow : {WORKFLOW_NAME}")
-    print(f"  Product  : Fine-Line Botanical Tattoo SVG/PNG Bundle")
-    print(f"  Generator: {'AI (Gemini + potrace)' if USE_AI_GENERATOR else 'Code (svgwrite)'}")
+    print(f"  Workflow  : {WORKFLOW_NAME}")
+    print(f"  Product   : Fine-Line Botanical Tattoo SVG/PNG Bundle")
+    print(f"  Generator : {'AI (Gemini + potrace)' if USE_AI_GENERATOR else 'Code (svgwrite)'}")
+    print(f"  Thumbnails: {'AI (Nano Banana 3.1)' if GEMINI_API_KEY else 'HTML/Playwright'}")
     if CATEGORY_FILTER:
-        print(f"  Filter   : {CATEGORY_FILTER}")
-    print(f"  Output   : {OUTPUT_DIR}")
+        print(f"  Filter    : {CATEGORY_FILTER}")
+    print(f"  Output    : {OUTPUT_DIR}")
     print(f"{'=' * 60}")
 
     os.makedirs(OUTPUT_DIR, exist_ok=True)
@@ -234,12 +235,14 @@ def main():
                 "output_dir": OUTPUT_DIR,
                 "design_count": design_count,
                 "category_counts": category_counts,
+                "gemini_api_key": GEMINI_API_KEY,
             },
         )
 
         if thumb_result["success"]:
             thumb_data = thumb_result["data"]
-            print(f"     Thumbnails: {thumb_data['count']} pages generated")
+            method = thumb_data.get("method", "unknown")
+            print(f"     Thumbnails: {thumb_data['count']} pages generated ({method})")
             overall_success = True
         else:
             # Thumbnails are nice-to-have; bundle is still usable

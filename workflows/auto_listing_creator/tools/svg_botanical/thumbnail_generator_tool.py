@@ -1,30 +1,28 @@
 # =============================================================================
 # thumbnail_generator_tool.py
 #
-# BaseTool generating 7 Etsy listing images at 2250x3000px.
+# BaseTool generating 7 Etsy listing images at 2250x3000px using Gemini AI
+# (Nano Banana) for professional product photography.
 #
-# Design principles:
-#   - Light backgrounds (#F5F5F5) for ALL pages — high contrast, readable
-#   - SVG designs displayed prominently — this is the product
-#   - Minimal dead space — content fills the frame
-#   - Purple accents for brand consistency
-#   - NO appointment card / gift certificate elements
+# Primary: Gemini 3.1 Flash generates all 7 pages as AI product photography
+# Fallback: HTML/Playwright rendering (if Gemini unavailable)
 #
-# Page 1: Hero (large SVG grid, count badge, purple banner)
-# Page 2: "What You Get" (5 format cards, file count math, SVG grid)
-# Page 3: "Please Note" (4 bullet items, commercial license badge)
-# Page 4: "Endless Possibilities" (use-case showcase with SVGs)
-# Page 5: Category Preview (category cards with SVG samples)
+# Page 1: Hero (flat-lay botanical grid, count badge, purple banner)
+# Page 2: "What You Get" (5 format cards, file math, sample designs)
+# Page 3: "Please Note" (4 info bullets, commercial license badge)
+# Page 4: "Endless Possibilities" (use-case showcase with designs)
+# Page 5: Category Preview (8 category cards with sample designs)
 # Page 6: "Leave a Review" (5-star rating, 3-step instructions)
 # Page 7: "Thank You" (appreciation + brand footer)
 # =============================================================================
 
+import io
 import os
 import re
-from typing import Any, Dict
+from typing import Any, Dict, List, Tuple
 
 from lib.orchestrator.base_tool import BaseTool
-from config import PLAYWRIGHT_PAGE_TIMEOUT_MS
+from config import GEMINI_API_KEY, PLAYWRIGHT_PAGE_TIMEOUT_MS
 
 IMG_W, IMG_H = 2250, 3000
 
@@ -47,7 +45,7 @@ FONTS_CSS = (
 
 
 class ThumbnailGeneratorTool(BaseTool):
-    """Generate 7 Etsy listing thumbnail images with brand-aligned aesthetic."""
+    """Generate 7 Etsy listing thumbnail images using Gemini AI."""
 
     def get_name(self) -> str:
         return "ThumbnailGeneratorTool"
@@ -57,6 +55,7 @@ class ThumbnailGeneratorTool(BaseTool):
         output_dir = kwargs.get("output_dir", "")
         design_count = kwargs.get("design_count", 0)
         category_counts = kwargs.get("category_counts", {})
+        gemini_api_key = kwargs.get("gemini_api_key", "") or GEMINI_API_KEY
 
         if not svg_dir or not output_dir:
             return {
@@ -65,17 +64,89 @@ class ThumbnailGeneratorTool(BaseTool):
                 "tool_name": self.get_name(), "metadata": {},
             }
 
+        thumb_dir = os.path.join(output_dir, "thumbnails")
+        os.makedirs(thumb_dir, exist_ok=True)
+
+        # ── AI-powered generation (primary) ──
+        if gemini_api_key:
+            result = self._generate_ai_thumbnails(
+                gemini_api_key, thumb_dir, design_count, category_counts)
+            if result["success"]:
+                return result
+            print(f"       AI thumbnails failed: {result['error']}")
+            print(f"       Falling back to HTML/Playwright...")
+
+        # ── HTML/Playwright fallback ──
+        return self._generate_html_thumbnails(
+            svg_dir, thumb_dir, design_count, category_counts)
+
+    # =========================================================================
+    # AI-POWERED THUMBNAIL GENERATION (Gemini / Nano Banana)
+    # =========================================================================
+
+    def _generate_ai_thumbnails(
+        self, api_key: str, thumb_dir: str,
+        design_count: int, category_counts: dict
+    ) -> Dict[str, Any]:
+        """Generate all 7 pages using Gemini AI image generation."""
+        try:
+            from tools.gemini_image_client import generate_product_image
+        except ImportError:
+            return {
+                "success": False, "data": None,
+                "error": "gemini_image_client not importable",
+                "tool_name": self.get_name(), "metadata": {},
+            }
+
+        prompts = _build_ai_prompts(design_count, category_counts)
+        generated = []
+
+        for name, prompt in prompts:
+            print(f"       Generating {name} (AI)...", flush=True)
+            result = generate_product_image(
+                api_key, prompt,
+                aspect_ratio="3:4",
+                image_size="2K",
+                max_retries=2,
+            )
+
+            if not result["success"]:
+                return {
+                    "success": False, "data": None,
+                    "error": f"{name} failed: {result['error']}",
+                    "tool_name": self.get_name(), "metadata": {},
+                }
+
+            out_path = os.path.join(thumb_dir, f"{name}.png")
+            _save_and_resize(result["image_bytes"], out_path, IMG_W, IMG_H)
+            generated.append(out_path)
+            print(f"       {name}.png", flush=True)
+
+        return {
+            "success": True,
+            "data": {"count": len(generated), "paths": generated,
+                     "thumb_dir": thumb_dir, "method": "ai"},
+            "error": None, "tool_name": self.get_name(),
+            "metadata": {"pages": len(generated), "method": "ai"},
+        }
+
+    # =========================================================================
+    # HTML/PLAYWRIGHT FALLBACK
+    # =========================================================================
+
+    def _generate_html_thumbnails(
+        self, svg_dir: str, thumb_dir: str,
+        design_count: int, category_counts: dict,
+    ) -> Dict[str, Any]:
+        """Fallback: render HTML pages via Playwright screenshots."""
         try:
             from playwright.sync_api import sync_playwright
         except ImportError:
             return {
                 "success": False, "data": None,
-                "error": "playwright not installed",
+                "error": "playwright not installed (and Gemini unavailable)",
                 "tool_name": self.get_name(), "metadata": {},
             }
-
-        thumb_dir = os.path.join(output_dir, "thumbnails")
-        os.makedirs(thumb_dir, exist_ok=True)
 
         samples = _collect_sample_svgs(svg_dir, max_per_cat=4)
         cat_samples = _collect_category_samples(svg_dir)
@@ -109,7 +180,7 @@ class ThumbnailGeneratorTool(BaseTool):
                     )
                     page.close()
                     generated.append(out_path)
-                    print(f"       {name}.png")
+                    print(f"       {name}.png (HTML)")
                 browser.close()
         except Exception as e:
             return {
@@ -120,13 +191,351 @@ class ThumbnailGeneratorTool(BaseTool):
         return {
             "success": True,
             "data": {"count": len(generated), "paths": generated,
-                     "thumb_dir": thumb_dir},
+                     "thumb_dir": thumb_dir, "method": "html"},
             "error": None, "tool_name": self.get_name(),
-            "metadata": {"pages": len(generated)},
+            "metadata": {"pages": len(generated), "method": "html"},
         }
 
 
-# ── Helpers ──────────────────────────────────────────────────────────────────
+# =============================================================================
+# AI PROMPT BUILDERS
+# =============================================================================
+
+def _build_ai_prompts(
+    design_count: int, category_counts: dict
+) -> List[Tuple[str, str]]:
+    """Build Gemini prompts for all 7 listing pages."""
+    count_str = f"{design_count}+" if design_count >= 100 else str(design_count)
+    total_files = design_count * 5
+    cat_names = sorted(category_counts.keys())
+    cat_list = ", ".join(n.replace("-", " ").title() for n in cat_names)
+    cat_detail = "  ".join(
+        f"{n.replace('-', ' ').title()} ({category_counts[n]} designs),"
+        for n in cat_names
+    )
+
+    return [
+        ("01-Hero", _prompt_hero(count_str, cat_list)),
+        ("02-What-You-Get", _prompt_what_you_get(count_str, total_files)),
+        ("03-Please-Note", _prompt_please_note()),
+        ("04-Usage-Ideas", _prompt_usage_ideas()),
+        ("05-Categories", _prompt_categories(cat_detail, len(cat_names))),
+        ("06-Leave-Review", _prompt_leave_review()),
+        ("07-Thank-You", _prompt_thank_you()),
+    ]
+
+
+def _prompt_hero(count_str: str, cat_list: str) -> str:
+    return (
+        "A stunning professional product photography flat-lay for an Etsy "
+        "digital product listing, shot from directly above. "
+
+        "SCENE: Warm cream/beige textured linen fabric background, natural "
+        "and tactile. Soft diffused natural light from the top-left creates "
+        "gentle shadows. "
+
+        "CENTER ARRANGEMENT: 9 white paper cards arranged in a loose 3x3 "
+        "scattered grid on the linen surface. Each card is slightly rotated "
+        "at a casual angle (as if hand-placed on a desk) with subtle drop "
+        "shadows. Each white card displays a DIFFERENT fine-line botanical "
+        "tattoo design in pure black ink. The designs are: "
+        "Top row: an open rose with layered petals, a daisy with detailed "
+        "center, a lavender sprig with small buds. "
+        "Middle row: a wildflower bouquet tied with a ribbon, a circular "
+        "floral wreath made of mixed blooms and leaves, a peony in full bloom. "
+        "Bottom row: a birth flower (carnation), a eucalyptus branch with "
+        "round leaves, a delicate butterfly with floral wings. "
+
+        "DESIGN STYLE: Every botanical illustration is FINE-LINE ART — "
+        "thin delicate black lines only, no color fills, no shading, no "
+        "watercolor, no gradients. Think professional tattoo flash sheet "
+        "style. Clean, minimalist, elegant line work. "
+
+        "PROPS: Small sprigs of real dried eucalyptus and dried lavender "
+        "stems scattered naturally around the edges of the frame. A small "
+        "spool of natural jute twine. One or two dried pressed flowers. "
+        "All props partially cropped at frame edges for depth. "
+
+        f"BOTTOM BANNER: A bold solid deep purple (#6B3E9E) banner "
+        f"spanning the full width of the image at the very bottom "
+        f"(approximately bottom 25%). "
+        f"Centered white text on the purple banner: "
+        f"Line 1 (very large, bold serif font): '{count_str} Fine-Line Botanical' "
+        f"Line 2 (large, italic serif): 'Tattoo Designs' "
+        f"Line 3 (small, uppercase, widely spaced sans-serif): "
+        f"'SVG  ·  PNG  ·  DXF  ·  PDF  ·  EPS' "
+
+        "TOP-RIGHT CORNER: A small rounded purple (#6B3E9E) badge with "
+        "white uppercase text 'INSTANT DOWNLOAD'. "
+
+        "The overall image must look like premium Etsy product photography — "
+        "warm, inviting, and professionally styled. Crisp details, natural "
+        "textures, 300 DPI quality. "
+        "Do NOT include any human hands, fingers, or body parts. "
+        "Do NOT include any phones, tablets, or device screens."
+    )
+
+
+def _prompt_what_you_get(count_str: str, total_files: int) -> str:
+    return (
+        "A professional Etsy listing infographic image with a clean, modern "
+        "design on a light cream/off-white (#F5F5F0) background. "
+
+        "TOP SECTION: Large elegant serif heading 'What You Get' in dark "
+        "charcoal text, centered. Below it, a thin purple (#6B3E9E) "
+        "decorative line divider. "
+
+        "FORMAT CARDS ROW: 5 white rounded cards arranged horizontally in "
+        "a single row with subtle drop shadows. Each card has: "
+        "a large bold purple (#6B3E9E) format label at top, a smaller "
+        "description below in dark text, and a subtle note in grey. "
+        "Card 1: 'SVG' — 'Scalable Vector' — 'Illustrator / Inkscape' "
+        "Card 2: 'PNG' — '4096 x 4096' — 'Transparent background' "
+        "Card 3: 'DXF' — 'CAD Format' — 'Cricut & Silhouette ready' "
+        "Card 4: 'PDF' — 'Print Ready' — 'Professional printing' "
+        "Card 5: 'EPS' — 'Professional' — 'Industry-standard vector' "
+
+        "MATH EQUATION: Below the cards, a visual equation in large "
+        "bold purple serif numerals: "
+        f"'{count_str}' (with 'Designs' underneath) "
+        f"'x' (multiplication symbol) "
+        f"'5' (with 'Formats' underneath) "
+        f"'=' (equals sign) "
+        f"'{total_files}+' (with 'Total Files' underneath) "
+
+        "BOTTOM SECTION: A 4x4 grid of small white cards, each showing "
+        "a different fine-line botanical design in black ink. Designs include "
+        "roses, daisies, lavender, wildflowers, wreaths, bouquets, ferns, "
+        "eucalyptus, peonies, birth flowers, butterflies with floral wings, "
+        "and other delicate botanical line art. Each design is pure fine-line "
+        "art — thin black lines, no fills, no color, no shading. "
+
+        "Purple (#6B3E9E) accent colors throughout for brand consistency. "
+        "Clean professional typography using a serif font for headings "
+        "and sans-serif for body text. "
+        "The image should look like a high-end Etsy product listing slide. "
+        "Do NOT include any human hands, fingers, or body parts."
+    )
+
+
+def _prompt_please_note() -> str:
+    return (
+        "A professional Etsy listing information slide with a clean, "
+        "elegant design on a light cream/off-white (#F5F5F0) background. "
+
+        "TOP: Large elegant serif heading 'Please Note' in dark charcoal, "
+        "centered. Below it, a thin purple (#6B3E9E) decorative line divider. "
+
+        "FOUR INFO CARDS: Stacked vertically with generous spacing between "
+        "them. Each card is a wide white rounded rectangle with a subtle "
+        "drop shadow and a bold purple (#6B3E9E) left border (5px). "
+        "Each card has: a purple circle with a white number (1, 2, 3, 4) "
+        "on the left, then bold title text and a lighter description: "
+        "Card 1: 'Digital Download Product' — 'Instant access after "
+        "purchase — download from your Etsy receipt' "
+        "Card 2: 'No Physical Product Shipped' — 'All designs are "
+        "delivered as digital files only' "
+        "Card 3: '5 File Formats Included' — 'SVG, PNG, DXF, PDF & "
+        "EPS — works with Cricut & Silhouette' "
+        "Card 4: 'Black Line Art on Transparent' — 'Perfect for tattoo "
+        "stencils, cutting machines & printing' "
+
+        "BOTTOM: A prominent white card with a purple (#6B3E9E) border, "
+        "centered text reading: "
+        "'COMMERCIAL LICENSE INCLUDED' in bold purple with star symbols "
+        "on each side. Below it in smaller grey text: "
+        "'Personal & commercial use permitted'. "
+
+        "FOOTER: Small faded purple text 'PURPLEOCAZ' in elegant "
+        "widely-spaced serif letters. "
+
+        "The overall design is clean, readable, and professional. "
+        "Purple (#6B3E9E) accent color throughout. "
+        "Serif font for headings, clean sans-serif for body text. "
+        "Do NOT include any botanical designs or flowers on this page. "
+        "Do NOT include any human hands, fingers, or body parts."
+    )
+
+
+def _prompt_usage_ideas() -> str:
+    return (
+        "A professional Etsy listing slide showcasing usage ideas, "
+        "with a clean design on a light cream/off-white (#F5F5F0) background. "
+
+        "TOP: Large elegant serif heading 'Endless Possibilities' in "
+        "purple (#6B3E9E), centered. Below it, a thin purple decorative "
+        "line divider. "
+
+        "FOUR USE-CASE CARDS: Arranged in a 2x2 grid with generous spacing. "
+        "Each card is a white rounded rectangle with subtle shadow. "
+        "Each card has a top illustration area showing a relevant scene "
+        "with fine-line botanical designs, separated by a thin purple line "
+        "from the text below. "
+
+        "Card 1 (top-left): Illustration shows fine-line botanical designs "
+        "arranged as tattoo flash art on paper. "
+        "Title: 'Tattoo Stencils' in bold purple. "
+        "Description: 'Fine-line tattoo references & flash art' in grey. "
+
+        "Card 2 (top-right): Illustration shows botanical designs being "
+        "cut on a cutting machine mat. "
+        "Title: 'Cricut & Cutting' in bold purple. "
+        "Description: 'SVG & DXF ready for cutting machines' in grey. "
+
+        "Card 3 (bottom-left): Illustration shows a framed botanical "
+        "print hanging on a wall in a modern room. "
+        "Title: 'Wall Art & Prints' in bold purple. "
+        "Description: 'High-res PNG for gallery-quality prints' in grey. "
+
+        "Card 4 (bottom-right): Illustration shows botanical designs "
+        "printed on t-shirts and tote bags. "
+        "Title: 'Apparel & Products' in bold purple. "
+        "Description: 'Sublimation, embroidery & engraving' in grey. "
+
+        "BOTTOM: A row of rounded pill-shaped badges in purple outline: "
+        "'Stickers' 'Invitations' 'Journals' 'Engraving' "
+        "'Embroidery' 'Nail Art' 'Logos' 'Decals' "
+        "Text above pills: 'Also perfect for' in grey sans-serif. "
+
+        "All botanical designs shown are fine-line art style — thin black "
+        "lines, no fills, no color. "
+        "Purple (#6B3E9E) accent color throughout. Clean professional layout. "
+        "Do NOT include any human hands, fingers, or body parts."
+    )
+
+
+def _prompt_categories(cat_detail: str, cat_count: int) -> str:
+    return (
+        "A professional Etsy listing slide showcasing design categories, "
+        "with a clean design on a light cream/off-white (#F5F5F0) background. "
+
+        f"TOP: Large elegant serif heading '{cat_count} Design Categories' in "
+        f"purple (#6B3E9E), centered. Below it, a thin purple decorative "
+        f"line divider. Subtitle: 'Something for every style' in grey. "
+
+        f"CATEGORY CARDS: Arranged in a 2-column grid (4 rows = 8 cards total). "
+        f"Each card is a white rounded rectangle with a purple left border "
+        f"and subtle shadow. Each card has a light grey square area on the "
+        f"left showing a representative fine-line botanical design, and text "
+        f"on the right with the category name in bold dark text and a purple "
+        f"design count below. "
+
+        f"The categories and their designs: {cat_detail} "
+
+        "For each category, the representative design should match: "
+        "Roses: an open rose with layered petals. "
+        "Wildflowers: a small wildflower bouquet. "
+        "Birth Flowers: a carnation or daffodil. "
+        "Botanical Stems: a eucalyptus or fern branch. "
+        "Mini: a tiny simple flower or leaf. "
+        "Wreaths and Frames: a circular floral wreath. "
+        "Bouquets: a hand-tied flower arrangement. "
+        "Decorative: a vine with berries or leaves. "
+
+        "All designs are fine-line art — thin black lines, no fills, no color. "
+
+        "FOOTER BAND: A solid purple (#6B3E9E) rounded rectangle spanning "
+        "the bottom with white text: "
+        "'PURPLEOCAZ · FINE-LINE BOTANICAL COLLECTION' in elegant "
+        "widely-spaced serif letters. "
+
+        "Purple (#6B3E9E) accent color throughout. Clean professional layout. "
+        "Do NOT include any human hands, fingers, or body parts."
+    )
+
+
+def _prompt_leave_review() -> str:
+    return (
+        "A professional Etsy listing slide requesting a review, with a "
+        "warm and inviting design on a light cream/off-white (#F5F5F0) "
+        "background. "
+
+        "TOP: Large elegant serif heading 'We'd Love Your Feedback!' in "
+        "dark charcoal, centered. Below it, a thin purple (#6B3E9E) "
+        "decorative line divider. "
+
+        "STARS: Five large 5-pointed stars in a row, all filled with "
+        "purple (#6B3E9E) color. These should be prominent and eye-catching. "
+
+        "INSTRUCTIONS CARD: A large white rounded card with subtle shadow "
+        "containing three numbered steps: "
+        "Step 1 (purple circle with white '1'): "
+        "'Go to Your Etsy Purchases' — 'Open Etsy → Your Account → "
+        "Purchases & Reviews' "
+        "Step 2 (purple circle with white '2'): "
+        "'Find This Order' — 'Click \"Write a Review\" next to your purchase' "
+        "Step 3 (purple circle with white '3'): "
+        "'Share Your Experience' — 'Your honest feedback helps other "
+        "buyers & supports our shop' "
+
+        "BOTTOM: Italic text 'Your reviews help small creators grow' "
+        "with a small heart symbol, in medium grey. "
+        "Below that, faded purple text 'PURPLEOCAZ' in elegant "
+        "widely-spaced serif letters. "
+
+        "The overall mood should be warm, friendly, and genuine. "
+        "Purple (#6B3E9E) accent color throughout. "
+        "Serif font for headings, clean sans-serif for body text. "
+        "Do NOT include any botanical designs on this page. "
+        "Do NOT include any human hands, fingers, or body parts."
+    )
+
+
+def _prompt_thank_you() -> str:
+    return (
+        "A professional Etsy listing 'Thank You' slide with an elegant, "
+        "warm design. "
+
+        "TOP 70% of the image: Light cream/off-white (#F5F5F0) background. "
+        "Centered content: "
+        "A large purple (#6B3E9E) heart symbol at the top. "
+        "Below it, very large elegant serif heading 'Thank You!' in dark "
+        "charcoal. Below that, a thin purple decorative line divider. "
+        "Subtitle: 'for supporting our small business' in lighter grey "
+        "sans-serif, elegant and understated. "
+        "Below that, a white rounded card with subtle shadow containing: "
+        "'Every purchase helps us continue creating beautiful designs "
+        "for makers, artists, and creators like you.' in medium-sized "
+        "dark text with generous line height. "
+
+        "BOTTOM 30%: A solid deep purple (#6B3E9E) footer banner spanning "
+        "the full width. Centered white text: "
+        "Line 1 (large, bold, serif, widely spaced): 'PURPLEOCAZ' "
+        "Line 2 (smaller, uppercase, sans-serif, tracking-wide): "
+        "'HANDCRAFTED DIGITAL DESIGNS' in slightly transparent white. "
+
+        "The overall mood should be warm, appreciative, and professionally "
+        "branded. Clean minimalist design. "
+        "Do NOT include any botanical designs on this page. "
+        "Do NOT include any human hands, fingers, or body parts."
+    )
+
+
+# =============================================================================
+# IMAGE SAVE / RESIZE
+# =============================================================================
+
+def _save_and_resize(image_bytes: bytes, path: str, width: int, height: int):
+    """Save Gemini output bytes as a resized PNG."""
+    from PIL import Image
+
+    img = Image.open(io.BytesIO(image_bytes))
+
+    # Ensure RGB mode for PNG save
+    if img.mode == "RGBA":
+        bg = Image.new("RGB", img.size, (255, 255, 255))
+        bg.paste(img, mask=img.split()[3])
+        img = bg
+    elif img.mode != "RGB":
+        img = img.convert("RGB")
+
+    img = img.resize((width, height), Image.LANCZOS)
+    img.save(path, "PNG", optimize=True)
+
+
+# =============================================================================
+# HTML FALLBACK HELPERS (preserved from previous version)
+# =============================================================================
 
 def _collect_sample_svgs(svg_dir, max_per_cat=4):
     samples = []

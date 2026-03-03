@@ -188,12 +188,16 @@ def _base_css():
 def _page1_hero(samples, design_count):
     count_str = f"{design_count}+" if design_count >= 100 else str(design_count)
 
-    # Scatter 12 designs across upper 60% of canvas
+    # 6 large designs in 2 clean rows — big, well-spaced, premium feel
     placements = [
-        (120, 100, 260, -8), (520, 60, 220, 5), (920, 180, 250, -12),
-        (1380, 80, 200, 10), (1740, 200, 240, -5), (280, 420, 200, 12),
-        (720, 380, 280, -6), (1130, 460, 230, 8), (1530, 400, 240, -10),
-        (380, 740, 210, 5), (880, 700, 260, -8), (1380, 720, 220, 12),
+        # Row 1: 3 designs across the width
+        (175, 120, 400, -5),
+        (925, 80, 420, 3),
+        (1675, 140, 400, -4),
+        # Row 2: offset slightly for visual rhythm
+        (250, 650, 390, 4),
+        (875, 700, 410, -3),
+        (1550, 620, 380, 5),
     ]
 
     svg_items = ""

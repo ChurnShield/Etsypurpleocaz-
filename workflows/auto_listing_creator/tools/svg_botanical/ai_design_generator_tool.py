@@ -1,10 +1,11 @@
 # =============================================================================
 # ai_design_generator_tool.py
 #
-# BaseTool that generates fine-line botanical tattoo designs using Gemini AI,
+# BaseTool that generates fine-line botanical tattoo designs using AI,
 # then vectorizes the PNG output to clean SVG using potrace (potracer).
 #
-# Flow: Gemini prompt → PNG (black on white) → potrace → SVG (black on transparent)
+# Provider: SVG_IMAGE_PROVIDER env var → "gemini" (default) or "replicate" (FLUX.1)
+# Flow: AI prompt → PNG (black on white) → potrace → SVG (black on transparent)
 # =============================================================================
 
 import os
@@ -15,11 +16,17 @@ import numpy as np
 from PIL import Image
 
 from lib.orchestrator.base_tool import BaseTool
+from config import SVG_IMAGE_PROVIDER
 
-# Gemini API reuse
-from workflows.auto_listing_creator.tools.gemini_image_client import (
-    generate_product_image,
-)
+# Image generation — provider selected via SVG_IMAGE_PROVIDER env var
+if SVG_IMAGE_PROVIDER == "replicate":
+    from workflows.auto_listing_creator.tools.replicate_image_client import (
+        generate_product_image,
+    )
+else:
+    from workflows.auto_listing_creator.tools.gemini_image_client import (
+        generate_product_image,
+    )
 
 # ── Style prompt: the "artist DNA" that keeps all designs consistent ─────────
 
@@ -192,7 +199,9 @@ POTRACE_SETTINGS = {
 }
 
 # Threshold for binarizing Gemini output (0-255).  Pixels darker than this → black.
-BINARY_THRESHOLD = 128
+# Lowered from 128 to 100 to capture lighter gray anti-aliased lines from Gemini,
+# preserving fine-line detail that was previously clipped.
+BINARY_THRESHOLD = 100
 
 SVG_VIEWBOX = 1000  # Normalize all output to 1000×1000 viewBox
 
@@ -204,13 +213,15 @@ class AiDesignGeneratorTool(BaseTool):
         return "AiDesignGeneratorTool"
 
     def execute(self, **kwargs) -> Dict[str, Any]:
-        api_key = kwargs.get("gemini_api_key", "")
+        api_key = (kwargs.get("image_api_key", "")
+                   or kwargs.get("gemini_api_key", ""))
         output_dir = kwargs.get("output_dir", "")
         design_names = kwargs.get("design_names", [])
         category_filter = kwargs.get("category_filter", None)
 
         if not api_key:
-            return self._error("gemini_api_key is required")
+            return self._error(
+                "image_api_key (or gemini_api_key) is required")
         if not output_dir:
             return self._error("output_dir is required")
 
@@ -350,9 +361,14 @@ def _vectorize_png_to_svg(png_path, svg_path):
     4. Write SVG with stroke-only styling (no fill)
     """
     import potrace
+    from PIL import ImageEnhance, ImageFilter
 
     img = Image.open(png_path).convert("L")
     w, h = img.size
+
+    # Pre-process: sharpen + boost contrast to preserve fine lines before binarization
+    img = img.filter(ImageFilter.SHARPEN)
+    img = ImageEnhance.Contrast(img).enhance(1.5)
 
     # Binary bitmap: True = white (background), False = black (traced)
     arr = np.array(img)
@@ -402,6 +418,17 @@ def _vectorize_png_to_svg(png_path, svg_path):
         f'    {all_paths}\n'
         f'</svg>\n'
     )
+
+    # Optimize SVG: remove redundant nodes, clean up paths, reduce file size
+    try:
+        from scour.scour import scourString
+        from scour.scour import parse_args as scour_parse_args
+        scour_options = scour_parse_args(["--enable-id-stripping",
+                                          "--remove-metadata",
+                                          "--strip-xml-prolog"])
+        svg_content = scourString(svg_content, options=scour_options)
+    except ImportError:
+        pass  # scour not installed, skip optimization
 
     with open(svg_path, "w", encoding="utf-8") as f:
         f.write(svg_content)

@@ -23,7 +23,10 @@ _project_root = os.path.dirname(os.path.dirname(_here))
 sys.path.insert(0, _project_root)
 sys.path.insert(1, _here)
 
-from config import DATABASE_PATH, GEMINI_API_KEY, MAX_RETRIES, PLAYWRIGHT_PAGE_TIMEOUT_MS
+from config import (
+    DATABASE_PATH, GEMINI_API_KEY, MAX_RETRIES, PLAYWRIGHT_PAGE_TIMEOUT_MS,
+    REPLICATE_API_TOKEN, SVG_IMAGE_PROVIDER,
+)
 
 from lib.common_tools.sqlite_client import SQLiteClient
 from lib.orchestrator.execution_logger import ExecutionLogger
@@ -48,7 +51,8 @@ def _run_phase(logger, phase_name, tool, params, max_retries=MAX_RETRIES):
     logger.phase_start(phase_name)
     log_params = {}
     for k, v in params.items():
-        if k in ("api_key", "anthropic_api_key", "gemini_api_key"):
+        if k in ("api_key", "anthropic_api_key", "gemini_api_key",
+                 "image_api_key"):
             continue
         if isinstance(v, list):
             log_params[k] = f"[{len(v)} items]"
@@ -138,14 +142,19 @@ def main():
     try:
         # ==== PHASE 1: Generate SVG designs ====
         if USE_AI_GENERATOR:
-            if not GEMINI_API_KEY:
+            # Resolve image API key based on provider
+            _image_key = (REPLICATE_API_TOKEN if SVG_IMAGE_PROVIDER == "replicate"
+                          else GEMINI_API_KEY)
+            if not _image_key:
                 raise RuntimeError(
-                    "GEMINI_API_KEY required for AI generator. "
+                    f"{'REPLICATE_API_TOKEN' if SVG_IMAGE_PROVIDER == 'replicate' else 'GEMINI_API_KEY'} "
+                    f"required for AI generator (provider={SVG_IMAGE_PROVIDER}). "
                     "Set SVG_GENERATOR_MODE=code to use code fallback.")
-            print(f"\n[4a] Phase 1: Generating SVG designs (AI)...")
+            print(f"\n[4a] Phase 1: Generating SVG designs "
+                  f"(AI/{SVG_IMAGE_PROVIDER})...")
             gen_params = {
                 "output_dir": OUTPUT_DIR,
-                "gemini_api_key": GEMINI_API_KEY,
+                "image_api_key": _image_key,
             }
             if CATEGORY_FILTER:
                 gen_params["category_filter"] = CATEGORY_FILTER

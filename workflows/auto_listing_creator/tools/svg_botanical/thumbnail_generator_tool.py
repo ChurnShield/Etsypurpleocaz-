@@ -1,14 +1,16 @@
 # =============================================================================
 # thumbnail_generator_tool.py
 #
-# BaseTool generating 5 Etsy listing images at 2250x3000px.
-# Dark luxury aesthetic with gold accents for buyer psychology.
+# BaseTool generating 7 Etsy listing images at 2250x3000px.
+# Brand-aligned aesthetic: light backgrounds, purple accents, white cards.
 #
-# Page 1: Hero (scattered designs, dark bg, gold "120+" anchor)
+# Page 1: Hero (flat-lay SVG designs on white cards, purple banner)
 # Page 2: "What You Get" (format cards, stats bar, sample grid)
 # Page 3: "Please Note" (trust signals, commercial license badge)
 # Page 4: "Endless Possibilities" (use-case cards, editorial style)
 # Page 5: Category Preview (8 categories, counts, samples)
+# Page 6: "Leave a Review" (star rating, 3-step instructions)
+# Page 7: "Thank You" (small business appreciation)
 # =============================================================================
 
 import os
@@ -17,16 +19,20 @@ from typing import Any, Dict
 
 from lib.orchestrator.base_tool import BaseTool
 from config import PLAYWRIGHT_PAGE_TIMEOUT_MS
+from workflows.auto_listing_creator.tools.brand_reference import BRAND_COLORS
 
 IMG_W, IMG_H = 2250, 3000
 
-# ── Dark luxury palette ──
-BG_DARK = "#0D0D0D"
-BG_CARD = "#1A1A1A"
-GOLD = "#C9A84C"
-GOLD_LIGHT = "#E0C97F"
-TEXT_WHITE = "#F5F5F0"
-TEXT_DIM = "#8A8A8A"
+# ── Brand palette (sourced from brand_reference.py) ──
+BG_LIGHT   = BRAND_COLORS["hero_bg"]              # #F5F5F5
+BG_NOTE    = BRAND_COLORS["note_bg"]               # #F8F6F3
+CARD_WHITE = BRAND_COLORS["card_bg"]               # #FFFFFF
+PURPLE     = BRAND_COLORS["brand_purple"]           # #6B3E9E
+PURPLE_LT  = BRAND_COLORS["brand_purple_light"]     # #9B59B6
+LAVENDER   = BRAND_COLORS["brand_lavender"]          # #A78BFA
+TEXT_DARK  = BRAND_COLORS["text_dark"]               # #2C2C2C
+TEXT_GRAY  = BRAND_COLORS["text_gray"]               # #999999
+BADGE_DARK = BRAND_COLORS["badge_dark"]              # #2C2C2C
 
 FONTS_CSS = (
     "@import url('https://fonts.googleapis.com/css2?"
@@ -37,7 +43,7 @@ FONTS_CSS = (
 
 
 class ThumbnailGeneratorTool(BaseTool):
-    """Generate 5 Etsy listing thumbnail images with dark luxury aesthetic."""
+    """Generate 7 Etsy listing thumbnail images with brand-aligned aesthetic."""
 
     def get_name(self) -> str:
         return "ThumbnailGeneratorTool"
@@ -76,6 +82,8 @@ class ThumbnailGeneratorTool(BaseTool):
             ("03-Please-Note", _page3_please_note()),
             ("04-Usage-Ideas", _page4_usage(samples)),
             ("05-Categories", _page5_categories(cat_samples, category_counts)),
+            ("06-Leave-Review", _page6_leave_review()),
+            ("07-Thank-You", _page7_thank_you()),
         ]
 
         generated = []
@@ -151,7 +159,7 @@ def _collect_category_samples(svg_dir):
     return cat_map
 
 
-def _svg_inline(content, w=200, h=200, invert=True):
+def _svg_inline(content, w=200, h=200, invert=False):
     """Prepare SVG for inline embedding at given size."""
     if content.startswith("<?xml"):
         content = content[content.index("?>") + 2:].strip()
@@ -164,22 +172,24 @@ def _svg_inline(content, w=200, h=200, invert=True):
 
 
 def _base_css():
-    """Shared CSS for all pages."""
+    """Shared CSS for all pages — brand-aligned light/purple palette."""
     return f"""
     {FONTS_CSS}
-    :root {{ --bg:{BG_DARK}; --card:{BG_CARD}; --gold:{GOLD};
-             --gold-lt:{GOLD_LIGHT}; --wh:{TEXT_WHITE}; --dim:{TEXT_DIM}; }}
+    :root {{ --bg:{BG_LIGHT}; --bg-note:{BG_NOTE}; --card:{CARD_WHITE};
+             --purple:{PURPLE}; --purple-lt:{PURPLE_LT}; --lavender:{LAVENDER};
+             --text:{TEXT_DARK}; --dim:{TEXT_GRAY}; }}
     * {{ margin:0; padding:0; box-sizing:border-box; }}
     body {{ width:{IMG_W}px; height:{IMG_H}px; background:var(--bg);
            font-family:'Montserrat',sans-serif; overflow:hidden;
-           color:var(--wh); }}
+           color:var(--text); }}
     .serif {{ font-family:'Playfair Display',serif; }}
     .script {{ font-family:'Great Vibes',cursive; }}
-    .gold {{ color:var(--gold); }}
-    .gold-lt {{ color:var(--gold-lt); }}
+    .purple {{ color:var(--purple); }}
+    .purple-lt {{ color:var(--purple-lt); }}
     .dim {{ color:var(--dim); }}
-    .divider {{ width:200px; height:2px; background:var(--gold);
-                margin:20px auto; opacity:0.5; }}
+    .white {{ color:#FFFFFF; }}
+    .divider {{ width:200px; height:3px; background:var(--purple);
+                margin:20px auto; opacity:0.6; border-radius:2px; }}
     """
 
 
@@ -188,55 +198,70 @@ def _base_css():
 def _page1_hero(samples, design_count):
     count_str = f"{design_count}+" if design_count >= 100 else str(design_count)
 
-    # Scatter 12 designs across upper 60% of canvas
+    # 6 SVGs on white card shadows — flat-lay desk style
     placements = [
-        (120, 100, 260, -8), (520, 60, 220, 5), (920, 180, 250, -12),
-        (1380, 80, 200, 10), (1740, 200, 240, -5), (280, 420, 200, 12),
-        (720, 380, 280, -6), (1130, 460, 230, 8), (1530, 400, 240, -10),
-        (380, 740, 210, 5), (880, 700, 260, -8), (1380, 720, 220, 12),
+        (140,  80, 380, -4),
+        (880,  50, 400,  3),
+        (1620, 100, 380, -3),
+        (220,  580, 370,  4),
+        (840,  620, 390, -2),
+        (1500, 560, 380,  5),
     ]
 
-    svg_items = ""
+    svg_cards = ""
     for i, (x, y, sz, rot) in enumerate(placements):
         if i >= len(samples):
             break
-        svg_items += (
-            f'<div class="float" style="left:{x}px;top:{y}px;'
+        svg_cards += (
+            f'<div class="card" style="left:{x}px;top:{y}px;'
             f'width:{sz}px;height:{sz}px;'
             f'transform:rotate({rot}deg)">'
-            f'{_svg_inline(samples[i], sz, sz)}</div>\n'
+            f'<div class="card-inner">'
+            f'{_svg_inline(samples[i], sz - 60, sz - 60)}</div></div>\n'
         )
 
     return f"""<!DOCTYPE html><html><head><style>
     {_base_css()}
-    .frame {{ position:absolute; inset:30px; border:2px solid var(--gold);
-              pointer-events:none; }}
-    .float {{ position:absolute; opacity:0.5; }}
-    .badge {{ position:absolute; top:50px; right:60px; background:var(--gold);
-              color:{BG_DARK}; padding:14px 38px; font-weight:700;
-              font-size:24px; letter-spacing:3px; text-transform:uppercase; }}
-    .hero {{ position:absolute; bottom:100px; width:100%; text-align:center; }}
-    .num {{ font-size:200px; font-weight:900; line-height:1;
-            text-shadow:0 4px 30px rgba(201,168,76,0.3); }}
-    .title {{ font-size:74px; font-weight:700; margin-top:10px;
-              letter-spacing:2px; }}
-    .sub {{ font-size:68px; font-weight:400; font-style:italic;
-            margin-top:5px; }}
-    .fmts {{ font-size:28px; letter-spacing:8px; text-transform:uppercase;
-             margin-top:40px; }}
-    .logo {{ position:absolute; bottom:35px; width:100%; text-align:center;
-             font-size:26px; letter-spacing:5px; opacity:0.5; }}
+    body {{ background:var(--bg);
+           background-image:radial-gradient(circle at 30% 40%,
+           rgba(107,62,158,0.03) 0%, transparent 60%); }}
+    .card {{ position:absolute; background:var(--card);
+             border-radius:12px;
+             box-shadow:0 8px 32px rgba(0,0,0,0.08),
+                        0 2px 8px rgba(0,0,0,0.04);
+             display:flex; align-items:center; justify-content:center; }}
+    .card-inner {{ padding:30px; display:flex;
+                   align-items:center; justify-content:center; }}
+    .badge {{ position:absolute; top:50px; right:60px;
+              background:var(--purple); color:#FFF;
+              padding:14px 38px; font-weight:700;
+              font-size:24px; letter-spacing:3px;
+              text-transform:uppercase; border-radius:6px; }}
+    .banner {{ position:absolute; bottom:0; left:0; right:0;
+               height:420px; background:var(--purple);
+               display:flex; flex-direction:column;
+               align-items:center; justify-content:center;
+               padding-bottom:20px; }}
+    .num {{ font-size:180px; font-weight:900; line-height:1; color:#FFF;
+            text-shadow:0 4px 20px rgba(0,0,0,0.15); }}
+    .title {{ font-size:72px; font-weight:700; color:#FFF;
+              margin-top:5px; letter-spacing:2px; }}
+    .sub {{ font-size:62px; font-weight:400; font-style:italic;
+            color:{PURPLE_LT}; margin-top:2px; }}
+    .fmts {{ font-size:26px; letter-spacing:8px; text-transform:uppercase;
+             color:rgba(255,255,255,0.7); margin-top:30px; }}
+    .logo {{ font-size:24px; letter-spacing:5px; color:rgba(255,255,255,0.5);
+             margin-top:16px; }}
     </style></head><body>
-    <div class="frame"></div>
     <div class="badge">INSTANT DOWNLOAD</div>
-    {svg_items}
-    <div class="hero">
-        <div class="num serif gold">{count_str}</div>
+    {svg_cards}
+    <div class="banner">
+        <div class="num serif">{count_str}</div>
         <div class="title serif">Fine-Line Botanical</div>
-        <div class="sub serif gold-lt">Tattoo Designs</div>
-        <div class="fmts dim">SVG &middot; PNG &middot; DXF &middot; PDF &middot; EPS</div>
+        <div class="sub serif">Tattoo Designs</div>
+        <div class="fmts">SVG &middot; PNG &middot; DXF &middot; PDF &middot; EPS</div>
+        <div class="logo serif">PURPLEOCAZ</div>
     </div>
-    <div class="logo serif gold">PURPLEOCAZ</div>
     </body></html>"""
 
 
@@ -257,7 +282,7 @@ def _page2_what_you_get(samples, design_count):
     for ext, label, desc in formats:
         fmt_cards += f"""
         <div class="fmt-card">
-            <div class="ext">{ext}</div>
+            <div class="ext purple">{ext}</div>
             <div class="label">{label}</div>
             <div class="desc dim">{desc}</div>
         </div>"""
@@ -274,7 +299,8 @@ def _page2_what_you_get(samples, design_count):
                 padding:20px 60px; flex-wrap:wrap; }}
     .fmt-card {{ background:var(--card); border-radius:16px; padding:30px 28px;
                  width:380px; text-align:center;
-                 border:1px solid rgba(201,168,76,0.2); }}
+                 border-top:4px solid var(--purple);
+                 box-shadow:0 4px 16px rgba(0,0,0,0.06); }}
     .ext {{ font-size:42px; font-weight:800; }}
     .label {{ font-size:22px; font-weight:600; margin-top:6px; }}
     .desc {{ font-size:18px; margin-top:4px; }}
@@ -286,19 +312,20 @@ def _page2_what_you_get(samples, design_count):
     .grid {{ display:grid; grid-template-columns:repeat(4,1fr); gap:20px;
              padding:0 100px; }}
     .cell {{ background:var(--card); border-radius:12px; padding:20px;
-             display:flex; align-items:center; justify-content:center; }}
+             display:flex; align-items:center; justify-content:center;
+             box-shadow:0 2px 8px rgba(0,0,0,0.05); }}
     </style></head><body>
-    <div class="head"><h1 class="serif gold">What You Get</h1>
+    <div class="head"><h1 class="serif purple">What You Get</h1>
     <div class="divider"></div></div>
     <div class="formats">{fmt_cards}</div>
     <div class="stats">
-        <div><div class="stat-num serif gold">{design_count}+</div>
+        <div><div class="stat-num serif purple">{design_count}+</div>
              <div class="stat-label dim">Designs</div></div>
-        <div class="times gold">&times;</div>
-        <div><div class="stat-num serif gold">5</div>
+        <div class="times purple">&times;</div>
+        <div><div class="stat-num serif purple">5</div>
              <div class="stat-label dim">Formats</div></div>
-        <div class="times gold">=</div>
-        <div><div class="stat-num serif gold">{total_files}+</div>
+        <div class="times purple">=</div>
+        <div><div class="stat-num serif purple">{total_files}+</div>
              <div class="stat-label dim">Total Files</div></div>
     </div>
     <div class="grid">{grid_items}</div>
@@ -332,34 +359,36 @@ def _page3_please_note():
 
     return f"""<!DOCTYPE html><html><head><style>
     {_base_css()}
-    body {{ display:flex; flex-direction:column; align-items:center;
-           justify-content:center; padding:120px 160px; }}
+    body {{ background:{BG_NOTE}; display:flex; flex-direction:column;
+           align-items:center; justify-content:center;
+           padding:120px 160px; }}
     h1 {{ font-size:120px; margin-bottom:10px; }}
     .notes {{ margin-top:60px; width:100%; }}
     .note {{ display:flex; align-items:flex-start; gap:36px;
              margin-bottom:50px; }}
-    .num {{ width:70px; height:70px; border-radius:50%; background:var(--gold);
-            color:{BG_DARK}; font-size:32px; font-weight:800;
+    .num {{ width:70px; height:70px; border-radius:50%;
+            background:var(--purple); color:#FFF;
+            font-size:32px; font-weight:800;
             display:flex; align-items:center; justify-content:center;
             flex-shrink:0; }}
     .note-title {{ font-size:36px; font-weight:700; }}
     .note-desc {{ font-size:26px; margin-top:6px; }}
-    .trust {{ margin-top:70px; border:2px solid var(--gold);
+    .trust {{ margin-top:70px; border:2px solid var(--purple);
               border-radius:16px; padding:40px 60px; text-align:center;
-              width:100%; }}
+              width:100%; background:var(--card); }}
     .trust-title {{ font-size:32px; font-weight:700; letter-spacing:3px; }}
     .trust-sub {{ font-size:24px; margin-top:8px; }}
     .logo {{ margin-top:80px; font-size:36px; letter-spacing:5px;
-             opacity:0.6; }}
+             opacity:0.4; }}
     </style></head><body>
-    <h1 class="script gold">Please Note</h1>
+    <h1 class="script">Please Note</h1>
     <div class="divider"></div>
     <div class="notes">{items}</div>
     <div class="trust">
-        <div class="trust-title gold">&#9733; COMMERCIAL LICENSE INCLUDED &#9733;</div>
+        <div class="trust-title purple">&#9733; COMMERCIAL LICENSE INCLUDED &#9733;</div>
         <div class="trust-sub dim">Personal &amp; commercial use permitted</div>
     </div>
-    <div class="logo serif gold">PURPLEOCAZ</div>
+    <div class="logo serif purple">PURPLEOCAZ</div>
     </body></html>"""
 
 
@@ -399,21 +428,23 @@ def _page4_usage(samples):
     .use-card {{ background:var(--card); border-radius:20px;
                  height:560px; position:relative; overflow:hidden;
                  display:flex; align-items:center; justify-content:center;
-                 border:1px solid rgba(201,168,76,0.15); }}
-    .use-svg {{ opacity:0.35; }}
+                 box-shadow:0 4px 16px rgba(0,0,0,0.06); }}
+    .use-svg {{ opacity:0.2; }}
     .use-overlay {{ position:absolute; bottom:0; left:0; right:0;
                     padding:40px 36px;
-                    background:linear-gradient(transparent, rgba(0,0,0,0.85) 40%); }}
-    .use-title {{ font-size:40px; font-weight:700; }}
-    .use-desc {{ font-size:22px; margin-top:8px; }}
+                    background:linear-gradient(transparent,
+                    rgba(107,62,158,0.92) 50%); }}
+    .use-title {{ font-size:40px; font-weight:700; color:#FFF; }}
+    .use-desc {{ font-size:22px; margin-top:8px; color:rgba(255,255,255,0.85); }}
     .also {{ text-align:center; padding:50px 80px 0; }}
     .also-label {{ font-size:28px; font-weight:600; margin-bottom:20px; }}
     .pills {{ display:flex; justify-content:center; gap:18px;
               flex-wrap:wrap; }}
-    .pill {{ border:2px solid var(--gold); border-radius:40px;
-             padding:14px 32px; font-size:22px; font-weight:600; }}
+    .pill {{ border:2px solid var(--purple); border-radius:40px;
+             padding:14px 32px; font-size:22px; font-weight:600;
+             color:var(--purple); }}
     </style></head><body>
-    <div class="head"><h1 class="serif gold">Endless Possibilities</h1>
+    <div class="head"><h1 class="serif purple">Endless Possibilities</h1>
     <div class="divider"></div></div>
     <div class="grid">{cards}</div>
     <div class="also">
@@ -436,7 +467,7 @@ def _page5_categories(cat_samples, category_counts):
             <div class="cat-svg">{svg}</div>
             <div class="cat-info">
                 <div class="cat-name">{display_name}</div>
-                <div class="cat-count gold">{count} designs</div>
+                <div class="cat-count purple">{count} designs</div>
             </div>
         </div>"""
 
@@ -449,22 +480,129 @@ def _page5_categories(cat_samples, category_counts):
              padding:0 80px; }}
     .cat-card {{ background:var(--card); border-radius:16px; padding:28px;
                  display:flex; align-items:center; gap:28px;
-                 border:1px solid rgba(201,168,76,0.15); }}
-    .cat-svg {{ background:rgba(255,255,255,0.04); border-radius:12px;
+                 border-left:4px solid var(--purple);
+                 box-shadow:0 4px 16px rgba(0,0,0,0.06); }}
+    .cat-svg {{ background:rgba(107,62,158,0.04); border-radius:12px;
                 padding:10px; flex-shrink:0;
                 width:200px; height:200px;
                 display:flex; align-items:center; justify-content:center; }}
     .cat-name {{ font-size:32px; font-weight:700; }}
     .cat-count {{ font-size:24px; margin-top:6px; font-weight:600; }}
     .footer {{ position:absolute; bottom:0; left:0; right:0;
-               background:var(--card); padding:30px; text-align:center;
-               font-size:22px; letter-spacing:5px; font-weight:600; }}
+               background:var(--purple); padding:30px; text-align:center;
+               font-size:22px; letter-spacing:5px; font-weight:600;
+               color:#FFF; }}
     </style></head><body>
     <div class="head">
-        <h1 class="serif gold">8 Design Categories</h1>
+        <h1 class="serif purple">8 Design Categories</h1>
         <div class="divider"></div>
         <p class="dim">Something for every style</p>
     </div>
     <div class="grid">{cards}</div>
-    <div class="footer gold serif">PURPLEOCAZ &middot; FINE-LINE BOTANICAL COLLECTION</div>
+    <div class="footer serif">PURPLEOCAZ &middot; FINE-LINE BOTANICAL COLLECTION</div>
+    </body></html>"""
+
+
+# ── Page 6: Leave a Review ───────────────────────────────────────────────────
+
+def _page6_leave_review():
+    stars = "".join(
+        f'<span class="star">&#9733;</span>' for _ in range(5))
+
+    steps = [
+        ("1", "Go to Your Etsy Purchases",
+         "Open Etsy &rarr; Your Account &rarr; Purchases &amp; Reviews"),
+        ("2", "Find This Order",
+         "Click &ldquo;Write a Review&rdquo; next to your purchase"),
+        ("3", "Share Your Experience",
+         "Your honest feedback helps other buyers &amp; supports our shop"),
+    ]
+
+    step_html = ""
+    for num, title, desc in steps:
+        step_html += f"""
+        <div class="step">
+            <div class="step-num">{num}</div>
+            <div class="step-body">
+                <div class="step-title">{title}</div>
+                <div class="step-desc dim">{desc}</div>
+            </div>
+        </div>"""
+
+    return f"""<!DOCTYPE html><html><head><style>
+    {_base_css()}
+    body {{ display:flex; flex-direction:column; align-items:center;
+           justify-content:center; padding:100px 160px; }}
+    h1 {{ font-size:100px; margin-bottom:10px; }}
+    .stars {{ margin:30px 0 50px; }}
+    .star {{ font-size:90px; color:var(--purple); margin:0 8px; }}
+    .card {{ background:var(--card); border-radius:24px;
+             padding:60px 80px; width:100%;
+             box-shadow:0 8px 32px rgba(0,0,0,0.06); }}
+    .steps {{ display:flex; flex-direction:column; gap:40px; }}
+    .step {{ display:flex; align-items:flex-start; gap:32px; }}
+    .step-num {{ width:64px; height:64px; border-radius:50%;
+                 background:var(--purple); color:#FFF;
+                 font-size:28px; font-weight:800;
+                 display:flex; align-items:center; justify-content:center;
+                 flex-shrink:0; }}
+    .step-title {{ font-size:34px; font-weight:700; }}
+    .step-desc {{ font-size:24px; margin-top:6px; }}
+    .note {{ margin-top:50px; font-size:26px; font-style:italic;
+             text-align:center; }}
+    .logo {{ margin-top:60px; font-size:32px; letter-spacing:5px;
+             opacity:0.4; }}
+    </style></head><body>
+    <h1 class="script">We'd Love Your Feedback!</h1>
+    <div class="divider"></div>
+    <div class="stars">{stars}</div>
+    <div class="card">
+        <div class="steps">{step_html}</div>
+    </div>
+    <div class="note dim">Your reviews help small creators grow &#10084;</div>
+    <div class="logo serif purple">PURPLEOCAZ</div>
+    </body></html>"""
+
+
+# ── Page 7: Thank You ────────────────────────────────────────────────────────
+
+def _page7_thank_you():
+    return f"""<!DOCTYPE html><html><head><style>
+    {_base_css()}
+    body {{ display:flex; flex-direction:column; align-items:center;
+           justify-content:center; padding:0; }}
+    .top {{ flex:1; display:flex; flex-direction:column;
+            align-items:center; justify-content:center;
+            padding:100px 160px; text-align:center; }}
+    .heart {{ font-size:80px; color:var(--purple); margin-bottom:20px; }}
+    h1 {{ font-size:130px; margin-bottom:10px; }}
+    .subtitle {{ font-size:48px; font-weight:300;
+                 margin-top:10px; letter-spacing:1px; }}
+    .card {{ background:var(--card); border-radius:24px;
+             padding:50px 80px; margin-top:40px;
+             max-width:1600px; text-align:center;
+             box-shadow:0 8px 32px rgba(0,0,0,0.06); }}
+    .card p {{ font-size:30px; line-height:1.7; }}
+    .banner {{ width:100%; background:var(--purple);
+               padding:60px 80px; text-align:center; }}
+    .brand {{ font-size:56px; letter-spacing:8px; color:#FFF;
+              font-weight:700; }}
+    .tagline {{ font-size:24px; color:rgba(255,255,255,0.6);
+                letter-spacing:4px; margin-top:12px;
+                text-transform:uppercase; }}
+    </style></head><body>
+    <div class="top">
+        <div class="heart">&#10084;</div>
+        <h1 class="script">Thank You!</h1>
+        <div class="divider"></div>
+        <div class="subtitle dim">for supporting our small business</div>
+        <div class="card">
+            <p>Every purchase helps us continue creating beautiful<br>
+            designs for makers, artists, and creators like you.</p>
+        </div>
+    </div>
+    <div class="banner">
+        <div class="brand serif">PURPLEOCAZ</div>
+        <div class="tagline">Handcrafted Digital Designs</div>
+    </div>
     </body></html>"""

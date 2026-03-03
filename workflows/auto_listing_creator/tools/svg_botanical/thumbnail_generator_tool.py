@@ -178,23 +178,26 @@ def _svg_inline(content, w=200, h=200, invert=False):
 
 
 def _base_css():
-    """Shared CSS for all pages — brand-aligned light/purple palette."""
+    """Shared CSS reset, fonts, and utility classes for all pages.
+
+    NOTE: Does NOT set body background or color — each page controls its own
+    palette via inline styles so gold/black and warm-beige pages work correctly.
+    """
     return f"""
     {FONTS_CSS}
-    :root {{ --bg:{BG_LIGHT}; --bg-note:{BG_NOTE}; --card:{CARD_WHITE};
-             --purple:{PURPLE}; --purple-lt:{PURPLE_LT}; --lavender:{LAVENDER};
-             --text:{TEXT_DARK}; --dim:{TEXT_GRAY}; }}
+    :root {{
+        --gold:{GOLD_FOIL}; --black:{BLACK_BG}; --warm:{WARM_BEIGE};
+        --mockup:{MOCKUP_BG}; --text:{TEXT_DARK}; --dim:{TEXT_GRAY};
+    }}
     * {{ margin:0; padding:0; box-sizing:border-box; }}
-    body {{ width:{IMG_W}px; height:{IMG_H}px; background:var(--bg);
-           font-family:'Montserrat',sans-serif; overflow:hidden;
-           color:var(--text); }}
+    body {{ width:{IMG_W}px; height:{IMG_H}px;
+           font-family:'Montserrat',sans-serif; overflow:hidden; }}
     .serif {{ font-family:'Playfair Display',serif; }}
     .script {{ font-family:'Great Vibes',cursive; }}
-    .purple {{ color:var(--purple); }}
-    .purple-lt {{ color:var(--purple-lt); }}
-    .dim {{ color:var(--dim); }}
+    .gold {{ color:var(--gold); }}
     .white {{ color:#FFFFFF; }}
-    .divider {{ width:200px; height:3px; background:var(--purple);
+    .dim {{ color:var(--dim); }}
+    .divider {{ width:200px; height:3px; background:var(--gold);
                 margin:20px auto; opacity:0.6; border-radius:2px; }}
     """
 

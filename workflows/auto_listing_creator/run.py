@@ -21,6 +21,7 @@ import sys
 import os
 import uuid
 import time
+import webbrowser
 from datetime import datetime, timezone
 
 _here = os.path.dirname(os.path.abspath(__file__))
@@ -122,6 +123,65 @@ def _update_workflow_stats(db, wid, success):
         "failed_runs": row["failed_runs"] + (0 if success else 1),
         "last_run_at": datetime.now(timezone.utc).isoformat(),
     }).eq("id", wid).execute()
+
+
+def _build_review_page(export_dir, all_exports):
+    """Generate an HTML review page showing all created product images.
+
+    Returns the path to the review HTML file.
+    """
+    cards_html = ""
+    for export in all_exports:
+        if export["status"] != "CREATED" or not export.get("png_paths"):
+            continue
+        title = export.get("title", "Untitled")
+        tier = "Nano Banana" if export.get("tier") == 1 else "HTML"
+        imgs = ""
+        for png_path in export["png_paths"]:
+            if os.path.exists(png_path):
+                abs_path = os.path.abspath(png_path).replace(os.sep, "/")
+                fname = os.path.basename(png_path)
+                imgs += (
+                    f'<div style="text-align:center">'
+                    f'<img src="file:///{abs_path}" '
+                    f'style="height:280px;border-radius:6px;'
+                    f'box-shadow:0 4px 16px rgba(0,0,0,0.4)">'
+                    f'<div style="margin-top:4px;font-size:11px;color:#666">'
+                    f'{fname}</div></div>\n'
+                )
+        cards_html += (
+            f'<div style="margin-bottom:32px">'
+            f'<h3 style="font-size:16px;color:#ccc;margin-bottom:8px">'
+            f'{title} <span style="font-size:12px;color:#888">({tier})</span></h3>'
+            f'<div style="display:flex;gap:16px;flex-wrap:wrap;'
+            f'align-items:flex-start">{imgs}</div></div>\n'
+        )
+
+    created = sum(1 for e in all_exports if e["status"] == "CREATED")
+    total_images = sum(len(e.get("png_paths", [])) for e in all_exports
+                       if e["status"] == "CREATED")
+
+    html = f"""<!DOCTYPE html><html><head>
+    <title>Review Listing Images - {created} Products</title>
+    <style>
+    * {{ margin:0; padding:0; box-sizing:border-box; }}
+    body {{ background:#111; color:#eee; font-family:system-ui; padding:40px; }}
+    h1 {{ font-size:28px; margin-bottom:8px; color:#fff; }}
+    .stats {{ color:#888; margin-bottom:30px; font-size:14px; }}
+    .note {{ background:#1a1a2e; border:1px solid #333; border-radius:8px;
+             padding:16px; margin-bottom:30px; color:#C9A84C; font-size:14px; }}
+    </style></head><body>
+    <h1>Review Listing Images</h1>
+    <div class="stats">{created} products &middot; {total_images} images</div>
+    <div class="note">Review the images below. Return to the terminal and
+    press Enter to publish, or type 'q' to abort.</div>
+    {cards_html}
+    </body></html>"""
+
+    review_path = os.path.join(export_dir, "_review.html")
+    with open(review_path, "w", encoding="utf-8") as f:
+        f.write(html)
+    return review_path
 
 
 def main():
@@ -304,6 +364,25 @@ def main():
             image_map = {int(k): v for k, v in image_map.items()}
             pdf_map = create_data.get("pdf_map", {})
             pdf_map = {int(k): v for k, v in pdf_map.items()}
+
+            # ==== REVIEW GATE: Show images before publishing ====
+            all_exports = create_data.get("exports", [])
+            if all_exports:
+                review_path = _build_review_page(
+                    create_data["export_dir"], all_exports,
+                )
+                print(f"\n[4c+] Review page: {review_path}")
+                webbrowser.open(f"file:///{os.path.abspath(review_path).replace(os.sep, '/')}")
+                print(f"\n     Images are ready for review in your browser.")
+                print(f"     Press Enter to continue to publish, or type 'q' to abort: ", end="", flush=True)
+                user_input = input().strip().lower()
+                if user_input == "q":
+                    print(f"\n     Aborted by user. Images saved in: {create_data['export_dir']}")
+                    db.table("executions").update({
+                        "status": "aborted",
+                        "completed_at": datetime.now(timezone.utc).isoformat(),
+                    }).eq("id", execution_id).execute()
+                    raise RuntimeError("Aborted by user after image review")
         else:
             print(f"     Product creation failed: {create_result.get('error')}")
             print(f"     Continuing without images...")

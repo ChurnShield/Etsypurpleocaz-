@@ -65,20 +65,20 @@ if not ETSY_API_KEYSTRING or not ETSY_SHARED_SECRET:
 EXPORTS_DIR = os.path.join(
     _HERE, "workflows", "auto_listing_creator", "exports", "svg_bundles"
 )
-THUMBNAILS_DIR = os.path.join(EXPORTS_DIR, "thumbnails")
+THUMBNAILS_DIR = os.path.join(EXPORTS_DIR, "thumbnail_preview")
 DELIVERY_ZIP = os.path.join(
-    EXPORTS_DIR, "delivery", "Fine-Line-Botanical-Tattoo-Designs-PURPLEOCAZ.zip"
+    EXPORTS_DIR, "delivery", "120-Botanical-SVG-Bundle-PurpleOcaz.zip"
 )
 TOKEN_FILE = os.path.join(_HERE, "workflows", "etsy_analytics", "etsy_tokens.json")
 
 IMAGE_FILES = [
-    "01-Hero.png",
-    "02-What-You-Get.png",
-    "03-Please-Note.png",
-    "04-Usage-Ideas.png",
-    "05-Categories.png",
-    "06-Leave-Review.png",
-    "07-Thank-You.png",
+    "preview-01-hero.png",
+    "preview-02-what-you-get.png",
+    "preview-03-please-note.png",
+    "preview-04-usage-ideas.png",
+    "preview-05-categories.png",
+    "preview-06-leave-review.png",
+    "preview-07-thank-you.png",
 ]
 
 # ── Listing Content ───────────────────────────────────────────────────────────
@@ -205,7 +205,7 @@ ETSY_BASE = "https://openapi.etsy.com/v3/application"
 TOKEN_URL = "https://api.etsy.com/v3/public/oauth/token"
 AUTH_URL_BASE = "https://www.etsy.com/oauth/connect"
 REDIRECT_URI = "http://localhost:3847/callback"
-SCOPES = "shops_r listings_r listings_w listings_d"
+SCOPES = "shops_r listings_r listings_w listings_d images_w"
 
 
 # ── OAuth 2.0 PKCE ───────────────────────────────────────────────────────────

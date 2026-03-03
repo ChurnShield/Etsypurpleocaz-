@@ -1,22 +1,27 @@
 name: Publish Botanical Bundle to Etsy
 
-# Trigger manually from GitHub Actions tab (works on phone!)
+# Triggers when etsy-auth-code.txt is created/updated on this branch.
+# The user creates this file from GitHub's web UI on their phone.
 on:
-  workflow_dispatch:
-    inputs:
-      auth_code:
-        description: "Paste the auth code from Etsy redirect URL"
-        required: true
-        type: string
+  push:
+    branches:
+      - claude/investigate-delay-issue-cCcRJ
+    paths:
+      - ".github/etsy-auth-code.txt"
 
 jobs:
   publish:
     runs-on: ubuntu-latest
     steps:
-      - name: Checkout repo (feature branch with assets)
+      - name: Checkout repo
         uses: actions/checkout@v4
-        with:
-          ref: claude/investigate-delay-issue-cCcRJ
+
+      - name: Read auth code from trigger file
+        id: auth
+        run: |
+          AUTH_CODE=$(cat .github/etsy-auth-code.txt | tr -d '[:space:]')
+          echo "code=${AUTH_CODE}" >> "$GITHUB_OUTPUT"
+          echo "Auth code read (${#AUTH_CODE} chars)"
 
       - name: Set up Python
         uses: actions/setup-python@v5
@@ -28,6 +33,16 @@ jobs:
           ETSY_API_KEYSTRING: ${{ secrets.ETSY_API_KEYSTRING }}
           ETSY_SHARED_SECRET: ${{ secrets.ETSY_SHARED_SECRET }}
           ETSY_SHOP_ID: ${{ secrets.ETSY_SHOP_ID }}
-          AUTH_CODE: ${{ github.event.inputs.auth_code }}
+          AUTH_CODE: ${{ steps.auth.outputs.code }}
           CODE_VERIFIER: "XdeBpvZRC7j2DYdbyOKOAVTv6z2ss7fM8Ayt3NDyQRE"
         run: python .github/scripts/publish_etsy_listing.py
+
+      - name: Clean up auth code file
+        if: always()
+        run: |
+          echo "USED" > .github/etsy-auth-code.txt
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          git add .github/etsy-auth-code.txt
+          git commit -m "Clean up: redact auth code after use" || true
+          git push || true

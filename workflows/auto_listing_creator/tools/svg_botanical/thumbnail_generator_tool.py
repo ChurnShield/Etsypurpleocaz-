@@ -30,6 +30,8 @@ IMG_W, IMG_H = 2250, 3000
 PURPLE     = "#6B3E9E"
 PURPLE_LT  = "#9B59B6"
 LAVENDER   = "#A78BFA"
+GOLD       = "#F5A623"
+RED_HEART  = "#E74C3C"
 BG_LIGHT   = "#F5F5F5"
 CARD_WHITE = "#FFFFFF"
 TEXT_DARK  = "#2C2C2C"
@@ -265,8 +267,19 @@ def _prompt_hero(count_str: str, cat_list: str) -> str:
         f"Line 3 (small, uppercase, widely spaced sans-serif): "
         f"'SVG  ·  PNG  ·  DXF  ·  PDF  ·  EPS' "
 
+        "TOP-LEFT CORNER: A small brand logo lockup with a circled 'P' "
+        "monogram and 'PURPLEOCAZ' text in purple (#6B3E9E). "
+
         "TOP-RIGHT CORNER: A small rounded purple (#6B3E9E) badge with "
-        "white uppercase text 'INSTANT DOWNLOAD'. "
+        "white uppercase text 'INSTANT DOWNLOAD'. Below it, a smaller "
+        "white pill badge with 5 gold (#F5A623) stars and 'Top Rated'. "
+
+        "BANNER VALUE PILLS: Below the format line on the purple banner, "
+        "two pill-shaped badges side by side: "
+        "Left pill (white background): 'Less than $0.05 per design' in "
+        "purple text. "
+        "Right pill (transparent with white border): '600+ Total Files "
+        "Included' in white text. "
 
         "The overall image must look like premium Etsy product photography — "
         "warm, inviting, and professionally styled. Crisp details, natural "
@@ -320,38 +333,42 @@ def _prompt_what_you_get(count_str: str, total_files: int) -> str:
 
 def _prompt_please_note() -> str:
     return (
-        "A professional Etsy listing information slide with a clean, "
+        "A professional Etsy listing confidence-building slide with a clean, "
         "elegant design on a light cream/off-white (#F5F5F0) background. "
 
-        "TOP: Large elegant serif heading 'Please Note' in dark charcoal, "
-        "centered. Below it, a thin purple (#6B3E9E) decorative line divider. "
+        "TOP-LEFT: Small brand logo lockup with a circled 'P' monogram "
+        "and 'PURPLEOCAZ' text in purple (#6B3E9E). "
+
+        "HEADING: Large elegant serif heading 'Buy With Confidence' in dark "
+        "charcoal, centered. Below it, a thin purple (#6B3E9E) decorative "
+        "line divider. Subtitle: 'Everything you need to know before you "
+        "download' in grey. "
 
         "FOUR INFO CARDS: Stacked vertically with generous spacing between "
         "them. Each card is a wide white rounded rectangle with a subtle "
         "drop shadow and a bold purple (#6B3E9E) left border (5px). "
-        "Each card has: a purple circle with a white number (1, 2, 3, 4) "
-        "on the left, then bold title text and a lighter description: "
-        "Card 1: 'Digital Download Product' — 'Instant access after "
-        "purchase — download from your Etsy receipt' "
-        "Card 2: 'No Physical Product Shipped' — 'All designs are "
-        "delivered as digital files only' "
-        "Card 3: '5 File Formats Included' — 'SVG, PNG, DXF, PDF & "
+        "Each card has: a purple circle with a white checkmark on the left, "
+        "then bold title text and a lighter description: "
+        "Card 1: 'Instant Digital Download' — 'Files available immediately "
+        "after purchase — no waiting' "
+        "Card 2: '5 Professional File Formats' — 'SVG, PNG, DXF, PDF & "
         "EPS — works with Cricut & Silhouette' "
-        "Card 4: 'Black Line Art on Transparent' — 'Perfect for tattoo "
-        "stencils, cutting machines & printing' "
+        "Card 3: 'Clean Black Line Art' — 'Transparent background — perfect "
+        "for tattoo stencils, cutting & printing' "
+        "Card 4: 'Lifetime Access' — 'Download anytime from your Etsy "
+        "receipt — yours forever' "
 
-        "BOTTOM: A prominent white card with a purple (#6B3E9E) border, "
-        "centered text reading: "
-        "'COMMERCIAL LICENSE INCLUDED' in bold purple with star symbols "
-        "on each side. Below it in smaller grey text: "
-        "'Personal & commercial use permitted'. "
+        "BOTTOM ROW: Two side-by-side badges. Left badge: white card with "
+        "purple border showing 'COMMERCIAL LICENSE' with stars. Right badge: "
+        "white card with gold (#F5A623) border showing 5 gold stars and "
+        "'Trusted by 100s of happy creators'. "
 
-        "FOOTER: Small faded purple text 'PURPLEOCAZ' in elegant "
-        "widely-spaced serif letters. "
+        "CTA BUTTON: A large purple (#6B3E9E) pill-shaped button with white "
+        "text 'Add to Cart → Instant Access'. "
+        "Small footnote below: 'No physical product shipped — digital "
+        "download only' in light grey. "
 
-        "The overall design is clean, readable, and professional. "
-        "Purple (#6B3E9E) accent color throughout. "
-        "Serif font for headings, clean sans-serif for body text. "
+        "Purple (#6B3E9E) accent color throughout. Clean professional layout. "
         "Do NOT include any botanical designs or flowers on this page. "
         "Do NOT include any human hands, fingers, or body parts."
     )
@@ -450,12 +467,17 @@ def _prompt_leave_review() -> str:
         "warm and inviting design on a light cream/off-white (#F5F5F0) "
         "background. "
 
-        "TOP: Large elegant serif heading 'We'd Love Your Feedback!' in "
+        "TOP-LEFT: Small brand logo lockup with a circled 'P' monogram "
+        "and 'PURPLEOCAZ' text in purple (#6B3E9E). "
+
+        "HEADING: Large elegant serif heading 'Loving Your Designs?' in "
         "dark charcoal, centered. Below it, a thin purple (#6B3E9E) "
-        "decorative line divider. "
+        "decorative line divider. Subtitle: 'Your feedback means the world "
+        "to us and helps fellow creators find exactly what they need'. "
 
         "STARS: Five large 5-pointed stars in a row, all filled with "
-        "purple (#6B3E9E) color. These should be prominent and eye-catching. "
+        "GOLD (#F5A623) color — NOT purple. These should be prominent, "
+        "warm, and eye-catching like real gold star ratings. "
 
         "INSTRUCTIONS CARD: A large white rounded card with subtle shadow "
         "containing three numbered steps: "
@@ -465,16 +487,18 @@ def _prompt_leave_review() -> str:
         "Step 2 (purple circle with white '2'): "
         "'Find This Order' — 'Click \"Write a Review\" next to your purchase' "
         "Step 3 (purple circle with white '3'): "
-        "'Share Your Experience' — 'Your honest feedback helps other "
-        "buyers & supports our shop' "
+        "'Share Your Experience' — 'It only takes 30 seconds & helps "
+        "other makers discover us' "
 
-        "BOTTOM: Italic text 'Your reviews help small creators grow' "
-        "with a small heart symbol, in medium grey. "
-        "Below that, faded purple text 'PURPLEOCAZ' in elegant "
-        "widely-spaced serif letters. "
+        "CTA BUTTON: A large purple (#6B3E9E) pill-shaped button with "
+        "white text 'Leave a Review & Support Small Business' with heart "
+        "symbols on each side. "
+        "Below it: 'Every 5-star review helps us create more designs "
+        "for you' in light grey. "
 
         "The overall mood should be warm, friendly, and genuine. "
-        "Purple (#6B3E9E) accent color throughout. "
+        "IMPORTANT: Stars must be GOLD (#F5A623), not purple. "
+        "Purple (#6B3E9E) accent color for everything else. "
         "Serif font for headings, clean sans-serif for body text. "
         "Do NOT include any botanical designs on this page. "
         "Do NOT include any human hands, fingers, or body parts."
@@ -488,7 +512,8 @@ def _prompt_thank_you() -> str:
 
         "TOP 70% of the image: Light cream/off-white (#F5F5F0) background. "
         "Centered content: "
-        "A large purple (#6B3E9E) heart symbol at the top. "
+        "A large RED (#E74C3C) heart symbol at the top — NOT purple, "
+        "it must be warm red like a real heart. "
         "Below it, very large elegant serif heading 'Thank You!' in dark "
         "charcoal. Below that, a thin purple decorative line divider. "
         "Subtitle: 'for supporting our small business' in lighter grey "
@@ -498,12 +523,20 @@ def _prompt_thank_you() -> str:
         "for makers, artists, and creators like you.' in medium-sized "
         "dark text with generous line height. "
 
-        "BOTTOM 30%: A solid deep purple (#6B3E9E) footer banner spanning "
-        "the full width. Centered white text: "
-        "Line 1 (large, bold, serif, widely spaced): 'PURPLEOCAZ' "
-        "Line 2 (smaller, uppercase, sans-serif, tracking-wide): "
-        "'HANDCRAFTED DIGITAL DESIGNS' in slightly transparent white. "
+        "TWO CTA BUTTONS side by side: "
+        "Left button: solid purple (#6B3E9E) pill with white text "
+        "'Favourite Our Shop' with a heart. "
+        "Right button: purple outline pill with purple text "
+        "'Browse More Designs →'. "
+        "Below the buttons: 'New designs added regularly — follow us "
+        "so you never miss a drop!' in light grey. "
 
+        "BOTTOM: A solid deep purple (#6B3E9E) footer banner spanning "
+        "the full width. Brand logo lockup centered: circled 'P' monogram "
+        "in white next to 'PURPLEOCAZ' in large white serif letters. "
+        "Below: 'HANDCRAFTED DIGITAL DESIGNS' in slightly transparent white. "
+
+        "IMPORTANT: The heart must be RED (#E74C3C), not purple. "
         "The overall mood should be warm, appreciative, and professionally "
         "branded. Clean minimalist design. "
         "Do NOT include any botanical designs on this page. "
@@ -596,6 +629,38 @@ def _base_css():
     """
 
 
+def _brand_logo(color=None):
+    """Inline SVG brand logo lockup (P monogram + PURPLEOCAZ wordmark)."""
+    c = color or PURPLE
+    sub_c = TEXT_DIM if c == PURPLE else "rgba(255,255,255,0.7)"
+    return (
+        f'<div style="display:flex;align-items:center;gap:14px">'
+        f'<svg width="44" height="44" viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg">'
+        f'<circle cx="50" cy="50" r="46" stroke="{c}" stroke-width="4" fill="none"/>'
+        f'<text x="50" y="62" text-anchor="middle" font-family="\'Playfair Display\',serif"'
+        f' font-size="52" font-weight="700" fill="{c}">P</text></svg>'
+        f'<div><div style="font-family:\'Playfair Display\',serif;font-size:28px;font-weight:700;'
+        f'color:{c};letter-spacing:3px;line-height:1">PURPLEOCAZ</div>'
+        f'<div style="font-size:12px;letter-spacing:2px;color:{sub_c};text-transform:uppercase;'
+        f'margin-top:2px">Handcrafted Digital Designs</div></div></div>'
+    )
+
+
+def _cta_pill(text, filled=True, width="auto"):
+    """Reusable CTA pill button."""
+    if filled:
+        return (
+            f'<div style="background:{PURPLE};border-radius:60px;padding:22px 56px;'
+            f'text-align:center;width:{width}">'
+            f'<span style="font-size:28px;font-weight:700;color:#FFF;letter-spacing:1px">{text}</span></div>'
+        )
+    return (
+        f'<div style="border:3px solid {PURPLE};border-radius:60px;padding:20px 56px;'
+        f'text-align:center;width:{width}">'
+        f'<span style="font-size:28px;font-weight:700;color:{PURPLE};letter-spacing:1px">{text}</span></div>'
+    )
+
+
 # ── Page 1: Hero ─────────────────────────────────────────────────────────────
 
 def _page1_hero(samples, design_count):
@@ -622,6 +687,8 @@ def _page1_hero(samples, design_count):
             f'{_svg_inline(samples[i], sz, sz)}</div>\n'
         )
 
+    total_files = design_count * 5
+
     return f"""<!DOCTYPE html><html><head><style>
     {_base_css()}
     .badge {{ position:absolute; top:40px; right:50px; z-index:10;
@@ -631,7 +698,7 @@ def _page1_hero(samples, design_count):
               text-transform:uppercase; border-radius:8px;
               box-shadow:0 4px 16px rgba(107,62,158,0.3); }}
     .banner {{ position:absolute; bottom:0; left:0; right:0;
-               height:380px; background:{PURPLE};
+               height:480px; background:{PURPLE};
                display:flex; flex-direction:column;
                align-items:center; justify-content:center; }}
     .num {{ font-size:160px; font-weight:900; line-height:1; color:#FFF; }}
@@ -642,13 +709,28 @@ def _page1_hero(samples, design_count):
     .fmts {{ font-size:24px; letter-spacing:6px; text-transform:uppercase;
              color:rgba(255,255,255,0.6); margin-top:20px; }}
     </style></head><body>
+    <div style="position:absolute;top:40px;left:50px;z-index:10">{_brand_logo()}</div>
     <div class="badge">INSTANT DOWNLOAD</div>
+    <div style="position:absolute;top:110px;right:50px;z-index:10;
+         background:#FFF;border-radius:50px;padding:12px 28px;
+         box-shadow:0 3px 12px rgba(0,0,0,0.1);display:flex;align-items:center;gap:8px">
+        <span style="color:{GOLD};font-size:24px">&#9733;&#9733;&#9733;&#9733;&#9733;</span>
+        <span style="font-size:18px;font-weight:600;color:{TEXT_MED}">Top Rated</span>
+    </div>
     {svg_cards}
     <div class="banner">
         <div class="num serif">{count_str}</div>
         <div class="title serif">Fine-Line Botanical</div>
         <div class="sub serif">Tattoo Designs</div>
         <div class="fmts">SVG &middot; PNG &middot; DXF &middot; PDF &middot; EPS</div>
+        <div style="margin-top:20px;display:flex;gap:20px;align-items:center">
+            <div style="background:#FFF;border-radius:50px;padding:16px 48px">
+                <span style="font-size:24px;font-weight:700;color:{PURPLE}">Less than $0.05 per design</span>
+            </div>
+            <div style="border:2px solid rgba(255,255,255,0.6);border-radius:50px;padding:16px 48px">
+                <span style="font-size:24px;font-weight:600;color:#FFF">{total_files}+ Total Files Included</span>
+            </div>
+        </div>
     </div>
     </body></html>"""
 
@@ -689,6 +771,7 @@ def _page2_what_you_get(samples, design_count):
     return f"""<!DOCTYPE html><html><head><style>
     {_base_css()}
     </style></head><body style="padding:50px 60px">
+    <div style="margin-bottom:20px">{_brand_logo()}</div>
     <div style="text-align:center;margin-bottom:36px">
         <h1 class="serif purple" style="font-size:72px;font-weight:700;letter-spacing:2px">
             What You Get</h1>
@@ -715,6 +798,10 @@ def _page2_what_you_get(samples, design_count):
     <div style="display:grid;grid-template-columns:repeat(4,1fr);gap:16px">
         {grid_items}
     </div>
+    <div style="display:flex;gap:24px;margin-top:36px;width:100%;align-items:center;justify-content:center">
+        {_cta_pill("Best Value: Less than $0.05 per design")}
+        {_cta_pill("Add to Cart &rarr;", filled=False)}
+    </div>
     </body></html>"""
 
 
@@ -722,18 +809,18 @@ def _page2_what_you_get(samples, design_count):
 
 def _page3_please_note():
     notes = [
-        ("1", "Digital Download Product",
-         "Instant access after purchase &mdash; download from your Etsy receipt"),
-        ("2", "No Physical Product Shipped",
-         "All designs are delivered as digital files only"),
-        ("3", "5 File Formats Included",
+        ("&#10003;", "Instant Digital Download",
+         "Files available immediately after purchase &mdash; no waiting"),
+        ("&#10003;", "5 Professional File Formats",
          "SVG, PNG, DXF, PDF &amp; EPS &mdash; works with Cricut &amp; Silhouette"),
-        ("4", "Black Line Art on Transparent",
-         "Perfect for tattoo stencils, cutting machines &amp; printing"),
+        ("&#10003;", "Clean Black Line Art",
+         "Transparent background &mdash; perfect for tattoo stencils, cutting &amp; printing"),
+        ("&#10003;", "Lifetime Access",
+         "Download anytime from your Etsy receipt &mdash; yours forever"),
     ]
 
     items = ""
-    for num, title, desc in notes:
+    for icon, title, desc in notes:
         items += f"""
         <div style="display:flex;align-items:center;gap:30px;
                      background:#FFF;border-radius:16px;padding:36px 40px;
@@ -743,7 +830,7 @@ def _page3_please_note():
                          background:{PURPLE};color:#FFF;
                          font-size:30px;font-weight:800;
                          display:flex;align-items:center;justify-content:center;
-                         flex-shrink:0">{num}</div>
+                         flex-shrink:0">{icon}</div>
             <div>
                 <div style="font-size:34px;font-weight:700;color:{TEXT_DARK}">{title}</div>
                 <div style="font-size:24px;margin-top:6px;color:{TEXT_MED}">{desc}</div>
@@ -754,22 +841,37 @@ def _page3_please_note():
     {_base_css()}
     </style></head><body style="display:flex;flex-direction:column;
            align-items:center;justify-content:center;padding:80px 100px">
-    <h1 class="serif" style="font-size:90px;color:{TEXT_DARK};margin-bottom:8px">
-        Please Note</h1>
+    <div style="position:absolute;top:40px;left:50px">{_brand_logo()}</div>
+    <h1 class="serif" style="font-size:84px;color:{TEXT_DARK};margin-bottom:8px;margin-top:40px">
+        Buy With Confidence</h1>
     <div class="divider"></div>
+    <p style="font-size:26px;color:{TEXT_MED};margin-top:10px;text-align:center">
+        Everything you need to know before you download</p>
     <div style="display:flex;flex-direction:column;gap:28px;width:100%;
-                margin-top:50px">{items}</div>
-    <div style="margin-top:50px;border:3px solid {PURPLE};
-                border-radius:16px;padding:36px 60px;text-align:center;
-                width:100%;background:#FFF;
-                box-shadow:0 3px 12px rgba(0,0,0,0.05)">
-        <div style="font-size:34px;font-weight:700;color:{PURPLE};
-                     letter-spacing:2px">&#9733; COMMERCIAL LICENSE INCLUDED &#9733;</div>
-        <div style="font-size:24px;margin-top:8px;color:{TEXT_MED}">
-            Personal &amp; commercial use permitted</div>
+                margin-top:44px">{items}</div>
+    <div style="display:flex;gap:20px;margin-top:40px;width:100%">
+        <div style="flex:1;border:3px solid {PURPLE};border-radius:16px;
+                     padding:32px 40px;text-align:center;background:#FFF;
+                     box-shadow:0 3px 12px rgba(0,0,0,0.05)">
+            <div style="font-size:32px;font-weight:700;color:{PURPLE};
+                         letter-spacing:2px">&#9733; COMMERCIAL LICENSE &#9733;</div>
+            <div style="font-size:22px;margin-top:8px;color:{TEXT_MED}">
+                Personal &amp; commercial use included</div>
+        </div>
+        <div style="flex:1;border:3px solid {GOLD};border-radius:16px;
+                     padding:32px 40px;text-align:center;background:#FFF;
+                     box-shadow:0 3px 12px rgba(0,0,0,0.05)">
+            <div style="font-size:32px;font-weight:700;color:{GOLD};
+                         letter-spacing:2px">&#9733; &#9733; &#9733; &#9733; &#9733;</div>
+            <div style="font-size:22px;margin-top:8px;color:{TEXT_MED}">
+                Trusted by 100s of happy creators</div>
+        </div>
     </div>
-    <div class="serif" style="margin-top:50px;font-size:32px;letter-spacing:5px;
-                color:{PURPLE};opacity:0.5">PURPLEOCAZ</div>
+    <div style="margin-top:40px;width:100%;max-width:900px;text-align:center">
+        {_cta_pill("Add to Cart &rarr; Instant Access")}
+    </div>
+    <div style="margin-top:14px;font-size:20px;color:{TEXT_DIM};text-align:center">
+        No physical product shipped &mdash; digital download only</div>
     </body></html>"""
 
 
@@ -809,6 +911,7 @@ def _page4_usage(samples):
     return f"""<!DOCTYPE html><html><head><style>
     {_base_css()}
     </style></head><body style="padding:50px 60px">
+    <div style="margin-bottom:20px">{_brand_logo()}</div>
     <div style="text-align:center;margin-bottom:36px">
         <h1 class="serif purple" style="font-size:68px;font-weight:700;letter-spacing:2px">
             Endless Possibilities</h1>
@@ -823,6 +926,10 @@ def _page4_usage(samples):
         <div style="display:flex;justify-content:center;gap:16px;flex-wrap:wrap">
             {pill_html}
         </div>
+    </div>
+    <div style="display:flex;gap:24px;margin-top:30px;align-items:center;justify-content:center">
+        {_cta_pill("Start Creating Today &rarr;")}
+        <div style="font-size:24px;color:{TEXT_DIM}">120+ designs ready for your next project</div>
     </div>
     </body></html>"""
 
@@ -855,9 +962,12 @@ def _page5_categories(cat_samples, category_counts):
 
     total_cats = len(category_counts)
 
+    total_designs = sum(category_counts.values())
+
     return f"""<!DOCTYPE html><html><head><style>
     {_base_css()}
     </style></head><body style="padding:50px 60px;display:flex;flex-direction:column">
+    <div style="margin-bottom:20px">{_brand_logo()}</div>
     <div style="text-align:center;margin-bottom:36px">
         <h1 class="serif purple" style="font-size:68px;font-weight:700;letter-spacing:2px">
             {total_cats} Design Categories</h1>
@@ -868,9 +978,14 @@ def _page5_categories(cat_samples, category_counts):
         {cards}
     </div>
     <div style="background:{PURPLE};border-radius:14px;margin-top:36px;
-                padding:28px;text-align:center">
-        <span class="serif" style="font-size:24px;letter-spacing:5px;
-                     font-weight:600;color:#FFF">
+                padding:36px;text-align:center;display:flex;flex-direction:column;align-items:center;gap:16px">
+        <div style="font-size:36px;font-weight:700;color:#FFF;letter-spacing:1px">
+            Get All {total_cats} Categories &mdash; {total_designs}+ Designs</div>
+        <div style="background:#FFF;border-radius:50px;padding:16px 60px;margin-top:8px">
+            <span style="font-size:26px;font-weight:700;color:{PURPLE}">Add to Cart &rarr; Instant Download</span>
+        </div>
+        <span class="serif" style="font-size:20px;letter-spacing:5px;
+                     font-weight:600;color:rgba(255,255,255,0.7);margin-top:4px">
             PURPLEOCAZ &middot; FINE-LINE BOTANICAL COLLECTION</span>
     </div>
     </body></html>"""
@@ -880,7 +995,7 @@ def _page5_categories(cat_samples, category_counts):
 
 def _page6_leave_review():
     stars = "".join(
-        f'<span style="font-size:80px;color:{PURPLE};margin:0 6px">&#9733;</span>'
+        f'<span style="font-size:90px;color:{GOLD};margin:0 8px">&#9733;</span>'
         for _ in range(5))
 
     steps = [
@@ -889,20 +1004,20 @@ def _page6_leave_review():
         ("2", "Find This Order",
          "Click &ldquo;Write a Review&rdquo; next to your purchase"),
         ("3", "Share Your Experience",
-         "Your honest feedback helps other buyers &amp; supports our shop"),
+         "It only takes 30 seconds &amp; helps other makers discover us"),
     ]
 
     step_html = ""
     for num, title, desc in steps:
         step_html += f"""
         <div style="display:flex;align-items:center;gap:28px">
-            <div style="width:60px;height:60px;border-radius:50%;
+            <div style="width:64px;height:64px;border-radius:50%;
                          background:{PURPLE};color:#FFF;
                          font-size:28px;font-weight:800;
                          display:flex;align-items:center;justify-content:center;
                          flex-shrink:0">{num}</div>
             <div>
-                <div style="font-size:32px;font-weight:700;color:{TEXT_DARK}">{title}</div>
+                <div style="font-size:34px;font-weight:700;color:{TEXT_DARK}">{title}</div>
                 <div style="font-size:24px;margin-top:4px;color:{TEXT_MED}">{desc}</div>
             </div>
         </div>"""
@@ -911,22 +1026,25 @@ def _page6_leave_review():
     {_base_css()}
     </style></head><body style="display:flex;flex-direction:column;
            align-items:center;justify-content:center;padding:80px 100px">
-    <h1 class="serif" style="font-size:80px;color:{TEXT_DARK}">
-        We'd Love Your Feedback!</h1>
+    <div style="position:absolute;top:40px;left:50px">{_brand_logo()}</div>
+    <h1 class="serif" style="font-size:78px;color:{TEXT_DARK};margin-top:40px">
+        Loving Your Designs?</h1>
     <div class="divider"></div>
-    <div style="margin:30px 0 40px">{stars}</div>
+    <p style="font-size:28px;color:{TEXT_MED};margin-top:10px;text-align:center;max-width:1600px">
+        Your feedback means the world to us and helps fellow creators find exactly what they need</p>
+    <div style="margin:36px 0 44px">{stars}</div>
     <div style="background:#FFF;border-radius:20px;
-                 padding:50px 60px;width:100%;
+                 padding:56px 64px;width:100%;
                  box-shadow:0 4px 20px rgba(0,0,0,0.06)">
-        <div style="display:flex;flex-direction:column;gap:36px">
+        <div style="display:flex;flex-direction:column;gap:40px">
             {step_html}
         </div>
     </div>
-    <div style="margin-top:40px;font-size:26px;font-style:italic;
-                 color:{TEXT_MED};text-align:center">
-        Your reviews help small creators grow &#10084;</div>
-    <div class="serif" style="margin-top:40px;font-size:32px;letter-spacing:5px;
-                color:{PURPLE};opacity:0.5">PURPLEOCAZ</div>
+    <div style="margin-top:44px">
+        {_cta_pill("&#10084; Leave a Review &amp; Support Small Business &#10084;")}
+    </div>
+    <div style="margin-top:24px;font-size:24px;color:{TEXT_DIM};text-align:center">
+        Every 5-star review helps us create more designs for you</div>
     </body></html>"""
 
 
@@ -940,7 +1058,7 @@ def _page7_thank_you():
     <div style="flex:1;display:flex;flex-direction:column;
                 align-items:center;justify-content:center;
                 padding:80px 120px;text-align:center">
-        <div style="font-size:80px;color:{PURPLE};margin-bottom:16px">&#10084;</div>
+        <div style="font-size:100px;color:{RED_HEART};margin-bottom:16px">&#10084;</div>
         <h1 class="serif" style="font-size:110px;color:{TEXT_DARK};margin-bottom:8px">
             Thank You!</h1>
         <div class="divider"></div>
@@ -948,19 +1066,25 @@ def _page7_thank_you():
                      color:{TEXT_MED};letter-spacing:1px">
             for supporting our small business</div>
         <div style="background:#FFF;border-radius:20px;padding:44px 60px;
-                     margin-top:40px;max-width:1400px;
+                     margin-top:40px;max-width:1600px;
                      box-shadow:0 4px 20px rgba(0,0,0,0.06)">
             <p style="font-size:30px;line-height:1.7;color:{TEXT_DARK}">
                 Every purchase helps us continue creating beautiful<br>
                 designs for makers, artists, and creators like you.</p>
         </div>
+        <div style="display:flex;gap:28px;margin-top:44px;flex-wrap:wrap;justify-content:center">
+            {_cta_pill("&#10084; Favourite Our Shop")}
+            {_cta_pill("Browse More Designs &rarr;", filled=False)}
+        </div>
+        <div style="margin-top:30px;font-size:22px;color:{TEXT_DIM};text-align:center">
+            New designs added regularly &mdash; follow us so you never miss a drop!</div>
     </div>
     <div style="width:100%;background:{PURPLE};
-                padding:50px 80px;text-align:center">
-        <div class="serif" style="font-size:52px;letter-spacing:8px;
-                     color:#FFF;font-weight:700">PURPLEOCAZ</div>
+                padding:50px 80px;text-align:center;
+                display:flex;flex-direction:column;align-items:center">
+        <div style="margin-bottom:12px">{_brand_logo("#FFF")}</div>
         <div style="font-size:22px;color:rgba(255,255,255,0.65);
-                     letter-spacing:4px;margin-top:10px;
+                     letter-spacing:4px;
                      text-transform:uppercase">Handcrafted Digital Designs</div>
     </div>
     </body></html>"""

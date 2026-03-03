@@ -12,7 +12,7 @@ import svgwrite
 from . import botanical_primitives as bp
 
 STROKE = "#000000"
-STROKE_W = 2
+STROKE_W = 3
 FILL = "none"
 CX, CY = 500, 500  # Canvas center
 

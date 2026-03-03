@@ -571,8 +571,17 @@ def _save_and_resize(image_bytes: bytes, path: str, width: int, height: int):
 # =============================================================================
 
 def _collect_sample_svgs(svg_dir, max_per_cat=4):
+    # Prioritise visually rich categories first so the hero grid looks best
+    _priority = [
+        "Roses", "Wreaths-and-Frames", "Bouquets", "Wildflowers",
+        "Decorative", "Birth-Flowers", "Botanical-Stems", "Mini",
+    ]
+    cats = sorted(os.listdir(svg_dir))
+    cats.sort(key=lambda c: (
+        _priority.index(c) if c in _priority else len(_priority)
+    ))
     samples = []
-    for cat_name in sorted(os.listdir(svg_dir)):
+    for cat_name in cats:
         cat_path = os.path.join(svg_dir, cat_name)
         if not os.path.isdir(cat_path):
             continue

@@ -127,7 +127,7 @@ class TestBotanicalPrimitives:
     def test_center_spiral_returns_path(self):
         d = bp.center_spiral(turns=2.5, max_radius=12)
         assert "M " in d
-        assert "L " in d
+        assert "Q " in d or "L " in d
 
     def test_berry_cluster_returns_path(self):
         d = bp.berry_cluster(count=5, spread=15)
@@ -246,7 +246,8 @@ class TestSvgGeneratorTool:
             first_svg = result["data"]["generated"][0]["path"]
             with open(first_svg, "r", encoding="utf-8") as f:
                 content = f.read()
-            assert 'viewBox="0 0 1000 1000"' in content
+            assert 'viewBox="' in content  # auto-cropped viewBox
+            assert 'width="1000px"' in content
             assert "<path" in content
             assert 'stroke="#000000"' in content
 

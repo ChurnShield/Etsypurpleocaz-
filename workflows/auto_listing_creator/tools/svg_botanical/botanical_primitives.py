@@ -14,13 +14,19 @@ import math
 # ── Petals ───────────────────────────────────────────────────────────────────
 
 def petal_teardrop(length=40, width=15):
-    """Teardrop petal pointing upward. Classic for roses and generic flowers."""
+    """Teardrop petal pointing upward. Classic for roses and generic flowers.
+    Uses multi-segment bezier for a more organic, hand-drawn feel."""
     hl = length / 2
     hw = width / 2
+    # More natural shape: slightly asymmetric with a bulge
     return (
         f"M 0,{-hl:.1f} "
-        f"C {hw:.1f},{-hl * 0.5:.1f} {hw:.1f},{hl * 0.6:.1f} 0,{hl:.1f} "
-        f"C {-hw:.1f},{hl * 0.6:.1f} {-hw:.1f},{-hl * 0.5:.1f} 0,{-hl:.1f}"
+        f"C {hw * 0.4:.1f},{-hl * 0.7:.1f} {hw * 1.05:.1f},{-hl * 0.2:.1f} "
+        f"{hw * 0.95:.1f},{hl * 0.1:.1f} "
+        f"C {hw * 0.85:.1f},{hl * 0.4:.1f} {hw * 0.4:.1f},{hl * 0.85:.1f} 0,{hl:.1f} "
+        f"C {-hw * 0.4:.1f},{hl * 0.85:.1f} {-hw * 0.85:.1f},{hl * 0.4:.1f} "
+        f"{-hw * 0.95:.1f},{hl * 0.1:.1f} "
+        f"C {-hw * 1.05:.1f},{-hl * 0.2:.1f} {-hw * 0.4:.1f},{-hl * 0.7:.1f} 0,{-hl:.1f}"
     )
 
 
@@ -38,13 +44,17 @@ def petal_round(radius=20):
 
 
 def petal_elongated(length=50, width=12):
-    """Long narrow petal for daisies and sunflowers."""
+    """Long narrow petal for daisies and sunflowers. Tapered with slight swell."""
     hl = length / 2
     hw = width / 2
     return (
         f"M 0,{-hl:.1f} "
-        f"C {hw:.1f},{-hl * 0.7:.1f} {hw:.1f},{hl * 0.7:.1f} 0,{hl:.1f} "
-        f"C {-hw:.1f},{hl * 0.7:.1f} {-hw:.1f},{-hl * 0.7:.1f} 0,{-hl:.1f}"
+        f"C {hw * 0.3:.1f},{-hl * 0.8:.1f} {hw * 1.1:.1f},{-hl * 0.3:.1f} "
+        f"{hw * 0.9:.1f},{0:.1f} "
+        f"C {hw * 0.7:.1f},{hl * 0.4:.1f} {hw * 0.3:.1f},{hl * 0.9:.1f} 0,{hl:.1f} "
+        f"C {-hw * 0.3:.1f},{hl * 0.9:.1f} {-hw * 0.7:.1f},{hl * 0.4:.1f} "
+        f"{-hw * 0.9:.1f},{0:.1f} "
+        f"C {-hw * 1.1:.1f},{-hl * 0.3:.1f} {-hw * 0.3:.1f},{-hl * 0.8:.1f} 0,{-hl:.1f}"
     )
 
 
@@ -79,15 +89,27 @@ def petal_tulip(length=40, width=22):
 # ── Leaves ───────────────────────────────────────────────────────────────────
 
 def leaf_simple(length=60, width=20):
-    """Pointed leaf with central vein. Returns (outline_d, vein_d)."""
+    """Pointed leaf with central vein and side veins. Returns (outline_d, vein_d)."""
     hl = length / 2
     hw = width / 2
     outline = (
         f"M 0,{-hl:.1f} "
-        f"C {hw:.1f},{-hl * 0.4:.1f} {hw:.1f},{hl * 0.4:.1f} 0,{hl:.1f} "
-        f"C {-hw:.1f},{hl * 0.4:.1f} {-hw:.1f},{-hl * 0.4:.1f} 0,{-hl:.1f}"
+        f"C {hw * 0.5:.1f},{-hl * 0.6:.1f} {hw * 1.1:.1f},{-hl * 0.15:.1f} "
+        f"{hw * 0.95:.1f},{hl * 0.1:.1f} "
+        f"C {hw * 0.8:.1f},{hl * 0.45:.1f} {hw * 0.3:.1f},{hl * 0.9:.1f} 0,{hl:.1f} "
+        f"C {-hw * 0.3:.1f},{hl * 0.9:.1f} {-hw * 0.8:.1f},{hl * 0.45:.1f} "
+        f"{-hw * 0.95:.1f},{hl * 0.1:.1f} "
+        f"C {-hw * 1.1:.1f},{-hl * 0.15:.1f} {-hw * 0.5:.1f},{-hl * 0.6:.1f} 0,{-hl:.1f}"
     )
-    vein = f"M 0,{-hl:.1f} L 0,{hl:.1f}"
+    # Central vein + side veins for detail
+    veins = [f"M 0,{-hl:.1f} L 0,{hl:.1f}"]
+    vein_count = max(3, int(length / 20))
+    for i in range(1, vein_count + 1):
+        y = -hl + length * i / (vein_count + 1)
+        vl = hw * 0.6 * (1 - abs(2 * i / (vein_count + 1) - 1))
+        veins.append(f"M 0,{y:.1f} L {vl:.1f},{y - vl * 0.4:.1f}")
+        veins.append(f"M 0,{y:.1f} L {-vl:.1f},{y - vl * 0.4:.1f}")
+    vein = " ".join(veins)
     return outline, vein
 
 
@@ -262,9 +284,9 @@ def center_dots(count=5, spread=10):
 
 
 def center_spiral(turns=2.5, max_radius=12):
-    """Logarithmic spiral for rose centers."""
+    """Smooth logarithmic spiral for rose centers using cubic beziers."""
     points = []
-    steps = int(turns * 20)
+    steps = int(turns * 24)
     for i in range(steps + 1):
         t = i / steps
         angle = t * turns * 2 * math.pi
@@ -272,9 +294,19 @@ def center_spiral(turns=2.5, max_radius=12):
         x = math.cos(angle) * r
         y = math.sin(angle) * r
         points.append((x, y))
+
+    if len(points) < 2:
+        return ""
+
+    # Build smooth cubic bezier curve through points
     parts = [f"M {points[0][0]:.1f},{points[0][1]:.1f}"]
-    for i in range(1, len(points)):
-        parts.append(f"L {points[i][0]:.1f},{points[i][1]:.1f}")
+    for i in range(1, len(points) - 1, 2):
+        p1 = points[i]
+        p2 = points[min(i + 1, len(points) - 1)]
+        # Use current point as control, next as endpoint
+        parts.append(
+            f"Q {p1[0]:.1f},{p1[1]:.1f} {p2[0]:.1f},{p2[1]:.1f}"
+        )
     return " ".join(parts)
 
 

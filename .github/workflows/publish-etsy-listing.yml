@@ -1,0 +1,33 @@
+name: Publish Botanical Bundle to Etsy
+
+# Trigger manually from GitHub Actions tab (works on phone!)
+on:
+  workflow_dispatch:
+    inputs:
+      auth_code:
+        description: "Paste the auth code from Etsy redirect URL"
+        required: true
+        type: string
+
+jobs:
+  publish:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repo (feature branch with assets)
+        uses: actions/checkout@v4
+        with:
+          ref: claude/investigate-delay-issue-cCcRJ
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+
+      - name: Publish listing to Etsy
+        env:
+          ETSY_API_KEYSTRING: ${{ secrets.ETSY_API_KEYSTRING }}
+          ETSY_SHARED_SECRET: ${{ secrets.ETSY_SHARED_SECRET }}
+          ETSY_SHOP_ID: ${{ secrets.ETSY_SHOP_ID }}
+          AUTH_CODE: ${{ github.event.inputs.auth_code }}
+          CODE_VERIFIER: "XdeBpvZRC7j2DYdbyOKOAVTv6z2ss7fM8Ayt3NDyQRE"
+        run: python .github/scripts/publish_etsy_listing.py

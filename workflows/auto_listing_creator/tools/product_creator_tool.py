@@ -29,6 +29,7 @@ from tools.image_renderer import (
     render_template, render_hero, render_band, render_badge,
     create_page2, create_pdf,
 )
+from tools.png_renderer import render_gift_certificate_png, render_hero_png
 from tools.image_compositor import composite_hero, copy_boilerplate_pages
 from tools.tier_config import classify_tier, TIER_1, BADGE_TEXT
 from tools.gemini_image_client import generate_product_image, build_product_prompt
@@ -267,9 +268,16 @@ class ProductCreatorTool(BaseTool):
 
         # Step 1: Render template design
         print("       Rendering template design...", flush=True)
-        template_path = render_template(
-            browser, listing, niche, accent, safe_title,
-        )
+        pt_lower = product_type.lower()
+        use_png_renderer = any(kw in pt_lower
+                               for kw in ("gift", "certificate", "voucher"))
+
+        if use_png_renderer:
+            template_path = render_gift_certificate_png()
+        else:
+            template_path = render_template(
+                browser, listing, niche, accent, safe_title,
+            )
 
         # Copy template to canva_designs/ for easy Canva upload
         canva_dir = os.path.join(EXPORT_DIR, "canva_designs")
@@ -282,10 +290,16 @@ class ProductCreatorTool(BaseTool):
 
         # Step 2: Render complete hero image (styled flat-lay scene)
         print("       Rendering hero image...", flush=True)
-        hero_path = render_hero(
-            browser, template_path, hero_title, tagline,
-            accent["band"], safe_title,
-        )
+        if use_png_renderer:
+            hero_path = render_hero_png(
+                template_path, hero_title, tagline,
+                accent["band"], safe_title,
+            )
+        else:
+            hero_path = render_hero(
+                browser, template_path, hero_title, tagline,
+                accent["band"], safe_title,
+            )
 
         # Step 5: Create page 2 (What You Get)
         print("       Creating page 2...", flush=True)

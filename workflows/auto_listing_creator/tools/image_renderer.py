@@ -129,6 +129,338 @@ body::before {{
     return path
 
 
+def render_hero(browser, template_path, title, tagline, band_color, safe_title):
+    """Render the complete hero image as a styled flat-lay scene.
+
+    Single Playwright render that combines: dark marble surface, template card
+    with perspective + shadow, decorative props, window-light overlay,
+    bottom title band, and 'Edit in Canva' badge.
+    """
+    from PIL import Image
+
+    # Base64-encode the template for embedding
+    template = Image.open(template_path).convert("RGBA")
+    buf = BytesIO()
+    template.save(buf, "PNG")
+    tmpl_b64 = base64.b64encode(buf.getvalue()).decode("utf-8")
+    template.close()
+
+    html = f'''<!DOCTYPE html>
+<html><head><meta charset="utf-8">
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700;900&family=Montserrat:wght@400;600;700;800&family=Great+Vibes&display=swap');
+* {{ margin:0; padding:0; box-sizing:border-box; }}
+html, body {{ width:{IMG_W}px; height:{IMG_H}px; overflow:hidden; }}
+
+body {{
+    background: #0C0B0F;
+    position: relative;
+}}
+
+/* ── Dark marble/slate surface ── */
+.surface {{
+    position: absolute; inset: 0;
+    background:
+        /* Subtle vein streaks */
+        repeating-linear-gradient(
+            135deg,
+            transparent 0px, transparent 80px,
+            rgba(255,255,255,0.012) 80px, rgba(255,255,255,0.012) 81px,
+            transparent 81px, transparent 200px
+        ),
+        repeating-linear-gradient(
+            115deg,
+            transparent 0px, transparent 150px,
+            rgba(255,255,255,0.008) 150px, rgba(255,255,255,0.008) 151px,
+            transparent 151px, transparent 350px
+        ),
+        /* Base gradient — dark charcoal with warm undertones */
+        radial-gradient(ellipse 160% 140% at 45% 35%,
+            #1A181E 0%, #141318 30%, #100F14 55%, #0C0B10 80%, #080810 100%);
+}}
+
+/* Marble noise texture */
+.surface::after {{
+    content: ''; position: absolute; inset: 0;
+    background: url("data:image/svg+xml,%3Csvg viewBox='0 0 512 512' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.7' numOctaves='6' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.035'/%3E%3C/svg%3E");
+    z-index: 1; pointer-events: none;
+}}
+
+/* ── Window light shadow overlay (diagonal lines) ── */
+.window-light {{
+    position: absolute; inset: 0; z-index: 8;
+    pointer-events: none;
+    background:
+        linear-gradient(
+            52deg,
+            transparent 0%,
+            transparent 18%,
+            rgba(255,255,255,0.025) 18.5%,
+            rgba(255,255,255,0.025) 32%,
+            transparent 32.5%,
+            transparent 44%,
+            rgba(255,255,255,0.018) 44.5%,
+            rgba(255,255,255,0.018) 53%,
+            transparent 53.5%,
+            transparent 66%,
+            rgba(255,255,255,0.012) 66.5%,
+            rgba(255,255,255,0.012) 72%,
+            transparent 72.5%,
+            transparent 100%
+        );
+}}
+
+/* ── Showcase area (above the band) ── */
+.showcase {{
+    position: absolute;
+    top: 0; left: 0; right: 0;
+    height: {IMG_H - BAND_H}px;
+    display: flex; align-items: center; justify-content: center;
+    z-index: 2;
+}}
+
+/* ── Card stack container ── */
+.card-stack {{
+    position: relative;
+    width: 1800px; height: 950px;
+}}
+
+/* ── Back cards (ivory edges peeking out from behind main card) ── */
+.back-card {{
+    position: absolute;
+    width: 1550px; height: {int(1550 * TMPL_H / TMPL_W)}px;
+    background: linear-gradient(135deg, #E8DFD0 0%, #DDD5C5 50%, #D0C8B8 100%);
+    border: 2px solid rgba(26, 26, 26, 0.4);
+    border-radius: 4px;
+    box-shadow:
+        0 10px 40px rgba(0,0,0,0.5),
+        0 3px 10px rgba(0,0,0,0.3);
+    z-index: 1;
+}}
+.back-card-1 {{
+    top: 40px; left: 50%;
+    transform: translateX(-60%) rotate(12deg);
+}}
+.back-card-2 {{
+    top: 20px; left: 50%;
+    transform: translateX(-40%) rotate(-10deg);
+}}
+
+/* ── Main template card (front) ── */
+.main-card {{
+    position: absolute;
+    top: 160px; left: 50%;
+    transform: translateX(-50%) perspective(2000px) rotateX(2deg);
+    z-index: 3;
+    border-radius: 4px;
+    box-shadow:
+        0 25px 80px rgba(0,0,0,0.6),
+        0 8px 25px rgba(0,0,0,0.4),
+        0 0 0 1px rgba(201, 168, 76, 0.1);
+}}
+.main-card img {{
+    display: block;
+    width: 1650px;
+    height: auto;
+    border-radius: 4px;
+}}
+
+/* ── Props ── */
+/* Decorative pen */
+.prop-pen {{
+    position: absolute; z-index: 4;
+    bottom: 40px; right: 60px;
+    width: 320px; height: 14px;
+    background: linear-gradient(90deg, #2A2520 0%, #3A3530 70%, #C9A84C 85%, #8A7A4A 100%);
+    transform: rotate(-25deg);
+    border-radius: 6px 2px 2px 6px;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.4);
+}}
+.prop-pen::before {{
+    content: ''; position: absolute;
+    right: -20px; top: 1px;
+    width: 20px; height: 10px;
+    background: linear-gradient(90deg, #8A7A4A, #666);
+    border-radius: 0 4px 4px 0;
+    clip-path: polygon(0 0, 100% 30%, 100% 70%, 0 100%);
+}}
+
+/* Wax seal */
+.prop-seal {{
+    position: absolute; z-index: 4;
+    bottom: 30px; left: 60px;
+    width: 80px; height: 80px;
+    background: radial-gradient(circle at 40% 35%,
+        #C41E3A 0%, #8B0000 50%, #5B0000 100%);
+    border-radius: 50%;
+    box-shadow:
+        0 4px 15px rgba(0,0,0,0.5),
+        inset 0 -3px 6px rgba(0,0,0,0.3),
+        inset 0 3px 6px rgba(255,255,255,0.1);
+}}
+.prop-seal::after {{
+    content: ''; position: absolute;
+    top: 15px; left: 15px; right: 15px; bottom: 15px;
+    border: 1.5px solid rgba(255,200,200,0.2);
+    border-radius: 50%;
+}}
+
+/* Gold ribbon accent */
+.prop-ribbon {{
+    position: absolute; z-index: 1;
+    top: 120px; left: 30px;
+    width: 160px; height: 16px;
+    background: linear-gradient(180deg, #D4B86A 0%, #C9A84C 50%, #B89840 100%);
+    transform: rotate(12deg);
+    border-radius: 2px;
+    box-shadow: 0 3px 10px rgba(0,0,0,0.3);
+    opacity: 0.6;
+}}
+
+/* Small decorative card/envelope */
+.prop-envelope {{
+    position: absolute; z-index: 1;
+    bottom: 80px; left: 180px;
+    width: 200px; height: 130px;
+    background: linear-gradient(160deg, #1E1C22 0%, #16141A 100%);
+    border: 1px solid rgba(201, 168, 76, 0.1);
+    border-radius: 3px;
+    transform: rotate(8deg);
+    box-shadow: 0 6px 20px rgba(0,0,0,0.4);
+}}
+
+/* ── Edit in Canva badge ── */
+.badge {{
+    position: absolute; z-index: 6;
+    right: 100px; bottom: {BAND_H + 20}px;
+    width: 200px; height: 200px;
+    border-radius: 50%;
+    background: {ACCENT_ORANGE};
+    display: flex; flex-direction: column;
+    justify-content: center; align-items: center;
+    gap: 2px;
+    box-shadow:
+        0 8px 25px rgba(0,0,0,0.5),
+        0 2px 8px rgba(0,0,0,0.3);
+}}
+.badge-top {{
+    font-family: 'Montserrat', sans-serif;
+    font-size: 22px; font-weight: 600;
+    color: white; letter-spacing: 2px;
+}}
+.badge-bottom {{
+    font-family: 'Montserrat', sans-serif;
+    font-size: 34px; font-weight: 800;
+    color: white; letter-spacing: 3px;
+}}
+
+/* ── Bottom title band ── */
+.band {{
+    position: absolute;
+    bottom: 0; left: 0; right: 0;
+    height: {BAND_H}px;
+    background: linear-gradient(180deg, {band_color} 0%, #0E0C12 100%);
+    display: flex; flex-direction: column;
+    justify-content: center; align-items: center;
+    text-align: center; padding: 30px 120px; gap: 16px;
+    z-index: 5;
+}}
+.band::before {{
+    content: ''; position: absolute; top: 0; left: 10%; right: 10%;
+    height: 2px;
+    background: linear-gradient(90deg, transparent, rgba(201,168,76,0.5), transparent);
+}}
+.band-ornament {{
+    display: flex; align-items: center; gap: 14px;
+    margin-bottom: 6px;
+}}
+.band-orn-line {{
+    width: 70px; height: 1px;
+    background: linear-gradient(90deg, transparent, rgba(201,168,76,0.4), transparent);
+}}
+.band-orn-diamond {{
+    width: 5px; height: 5px;
+    background: rgba(201,168,76,0.5);
+    transform: rotate(45deg);
+}}
+.band-title {{
+    font-family: 'Playfair Display', serif;
+    font-size: 80px; font-weight: 900;
+    color: #FFFFFF; line-height: 1.1;
+    letter-spacing: 3px;
+    text-shadow: 0 2px 15px rgba(0,0,0,0.5);
+}}
+.band-tagline {{
+    font-family: 'Montserrat', sans-serif;
+    font-size: 22px; font-weight: 700;
+    color: rgba(201,168,76,0.7); letter-spacing: 6px;
+    text-transform: uppercase;
+}}
+
+/* ── Warm glow accent ── */
+.warm-glow {{
+    position: absolute; z-index: 0;
+    top: -100px; left: 40%;
+    width: 900px; height: 500px;
+    background: radial-gradient(ellipse, rgba(201, 168, 76, 0.04) 0%, transparent 70%);
+    pointer-events: none;
+}}
+</style></head><body>
+
+<div class="surface"></div>
+<div class="warm-glow"></div>
+<div class="window-light"></div>
+
+<div class="showcase">
+    <div class="card-stack">
+        <div class="back-card back-card-2"></div>
+        <div class="back-card back-card-1"></div>
+
+        <div class="prop-ribbon"></div>
+        <div class="prop-envelope"></div>
+
+        <div class="main-card">
+            <img src="data:image/png;base64,{tmpl_b64}" alt="template" />
+        </div>
+
+        <div class="prop-pen"></div>
+        <div class="prop-seal"></div>
+    </div>
+</div>
+
+<div class="badge">
+    <div class="badge-top">EDIT IN</div>
+    <div class="badge-bottom">CANVA</div>
+</div>
+
+<div class="band">
+    <div class="band-ornament">
+        <div class="band-orn-line"></div>
+        <div class="band-orn-diamond"></div>
+        <div class="band-orn-line"></div>
+    </div>
+    <div class="band-title">{esc(title)}</div>
+    <div class="band-tagline">{esc(tagline)}</div>
+</div>
+
+</body></html>'''
+
+    page = browser.new_page(
+        viewport={"width": IMG_W, "height": IMG_H},
+        device_scale_factor=1,
+    )
+    page.set_content(html, wait_until="networkidle", timeout=PLAYWRIGHT_PAGE_TIMEOUT_MS)
+    page.wait_for_timeout(2500)
+
+    path = os.path.join(EXPORT_DIR, f"{safe_title}_page1.png")
+    page.screenshot(
+        path=path,
+        clip={"x": 0, "y": 0, "width": IMG_W, "height": IMG_H},
+    )
+    page.close()
+    return path
+
+
 def render_badge(browser, text_top, text_bottom, safe_title):
     """Render an orange circular badge via Playwright."""
     size = 240

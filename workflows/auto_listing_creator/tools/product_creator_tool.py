@@ -26,7 +26,8 @@ from lib.orchestrator.base_tool import BaseTool
 
 from tools.design_constants import EXPORT_DIR, THEME_ACCENTS, safe_filename
 from tools.image_renderer import (
-    render_template, render_band, render_badge, create_page2, create_pdf,
+    render_template, render_hero, render_band, render_badge,
+    create_page2, create_pdf,
 )
 from tools.image_compositor import composite_hero, copy_boilerplate_pages
 from tools.tier_config import classify_tier, TIER_1, BADGE_TEXT
@@ -279,19 +280,11 @@ class ProductCreatorTool(BaseTool):
                 os.path.join(canva_dir, os.path.basename(template_path)),
             )
 
-        # Step 2: Render bottom band
-        print("       Rendering title band...", flush=True)
-        band_path = render_band(
-            browser, hero_title, tagline, accent["band"], safe_title,
-        )
-
-        # Step 3: Render badge
-        badge_path = render_badge(browser, "EDIT IN", "CANVA", safe_title)
-
-        # Step 4: Composite hero image (page 1)
-        print("       Compositing hero image...", flush=True)
-        hero_path = composite_hero(
-            template_path, band_path, badge_path, safe_title,
+        # Step 2: Render complete hero image (styled flat-lay scene)
+        print("       Rendering hero image...", flush=True)
+        hero_path = render_hero(
+            browser, template_path, hero_title, tagline,
+            accent["band"], safe_title,
         )
 
         # Step 5: Create page 2 (What You Get)

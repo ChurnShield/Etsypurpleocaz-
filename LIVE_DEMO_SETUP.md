@@ -67,7 +67,7 @@ In the test page, update these values:
 
 ```javascript
 ChurnShield.init({
-  token: '43a3cad2-42a6-4a79-9391-ae03a293bcb4', // Your profile token
+  token: 'YOUR_PROFILE_TOKEN_HERE', // Your profile token
   customerId: 'cus_xxx...',    // From Stripe
   subscriptionId: 'sub_xxx...', // From Stripe
   onSave: function() {

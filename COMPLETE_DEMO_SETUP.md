@@ -70,8 +70,8 @@ npm run dev
 - Go to http://localhost:5173/widget-test.html
 
 **Update the configuration:**
-- Replace `cus_SRRjhFxZzEMZ5c` with your test customer ID
-- Replace `sub_1St7bzFIUhkPZE5zthceyK8c` with your test subscription ID
+- Replace `cus_YOUR_TEST_CUSTOMER_ID` with your test customer ID
+- Replace `sub_YOUR_TEST_SUBSCRIPTION_ID` with your test subscription ID
 
 ## Step 5: Enable Development Domains
 

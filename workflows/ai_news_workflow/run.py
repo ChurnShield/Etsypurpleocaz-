@@ -301,6 +301,10 @@ def main():
         .eq('id', execution_id) \
         .execute()
 
+    # ── Obsidian vault sync ──────────────────────────────────────────
+    from lib.obsidian.hooks import post_workflow_sync
+    post_workflow_sync(db)
+
     # ── Step 7: Show final result ──
     print()
     print("=" * 55)

@@ -375,6 +375,10 @@ def main():
     from lib.big_brain.hooks import post_workflow_check
     post_workflow_check(db)
 
+    # ── Obsidian vault sync ──────────────────────────────────────────
+    from lib.obsidian.hooks import post_workflow_sync
+    post_workflow_sync(db)
+
     # ── 9. Final summary ──────────────────────────────────────────────────────
     print(f"\n{'=' * 60}")
     if overall_success:

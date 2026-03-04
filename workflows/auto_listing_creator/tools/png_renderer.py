@@ -251,63 +251,73 @@ def render_gift_certificate_png():
 # ═══════════════════════════════════════════════════════════════════════════
 
 def _marble_background(w, h):
-    """Create a dark marble/slate surface texture."""
-    bg = Image.new("RGBA", (w, h), DARK_BG + (255,))
+    """Create a warm beige/cream craft paper surface (PurpleOcaz brand style)."""
+    bg = Image.new("RGBA", (w, h), (0, 0, 0, 255))
     draw = ImageDraw.Draw(bg)
 
-    # Base gradient — warm charcoal
+    # Base: warm beige/cream gradient (matching top Etsy sellers)
     for y in range(h):
         frac = y / h
-        r = int(16 + 6 * math.sin(frac * math.pi))
-        g = int(14 + 5 * math.sin(frac * math.pi))
-        b = int(20 + 4 * math.sin(frac * math.pi))
+        r = int(215 + 12 * math.sin(frac * math.pi * 1.5))
+        g = int(205 + 10 * math.sin(frac * math.pi * 1.5))
+        b = int(188 + 8 * math.sin(frac * math.pi * 1.5))
         draw.line([(0, y), (w, y)], fill=(r, g, b, 255))
 
-    # Marble vein streaks
-    for _ in range(8):
+    # Subtle kraft paper texture — horizontal fiber streaks
+    for _ in range(40):
+        y1 = random.randint(0, h)
+        x1 = random.randint(0, w)
+        length = random.randint(200, 800)
+        for i in range(length):
+            px = x1 + i
+            py = y1 + random.randint(-1, 1)
+            if 0 <= px < w and 0 <= py < h:
+                a = random.randint(2, 8)
+                draw.point((px, py), fill=(180, 170, 152, a))
+
+    # Diagonal creases (subtle fold lines)
+    for _ in range(3):
         x1 = random.randint(0, w)
         y1 = random.randint(0, h)
-        angle = random.uniform(0.3, 0.8)
-        length = random.randint(400, 1200)
+        angle = random.uniform(0.5, 1.2)
+        length = random.randint(600, 1500)
         for i in range(length):
             px = int(x1 + i * math.cos(angle))
             py = int(y1 + i * math.sin(angle))
             if 0 <= px < w and 0 <= py < h:
-                jitter = random.randint(-2, 2)
-                a = max(0, 12 - abs(jitter) * 3)
-                if a > 0:
-                    draw.point((px, py + jitter), fill=(255, 255, 255, a))
+                draw.point((px, py), fill=(190, 180, 162, 6))
 
-    # Warm ambient glow from top-center
+    # Warm ambient glow from top-left (simulates daylight)
     glow = Image.new("RGBA", (w, h), (0, 0, 0, 0))
     glow_draw = ImageDraw.Draw(glow)
-    for r_val in range(500, 0, -5):
-        alpha = int(4 * (r_val / 500))
+    for r_val in range(600, 0, -6):
+        alpha = int(3 * (r_val / 600))
         if alpha > 0:
             glow_draw.ellipse(
-                [w // 2 - r_val * 2, -r_val, w // 2 + r_val * 2, r_val * 2],
-                fill=(201, 168, 76, alpha),
+                [-r_val, -r_val, r_val * 2, r_val * 2],
+                fill=(255, 245, 220, alpha),
             )
     bg = Image.alpha_composite(bg, glow)
 
-    # Noise texture
-    bg = _add_noise(bg, 6)
+    # Fine noise for paper grain
+    bg = _add_noise(bg, 4)
 
     return bg
 
 
 def _window_light_overlay(w, h):
-    """Create diagonal window light bars."""
+    """Create diagonal window light bars (soft daylight through blinds)."""
     overlay = Image.new("RGBA", (w, h), (0, 0, 0, 0))
     draw = ImageDraw.Draw(overlay)
 
-    # Diagonal light bands
+    # Diagonal light bands — warm soft daylight
     bands = [
-        (0.20, 0.35, 6),   # band 1 (start_frac, end_frac, alpha)
-        (0.45, 0.55, 4),   # band 2
-        (0.68, 0.74, 3),   # band 3
+        (0.15, 0.30, 10),   # band 1 (wide, bright)
+        (0.42, 0.52, 7),    # band 2
+        (0.64, 0.72, 5),    # band 3
+        (0.82, 0.88, 3),    # band 4 (faint)
     ]
-    angle = math.radians(52)
+    angle = math.radians(55)
     for start_f, end_f, alpha in bands:
         for y in range(h):
             x_offset = int(y / math.tan(angle))
@@ -316,7 +326,13 @@ def _window_light_overlay(w, h):
             x1 = max(0, min(w, x1))
             x2 = max(0, min(w, x2))
             if x1 < x2:
-                draw.line([(x1, y), (x2, y)], fill=(255, 255, 255, alpha))
+                # Feathered edges for softer light
+                mid = (x1 + x2) // 2
+                for x in range(x1, x2):
+                    dist = abs(x - mid) / max(1, (x2 - x1) // 2)
+                    a = int(alpha * (1 - dist * 0.6))
+                    if a > 0:
+                        draw.point((x, y), fill=(255, 248, 230, a))
 
     return overlay
 
@@ -394,6 +410,86 @@ def _draw_pen(w=300, h=16):
     return pen
 
 
+def _draw_eucalyptus(w=200, h=400):
+    """Draw a decorative eucalyptus sprig prop."""
+    sprig = Image.new("RGBA", (w, h), (0, 0, 0, 0))
+    draw = ImageDraw.Draw(sprig)
+
+    # Stem — thin dark green curved line
+    stem_x = w // 2
+    for y in range(20, h - 20):
+        frac = y / h
+        x = stem_x + int(15 * math.sin(frac * math.pi * 1.3))
+        draw.line([(x - 1, y), (x + 1, y)], fill=(80, 100, 70, 200))
+
+    # Leaves along the stem — alternating left/right
+    leaf_positions = [(0.15, -1), (0.25, 1), (0.35, -1), (0.45, 1),
+                      (0.55, -1), (0.65, 1), (0.75, -1), (0.85, 1)]
+    for frac, side in leaf_positions:
+        ly = int(frac * h)
+        lx = stem_x + int(15 * math.sin(frac * math.pi * 1.3))
+        # Oval leaf
+        leaf_w, leaf_h = 28, 18
+        offset_x = side * (leaf_w + 5)
+        leaf_cx = lx + offset_x
+        # Muted sage green with slight variation
+        green_r = random.randint(115, 135)
+        green_g = random.randint(140, 160)
+        green_b = random.randint(110, 125)
+        draw.ellipse(
+            [leaf_cx - leaf_w, ly - leaf_h, leaf_cx + leaf_w, ly + leaf_h],
+            fill=(green_r, green_g, green_b, 180),
+        )
+        # Leaf vein
+        draw.line([(leaf_cx - leaf_w + 5, ly), (leaf_cx + leaf_w - 5, ly)],
+                  fill=(90, 110, 80, 60), width=1)
+
+    # Rotate slightly
+    sprig = sprig.rotate(-15, expand=True, resample=Image.BICUBIC,
+                         fillcolor=(0, 0, 0, 0))
+    return sprig
+
+
+def _draw_coffee_cup(size=140):
+    """Draw a latte art coffee cup seen from above (circle prop)."""
+    cup = Image.new("RGBA", (size + 40, size + 40), (0, 0, 0, 0))
+    draw = ImageDraw.Draw(cup)
+    cx, cy = (size + 40) // 2, (size + 40) // 2
+    r = size // 2
+
+    # Cup shadow
+    draw.ellipse([(cx - r - 4, cy - r + 8), (cx + r + 4, cy + r + 12)],
+                 fill=(0, 0, 0, 40))
+
+    # White cup rim
+    draw.ellipse([(cx - r, cy - r), (cx + r, cy + r)],
+                 fill=(245, 242, 236))
+
+    # Coffee (warm brown circle inside)
+    inner_r = r - 8
+    draw.ellipse([(cx - inner_r, cy - inner_r), (cx + inner_r, cy + inner_r)],
+                 fill=(120, 80, 50))
+
+    # Latte art — simple leaf/fern pattern
+    # Central line
+    draw.line([(cx, cy - inner_r + 15), (cx, cy + inner_r - 15)],
+              fill=(200, 180, 150, 100), width=2)
+    # Leaf strokes
+    for offset in range(-20, 25, 10):
+        y_pos = cy + offset
+        spread = max(5, inner_r - 25 - abs(offset))
+        draw.arc([(cx - spread, y_pos - 8), (cx, y_pos + 8)],
+                 180, 0, fill=(200, 180, 150, 80), width=1)
+        draw.arc([(cx, y_pos - 8), (cx + spread, y_pos + 8)],
+                 0, 180, fill=(200, 180, 150, 80), width=1)
+
+    # Cup handle (small arc on the right)
+    draw.arc([(cx + r - 5, cy - 15), (cx + r + 20, cy + 15)],
+             -60, 60, fill=(235, 232, 226), width=4)
+
+    return cup
+
+
 def render_hero_png(template_path, title, tagline, band_color_hex, safe_title):
     """Render the complete hero image as a pure PNG flat-lay scene.
 
@@ -408,7 +504,7 @@ def render_hero_png(template_path, title, tagline, band_color_hex, safe_title):
     """
     showcase_h = IMG_H - BAND_H
 
-    # ── Background: dark marble surface ──
+    # ── Background: warm beige craft paper (PurpleOcaz brand style) ──
     hero = _marble_background(IMG_W, IMG_H)
 
     # ── Window light overlay ──
@@ -418,36 +514,51 @@ def render_hero_png(template_path, title, tagline, band_color_hex, safe_title):
     # ── Load template ──
     template = Image.open(template_path).convert("RGBA")
     enhancer = ImageEnhance.Contrast(template)
-    template = enhancer.enhance(1.08)
+    template = enhancer.enhance(1.1)
 
     showcase_cx = IMG_W // 2
     showcase_cy = showcase_h // 2
 
-    # ── Back cards (ivory, fanned) ──
-    back_card_w = int(TMPL_W * 0.72)
-    back_card_h = int(TMPL_H * 0.72)
+    # ── Props: Eucalyptus sprig (top-left, partially cropped) ──
+    eucalyptus = _draw_eucalyptus(200, 400)
+    hero.paste(eucalyptus, (-30, 80), eucalyptus)
 
-    for rot, x_off, y_off in [(12, -30, -40), (-10, 30, -50)]:
+    # ── Props: Coffee cup (top-right, partially cropped) ──
+    coffee = _draw_coffee_cup(130)
+    hero.paste(coffee, (IMG_W - 160, 50), coffee)
+
+    # ── Back cards (ivory/cream, fanned out — matching template style) ──
+    back_card_w = int(TMPL_W * 0.70)
+    back_card_h = int(TMPL_H * 0.70)
+
+    for rot, x_off, y_off in [(14, -160, -100), (-11, 180, -70)]:
         bc = Image.new("RGBA", (back_card_w, back_card_h), (0, 0, 0, 0))
         bc_draw = ImageDraw.Draw(bc)
-        # Ivory fill with gradient
+        # Ivory card with subtle gradient (matching gift certificate style)
         for y in range(back_card_h):
             frac = y / back_card_h
-            r = int(235 - 10 * frac)
-            g = int(227 - 12 * frac)
-            b = int(212 - 14 * frac)
-            bc_draw.line([(2, y), (back_card_w - 3, y)], fill=(r, g, b, 255))
-        # Dark border
+            r = int(248 - 14 * frac)
+            g = int(242 - 16 * frac)
+            b = int(232 - 20 * frac)
+            bc_draw.line([(0, y), (back_card_w - 1, y)], fill=(r, g, b, 255))
+        # Dark outer border
         bc_draw.rectangle([0, 0, back_card_w - 1, back_card_h - 1],
-                          outline=DARK + (100,), width=2)
+                          outline=DARK + (120,), width=2)
+        # Gold inner border (subtle)
+        bc_draw.rectangle([8, 8, back_card_w - 9, back_card_h - 9],
+                          outline=GOLD + (50,), width=1)
+        # Faint text hint (makes it look like a real back-of-card)
+        f_hint = _font(FONT_SERIF, 18)
+        _draw_text_centered(bc_draw, "Gift Certificate", back_card_h // 2 - 12,
+                            f_hint, (80, 74, 66, 80), back_card_w)
 
         # Shadow
         shadow = Image.new("RGBA",
                            (back_card_w + 80, back_card_h + 80), (0, 0, 0, 0))
         s_draw = ImageDraw.Draw(shadow)
         s_draw.rectangle([48, 52, back_card_w + 48, back_card_h + 52],
-                         fill=(0, 0, 0, 80))
-        shadow = shadow.filter(ImageFilter.GaussianBlur(22))
+                         fill=(0, 0, 0, 60))
+        shadow = shadow.filter(ImageFilter.GaussianBlur(20))
         shadow.paste(bc, (40, 40), bc)
 
         # Rotate
@@ -457,63 +568,54 @@ def render_hero_png(template_path, title, tagline, band_color_hex, safe_title):
         py = showcase_cy + y_off - shadow_rot.height // 2
         hero.paste(shadow_rot, (px, py), shadow_rot)
 
-    # ── Main card (front-center) ──
-    main_w = int(TMPL_W * 0.82)
-    main_h = int(TMPL_H * 0.82)
+    # ── Main card (front-center, dominant) ──
+    main_w = int(TMPL_W * 0.85)
+    main_h = int(TMPL_H * 0.85)
     main_card = template.resize((main_w, main_h), Image.LANCZOS)
 
     # Dramatic shadow for main card
-    shadow_pad = 70
+    shadow_pad = 80
     main_shadow = Image.new(
         "RGBA", (main_w + shadow_pad * 2, main_h + shadow_pad * 2), (0, 0, 0, 0))
     ms_draw = ImageDraw.Draw(main_shadow)
     ms_draw.rectangle(
-        [shadow_pad + 10, shadow_pad + 18,
-         shadow_pad + main_w + 10, shadow_pad + main_h + 18],
-        fill=(0, 0, 0, 120))
-    main_shadow = main_shadow.filter(ImageFilter.GaussianBlur(28))
+        [shadow_pad + 12, shadow_pad + 20,
+         shadow_pad + main_w + 12, shadow_pad + main_h + 20],
+        fill=(0, 0, 0, 90))
+    main_shadow = main_shadow.filter(ImageFilter.GaussianBlur(30))
 
-    # Gold edge glow
-    glow_pad = 6
-    edge_glow = Image.new(
-        "RGBA", (main_w + glow_pad * 2, main_h + glow_pad * 2), (0, 0, 0, 0))
-    eg_fill = Image.new("RGBA", (main_w, main_h), GOLD + (12,))
-    edge_glow.paste(eg_fill, (glow_pad, glow_pad))
-    edge_glow = edge_glow.filter(ImageFilter.GaussianBlur(6))
-
-    # Slight rotation for main card
-    main_rot = 1.5
+    # Slight rotation for main card (casual placement feel)
+    main_rot = 2.0
     main_shadow_rot = main_shadow.rotate(main_rot, expand=True,
                                          resample=Image.BICUBIC,
                                          fillcolor=(0, 0, 0, 0))
-    edge_glow_rot = edge_glow.rotate(main_rot, expand=True,
-                                     resample=Image.BICUBIC,
-                                     fillcolor=(0, 0, 0, 0))
     main_card_rot = main_card.rotate(main_rot, expand=True,
                                      resample=Image.BICUBIC,
                                      fillcolor=(0, 0, 0, 0))
 
     mcx = showcase_cx - main_card_rot.width // 2
-    mcy = showcase_cy + 30 - main_card_rot.height // 2
+    mcy = showcase_cy + 40 - main_card_rot.height // 2
     msx = showcase_cx - main_shadow_rot.width // 2
-    msy = showcase_cy + 30 - main_shadow_rot.height // 2
-    mgx = showcase_cx - edge_glow_rot.width // 2
-    mgy = showcase_cy + 30 - edge_glow_rot.height // 2
+    msy = showcase_cy + 40 - main_shadow_rot.height // 2
 
     hero.paste(main_shadow_rot, (msx, msy), main_shadow_rot)
-    hero.paste(edge_glow_rot, (mgx, mgy), edge_glow_rot)
     hero.paste(main_card_rot, (mcx, mcy), main_card_rot)
 
-    # ── Props ──
-    # Wax seal (bottom-left of showcase)
-    seal = _draw_wax_seal(80)
-    hero.paste(seal, (showcase_cx - main_w // 2 - 40,
-                      showcase_cy + main_h // 2 - 30), seal)
+    # ── Props: Wax seal (bottom-left of showcase) ──
+    seal = _draw_wax_seal(90)
+    hero.paste(seal, (showcase_cx - main_w // 2 - 20,
+                      showcase_cy + main_h // 2 - 10), seal)
 
-    # Pen (bottom-right)
-    pen = _draw_pen(280, 14)
-    hero.paste(pen, (showcase_cx + main_w // 2 - 200,
-                     showcase_cy + main_h // 2 - 20), pen)
+    # ── Props: Pen (bottom-right, angled) ──
+    pen = _draw_pen(300, 15)
+    hero.paste(pen, (showcase_cx + main_w // 2 - 220,
+                     showcase_cy + main_h // 2 + 10), pen)
+
+    # ── Props: Second eucalyptus (bottom-right, smaller, cropped) ──
+    euc2 = _draw_eucalyptus(150, 300)
+    euc2 = euc2.rotate(45, expand=True, resample=Image.BICUBIC,
+                       fillcolor=(0, 0, 0, 0))
+    hero.paste(euc2, (IMG_W - 200, showcase_h - 300), euc2)
 
     # ── Bottom band ──
     band = Image.new("RGBA", (IMG_W, BAND_H), (0, 0, 0, 0))

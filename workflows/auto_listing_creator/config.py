@@ -66,6 +66,8 @@ TOKEN_FILE = os.path.join(os.path.dirname(os.path.abspath(__file__)),
 
 # -- Gemini API (Nano Banana -- AI image generation for Tier 1 products)
 GEMINI_API_KEY = os.getenv("GEMINI_API_KEY", "")
+# Override the default Gemini image model (e.g. "gemini-2.5-flash-image")
+GEMINI_IMAGE_MODEL = os.getenv("GEMINI_IMAGE_MODEL", "")
 
 # -- Canva API (for design export)
 CANVA_CLIENT_ID     = os.getenv("CANVA_CLIENT_ID", "")

@@ -12,17 +12,24 @@ import time
 import urllib.request
 import urllib.error
 
-GEMINI_API_URL = (
-    "https://generativelanguage.googleapis.com/v1beta/models/"
-    "gemini-2.5-flash-image:generateContent"
-)
+GEMINI_API_BASE = "https://generativelanguage.googleapis.com/v1beta/models"
+
+# Model priority: try best-quality first, fall back to faster alternatives
+GEMINI_IMAGE_MODELS = [
+    "gemini-2.5-flash-preview-image",   # Latest preview (best quality)
+    "gemini-2.5-flash-image",           # Stable image generation
+    "gemini-2.0-flash-exp",             # Experimental fallback
+]
+
+# Default model — override via GEMINI_IMAGE_MODEL env var
+DEFAULT_MODEL = "gemini-2.5-flash-preview-image"
 
 # ---------------------------------------------------------------------------
 # PurpleOcaz brand-aligned prompt system
 #
 # Visual identity (from live store reference images):
 #   - Background: warm beige/cream textured craft paper
-#   - Card style: bold black cards with torn/ripped paper edge detail
+#   - Card style: elegant ivory/cream cards with dark borders, gold accents
 #   - Props: eucalyptus leaves, terracotta succulent pot, latte art coffee,
 #            tortoiseshell reading glasses, marble pens, wicker trays
 #   - Layout: styled overhead flat-lay, cards overlapping at slight angle
@@ -43,7 +50,7 @@ PROMPT_TEMPLATES = {
             "Front card: pure white background. A fine-line tattoo-style "
             "ornamental divider (e.g. a thin mandala line, dagger, or "
             "geometric dot-work line) separates the heading area from the "
-            "form fields. Title: 'Appointment Card' in white script. "
+            "form fields. Title: 'Appointment Card' in elegant dark script. "
             "Below the divider are four form fields, each on its own line: "
             "NAME:  followed by a thin horizontal line. "
             "DATE:  followed by a thin horizontal line. "
@@ -79,10 +86,10 @@ PROMPT_TEMPLATES = {
     },
     "gift certificate": {
         "card_description": (
-            "One elegant gift certificate card. Bold black background with "
+            "One elegant gift certificate card. Elegant ivory/cream background with dark accents and gold borders with "
             "a niche-appropriate ornamental divider separating sections. "
             "Elegant script heading 'Gift Certificate' (same font family and "
-            "size as used on all other cards). Gold or white placeholder fields "
+            "size as used on all other cards). Dark placeholder fields with gold accents "
             "for TO:, FROM:, AMOUNT:, EXPIRES: each with thin underlines. "
             "Studio name placeholder at top. Contact details footer with "
             "email, phone, website"
@@ -91,7 +98,7 @@ PROMPT_TEMPLATES = {
     },
     "gift voucher": {
         "card_description": (
-            "One elegant gift voucher card. Bold black background with "
+            "One elegant gift voucher card. Elegant ivory/cream background with dark accents and gold borders with "
             "a niche-appropriate ornamental divider. Elegant script heading "
             "'Gift Voucher' (same font family and size as all other cards). "
             "White placeholder fields for RECIPIENT:, AMOUNT:, FROM:, "
@@ -103,7 +110,7 @@ PROMPT_TEMPLATES = {
     "price list": {
         "card_description": (
             "One price list / service menu card, larger format (A5 or A4 size). "
-            "Bold black background with niche-appropriate ornamental dividers "
+            "Elegant ivory/cream background with dark accents and gold borders with niche-appropriate ornamental dividers "
             "between sections. Elegant script heading 'Price List' (same font "
             "as all other cards). Organized sections with service categories "
             "and prices in clean columns. Studio name placeholder at top. "
@@ -113,7 +120,7 @@ PROMPT_TEMPLATES = {
     },
     "service menu": {
         "card_description": (
-            "One service menu card, larger format. Bold black background with "
+            "One service menu card, larger format. Elegant ivory/cream background with dark accents and gold borders with "
             "niche-appropriate ornamental dividers between pricing tiers. "
             "Script heading 'Service Menu' (same font as all other cards). "
             "Tiered pricing sections with service names and prices. Studio "
@@ -126,17 +133,17 @@ PROMPT_TEMPLATES = {
             "Two overlapping business cards (front and back visible). "
             "BOTH cards use the SAME elegant script font at the SAME size "
             "for their titles. "
-            "Front: bold black background, niche-appropriate ornamental "
+            "Front: elegant ivory/cream background with dark accents, niche-appropriate ornamental "
             "divider, centered studio name in elegant script, minimal "
             "contact details (phone, email, website) in clean sans-serif. "
-            "Back: bold black background, large 'LOGO' circular placeholder, "
+            "Back: elegant ivory/cream background with dark accents, large 'LOGO' circular placeholder, "
             "tagline, same ornamental design elements"
         ),
         "card_count": "two cards",
     },
     "aftercare card": {
         "card_description": (
-            "One aftercare instruction card. Bold black background with "
+            "One aftercare instruction card. Elegant ivory/cream background with dark accents and gold borders with "
             "niche-appropriate ornamental divider. Script heading 'Aftercare "
             "Instructions' (same font as all other cards). Numbered care "
             "steps in clean white text. Studio name and contact footer"
@@ -147,7 +154,7 @@ PROMPT_TEMPLATES = {
         "card_description": (
             "Multiple matching stationery pieces fanned out and overlapping — "
             "business card, appointment card, gift certificate, and letterhead. "
-            "All share the same bold black background with matching "
+            "All share the same elegant ivory/cream background with dark accents with matching "
             "niche-appropriate ornamental design elements. Studio name "
             "placeholder consistent across all pieces"
         ),
@@ -177,7 +184,7 @@ PROMPT_TEMPLATES = {
 
 _DEFAULT_PROMPT_PARTS = {
     "card_description": (
-        "One professional editable template card. Bold black background with "
+        "One professional editable template card. Elegant ivory/cream background with dark accents and gold borders with "
         "a niche-appropriate ornamental divider. Elegant script heading with "
         "the product title. Clean white placeholder fields for NAME:, DATE:, "
         "PHONE:, EMAIL: each with thin underlines. Studio name at top, "
@@ -188,8 +195,11 @@ _DEFAULT_PROMPT_PARTS = {
 
 
 def generate_product_image(api_key, prompt, aspect_ratio="3:4",
-                           image_size="2K", max_retries=2):
-    """Call Gemini 2.5 Flash to generate a product mockup image.
+                           image_size="2K", max_retries=2, model=None):
+    """Call Gemini to generate a product mockup image.
+
+    Tries multiple Gemini models in priority order for resilience.
+    Override the model with GEMINI_IMAGE_MODEL env var or the model arg.
 
     Args:
         api_key: Gemini API key (never logged).
@@ -197,34 +207,59 @@ def generate_product_image(api_key, prompt, aspect_ratio="3:4",
         aspect_ratio: Image aspect ratio (e.g. "3:4", "2:1").
         image_size: Resolution tier ("1K", "2K").
         max_retries: Retry attempts on transient failures.
+        model: Specific model name to use (overrides auto-selection).
 
     Returns:
         {"success": bool, "image_bytes": bytes|None,
-         "mime_type": str|None, "error": str|None}
+         "mime_type": str|None, "model_used": str|None, "error": str|None}
     """
+    import os as _os
+
+    # Determine model list — explicit model, env var, or full fallback chain
+    env_model = _os.getenv("GEMINI_IMAGE_MODEL", "")
+    if model:
+        models_to_try = [model]
+    elif env_model:
+        models_to_try = [env_model]
+    else:
+        models_to_try = list(GEMINI_IMAGE_MODELS)
+
     last_error = None
 
-    for attempt in range(max_retries + 1):
-        if attempt > 0:
-            wait = min(2 ** attempt, 10)
-            print(f"       Gemini retry {attempt}/{max_retries} "
-                  f"(waiting {wait}s)...", flush=True)
-            time.sleep(wait)
+    for model_name in models_to_try:
+        api_url = f"{GEMINI_API_BASE}/{model_name}:generateContent"
+        print(f"       Trying Gemini model: {model_name}", flush=True)
 
-        result = _call_gemini_api(api_key, prompt, aspect_ratio, image_size)
+        for attempt in range(max_retries + 1):
+            if attempt > 0:
+                wait = min(2 ** attempt, 10)
+                print(f"       Gemini retry {attempt}/{max_retries} "
+                      f"(waiting {wait}s)...", flush=True)
+                time.sleep(wait)
 
-        if result["success"]:
-            return result
+            result = _call_gemini_api(api_key, prompt, aspect_ratio,
+                                     image_size, api_url)
 
-        last_error = result["error"]
+            if result["success"]:
+                result["model_used"] = model_name
+                return result
 
-        # Only retry on transient errors
-        if not _is_retryable(last_error):
-            return result
+            last_error = result["error"]
+
+            # Model not found → skip to next model immediately
+            if "404" in str(last_error) or "not found" in str(last_error).lower():
+                print(f"       Model {model_name} not available, trying next...",
+                      flush=True)
+                break
+
+            # Only retry on transient errors
+            if not _is_retryable(last_error):
+                break
 
     return {
         "success": False, "image_bytes": None,
-        "mime_type": None, "error": f"Failed after {max_retries + 1} attempts: {last_error}",
+        "mime_type": None, "model_used": None,
+        "error": f"All models failed. Last error: {last_error}",
     }
 
 
@@ -382,8 +417,8 @@ def build_product_prompt(product_type, niche, theme,
         f"Props should look real and photographed, not illustrated or clipart. "
 
         # === CARD DESIGN STYLE ===
-        f"Card design style: the cards have pure WHITE backgrounds (#FFFFFF) "
-        f"— not cream, not off-white. Both cards must be the exact same white. "
+        f"Card design style: the cards have warm IVORY/CREAM backgrounds "
+        f"(#FAF6EF) with dark borders and gold accent lines. "
         f"Use niche-appropriate ornamental design elements as dividers and "
         f"accents — for {niche} this means fine-line art such as thin mandala "
         f"lines, compass roses, geometric dot-work borders, delicate dagger/"
@@ -426,8 +461,11 @@ def build_product_prompt(product_type, niche, theme,
     )
 
 
-def _call_gemini_api(api_key, prompt, aspect_ratio, image_size):
+def _call_gemini_api(api_key, prompt, aspect_ratio, image_size, api_url=None):
     """Make a single API call to Gemini. Returns result dict."""
+    if api_url is None:
+        api_url = f"{GEMINI_API_BASE}/{DEFAULT_MODEL}:generateContent"
+
     payload = {
         "contents": [{"parts": [{"text": prompt}]}],
         "generationConfig": {
@@ -440,7 +478,7 @@ def _call_gemini_api(api_key, prompt, aspect_ratio, image_size):
     }
 
     data = json.dumps(payload).encode("utf-8")
-    req = urllib.request.Request(GEMINI_API_URL, data=data, method="POST")
+    req = urllib.request.Request(api_url, data=data, method="POST")
     req.add_header("x-goog-api-key", api_key)
     req.add_header("Content-Type", "application/json")
 

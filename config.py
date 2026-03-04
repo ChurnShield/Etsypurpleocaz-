@@ -44,3 +44,8 @@ BIG_BRAIN_RECURRING_ERROR_THRESHOLD = 10   # Same error 10+ times in 24h
 BIG_BRAIN_TIMEOUT_THRESHOLD = 5            # 5+ timeouts in 24h
 BIG_BRAIN_DB_MAX_SIZE_MB = 500             # Database size limit in MB
 BIG_BRAIN_PERF_DEGRADATION_FACTOR = 1.5    # 50% slower = flagged
+
+# ── Obsidian Integration ──
+OBSIDIAN_VAULT_PATH = os.getenv("OBSIDIAN_VAULT_PATH", "data/obsidian_vault")
+OBSIDIAN_SYNC_SCOPE = os.getenv("OBSIDIAN_SYNC_SCOPE", "recent")  # "full" | "recent" | "proposals_only"
+OBSIDIAN_SYNC_SINCE_HOURS = int(os.getenv("OBSIDIAN_SYNC_SINCE_HOURS", "24"))

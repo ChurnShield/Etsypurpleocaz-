@@ -190,7 +190,8 @@ body {{
 # -- Gift Certificate (elegant dark with gold accents) ----------------------
 
 def tmpl_gift_certificate():
-    """Dark gift certificate with gold border and decorative corners."""
+    """Premium gift certificate — ivory/cream card with dark accents, gold foil details,
+    and textured background. High contrast for Etsy thumbnail visibility."""
     return f'''<!DOCTYPE html>
 <html><head><meta charset="utf-8">
 <style>
@@ -198,97 +199,279 @@ def tmpl_gift_certificate():
 * {{ margin:0; padding:0; box-sizing:border-box; }}
 html, body {{ width:{TMPL_W}px; height:{TMPL_H}px; overflow:hidden; }}
 body {{
-    background: {DARK_BG};
+    background: #0A0A0C;
     display: flex; align-items: center; justify-content: center;
-    padding: 25px;
 }}
+
+/* Main card — warm ivory with subtle texture */
 .cert {{
-    width: 1920px; height: 900px;
-    background: {DARK_CARD};
-    border: 2px solid {ACCENT_GOLD};
-    border-radius: 12px;
+    width: 1940px; height: 920px;
     position: relative;
     display: flex; flex-direction: column;
     align-items: center; justify-content: center;
-    padding: 50px 80px;
+    padding: 55px 90px;
+    overflow: hidden;
 }}
+
+/* Ivory/cream base with warm paper texture */
 .cert::before {{
-    content: ''; position: absolute;
-    top: 12px; left: 12px; right: 12px; bottom: 12px;
-    border: 1px solid rgba(201, 168, 76, 0.3);
-    border-radius: 8px; pointer-events: none;
+    content: ''; position: absolute; inset: 0;
+    background:
+        radial-gradient(ellipse 140% 120% at 50% 40%,
+            #FAF6EF 0%, #F3EDE2 40%, #EDE5D6 70%, #E8DFD0 100%);
+    z-index: 0;
 }}
+
+/* Paper grain texture */
+.cert::after {{
+    content: ''; position: absolute; inset: 0;
+    background: url("data:image/svg+xml,%3Csvg viewBox='0 0 512 512' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.8' numOctaves='5' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.025'/%3E%3C/svg%3E");
+    z-index: 1; pointer-events: none;
+}}
+
+/* Dark outer border — thick and luxurious */
+.border-outer {{
+    position: absolute; inset: 12px;
+    border: 3px solid #1A1A1A;
+    z-index: 2; pointer-events: none;
+}}
+
+/* Gold inner border with glow */
+.border-inner {{
+    position: absolute;
+    top: 24px; left: 24px; right: 24px; bottom: 24px;
+    border: 1.5px solid {ACCENT_GOLD};
+    z-index: 2; pointer-events: none;
+    box-shadow:
+        0 0 12px rgba(201, 168, 76, 0.15),
+        inset 0 0 12px rgba(201, 168, 76, 0.08);
+}}
+
+/* Ornate corners */
 .corner {{
-    position: absolute; width: 40px; height: 40px;
-    border-color: {ACCENT_GOLD}; border-style: solid;
+    position: absolute; z-index: 3;
+    width: 80px; height: 80px;
 }}
-.c-tl {{ top: 24px; left: 24px; border-width: 2px 0 0 2px; }}
-.c-tr {{ top: 24px; right: 24px; border-width: 2px 2px 0 0; }}
-.c-bl {{ bottom: 24px; left: 24px; border-width: 0 0 2px 2px; }}
-.c-br {{ bottom: 24px; right: 24px; border-width: 0 2px 2px 0; }}
+.corner::before, .corner::after {{
+    content: ''; position: absolute;
+    background: #1A1A1A;
+}}
+.c-tl {{ top: 16px; left: 16px; }}
+.c-tl::before {{ top: 0; left: 0; width: 80px; height: 3px; }}
+.c-tl::after {{ top: 0; left: 0; width: 3px; height: 80px; }}
+.c-tr {{ top: 16px; right: 16px; }}
+.c-tr::before {{ top: 0; right: 0; width: 80px; height: 3px; }}
+.c-tr::after {{ top: 0; right: 0; width: 3px; height: 80px; }}
+.c-bl {{ bottom: 16px; left: 16px; }}
+.c-bl::before {{ bottom: 0; left: 0; width: 80px; height: 3px; }}
+.c-bl::after {{ bottom: 0; left: 0; width: 3px; height: 80px; }}
+.c-br {{ bottom: 16px; right: 16px; }}
+.c-br::before {{ bottom: 0; right: 0; width: 80px; height: 3px; }}
+.c-br::after {{ bottom: 0; right: 0; width: 3px; height: 80px; }}
+
+/* Gold inner corner accents */
+.gold-corner {{
+    position: absolute; z-index: 4;
+    width: 50px; height: 50px;
+}}
+.gold-corner::before, .gold-corner::after {{
+    content: ''; position: absolute;
+    background: {ACCENT_GOLD};
+}}
+.gc-tl {{ top: 28px; left: 28px; }}
+.gc-tl::before {{ top: 0; left: 0; width: 50px; height: 1.5px; }}
+.gc-tl::after {{ top: 0; left: 0; width: 1.5px; height: 50px; }}
+.gc-tr {{ top: 28px; right: 28px; }}
+.gc-tr::before {{ top: 0; right: 0; width: 50px; height: 1.5px; }}
+.gc-tr::after {{ top: 0; right: 0; width: 1.5px; height: 50px; }}
+.gc-bl {{ bottom: 28px; left: 28px; }}
+.gc-bl::before {{ bottom: 0; left: 0; width: 50px; height: 1.5px; }}
+.gc-bl::after {{ bottom: 0; left: 0; width: 1.5px; height: 50px; }}
+.gc-br {{ bottom: 28px; right: 28px; }}
+.gc-br::before {{ bottom: 0; right: 0; width: 50px; height: 1.5px; }}
+.gc-br::after {{ bottom: 0; right: 0; width: 1.5px; height: 50px; }}
+
+/* Corner diamonds */
+.diamond {{
+    position: absolute; z-index: 4;
+    width: 10px; height: 10px;
+    background: {ACCENT_GOLD};
+    transform: rotate(45deg);
+}}
+.d-tl {{ top: 12px; left: 12px; }}
+.d-tr {{ top: 12px; right: 12px; }}
+.d-bl {{ bottom: 12px; left: 12px; }}
+.d-br {{ bottom: 12px; right: 12px; }}
+
+/* Content — all positioned above textures */
+.content {{
+    position: relative; z-index: 5;
+    display: flex; flex-direction: column;
+    align-items: center; width: 100%;
+}}
+
+/* Dark banner strip behind title area — slimmer, more elegant */
+.title-banner {{
+    position: absolute; z-index: 3;
+    top: 50%; left: 80px; right: 80px;
+    transform: translateY(-65%);
+    height: 190px;
+    background: linear-gradient(180deg,
+        rgba(22, 20, 28, 0.90) 0%,
+        rgba(16, 14, 22, 0.93) 50%,
+        rgba(22, 20, 28, 0.90) 100%);
+    border-top: 1px solid {ACCENT_GOLD};
+    border-bottom: 1px solid {ACCENT_GOLD};
+}}
+
+/* Flourish ornament */
+.flourish {{
+    display: flex; align-items: center; justify-content: center;
+    gap: 16px; margin-bottom: 10px;
+}}
+.fl-line {{
+    width: 140px; height: 1px;
+    background: linear-gradient(90deg, transparent, {ACCENT_GOLD}, transparent);
+}}
+.fl-diamond {{
+    width: 8px; height: 8px;
+    background: {ACCENT_GOLD};
+    transform: rotate(45deg); flex-shrink: 0;
+}}
+
+/* Business name */
 .biz {{
     font-family: 'Montserrat', sans-serif;
-    font-size: 14px; font-weight: 700;
-    color: {ACCENT_GOLD}; letter-spacing: 8px;
-    text-transform: uppercase; margin-bottom: 10px;
+    font-size: 15px; font-weight: 700;
+    color: {ACCENT_GOLD};
+    letter-spacing: 10px;
+    text-transform: uppercase;
+    margin-bottom: 12px;
 }}
-.fl-top {{
-    width: 180px; height: 2px;
-    background: linear-gradient(90deg, transparent, {ACCENT_GOLD}, transparent);
-    margin-bottom: 25px;
-}}
+
+/* Main title — dark text for contrast */
 .cert-title {{
     font-family: 'Playfair Display', serif;
-    font-size: 68px; font-weight: 700;
-    color: #FFF; letter-spacing: 3px;
-    margin-bottom: 8px;
+    font-size: 86px; font-weight: 700;
+    color: #FFFFFF;
+    letter-spacing: 5px;
+    margin-bottom: 6px;
+    text-shadow: 0 1px 2px rgba(0, 0, 0, 0.3);
 }}
+
+/* Subtitle */
 .cert-sub {{
     font-family: 'Montserrat', sans-serif;
-    font-size: 13px; color: #888;
-    letter-spacing: 4px; text-transform: uppercase;
-    margin-bottom: 25px;
+    font-size: 13px; color: #999;
+    letter-spacing: 6px; text-transform: uppercase;
+    margin-bottom: 12px;
 }}
-.fl-bot {{
-    width: 120px; height: 2px;
-    background: linear-gradient(90deg, transparent, {ACCENT_GOLD}, transparent);
-    margin-bottom: 35px;
+
+/* Bottom flourish */
+.flourish-bottom {{
+    display: flex; align-items: center; gap: 12px;
+    margin-bottom: 32px;
 }}
+.fb-line {{
+    width: 60px; height: 1px;
+    background: linear-gradient(90deg, transparent, {ACCENT_GOLD}80, transparent);
+}}
+.fb-dot {{
+    width: 5px; height: 5px;
+    background: {ACCENT_GOLD};
+    border-radius: 50%; flex-shrink: 0;
+    opacity: 0.6;
+}}
+
+/* Amount display */
+.amount-display {{
+    font-family: 'Great Vibes', cursive;
+    font-size: 54px;
+    color: {ACCENT_GOLD};
+    margin-bottom: 26px;
+    opacity: 0.45;
+}}
+
+/* Fields grid */
 .cert-fields {{
     display: grid; grid-template-columns: 1fr 1fr;
-    gap: 25px 80px; width: 100%; max-width: 1200px;
+    gap: 22px 100px; width: 100%; max-width: 1300px;
 }}
-.cf {{ display: flex; flex-direction: column; gap: 8px; }}
+.cf {{
+    display: flex; flex-direction: column; gap: 8px;
+}}
 .cf-label {{
     font-family: 'Montserrat', sans-serif;
     font-size: 11px; font-weight: 700;
-    color: {ACCENT_GOLD}; letter-spacing: 3px;
+    color: #2A2420;
+    letter-spacing: 4px;
     text-transform: uppercase;
+    opacity: 0.6;
 }}
-.cf-line {{ height: 1px; background: #333; }}
+.cf-line {{
+    height: 1px;
+    background: linear-gradient(90deg, rgba(42, 36, 32, 0.3), rgba(42, 36, 32, 0.08));
+}}
+
+/* Fine print */
 .fine {{
     font-family: 'Montserrat', sans-serif;
-    font-size: 11px; color: #555; font-style: italic;
-    text-align: center; margin-top: 30px;
+    font-size: 10px; color: #9A9080;
+    font-style: italic;
+    text-align: center; margin-top: 28px;
+    letter-spacing: 1px;
 }}
 </style></head><body>
 <div class="cert">
+    <div class="border-outer"></div>
+    <div class="border-inner"></div>
+    <div class="title-banner"></div>
+
     <div class="corner c-tl"></div>
     <div class="corner c-tr"></div>
     <div class="corner c-bl"></div>
     <div class="corner c-br"></div>
-    <div class="biz">Your Studio Name</div>
-    <div class="fl-top"></div>
-    <div class="cert-title">Gift Certificate</div>
-    <div class="cert-sub">Tattoo &amp; Body Art</div>
-    <div class="fl-bot"></div>
-    <div class="cert-fields">
-        <div class="cf"><div class="cf-label">Recipient</div><div class="cf-line"></div></div>
-        <div class="cf"><div class="cf-label">Amount</div><div class="cf-line"></div></div>
-        <div class="cf"><div class="cf-label">From</div><div class="cf-line"></div></div>
-        <div class="cf"><div class="cf-label">Valid Until</div><div class="cf-line"></div></div>
+
+    <div class="gold-corner gc-tl"></div>
+    <div class="gold-corner gc-tr"></div>
+    <div class="gold-corner gc-bl"></div>
+    <div class="gold-corner gc-br"></div>
+
+    <div class="diamond d-tl"></div>
+    <div class="diamond d-tr"></div>
+    <div class="diamond d-bl"></div>
+    <div class="diamond d-br"></div>
+
+    <div class="content">
+        <div class="flourish">
+            <div class="fl-line"></div>
+            <div class="fl-diamond"></div>
+            <div class="fl-line"></div>
+        </div>
+
+        <div class="biz">Your Studio Name</div>
+        <div class="cert-title">Gift Certificate</div>
+        <div class="cert-sub">Tattoo &amp; Body Art</div>
+
+        <div class="flourish-bottom">
+            <div class="fb-line"></div>
+            <div class="fb-dot"></div>
+            <div class="fb-line"></div>
+            <div class="fb-dot"></div>
+            <div class="fb-line"></div>
+        </div>
+
+        <div class="amount-display">$100</div>
+
+        <div class="cert-fields">
+            <div class="cf"><div class="cf-label">Recipient</div><div class="cf-line"></div></div>
+            <div class="cf"><div class="cf-label">Amount</div><div class="cf-line"></div></div>
+            <div class="cf"><div class="cf-label">From</div><div class="cf-line"></div></div>
+            <div class="cf"><div class="cf-label">Valid Until</div><div class="cf-line"></div></div>
+        </div>
+
+        <div class="fine">This voucher is non-refundable and cannot be exchanged for cash</div>
     </div>
-    <div class="fine">This voucher is non-refundable and cannot be exchanged for cash</div>
 </div>
 </body></html>'''
 

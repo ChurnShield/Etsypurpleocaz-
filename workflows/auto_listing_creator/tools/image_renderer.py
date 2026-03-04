@@ -60,32 +60,58 @@ def render_template(browser, listing, niche, accent, safe_title):
 
 
 def render_band(browser, title, tagline, band_color, safe_title):
-    """Render the bottom title band via Playwright."""
+    """Render the bottom title band via Playwright with gradient and ornaments."""
     html = f'''<!DOCTYPE html>
 <html><head><meta charset="utf-8">
 <style>
-@import url('https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700;900&family=Montserrat:wght@400;600&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700;900&family=Montserrat:wght@400;600;700&display=swap');
 * {{ margin:0; padding:0; box-sizing:border-box; }}
 html, body {{ width:{IMG_W}px; height:{BAND_H}px; overflow:hidden; }}
 body {{
-    background: {band_color};
+    background: linear-gradient(180deg, {band_color} 0%, #0E0C12 100%);
     display: flex; flex-direction: column;
     justify-content: center; align-items: center;
-    text-align: center; padding: 40px 160px; gap: 25px;
+    text-align: center; padding: 40px 160px; gap: 20px;
+    position: relative;
+}}
+/* Top edge gold accent line */
+body::before {{
+    content: ''; position: absolute; top: 0; left: 10%; right: 10%;
+    height: 2px;
+    background: linear-gradient(90deg, transparent, rgba(201,168,76,0.5), transparent);
+}}
+.ornament {{
+    display: flex; align-items: center; gap: 16px;
+    margin-bottom: 8px;
+}}
+.orn-line {{
+    width: 80px; height: 1px;
+    background: linear-gradient(90deg, transparent, rgba(201,168,76,0.4), transparent);
+}}
+.orn-diamond {{
+    width: 6px; height: 6px;
+    background: rgba(201,168,76,0.5);
+    transform: rotate(45deg);
 }}
 .title {{
     font-family: 'Playfair Display', serif;
-    font-size: 86px; font-weight: 900;
-    color: #FFFFFF; line-height: 1.15;
-    letter-spacing: 2px;
+    font-size: 88px; font-weight: 900;
+    color: #FFFFFF; line-height: 1.1;
+    letter-spacing: 3px;
+    text-shadow: 0 2px 20px rgba(0,0,0,0.5);
 }}
 .tagline {{
     font-family: 'Montserrat', sans-serif;
-    font-size: 28px; font-weight: 600;
-    color: #CCCCCC; letter-spacing: 4px;
+    font-size: 24px; font-weight: 700;
+    color: rgba(201,168,76,0.7); letter-spacing: 6px;
     text-transform: uppercase;
 }}
 </style></head><body>
+<div class="ornament">
+    <div class="orn-line"></div>
+    <div class="orn-diamond"></div>
+    <div class="orn-line"></div>
+</div>
 <div class="title">{esc(title)}</div>
 <div class="tagline">{esc(tagline)}</div>
 </body></html>'''

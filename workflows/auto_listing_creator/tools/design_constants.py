@@ -26,7 +26,19 @@ BRAND_PURPLE = "#6B2189"
 BEIGE_BG = "#E6E5E1"
 BEIGE_RGB = (230, 229, 225)
 
-# ---- Dark aesthetic palette (matches top-selling tattoo templates on Etsy) --
+# ---- PurpleOcaz brand palette (from live store — see brand_reference.py) ----
+BRAND_PURPLE = "#6B3E9E"
+BRAND_PURPLE_RGB = (107, 62, 158)
+BRAND_PURPLE_LIGHT = "#9B59B6"
+BADGE_DARK = "#2C2C2C"
+BADGE_DARK_RGB = (44, 44, 44)
+CARD_WHITE = "#FFFFFF"
+HERO_BG = "#F5F5F5"
+HERO_BG_RGB = (245, 245, 245)
+TEXT_GRAY = "#999999"
+FIELD_LINE = "#CCCCCC"
+
+# Legacy aliases (kept for backward compat with existing code)
 DARK_BG = "#0D0D0D"
 DARK_CARD = "#1A1A1A"
 DARK_BG_RGB = (13, 13, 13)
@@ -52,11 +64,11 @@ BOILERPLATE_PAGES = {
 
 # ---- Accent colour presets for different product themes --------------------
 THEME_ACCENTS = {
-    "dark": {"band": "#1E1E28", "accent": "#6B2189", "photos": "dark"},
-    "gothic": {"band": "#1A1A1A", "accent": "#6B2189", "photos": "gothic"},
-    "classic": {"band": "#2C3E50", "accent": "#6B2189", "photos": "classic"},
-    "vibrant": {"band": "#2D1B4E", "accent": "#9B59B6", "photos": "vibrant"},
-    "default": {"band": "#1E1E28", "accent": "#6B2189", "photos": "dark"},
+    "dark": {"band": BRAND_PURPLE, "accent": BRAND_PURPLE, "photos": "dark"},
+    "gothic": {"band": BRAND_PURPLE, "accent": BRAND_PURPLE, "photos": "gothic"},
+    "classic": {"band": BRAND_PURPLE, "accent": BRAND_PURPLE, "photos": "classic"},
+    "vibrant": {"band": BRAND_PURPLE_LIGHT, "accent": BRAND_PURPLE_LIGHT, "photos": "vibrant"},
+    "default": {"band": BRAND_PURPLE, "accent": BRAND_PURPLE, "photos": "dark"},
 }
 
 

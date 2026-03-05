@@ -27,15 +27,15 @@ DEFAULT_MODEL = "gemini-2.5-flash-preview-image"
 # ---------------------------------------------------------------------------
 # PurpleOcaz brand-aligned prompt system
 #
-# Visual identity (from live store reference images):
-#   - Background: warm beige/cream textured craft paper
-#   - Card style: elegant ivory/cream cards with dark borders, gold accents
-#   - Props: eucalyptus leaves, terracotta succulent pot, latte art coffee,
-#            tortoiseshell reading glasses, marble pens, wicker trays
+# Visual identity (from live PurpleOcaz store — see brand_reference.py):
+#   - Background: light warm gray #F5F5F5 with subtle paper texture
+#   - Card style: PURE WHITE #FFFFFF cards, no borders, clean edges
+#   - Props: succulent + coffee cup + eucalyptus + rose-gold/marble pen (every image)
 #   - Layout: styled overhead flat-lay, cards overlapping at slight angle
-#   - Typography on cards: script/calligraphy headings, clean sans-serif fields
-#   - Badge: circular "EDIT IN CANVA" (bottom-right of scene)
-#   - Bottom band: bold product title + tagline (added in compositing step)
+#   - Typography: Great Vibes script headings, Helvetica/Montserrat sans-serif
+#   - Banner: DEEP PURPLE #6B3E9E (NEVER black)
+#   - Badge: DARK #2C2C2C circle "EDIT IN CANVA" (NEVER orange)
+#   - Accents: purple only (NEVER gold, NEVER orange, NEVER red)
 # ---------------------------------------------------------------------------
 
 # Product-type-specific prompt components
@@ -85,10 +85,10 @@ PROMPT_TEMPLATES = {
     },
     "gift certificate": {
         "card_description": (
-            "One elegant gift certificate card. Elegant ivory/cream background with dark accents and gold borders with "
+            "One elegant gift certificate card. Pure white background (#FFFFFF) with clean edges with "
             "a niche-appropriate ornamental divider separating sections. "
             "Elegant script heading 'Gift Certificate' (same font family and "
-            "size as used on all other cards). Dark placeholder fields with gold accents "
+            "size as used on all other cards). Gray (#999999) placeholder fields "
             "for TO:, FROM:, AMOUNT:, EXPIRES: each with thin underlines. "
             "Studio name placeholder at top. Contact details footer with "
             "email, phone, website"
@@ -97,7 +97,7 @@ PROMPT_TEMPLATES = {
     },
     "gift voucher": {
         "card_description": (
-            "One elegant gift voucher card. Elegant ivory/cream background with dark accents and gold borders with "
+            "One elegant gift voucher card. Pure white background (#FFFFFF) with clean edges with "
             "a niche-appropriate ornamental divider. Elegant script heading "
             "'Gift Voucher' (same font family and size as all other cards). "
             "White placeholder fields for RECIPIENT:, AMOUNT:, FROM:, "
@@ -109,7 +109,7 @@ PROMPT_TEMPLATES = {
     "price list": {
         "card_description": (
             "One price list / service menu card, larger format (A5 or A4 size). "
-            "Elegant ivory/cream background with dark accents and gold borders with niche-appropriate ornamental dividers "
+            "Pure white background (#FFFFFF) with clean edges with niche-appropriate ornamental dividers "
             "between sections. Elegant script heading 'Price List' (same font "
             "as all other cards). Organized sections with service categories "
             "and prices in clean columns. Studio name placeholder at top. "
@@ -119,7 +119,7 @@ PROMPT_TEMPLATES = {
     },
     "service menu": {
         "card_description": (
-            "One service menu card, larger format. Elegant ivory/cream background with dark accents and gold borders with "
+            "One service menu card, larger format. Pure white background (#FFFFFF) with clean edges with "
             "niche-appropriate ornamental dividers between pricing tiers. "
             "Script heading 'Service Menu' (same font as all other cards). "
             "Tiered pricing sections with service names and prices. Studio "
@@ -132,17 +132,17 @@ PROMPT_TEMPLATES = {
             "Two overlapping business cards (front and back visible). "
             "BOTH cards use the SAME elegant script font at the SAME size "
             "for their titles. "
-            "Front: elegant ivory/cream background with dark accents, niche-appropriate ornamental "
+            "Front: pure white background (#FFFFFF), niche-appropriate ornamental "
             "divider, centered studio name in elegant script, minimal "
             "contact details (phone, email, website) in clean sans-serif. "
-            "Back: elegant ivory/cream background with dark accents, large 'LOGO' circular placeholder, "
+            "Back: pure white background (#FFFFFF), large 'LOGO' circular placeholder, "
             "tagline, same ornamental design elements"
         ),
         "card_count": "two cards",
     },
     "aftercare card": {
         "card_description": (
-            "One aftercare instruction card. Elegant ivory/cream background with dark accents and gold borders with "
+            "One aftercare instruction card. Pure white background (#FFFFFF) with clean edges with "
             "niche-appropriate ornamental divider. Script heading 'Aftercare "
             "Instructions' (same font as all other cards). Numbered care "
             "steps in clean white text. Studio name and contact footer"
@@ -153,7 +153,7 @@ PROMPT_TEMPLATES = {
         "card_description": (
             "Multiple matching stationery pieces fanned out and overlapping — "
             "business card, appointment card, gift certificate, and letterhead. "
-            "All share the same elegant ivory/cream background with dark accents with matching "
+            "All share the same pure white background (#FFFFFF) with matching "
             "niche-appropriate ornamental design elements. Studio name "
             "placeholder consistent across all pieces"
         ),
@@ -183,7 +183,7 @@ PROMPT_TEMPLATES = {
 
 _DEFAULT_PROMPT_PARTS = {
     "card_description": (
-        "One professional editable template card. Elegant ivory/cream background with dark accents and gold borders with "
+        "One professional editable template card. Pure white background (#FFFFFF) with clean edges with "
         "a niche-appropriate ornamental divider. Elegant script heading with "
         "the product title. Clean white placeholder fields for NAME:, DATE:, "
         "PHONE:, EMAIL: each with thin underlines. Studio name at top, "
@@ -357,12 +357,16 @@ def build_product_prompt(product_type, niche, theme,
             "BOTTOM-RIGHT: scattered small jewelry pieces (hoops, studs)"
         ),
     }
-    niche_accent = niche_prop_sets.get(niche.lower(), (
-        "TOP-LEFT corner: a small potted succulent and eucalyptus leaves. "
-        "LEFT side: a white ceramic coffee cup with latte art. "
-        "TOP-RIGHT corner: tortoiseshell reading glasses, arms open. "
-        "BOTTOM-RIGHT: a stylish pen and a small notebook"
-    ))
+    # Standard props that appear on EVERY hero (brand consistency)
+    standard_props = (
+        "STANDARD PROPS (must appear in every image): "
+        "a small round green potted succulent (~300px), "
+        "a white ceramic coffee cup with latte-art foam swirl (~280px), "
+        "a eucalyptus branch with green leaves, "
+        "a rose-gold pen or marble pen. "
+    )
+    niche_extra = niche_prop_sets.get(niche.lower(), "")
+    niche_accent = standard_props + ("ADDITIONAL niche props: " + niche_extra if niche_extra else "")
 
     return (
         # === SCENE TYPE ===
@@ -376,11 +380,10 @@ def build_product_prompt(product_type, niche, theme,
         f"photography scene, and the BOTTOM 30% is a solid-colour footer banner. "
 
         # === BACKGROUND (TOP 70%) ===
-        f"Top zone background: warm beige/cream textured craft paper surface. "
-        f"The texture must be clearly VISIBLE — real kraft paper grain, fibres, "
-        f"and subtle creases. It should look and feel tactile, like you could "
-        f"touch the paper. NOT smooth, NOT flat, NOT digitally clean. Think "
-        f"real recycled craft paper photographed up close. "
+        f"Top zone background: LIGHT WARM GRAY surface (#F5F5F5). "
+        f"Subtle canvas or paper grain texture — NOT beige, NOT craft paper, "
+        f"NOT dark. Think clean studio photography backdrop with very subtle "
+        f"texture. Soft, even lighting across the surface. "
 
         # === THE PRODUCT (CARDS) ===
         f"Center of the top zone: {parts['card_description']}. "
@@ -416,32 +419,34 @@ def build_product_prompt(product_type, niche, theme,
         f"Props should look real and photographed, not illustrated or clipart. "
 
         # === CARD DESIGN STYLE ===
-        f"Card design style: the cards have warm IVORY/CREAM backgrounds "
-        f"(#FAF6EF) with dark borders and gold accent lines. "
-        f"Use niche-appropriate ornamental design elements as dividers and "
-        f"accents — for {niche} this means fine-line art such as thin mandala "
-        f"lines, compass roses, geometric dot-work borders, delicate dagger/"
-        f"arrow line art, or ornate filigree patterns. These dividers should "
-        f"be thin, dark, and elegant — separating the title from the form fields. "
+        f"Card design style: the cards have PURE WHITE backgrounds (#FFFFFF) "
+        f"— not cream, not ivory, not off-white. Clean white cardstock. "
+        f"No borders on the cards — clean edges only. "
+        f"At the top of the certificate: a horizontal strip showing 4 small "
+        f"niche-relevant photos (tight spacing, 8px gaps, rounded 12px corners). "
+        f"Title text: elegant flowing script/calligraphy (like Great Vibes), "
+        f"72pt, dark (#2C2C2C). "
+        f"Field labels (TO:, FROM:, AMOUNT:, EXPIRES:) in gray (#999999) "
+        f"uppercase sans-serif 16pt with thin 1px gray (#CCCCCC) underlines. "
+        f"Disclaimer at bottom in 12pt italic gray. "
+        f"Footer with 4 small circle icons (email, phone, map, globe) and "
+        f"contact text at 10pt. "
         f"ALL cards must use the SAME script font family at the SAME size "
-        f"for their titles to ensure a consistent, branded look across "
-        f"the product range. "
+        f"for their titles to ensure a consistent, branded look. "
 
         # === FOOTER BANNER (BOTTOM 30%) ===
-        f"Below the product photography scene, there is a BOLD, HIGH-CONTRAST "
-        f"footer banner that spans the full width of the image. This banner "
-        f"must visually POP and be clearly distinct from the beige scene above. "
-        f"Banner background colour: SOLID BLACK (#000000) — flat, opaque, "
-        f"no texture, no transparency. Sharp clean edge where the black "
-        f"banner meets the beige photography area above. "
-        f"Banner text (centered, stacked on the black background): "
-        f"Line 1 (large): '{hero_title}' in bold WHITE serif font "
-        f"(like Playfair Display), large and prominent. "
-        f"Line 2 (small): '{tagline}' in smaller uppercase "
+        f"Below the product photography scene, there is a BOLD footer banner "
+        f"that spans the full width of the image (height ~220px). "
+        f"Banner background colour: DEEP PURPLE (#6B3E9E) — solid, flat, "
+        f"opaque. NOT black. This purple is the PurpleOcaz brand colour. "
+        f"Sharp clean edge where the purple banner meets the gray scene above. "
+        f"Banner text (centered, stacked on the purple background): "
+        f"Line 1 (large): '{hero_title}' in bold WHITE sans-serif font "
+        f"(like Helvetica Neue Bold or Montserrat 700), 80pt, prominent. "
+        f"Line 2 (small): '{tagline}' in 22pt uppercase "
         f"WHITE sans-serif tracking-wide letters underneath. "
-        f"BOTTOM-RIGHT corner of the banner: a small circular badge with "
-        f"the Canva logo 'C' icon and text 'EDIT IN CANVA' — white circle "
-        f"with dark text, or inverted. "
+        f"BOTTOM-RIGHT corner of the banner: a circular dark badge (#2C2C2C) "
+        f"180px diameter with text 'EDIT IN CANVA' in white. NOT orange. "
 
         # === LIGHTING & PHOTOGRAPHY ===
         f"Lighting: soft, diffused natural daylight from the top-left. Gentle "

@@ -22,17 +22,25 @@ FONT_SERIF_IT = "/usr/share/fonts/truetype/liberation/LiberationSerif-Italic.ttf
 FONT_SANS = "/usr/share/fonts/truetype/dejavu/DejaVuSans-Bold.ttf"
 FONT_SANS_REG = "/usr/share/fonts/truetype/dejavu/DejaVuSans.ttf"
 
-# ── Colors ─────────────────────────────────────────────────────────────────
-IVORY = (250, 246, 239)
-IVORY_DARK = (232, 223, 208)
-GOLD = (201, 168, 76)
-GOLD_LIGHT = (228, 208, 150)
-GOLD_DIM = (160, 134, 60)
+# ── Brand Colors (from brand_reference.py) ────────────────────────────────
+BRAND_PURPLE = (107, 62, 158)      # #6B3E9E — banners, accents
+BRAND_PURPLE_LIGHT = (155, 89, 182) # #9B59B6 — vibrant variant
+BADGE_DARK = (44, 44, 44)          # #2C2C2C — badge circles
+CARD_WHITE = (255, 255, 255)       # #FFFFFF — all card backgrounds
+HERO_BG = (245, 245, 245)          # #F5F5F5 — hero background
+TEXT_DARK = (44, 44, 44)           # #2C2C2C — primary text
+TEXT_GRAY = (153, 153, 153)        # #999999 — field labels
+FIELD_LINE = (204, 204, 204)       # #CCCCCC — form underlines
+WHITE = (255, 255, 255)
+
+# Legacy (kept for backward compat with appointment card torn-paper design)
 DARK = (26, 26, 26)
 DARK_BG = (12, 10, 16)
 DARK_CARD = (30, 28, 36)
+GOLD = (201, 168, 76)
+GOLD_DIM = (160, 134, 60)
+IVORY = (250, 246, 239)
 ORANGE = (230, 126, 34)
-WHITE = (255, 255, 255)
 WARM_GREY = (154, 144, 128)
 RED_SEAL = (180, 30, 50)
 RED_SEAL_DARK = (100, 10, 20)

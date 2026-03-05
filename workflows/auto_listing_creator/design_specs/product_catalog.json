@@ -1,0 +1,193 @@
+{
+  "meta": {
+    "version": "2.0",
+    "brand": "PurpleOcaz",
+    "source": "brand_reference.py + DESIGN_SYSTEM.md",
+    "date": "2026-03-05",
+    "notes": "Every product type follows the same brand DNA unless explicitly marked as an exception"
+  },
+
+  "brand_defaults": {
+    "background": "#F5F5F5",
+    "card_background": "#FFFFFF",
+    "banner_color": "#6B3E9E",
+    "badge_color": "#2C2C2C",
+    "badge_text": "EDIT IN CANVA",
+    "text_dark": "#2C2C2C",
+    "text_gray": "#999999",
+    "field_line": "#CCCCCC",
+    "heading_font": "Great Vibes",
+    "body_font": "Helvetica Neue / Montserrat",
+    "standard_props": ["succulent", "coffee_cup_latte_art", "eucalyptus_branch", "rose_gold_pen"]
+  },
+
+  "products": {
+    "gift_certificate": {
+      "card_count": 1,
+      "card_style": "default_white",
+      "heading": "Gift Certificate",
+      "fields": ["TO:", "FROM:", "AMOUNT:", "EXPIRES:"],
+      "has_photo_strip": true,
+      "has_disclaimer": true,
+      "disclaimer_text": "This voucher is non-refundable and cannot be exchanged for cash",
+      "has_contact_footer": true,
+      "hero_tagline": "MAKE EXTRA INCOME SELLING GIFT CERTIFICATES",
+      "niche_adaptation": "Photo strip shows niche-relevant images"
+    },
+
+    "gift_voucher": {
+      "card_count": 1,
+      "card_style": "default_white",
+      "heading": "Gift Voucher",
+      "fields": ["RECIPIENT:", "AMOUNT:", "FROM:", "VALID UNTIL:"],
+      "has_photo_strip": true,
+      "has_disclaimer": true,
+      "has_contact_footer": true,
+      "hero_tagline": "MAKE EXTRA INCOME SELLING GIFT VOUCHERS"
+    },
+
+    "appointment_card": {
+      "card_count": 2,
+      "card_style": "EXCEPTION_torn_paper",
+      "exception_notes": "ONLY product type that uses black cards instead of white. See design_specs/book_appointment_card.json",
+      "front_card": {
+        "background": "#000000",
+        "heading": "Appointment Card",
+        "fields": ["NAME:", "DATE:", "TIME:", "DAY:"],
+        "signature_effect": "torn_paper_edge_diagonal",
+        "torn_paper_side": "right"
+      },
+      "back_card": {
+        "background": "#000000",
+        "heading": "Book Appointment",
+        "fields": ["email", "phone", "website"],
+        "signature_effect": "torn_paper_edge_diagonal",
+        "torn_paper_side": "left",
+        "logo_placeholder": true
+      },
+      "hero_tagline": "KEEP YOUR CLIENTS COMING BACK"
+    },
+
+    "price_list": {
+      "card_count": 1,
+      "card_style": "default_white",
+      "card_size": "A5_or_A4",
+      "heading": "Price List",
+      "sections": ["service_categories", "prices_in_columns"],
+      "has_photo_strip": true,
+      "has_contact_footer": true,
+      "hero_tagline": "SHOWCASE YOUR SERVICES WITH STYLE"
+    },
+
+    "service_menu": {
+      "card_count": 1,
+      "card_style": "default_white",
+      "card_size": "A5_or_A4",
+      "heading": "Service Menu",
+      "sections": ["tiered_pricing", "service_names_and_prices"],
+      "has_photo_strip": true,
+      "has_contact_footer": true,
+      "hero_tagline": "SHOWCASE YOUR SERVICES WITH STYLE"
+    },
+
+    "business_card": {
+      "card_count": 2,
+      "card_style": "default_white",
+      "front_card": {
+        "heading": "Studio Name",
+        "fields": ["phone", "email", "website"],
+        "has_ornamental_divider": true
+      },
+      "back_card": {
+        "logo_placeholder": true,
+        "tagline_placeholder": true
+      },
+      "hero_tagline": "LEAVE A LASTING FIRST IMPRESSION"
+    },
+
+    "aftercare_card": {
+      "card_count": 1,
+      "card_style": "default_white",
+      "heading": "Aftercare Instructions",
+      "content": "numbered_care_steps",
+      "has_contact_footer": true,
+      "hero_tagline": "PROFESSIONAL AFTERCARE FOR YOUR CLIENTS"
+    },
+
+    "consent_form": {
+      "card_count": 1,
+      "card_style": "default_white",
+      "heading": "Consent Form",
+      "fields": ["CLIENT NAME:", "DATE:", "SIGNATURE:"],
+      "content": "legal_form_sections",
+      "has_contact_footer": true,
+      "hero_tagline": "PROFESSIONAL CONSENT FORMS"
+    },
+
+    "branding_bundle": {
+      "card_count": "multiple",
+      "card_style": "default_white",
+      "includes": ["business_card", "appointment_card", "gift_certificate", "letterhead"],
+      "layout": "fanned_overlapping",
+      "hero_tagline": "EVERYTHING YOUR STUDIO NEEDS IN ONE BUNDLE"
+    },
+
+    "social_media": {
+      "card_count": 1,
+      "card_style": "default_white",
+      "format": "square_instagram",
+      "heading": "promotional_text",
+      "has_logo_placeholder": true,
+      "hero_tagline": "GROW YOUR BUSINESS ON SOCIAL MEDIA"
+    }
+  },
+
+  "niches": {
+    "tattoo": {
+      "extra_props": ["tattoo flash art sheet", "ink bottle"],
+      "photo_strip_subjects": ["tattoo work", "tattoo studio", "ink bottles", "tattoo machine"],
+      "ornamental_style": "fine-line mandala, geometric dot-work, dagger/arrow line art"
+    },
+    "nail": {
+      "extra_props": ["nail polish bottles (pink, red, nude)", "nail art gems"],
+      "photo_strip_subjects": ["nail art", "manicure", "polish colors", "nail studio"],
+      "ornamental_style": "delicate floral, thin elegant lines"
+    },
+    "hair": {
+      "extra_props": ["professional scissors", "fine-tooth comb", "hair oil bottle"],
+      "photo_strip_subjects": ["haircuts", "styling", "salon interior", "hair tools"],
+      "ornamental_style": "clean modern lines, minimal geometric"
+    },
+    "barber": {
+      "extra_props": ["straight razor", "shaving brush", "pomade jar"],
+      "photo_strip_subjects": ["barber cuts", "hot towel", "barber chair", "tools"],
+      "ornamental_style": "bold geometric, classic stripes"
+    },
+    "beauty": {
+      "extra_props": ["compact mirror", "makeup brushes fanned", "perfume bottle"],
+      "photo_strip_subjects": ["makeup application", "beauty products", "mirror", "brushes"],
+      "ornamental_style": "soft floral, elegant script flourishes"
+    },
+    "spa": {
+      "extra_props": ["lit white candle", "rolled white towels", "bath salts bowl"],
+      "photo_strip_subjects": ["spa stones", "candles", "towels", "relaxation"],
+      "ornamental_style": "minimal zen, clean lines, bamboo motifs"
+    },
+    "lash": {
+      "extra_props": ["false lash strips", "lash applicator", "micro brushes"],
+      "photo_strip_subjects": ["lash extensions", "lash tools", "eye closeup", "lash studio"],
+      "ornamental_style": "delicate wispy lines, subtle curves"
+    }
+  },
+
+  "rendering_priority": {
+    "tier_1_gemini": {
+      "products": ["appointment_card", "gift_certificate", "gift_voucher", "price_list", "service_menu", "business_card", "branding_bundle"],
+      "description": "AI-generated photorealistic mockup via Gemini"
+    },
+    "tier_2_html": {
+      "products": ["aftercare_card", "consent_form", "social_media"],
+      "description": "HTML/Playwright template rendering"
+    }
+  }
+}

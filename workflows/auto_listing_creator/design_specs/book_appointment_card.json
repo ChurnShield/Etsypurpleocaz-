@@ -1,0 +1,284 @@
+{
+  "design_id": "book_appointment_tattoo_v1",
+  "product_type": "appointment card",
+  "card_side": "back",
+  "niche": "tattoo",
+  "format": "business_card_landscape",
+
+  "canvas": {
+    "width_px": 1050,
+    "height_px": 600,
+    "aspect_ratio": "1.75:1",
+    "print_size": "3.5in x 2in",
+    "dpi": 300,
+    "bleed_px": 0
+  },
+
+  "background": {
+    "type": "solid",
+    "color": "#000000",
+    "opacity": 1.0
+  },
+
+  "effects": [
+    {
+      "id": "torn_paper_reveal",
+      "type": "torn_paper_edge",
+      "description": "Dramatic diagonal ripped paper edge revealing white underneath — the signature visual hook of this design",
+      "direction": "diagonal_top_left_to_bottom_right",
+      "angle_degrees": -70,
+      "tear_line": {
+        "start": { "x_pct": 18, "y_pct": 0 },
+        "end": { "x_pct": 35, "y_pct": 100 },
+        "jaggedness": "high",
+        "fiber_visible": true,
+        "fiber_color": "#FFFFFF",
+        "fiber_spread_px": 8
+      },
+      "left_side": {
+        "fill": "#FFFFFF",
+        "description": "White paper revealed by the tear — occupies roughly the left 20-30% of the card"
+      },
+      "right_side": {
+        "fill": "#000000",
+        "description": "Black background — the main content area"
+      },
+      "shadow": {
+        "enabled": true,
+        "offset_x_px": 3,
+        "offset_y_px": 2,
+        "blur_px": 8,
+        "color": "rgba(0,0,0,0.4)",
+        "description": "Subtle shadow on the torn edge to give depth — black side casts shadow on white"
+      },
+      "rendering_notes": "The torn edge is NOT a straight line. It has irregular jagged peaks and valleys like real ripped paper. Paper fibers (thin white threads) are visible along the tear line, especially at the peaks. This is the most important visual element of the entire design."
+    }
+  ],
+
+  "elements": [
+    {
+      "id": "logo_placeholder",
+      "type": "circular_badge",
+      "position": { "x_pct": 82, "y_pct": 18 },
+      "anchor": "center",
+      "size": {
+        "diameter_px": 120,
+        "diameter_pct": 11.4
+      },
+      "style": {
+        "border": {
+          "color": "#FFFFFF",
+          "width_px": 2,
+          "style": "solid"
+        },
+        "background": "transparent",
+        "icon": {
+          "type": "camera",
+          "color": "#FFFFFF",
+          "size_px": 40,
+          "description": "Simple line-art camera icon centered in the circle"
+        },
+        "curved_text": {
+          "text": "YOUR LOGO HERE",
+          "color": "#FFFFFF",
+          "font_size_px": 10,
+          "font_family": "sans-serif",
+          "font_weight": 600,
+          "letter_spacing": "0.15em",
+          "position": "top_arc",
+          "arc_degrees": 180,
+          "text_transform": "uppercase"
+        }
+      },
+      "notes": "Circular logo placeholder in top-right. In the editable template, the customer replaces this with their own logo. The camera icon is a generic placeholder."
+    },
+    {
+      "id": "heading_book_appointment",
+      "type": "text",
+      "content": "Book Appointment",
+      "position": { "x_pct": 58, "y_pct": 48 },
+      "anchor": "center",
+      "style": {
+        "font_family": "script_cursive",
+        "font_candidates": ["Great Vibes", "Pinyon Script", "Alex Brush", "Sacramento", "Dancing Script"],
+        "font_size_px": 52,
+        "font_weight": 400,
+        "color": "#FFFFFF",
+        "font_style": "normal",
+        "text_align": "center",
+        "letter_spacing": "0.02em",
+        "line_height": 1.2
+      },
+      "notes": "Large elegant script heading — this is the hero text. Positioned center-right on the black area, clearly to the right of the torn paper edge. The script font gives it a premium, personal feel appropriate for tattoo/beauty studios."
+    },
+    {
+      "id": "contact_email",
+      "type": "text",
+      "content": "name@yourbusiness.com",
+      "position": { "x_pct": 62, "y_pct": 66 },
+      "anchor": "center",
+      "style": {
+        "font_family": "sans_serif_clean",
+        "font_candidates": ["Montserrat", "Poppins", "Lato", "Open Sans"],
+        "font_size_px": 16,
+        "font_weight": 400,
+        "color": "#FFFFFF",
+        "text_align": "center",
+        "letter_spacing": "0.03em"
+      }
+    },
+    {
+      "id": "contact_phone",
+      "type": "text",
+      "content": "555-5555-5555",
+      "position": { "x_pct": 62, "y_pct": 76 },
+      "anchor": "center",
+      "style": {
+        "font_family": "sans_serif_clean",
+        "font_candidates": ["Montserrat", "Poppins", "Lato", "Open Sans"],
+        "font_size_px": 16,
+        "font_weight": 400,
+        "color": "#FFFFFF",
+        "text_align": "center",
+        "letter_spacing": "0.05em"
+      }
+    },
+    {
+      "id": "contact_website",
+      "type": "text",
+      "content": "WWW.YOURBUSINESS.COM",
+      "position": { "x_pct": 62, "y_pct": 88 },
+      "anchor": "center",
+      "style": {
+        "font_family": "sans_serif_clean",
+        "font_candidates": ["Montserrat", "Poppins", "Lato", "Open Sans"],
+        "font_size_px": 18,
+        "font_weight": 700,
+        "color": "#FFFFFF",
+        "text_align": "center",
+        "letter_spacing": "0.08em",
+        "text_transform": "uppercase"
+      },
+      "notes": "Website is slightly larger and bolder than email/phone — it's the most prominent contact detail."
+    }
+  ],
+
+  "color_palette": {
+    "primary": "#000000",
+    "secondary": "#FFFFFF",
+    "accent": "none",
+    "description": "Pure black and white only — maximum contrast, zero color distraction. The torn paper effect IS the design element, no gold/color accents needed."
+  },
+
+  "typography": {
+    "heading_font": {
+      "role": "hero_heading",
+      "family": "script_cursive",
+      "candidates": ["Great Vibes", "Pinyon Script", "Alex Brush"],
+      "fallback_system": "LiberationSerif-Italic",
+      "weight": 400,
+      "style": "Flowing connected script with elegant loops — must feel handwritten and premium, not playful"
+    },
+    "body_font": {
+      "role": "contact_details",
+      "family": "sans_serif_clean",
+      "candidates": ["Montserrat", "Poppins", "Lato"],
+      "fallback_system": "DejaVuSans",
+      "weight": "400-700",
+      "style": "Clean modern sans-serif with wide letter-spacing — professional and readable at small sizes"
+    }
+  },
+
+  "design_principles": {
+    "contrast": "Extreme black/white contrast creates instant visual impact in Etsy thumbnails",
+    "focal_point": "The torn paper edge is the hero visual — it draws the eye diagonally across the card",
+    "hierarchy": "1) Torn edge (visual hook) → 2) Script heading (purpose) → 3) Contact details (info) → 4) Logo placeholder (branding)",
+    "whitespace": "The white paper reveal acts as negative space — it's NOT wasted space, it's the design",
+    "niche_adaptation": "For tattoo niche this works perfectly — the raw torn paper feels edgy, rebellious, and artistic. The black/white palette matches tattoo studio aesthetics."
+  },
+
+  "front_card_companion": {
+    "description": "The FRONT of this appointment card should use the same torn paper concept but reversed — the content area shows appointment fields",
+    "suggested_layout": {
+      "background": "#000000",
+      "torn_paper_effect": "same_style_mirrored",
+      "heading": "Appointment Card",
+      "heading_style": "same_script_font",
+      "fields": [
+        { "label": "NAME", "type": "underline_field" },
+        { "label": "DATE", "type": "underline_field" },
+        { "label": "TIME", "type": "underline_field" },
+        { "label": "DAY", "type": "underline_field" }
+      ],
+      "field_style": {
+        "label_font": "sans_serif_clean",
+        "label_color": "#FFFFFF",
+        "label_weight": 600,
+        "underline_color": "rgba(255,255,255,0.4)",
+        "underline_width_px": 1
+      }
+    }
+  },
+
+  "rendering_config": {
+    "output_formats": ["png"],
+    "dimensions": {
+      "template_w": 2000,
+      "template_h": 950,
+      "description": "Matches TMPL_W x TMPL_H from design_constants.py"
+    },
+    "torn_edge_algorithm": {
+      "method": "jagged_polygon_with_fibers",
+      "steps": [
+        "1. Define diagonal base line from (x1,0) to (x2,H)",
+        "2. Generate random jagged offsets along the line (amplitude 20-50px, frequency ~15px)",
+        "3. Build polygon: left side = white fill, right side = black fill",
+        "4. Draw paper fiber details: thin white lines (1-2px) extending from peaks",
+        "5. Apply subtle drop shadow (Gaussian blur) on the black side of the edge",
+        "6. Add fine noise texture to the white area for paper grain"
+      ]
+    },
+    "tier_routing": {
+      "tier_1_gemini": "Use torn_paper_prompt in gemini_image_client for photorealistic mockup",
+      "tier_2_pillow": "Render using png_renderer.py with jagged polygon algorithm"
+    }
+  },
+
+  "gemini_prompt_fragment": {
+    "card_description": "One elegant appointment card (back side visible). SOLID BLACK background (#000000). A dramatic TORN/RIPPED PAPER EDGE runs diagonally from the top-left area to the bottom-left area of the card, revealing white paper underneath on the left 25% of the card. The torn edge must look realistic — jagged, irregular, with visible paper fibers along the tear line. This torn paper effect is the signature design element. On the black area (right 75% of the card): 'Book Appointment' in large flowing white script/cursive font (like Great Vibes). Below that, centered: contact placeholder text in clean white sans-serif — 'name@yourbusiness.com' then '555-5555-5555' then 'WWW.YOURBUSINESS.COM' (website slightly bolder). Top-right corner: a circular 'YOUR LOGO HERE' placeholder badge with a small camera icon inside, white outline on black.",
+    "card_count": "one card (back side)"
+  },
+
+  "niche_variants": {
+    "tattoo": {
+      "notes": "Default. Black/white torn paper is perfectly on-brand for tattoo studios — raw, edgy, artistic.",
+      "optional_additions": "Could add faint tattoo flash art watermark on the white paper area"
+    },
+    "nail": {
+      "notes": "Same torn paper concept works. Could tint the revealed paper to a soft blush pink instead of pure white.",
+      "color_override": { "revealed_paper": "#FFF0F0" }
+    },
+    "hair": {
+      "notes": "Works as-is. Could use a warm cream/champagne for the revealed paper.",
+      "color_override": { "revealed_paper": "#FFF8F0" }
+    },
+    "barber": {
+      "notes": "Perfect match — masculine, bold, high-contrast. Keep pure black/white."
+    },
+    "beauty": {
+      "notes": "Could soften to dark charcoal (#1A1A2E) instead of pure black for a slightly more luxe feel.",
+      "color_override": { "primary": "#1A1A2E" }
+    },
+    "spa": {
+      "notes": "Could tint revealed paper to a sage/mint for a calming feel.",
+      "color_override": { "revealed_paper": "#F0F5F0" }
+    }
+  },
+
+  "metadata": {
+    "inspiration_source": "User-provided reference image",
+    "design_date": "2026-03-05",
+    "version": "1.0",
+    "designer_notes": "The torn paper effect is what makes this design stand out from generic black business cards. It adds texture, depth, and visual intrigue — critical for stopping Etsy scrollers. The diagonal line creates dynamic energy that guides the eye from the torn edge to the heading to the contact details."
+  }
+}

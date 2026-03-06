@@ -1,0 +1,282 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ChurnShield - Discount Offer Demo</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background: linear-gradient(135deg, #0f172a 0%, #1e293b 100%);
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+            color: #f8fafc;
+        }
+
+        .test-banner {
+            background-color: #fef3c7;
+            border: 1px solid #f59e0b;
+            border-radius: 8px;
+            padding: 12px 20px;
+            margin-bottom: 20px;
+            max-width: 500px;
+            width: 100%;
+            text-align: center;
+        }
+
+        .test-banner p {
+            color: #92400e;
+            font-size: 14px;
+            font-weight: 600;
+            margin-bottom: 4px;
+        }
+
+        .test-banner .details {
+            color: #b45309;
+            font-size: 12px;
+        }
+
+        .widget-card {
+            background: #1e293b;
+            border: 1px solid #334155;
+            border-radius: 16px;
+            padding: 40px;
+            max-width: 500px;
+            width: 100%;
+            box-shadow: 0 20px 50px rgba(0, 0, 0, 0.5);
+        }
+
+        .logo {
+            text-align: center;
+            margin-bottom: 32px;
+        }
+
+        .logo h1 {
+            color: #3b82f6;
+            font-size: 24px;
+            font-weight: 700;
+        }
+
+        .heading {
+            text-align: center;
+            margin-bottom: 24px;
+        }
+
+        .heading h2 {
+            font-size: 24px;
+            font-weight: 600;
+            margin-bottom: 12px;
+            color: #f8fafc;
+        }
+
+        .heading p {
+            font-size: 16px;
+            color: #94a3b8;
+            line-height: 1.5;
+        }
+
+        .offer-card {
+            background: linear-gradient(135deg, #1e3a8a 0%, #3b82f6 100%);
+            border-radius: 16px;
+            padding: 32px;
+            margin: 24px 0;
+            text-align: center;
+            box-shadow: 0 8px 24px rgba(59, 130, 246, 0.3);
+        }
+
+        .offer-badge {
+            background: #22c55e;
+            color: white;
+            padding: 6px 16px;
+            border-radius: 20px;
+            font-size: 12px;
+            font-weight: 700;
+            text-transform: uppercase;
+            display: inline-block;
+            margin-bottom: 16px;
+        }
+
+        .offer-title {
+            font-size: 32px;
+            font-weight: 700;
+            color: white;
+            margin-bottom: 8px;
+        }
+
+        .offer-subtitle {
+            font-size: 18px;
+            color: #bfdbfe;
+            margin-bottom: 20px;
+        }
+
+        .price-comparison {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 16px;
+            margin: 20px 0;
+        }
+
+        .old-price {
+            font-size: 24px;
+            color: #93c5fd;
+            text-decoration: line-through;
+            opacity: 0.7;
+        }
+
+        .arrow {
+            font-size: 24px;
+            color: #22c55e;
+        }
+
+        .new-price {
+            font-size: 36px;
+            font-weight: 700;
+            color: #22c55e;
+        }
+
+        .price-label {
+            font-size: 14px;
+            color: #bfdbfe;
+            margin-top: 8px;
+        }
+
+        .feature-list {
+            text-align: left;
+            margin: 24px 0;
+        }
+
+        .feature-item {
+            display: flex;
+            align-items: center;
+            padding: 12px 0;
+            color: #e2e8f0;
+            font-size: 15px;
+        }
+
+        .feature-item::before {
+            content: "✓";
+            color: #22c55e;
+            font-weight: 700;
+            font-size: 20px;
+            margin-right: 12px;
+        }
+
+        .button {
+            border: none;
+            border-radius: 10px;
+            padding: 14px 32px;
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+            width: 100%;
+            transition: all 0.2s;
+            margin-bottom: 12px;
+        }
+
+        .button-primary {
+            background: linear-gradient(135deg, #22c55e 0%, #16a34a 100%);
+            color: white;
+            box-shadow: 0 4px 12px rgba(34, 197, 94, 0.3);
+        }
+
+        .button-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(34, 197, 94, 0.4);
+        }
+
+        .button-secondary {
+            background: transparent;
+            border: 2px solid #475569;
+            color: #94a3b8;
+        }
+
+        .button-secondary:hover {
+            border-color: #64748b;
+            color: #cbd5e1;
+        }
+
+        .footer-text {
+            text-align: center;
+            margin-top: 24px;
+            font-size: 13px;
+            color: #64748b;
+        }
+
+        .emoji {
+            font-size: 48px;
+            margin-bottom: 16px;
+            display: block;
+            text-align: center;
+        }
+    </style>
+</head>
+<body>
+    <div class="test-banner">
+        <p>⚠️ TEST MODE - No real changes will be made</p>
+        <p class="details">Customer: Sarah Johnson • Plan: Pro Plan • $49/mo</p>
+    </div>
+
+    <div class="widget-card">
+        <div class="logo">
+            <h1>🛡️ ChurnShield</h1>
+        </div>
+
+        <div class="heading">
+            <span class="emoji">💙</span>
+            <h2>We understand price is a concern</h2>
+            <p>We'd love to keep you as a customer. Here's a special offer just for you:</p>
+        </div>
+
+        <div class="offer-card">
+            <span class="offer-badge">🎁 Special Offer</span>
+            <div class="offer-title">Stay for 40% off</div>
+            <div class="offer-subtitle">For the next 3 months</div>
+
+            <div class="price-comparison">
+                <div>
+                    <div class="old-price">$49/mo</div>
+                </div>
+                <div class="arrow">→</div>
+                <div>
+                    <div class="new-price">$29/mo</div>
+                </div>
+            </div>
+
+            <div class="price-label">After 3 months, return to regular pricing ($49/mo)</div>
+        </div>
+
+        <div class="feature-list">
+            <div class="feature-item">Keep all your data and settings</div>
+            <div class="feature-item">No interruption to your service</div>
+            <div class="feature-item">Cancel anytime during the discount period</div>
+            <div class="feature-item">Save $60 over the next 3 months</div>
+        </div>
+
+        <button class="button button-primary">✓ Accept Offer - Stay for $29/mo</button>
+        <button class="button button-secondary">No Thanks, Continue Canceling</button>
+
+        <p class="footer-text">This is a one-time offer. We hope to keep you as a valued customer!</p>
+    </div>
+
+    <script>
+        document.querySelector('.button-primary').addEventListener('click', function() {
+            alert('Perfect screenshot! This shows the discount offer.\n\nNext: Screenshot 3 would be the analytics dashboard.');
+        });
+
+        document.querySelector('.button-secondary').addEventListener('click', function() {
+            alert('For the screenshot, you can show both buttons clearly.');
+        });
+    </script>
+</body>
+</html>

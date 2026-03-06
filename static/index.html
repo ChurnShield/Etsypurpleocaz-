@@ -1,0 +1,1080 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="mobile-web-app-capable" content="yes">
+<title>PurpleOcaz AI Dashboard</title>
+<style>
+/* ── Reset & Base ── */
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+:root {
+  --purple: #6B2189;
+  --purple-light: #8B3BA9;
+  --purple-dark: #4A1660;
+  --bg: #F5F3F0;
+  --card: #FFFFFF;
+  --text: #2D2D2D;
+  --text-light: #6B6B6B;
+  --border: #E0DDD8;
+  --green: #22C55E;
+  --red: #EF4444;
+  --yellow: #F59E0B;
+  --blue: #3B82F6;
+  --radius: 12px;
+  --shadow: 0 2px 8px rgba(0,0,0,0.08);
+}
+
+body {
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  background: var(--bg);
+  color: var(--text);
+  min-height: 100vh;
+}
+
+/* ── Header ── */
+.header {
+  background: linear-gradient(135deg, var(--purple) 0%, var(--purple-dark) 100%);
+  color: white;
+  padding: 16px 20px;
+  position: sticky;
+  top: 0;
+  z-index: 100;
+  box-shadow: 0 2px 12px rgba(107,33,137,0.3);
+}
+
+.header-inner {
+  max-width: 1200px;
+  margin: 0 auto;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.header h1 {
+  font-size: 18px;
+  font-weight: 700;
+  letter-spacing: -0.5px;
+}
+
+.header-status {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 13px;
+  opacity: 0.9;
+}
+
+.status-dot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: var(--green);
+  animation: pulse 2s infinite;
+}
+
+.status-dot.degraded { background: var(--yellow); }
+.status-dot.critical { background: var(--red); }
+
+@keyframes pulse {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0.5; }
+}
+
+/* ── Navigation ── */
+.nav {
+  background: var(--card);
+  border-bottom: 1px solid var(--border);
+  overflow-x: auto;
+  -webkit-overflow-scrolling: touch;
+}
+
+.nav-inner {
+  max-width: 1200px;
+  margin: 0 auto;
+  display: flex;
+  gap: 0;
+}
+
+.nav-tab {
+  padding: 12px 20px;
+  font-size: 14px;
+  font-weight: 500;
+  color: var(--text-light);
+  border: none;
+  background: none;
+  cursor: pointer;
+  white-space: nowrap;
+  border-bottom: 2px solid transparent;
+  transition: all 0.2s;
+}
+
+.nav-tab:hover { color: var(--purple); }
+.nav-tab.active {
+  color: var(--purple);
+  border-bottom-color: var(--purple);
+}
+
+/* ── Content ── */
+.content {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 20px;
+}
+
+/* ── Stat Cards ── */
+.stats-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+  gap: 12px;
+  margin-bottom: 24px;
+}
+
+.stat-card {
+  background: var(--card);
+  border-radius: var(--radius);
+  padding: 16px;
+  box-shadow: var(--shadow);
+}
+
+.stat-card .label {
+  font-size: 12px;
+  color: var(--text-light);
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  margin-bottom: 4px;
+}
+
+.stat-card .value {
+  font-size: 28px;
+  font-weight: 700;
+  color: var(--purple);
+}
+
+.stat-card .value.green { color: var(--green); }
+.stat-card .value.red { color: var(--red); }
+.stat-card .value.yellow { color: var(--yellow); }
+
+/* ── Cards ── */
+.card {
+  background: var(--card);
+  border-radius: var(--radius);
+  padding: 20px;
+  box-shadow: var(--shadow);
+  margin-bottom: 16px;
+}
+
+.card-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 16px;
+}
+
+.card-header h2 {
+  font-size: 16px;
+  font-weight: 600;
+}
+
+/* ── Workflow Cards ── */
+.workflow-card {
+  background: var(--card);
+  border-radius: var(--radius);
+  padding: 16px;
+  box-shadow: var(--shadow);
+  margin-bottom: 12px;
+  border-left: 4px solid var(--purple);
+  cursor: pointer;
+  transition: transform 0.15s, box-shadow 0.15s;
+}
+
+.workflow-card:hover {
+  transform: translateY(-1px);
+  box-shadow: 0 4px 16px rgba(0,0,0,0.12);
+}
+
+.workflow-card .wf-name {
+  font-size: 16px;
+  font-weight: 600;
+  margin-bottom: 4px;
+}
+
+.workflow-card .wf-meta {
+  font-size: 13px;
+  color: var(--text-light);
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+  margin-bottom: 12px;
+}
+
+.workflow-card .wf-bar {
+  height: 6px;
+  border-radius: 3px;
+  background: #EEE;
+  overflow: hidden;
+}
+
+.workflow-card .wf-bar-fill {
+  height: 100%;
+  border-radius: 3px;
+  background: var(--green);
+  transition: width 0.5s;
+}
+
+.workflow-card .wf-actions {
+  display: flex;
+  gap: 8px;
+  margin-top: 12px;
+}
+
+/* ── Execution list ── */
+.exec-row {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 12px 0;
+  border-bottom: 1px solid var(--border);
+  cursor: pointer;
+}
+
+.exec-row:last-child { border-bottom: none; }
+
+.exec-badge {
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  flex-shrink: 0;
+}
+
+.exec-badge.completed { background: var(--green); }
+.exec-badge.failed { background: var(--red); }
+.exec-badge.running { background: var(--yellow); animation: pulse 1s infinite; }
+
+.exec-info { flex: 1; min-width: 0; }
+
+.exec-info .exec-wf {
+  font-size: 14px;
+  font-weight: 500;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.exec-info .exec-time {
+  font-size: 12px;
+  color: var(--text-light);
+}
+
+.exec-status {
+  font-size: 12px;
+  font-weight: 600;
+  text-transform: uppercase;
+}
+
+.exec-status.completed { color: var(--green); }
+.exec-status.failed { color: var(--red); }
+.exec-status.running { color: var(--yellow); }
+
+/* ── Proposals ── */
+.proposal-card {
+  background: var(--card);
+  border-radius: var(--radius);
+  padding: 16px;
+  box-shadow: var(--shadow);
+  margin-bottom: 12px;
+  border-left: 4px solid var(--yellow);
+}
+
+.proposal-card.system { border-left-color: var(--red); }
+
+.proposal-card .prop-type {
+  font-size: 11px;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  color: var(--text-light);
+  margin-bottom: 4px;
+}
+
+.proposal-card .prop-title {
+  font-size: 15px;
+  font-weight: 600;
+  margin-bottom: 8px;
+}
+
+.proposal-card .prop-desc {
+  font-size: 13px;
+  color: var(--text-light);
+  line-height: 1.5;
+  margin-bottom: 12px;
+}
+
+.proposal-card .prop-actions {
+  display: flex;
+  gap: 8px;
+}
+
+/* ── Logs ── */
+.log-entry {
+  font-family: 'SF Mono', 'Fira Code', monospace;
+  font-size: 12px;
+  padding: 6px 12px;
+  border-bottom: 1px solid var(--border);
+  display: flex;
+  gap: 8px;
+  align-items: flex-start;
+}
+
+.log-entry .log-time {
+  color: var(--text-light);
+  white-space: nowrap;
+  min-width: 80px;
+}
+
+.log-entry .log-event {
+  font-weight: 500;
+  min-width: 90px;
+}
+
+.log-entry .log-msg {
+  flex: 1;
+  word-break: break-word;
+}
+
+.log-entry.error { background: #FEF2F2; }
+.log-entry.success { background: #F0FDF4; }
+
+/* ── Activity entries ── */
+.activity-row {
+  display: flex;
+  align-items: flex-start;
+  gap: 12px;
+  padding: 10px 0;
+  border-bottom: 1px solid var(--border);
+}
+
+.activity-row:last-child { border-bottom: none; }
+
+.activity-icon {
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 14px;
+  flex-shrink: 0;
+  color: white;
+}
+
+.activity-icon.trigger { background: var(--purple); }
+.activity-icon.approve { background: var(--green); }
+.activity-icon.reject { background: var(--red); }
+.activity-icon.complete { background: var(--blue); }
+.activity-icon.fail { background: var(--red); }
+.activity-icon.default { background: var(--text-light); }
+
+.activity-body { flex: 1; min-width: 0; }
+
+.activity-body .activity-detail {
+  font-size: 14px;
+  line-height: 1.4;
+}
+
+.activity-body .activity-time {
+  font-size: 12px;
+  color: var(--text-light);
+  margin-top: 2px;
+}
+
+.activity-body .activity-source {
+  display: inline-block;
+  font-size: 10px;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  padding: 1px 6px;
+  border-radius: 4px;
+  background: var(--bg);
+  color: var(--text-light);
+  margin-left: 6px;
+}
+
+/* ── Buttons ── */
+.btn {
+  padding: 8px 16px;
+  border: none;
+  border-radius: 8px;
+  font-size: 13px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.15s;
+}
+
+.btn-primary {
+  background: var(--purple);
+  color: white;
+}
+
+.btn-primary:hover { background: var(--purple-light); }
+.btn-primary:disabled { background: #CCC; cursor: not-allowed; }
+
+.btn-green {
+  background: var(--green);
+  color: white;
+}
+
+.btn-green:hover { background: #16A34A; }
+
+.btn-red {
+  background: #FEE2E2;
+  color: var(--red);
+}
+
+.btn-red:hover { background: #FECACA; }
+
+.btn-outline {
+  background: transparent;
+  border: 1px solid var(--border);
+  color: var(--text);
+}
+
+.btn-outline:hover { background: var(--bg); }
+
+.btn-sm {
+  padding: 6px 12px;
+  font-size: 12px;
+}
+
+/* ── Empty state ── */
+.empty {
+  text-align: center;
+  padding: 40px 20px;
+  color: var(--text-light);
+}
+
+.empty .empty-icon {
+  font-size: 48px;
+  margin-bottom: 12px;
+  opacity: 0.5;
+}
+
+.empty p { font-size: 14px; }
+
+/* ── Detail modal ── */
+.modal-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(0,0,0,0.5);
+  z-index: 200;
+  display: none;
+  align-items: flex-end;
+  justify-content: center;
+}
+
+.modal-overlay.active { display: flex; }
+
+.modal {
+  background: var(--card);
+  border-radius: 16px 16px 0 0;
+  width: 100%;
+  max-width: 600px;
+  max-height: 85vh;
+  overflow-y: auto;
+  padding: 20px;
+  animation: slideUp 0.3s ease;
+}
+
+@keyframes slideUp {
+  from { transform: translateY(100%); }
+  to { transform: translateY(0); }
+}
+
+.modal-handle {
+  width: 40px;
+  height: 4px;
+  border-radius: 2px;
+  background: var(--border);
+  margin: 0 auto 16px;
+}
+
+.modal h3 {
+  font-size: 18px;
+  margin-bottom: 16px;
+}
+
+/* ── Section titles ── */
+.section-title {
+  font-size: 14px;
+  font-weight: 600;
+  color: var(--text-light);
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  margin-bottom: 12px;
+}
+
+/* ── Page sections hidden by default ── */
+.page { display: none; }
+.page.active { display: block; }
+
+/* ── Responsive ── */
+@media (min-width: 768px) {
+  .content { padding: 24px; }
+  .stats-grid { grid-template-columns: repeat(4, 1fr); }
+  .modal-overlay { align-items: center; }
+  .modal { border-radius: 16px; max-height: 80vh; }
+
+  .two-col {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 16px;
+  }
+}
+
+@media (max-width: 480px) {
+  .header h1 { font-size: 16px; }
+  .stats-grid { grid-template-columns: repeat(2, 1fr); }
+  .stat-card .value { font-size: 24px; }
+  .nav-tab { padding: 10px 14px; font-size: 13px; }
+}
+
+/* ── Loading spinner ── */
+.spinner {
+  display: inline-block;
+  width: 20px;
+  height: 20px;
+  border: 2px solid var(--border);
+  border-top-color: var(--purple);
+  border-radius: 50%;
+  animation: spin 0.6s linear infinite;
+}
+
+@keyframes spin { to { transform: rotate(360deg); } }
+
+/* ── Toast ── */
+.toast {
+  position: fixed;
+  bottom: 20px;
+  left: 50%;
+  transform: translateX(-50%) translateY(100px);
+  background: var(--text);
+  color: white;
+  padding: 12px 24px;
+  border-radius: 8px;
+  font-size: 14px;
+  z-index: 300;
+  transition: transform 0.3s ease;
+}
+
+.toast.visible { transform: translateX(-50%) translateY(0); }
+</style>
+</head>
+<body>
+
+<!-- Header -->
+<div class="header">
+  <div class="header-inner">
+    <h1>PurpleOcaz AI</h1>
+    <div class="header-status">
+      <div class="status-dot" id="healthDot"></div>
+      <span id="healthLabel">Loading...</span>
+    </div>
+  </div>
+</div>
+
+<!-- Navigation -->
+<div class="nav">
+  <div class="nav-inner">
+    <button class="nav-tab active" onclick="showPage('home')">Home</button>
+    <button class="nav-tab" onclick="showPage('workflows')">Workflows</button>
+    <button class="nav-tab" onclick="showPage('executions')">Runs</button>
+    <button class="nav-tab" onclick="showPage('proposals')">Proposals <span id="proposalBadge"></span></button>
+    <button class="nav-tab" onclick="showPage('activity')">Activity</button>
+  </div>
+</div>
+
+<!-- Content -->
+<div class="content">
+
+  <!-- ═══════════ HOME PAGE ═══════════ -->
+  <div class="page active" id="page-home">
+    <div class="stats-grid" id="statsGrid">
+      <div class="stat-card"><div class="label">Workflows</div><div class="value" id="statWorkflows">-</div></div>
+      <div class="stat-card"><div class="label">Total Runs</div><div class="value" id="statRuns">-</div></div>
+      <div class="stat-card"><div class="label">Success Rate</div><div class="value green" id="statRate">-</div></div>
+      <div class="stat-card"><div class="label">Pending</div><div class="value yellow" id="statPending">-</div></div>
+    </div>
+
+    <div class="two-col">
+      <div>
+        <div class="section-title">Recent Runs</div>
+        <div class="card" id="recentRuns">
+          <div class="empty"><p>Loading...</p></div>
+        </div>
+      </div>
+      <div>
+        <div class="section-title">System Health</div>
+        <div class="card" id="healthCard">
+          <div class="empty"><p>Loading...</p></div>
+        </div>
+      </div>
+    </div>
+
+    <div class="section-title">Recent Activity</div>
+    <div class="card" id="homeActivity">
+      <div class="empty"><p>Loading...</p></div>
+    </div>
+  </div>
+
+  <!-- ═══════════ WORKFLOWS PAGE ═══════════ -->
+  <div class="page" id="page-workflows">
+    <div class="section-title">All Workflows</div>
+    <div id="workflowsList">
+      <div class="empty"><p>Loading workflows...</p></div>
+    </div>
+  </div>
+
+  <!-- ═══════════ EXECUTIONS PAGE ═══════════ -->
+  <div class="page" id="page-executions">
+    <div class="card-header">
+      <div class="section-title" style="margin-bottom:0">Execution History</div>
+      <button class="btn btn-outline btn-sm" onclick="loadExecutions()">Refresh</button>
+    </div>
+    <div class="card" id="executionsList" style="margin-top:12px">
+      <div class="empty"><p>Loading executions...</p></div>
+    </div>
+  </div>
+
+  <!-- ═══════════ ACTIVITY PAGE ═══════════ -->
+  <div class="page" id="page-activity">
+    <div class="card-header">
+      <div class="section-title" style="margin-bottom:0">Activity Log</div>
+      <select id="activityFilter" onchange="loadActivity()" style="padding:6px 10px;border:1px solid var(--border);border-radius:6px;font-size:13px">
+        <option value="">All Sources</option>
+        <option value="dashboard">Dashboard</option>
+        <option value="system">System</option>
+      </select>
+    </div>
+    <div id="activityList" style="margin-top:12px">
+      <div class="empty"><p>Loading activity...</p></div>
+    </div>
+  </div>
+
+  <!-- ═══════════ PROPOSALS PAGE ═══════════ -->
+  <div class="page" id="page-proposals">
+    <div class="card-header">
+      <div class="section-title" style="margin-bottom:0">AI Proposals</div>
+      <select id="proposalFilter" onchange="loadProposals()" style="padding:6px 10px;border:1px solid var(--border);border-radius:6px;font-size:13px">
+        <option value="">All</option>
+        <option value="pending" selected>Pending</option>
+        <option value="approved">Approved</option>
+        <option value="rejected">Rejected</option>
+      </select>
+    </div>
+    <div id="proposalsList" style="margin-top:12px">
+      <div class="empty"><p>Loading proposals...</p></div>
+    </div>
+  </div>
+
+</div>
+
+<!-- Execution Detail Modal -->
+<div class="modal-overlay" id="execModal" onclick="if(event.target===this)closeModal()">
+  <div class="modal">
+    <div class="modal-handle"></div>
+    <h3 id="modalTitle">Execution Details</h3>
+    <div id="modalContent">Loading...</div>
+  </div>
+</div>
+
+<!-- Toast -->
+<div class="toast" id="toast"></div>
+
+<script>
+// ── API helpers ──
+const API = '';
+
+async function api(path) {
+  const r = await fetch(API + path);
+  if (!r.ok) throw new Error(`API error: ${r.status}`);
+  return r.json();
+}
+
+async function apiPost(path, body) {
+  const r = await fetch(API + path, {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify(body),
+  });
+  if (!r.ok) throw new Error(`API error: ${r.status}`);
+  return r.json();
+}
+
+// ── Navigation ──
+const PAGES = ['home','workflows','executions','activity','proposals'];
+
+function showPage(name) {
+  document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
+  document.querySelectorAll('.nav-tab').forEach(t => t.classList.remove('active'));
+  document.getElementById('page-' + name).classList.add('active');
+  document.querySelectorAll('.nav-tab')[PAGES.indexOf(name)].classList.add('active');
+
+  if (name === 'workflows') loadWorkflows();
+  if (name === 'executions') loadExecutions();
+  if (name === 'proposals') loadProposals();
+  if (name === 'activity') loadActivity();
+}
+
+// ── Toast ──
+function toast(msg) {
+  const t = document.getElementById('toast');
+  t.textContent = msg;
+  t.classList.add('visible');
+  setTimeout(() => t.classList.remove('visible'), 3000);
+}
+
+// ── Time formatting ──
+function timeAgo(dateStr) {
+  if (!dateStr) return 'Never';
+  const now = new Date();
+  const d = new Date(dateStr + (dateStr.endsWith('Z') ? '' : 'Z'));
+  const sec = Math.floor((now - d) / 1000);
+  if (sec < 60) return 'Just now';
+  if (sec < 3600) return Math.floor(sec / 60) + 'm ago';
+  if (sec < 86400) return Math.floor(sec / 3600) + 'h ago';
+  return Math.floor(sec / 86400) + 'd ago';
+}
+
+// ── Load Stats ──
+async function loadStats() {
+  try {
+    const s = await api('/api/stats');
+    document.getElementById('statWorkflows').textContent = s.total_workflows;
+    document.getElementById('statRuns').textContent = s.total_runs;
+    document.getElementById('statRate').textContent = s.success_rate + '%';
+    document.getElementById('statPending').textContent = s.pending_proposals;
+
+    if (s.pending_proposals > 0) {
+      document.getElementById('proposalBadge').textContent = '(' + s.pending_proposals + ')';
+    }
+  } catch (e) {
+    console.error('Stats error:', e);
+  }
+}
+
+// ── Load Health ──
+async function loadHealth() {
+  try {
+    const h = await api('/api/health');
+    const dot = document.getElementById('healthDot');
+    const label = document.getElementById('healthLabel');
+
+    dot.className = 'status-dot';
+    if (h.status === 'degraded') dot.classList.add('degraded');
+    if (h.status === 'critical') dot.classList.add('critical');
+
+    label.textContent = h.status ? h.status.charAt(0).toUpperCase() + h.status.slice(1) : 'Unknown';
+
+    const card = document.getElementById('healthCard');
+    if (h.problems && h.problems.length > 0) {
+      card.innerHTML = h.problems.map(p => `
+        <div style="padding:8px 0;border-bottom:1px solid var(--border)">
+          <div style="display:flex;gap:8px;align-items:center">
+            <span style="font-size:12px;font-weight:600;text-transform:uppercase;color:${p.severity==='critical'?'var(--red)':p.severity==='high'?'var(--yellow)':'var(--text-light)'}">${p.severity}</span>
+            <span style="font-size:13px">${escHtml(p.description || '')}</span>
+          </div>
+        </div>
+      `).join('');
+    } else {
+      card.innerHTML = `<div style="text-align:center;padding:20px;color:var(--green)"><div style="font-size:32px;margin-bottom:8px">&#10003;</div><p>All systems healthy</p><p style="font-size:12px;color:var(--text-light)">${h.total_executions_24h || 0} runs in last 24h</p></div>`;
+    }
+  } catch (e) {
+    document.getElementById('healthLabel').textContent = 'Offline';
+    document.getElementById('healthDot').classList.add('critical');
+    document.getElementById('healthCard').innerHTML = '<div class="empty"><p>Could not connect to server</p></div>';
+  }
+}
+
+// ── Load Recent Runs ──
+async function loadRecentRuns() {
+  try {
+    const data = await api('/api/executions?limit=8');
+    const el = document.getElementById('recentRuns');
+    if (!data.executions || data.executions.length === 0) {
+      el.innerHTML = '<div class="empty"><p>No executions yet. Run a workflow to get started.</p></div>';
+      return;
+    }
+    el.innerHTML = data.executions.map(e => `
+      <div class="exec-row" onclick="showExecDetail('${e.id}')">
+        <div class="exec-badge ${e.status || 'running'}"></div>
+        <div class="exec-info">
+          <div class="exec-wf">${escHtml(e.workflow_id)}</div>
+          <div class="exec-time">${timeAgo(e.started_at)}</div>
+        </div>
+        <div class="exec-status ${e.status || 'running'}">${e.status || 'running'}</div>
+      </div>
+    `).join('');
+  } catch (e) {
+    document.getElementById('recentRuns').innerHTML = '<div class="empty"><p>Could not load runs</p></div>';
+  }
+}
+
+// ── Load Workflows ──
+async function loadWorkflows() {
+  try {
+    const data = await api('/api/workflows');
+    const el = document.getElementById('workflowsList');
+    if (!data.workflows || data.workflows.length === 0) {
+      el.innerHTML = '<div class="empty"><p>No workflows registered yet.</p></div>';
+      return;
+    }
+    el.innerHTML = data.workflows.map(w => {
+      const total = w.total_runs || 0;
+      const success = w.successful_runs || 0;
+      const rate = total > 0 ? Math.round(success / total * 100) : 0;
+      return `
+        <div class="workflow-card">
+          <div class="wf-name">${escHtml(w.name || w.id)}</div>
+          <div class="wf-meta">
+            <span>${total} runs</span>
+            <span>${rate}% success</span>
+            <span>Last: ${timeAgo(w.last_run_at)}</span>
+          </div>
+          <div class="wf-bar"><div class="wf-bar-fill" style="width:${rate}%;background:${rate>=80?'var(--green)':rate>=50?'var(--yellow)':'var(--red)'}"></div></div>
+          <div class="wf-actions">
+            <button class="btn btn-primary btn-sm" onclick="triggerWorkflow('${w.id}', this);event.stopPropagation()">Run Now</button>
+            <button class="btn btn-outline btn-sm" onclick="showPage('executions');loadExecutions('${w.id}');event.stopPropagation()">View Runs</button>
+          </div>
+        </div>
+      `;
+    }).join('');
+  } catch (e) {
+    document.getElementById('workflowsList').innerHTML = '<div class="empty"><p>Could not load workflows</p></div>';
+  }
+}
+
+// ── Load Executions ──
+async function loadExecutions(workflowId) {
+  try {
+    let url = '/api/executions?limit=50';
+    if (workflowId) url += '&workflow_id=' + workflowId;
+    const data = await api(url);
+    const el = document.getElementById('executionsList');
+    if (!data.executions || data.executions.length === 0) {
+      el.innerHTML = '<div class="empty"><p>No executions found.</p></div>';
+      return;
+    }
+    el.innerHTML = data.executions.map(e => `
+      <div class="exec-row" onclick="showExecDetail('${e.id}')">
+        <div class="exec-badge ${e.status || 'running'}"></div>
+        <div class="exec-info">
+          <div class="exec-wf">${escHtml(e.workflow_id)}</div>
+          <div class="exec-time">${timeAgo(e.started_at)}${e.error_message ? ' — ' + escHtml(e.error_message.substring(0, 60)) : ''}</div>
+        </div>
+        <div class="exec-status ${e.status || 'running'}">${e.status || 'running'}</div>
+      </div>
+    `).join('');
+  } catch (e) {
+    document.getElementById('executionsList').innerHTML = '<div class="empty"><p>Could not load executions</p></div>';
+  }
+}
+
+// ── Execution Detail Modal ──
+async function showExecDetail(execId) {
+  const overlay = document.getElementById('execModal');
+  overlay.classList.add('active');
+  document.getElementById('modalContent').innerHTML = '<div class="spinner"></div>';
+  document.getElementById('modalTitle').textContent = 'Loading...';
+
+  try {
+    const exec = await api('/api/executions/' + execId);
+    const logData = await api('/api/executions/' + execId + '/logs');
+
+    document.getElementById('modalTitle').textContent = exec.workflow_id + ' — ' + (exec.status || 'running');
+
+    let html = `
+      <div style="margin-bottom:16px">
+        <div style="font-size:13px;color:var(--text-light)">Started: ${exec.started_at || 'N/A'}</div>
+        <div style="font-size:13px;color:var(--text-light)">Completed: ${exec.completed_at || 'Still running'}</div>
+        ${exec.error_message ? '<div style="font-size:13px;color:var(--red);margin-top:4px">Error: ' + escHtml(exec.error_message) + '</div>' : ''}
+      </div>
+      <div class="section-title">Execution Logs</div>
+    `;
+
+    if (logData.logs && logData.logs.length > 0) {
+      html += logData.logs.map(l => {
+        const cls = l.success === false ? 'error' : (l.success === true ? 'success' : '');
+        const time = l.timestamp ? l.timestamp.split('T')[1]?.substring(0, 8) || '' : '';
+        const eventLabel = l.event_type || '';
+        let msg = l.phase || '';
+        if (l.tool_name) msg += (msg ? ' | ' : '') + l.tool_name;
+        if (l.validator_name) msg += (msg ? ' | ' : '') + l.validator_name;
+        if (l.error_message) msg += (msg ? ' | ' : '') + l.error_message;
+        if (l.duration_ms) msg += ' (' + l.duration_ms + 'ms)';
+
+        return `<div class="log-entry ${cls}"><span class="log-time">${time}</span><span class="log-event">${eventLabel}</span><span class="log-msg">${escHtml(msg)}</span></div>`;
+      }).join('');
+    } else {
+      html += '<div class="empty"><p>No logs recorded</p></div>';
+    }
+
+    document.getElementById('modalContent').innerHTML = html;
+  } catch (e) {
+    document.getElementById('modalContent').innerHTML = '<p>Could not load execution details.</p>';
+  }
+}
+
+function closeModal() {
+  document.getElementById('execModal').classList.remove('active');
+}
+
+// ── Load Proposals ──
+async function loadProposals() {
+  try {
+    const filter = document.getElementById('proposalFilter').value;
+    let url = '/api/proposals?limit=50';
+    if (filter) url += '&status=' + filter;
+    const data = await api(url);
+    const el = document.getElementById('proposalsList');
+    if (!data.proposals || data.proposals.length === 0) {
+      el.innerHTML = '<div class="empty"><p>No proposals found.</p></div>';
+      return;
+    }
+    el.innerHTML = data.proposals.map(p => {
+      const isSystem = !p.workflow_id;
+      const isPending = p.status === 'pending';
+      return `
+        <div class="proposal-card ${isSystem ? 'system' : ''}">
+          <div class="prop-type">${escHtml(p.proposal_type || 'improvement')} ${isSystem ? '(System-wide)' : '— ' + escHtml(p.workflow_id || '')}</div>
+          <div class="prop-title">${escHtml(p.title || 'Untitled')}</div>
+          <div class="prop-desc">${escHtml(p.description || '')}</div>
+          ${isPending ? `
+            <div class="prop-actions">
+              <button class="btn btn-green btn-sm" onclick="decideProposal('${p.id}', 'approved', this)">Approve</button>
+              <button class="btn btn-red btn-sm" onclick="decideProposal('${p.id}', 'rejected', this)">Reject</button>
+            </div>
+          ` : `
+            <div style="font-size:12px;color:var(--text-light)">Status: ${p.status} ${p.applied_at ? '(' + timeAgo(p.applied_at) + ')' : ''}</div>
+          `}
+        </div>
+      `;
+    }).join('');
+  } catch (e) {
+    document.getElementById('proposalsList').innerHTML = '<div class="empty"><p>Could not load proposals</p></div>';
+  }
+}
+
+// ── Decide on proposal ──
+async function decideProposal(id, action, btn) {
+  btn.disabled = true;
+  btn.textContent = '...';
+  try {
+    await apiPost('/api/proposals/' + id + '/decide', { action });
+    toast('Proposal ' + action);
+    loadProposals();
+    loadStats();
+  } catch (e) {
+    toast('Failed: ' + e.message);
+    btn.disabled = false;
+  }
+}
+
+// ── Trigger Workflow ──
+async function triggerWorkflow(id, btn) {
+  btn.disabled = true;
+  btn.textContent = 'Starting...';
+  try {
+    await apiPost('/api/workflows/' + id + '/run', {});
+    toast('Workflow triggered: ' + id);
+    btn.textContent = 'Running...';
+    setTimeout(() => { btn.textContent = 'Run Now'; btn.disabled = false; loadRecentRuns(); }, 10000);
+  } catch (e) {
+    toast('Failed: ' + e.message);
+    btn.textContent = 'Run Now';
+    btn.disabled = false;
+  }
+}
+
+// ── HTML escaping ──
+function escHtml(s) {
+  if (!s) return '';
+  const d = document.createElement('div');
+  d.textContent = String(s);
+  return d.innerHTML;
+}
+
+// ── Activity helpers ──
+function activityIcon(action) {
+  if (action.includes('triggered')) return { cls: 'trigger', icon: '&#9654;' };
+  if (action.includes('approved')) return { cls: 'approve', icon: '&#10003;' };
+  if (action.includes('rejected')) return { cls: 'reject', icon: '&#10007;' };
+  if (action.includes('completed')) return { cls: 'complete', icon: '&#9679;' };
+  if (action.includes('failed') || action.includes('error')) return { cls: 'fail', icon: '!' };
+  return { cls: 'default', icon: '&#8226;' };
+}
+
+function renderActivityRows(entries) {
+  if (!entries || entries.length === 0) {
+    return '<div class="empty"><p>No activity recorded yet.</p></div>';
+  }
+  return entries.map(a => {
+    const icon = activityIcon(a.action || '');
+    return `
+      <div class="activity-row">
+        <div class="activity-icon ${icon.cls}">${icon.icon}</div>
+        <div class="activity-body">
+          <div class="activity-detail">${escHtml(a.detail || a.action)}<span class="activity-source">${escHtml(a.source)}</span></div>
+          <div class="activity-time">${timeAgo(a.timestamp)}${a.target_id ? ' &middot; ' + escHtml(a.target_id) : ''}</div>
+        </div>
+      </div>
+    `;
+  }).join('');
+}
+
+// ── Load Activity (full page) ──
+async function loadActivity() {
+  try {
+    const filterEl = document.getElementById('activityFilter');
+    const filter = filterEl ? filterEl.value : '';
+    let url = '/api/activity?limit=50';
+    if (filter) url += '&source=' + filter;
+    const data = await api(url);
+    document.getElementById('activityList').innerHTML = renderActivityRows(data.activity);
+  } catch (e) {
+    document.getElementById('activityList').innerHTML = '<div class="empty"><p>Could not load activity</p></div>';
+  }
+}
+
+// ── Load Home Activity (compact, 5 items) ──
+async function loadHomeActivity() {
+  try {
+    const data = await api('/api/activity?limit=5');
+    document.getElementById('homeActivity').innerHTML = renderActivityRows(data.activity);
+  } catch (e) {
+    document.getElementById('homeActivity').innerHTML = '<div class="empty"><p>No activity yet</p></div>';
+  }
+}
+
+// ── Auto-refresh ──
+let refreshInterval;
+
+function startAutoRefresh() {
+  loadStats();
+  loadHealth();
+  loadRecentRuns();
+  loadHomeActivity();
+  refreshInterval = setInterval(() => {
+    loadStats();
+    loadHealth();
+    loadRecentRuns();
+    loadHomeActivity();
+  }, 30000); // Refresh every 30 seconds
+}
+
+// ── Init ──
+startAutoRefresh();
+</script>
+
+</body>
+</html>

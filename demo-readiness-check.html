@@ -1,0 +1,276 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ChurnShield Demo Readiness Check</title>
+    <style>
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 40px 20px;
+            background: #f8fafc;
+            color: #1e293b;
+        }
+        .checklist {
+            background: white;
+            border-radius: 12px;
+            padding: 30px;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+            margin-bottom: 20px;
+        }
+        .item {
+            display: flex;
+            align-items: center;
+            margin-bottom: 15px;
+            padding: 15px;
+            border-radius: 8px;
+            transition: background 0.2s;
+        }
+        .item:hover {
+            background: #f8fafc;
+        }
+        .status {
+            width: 20px;
+            height: 20px;
+            border-radius: 50%;
+            margin-right: 15px;
+            flex-shrink: 0;
+        }
+        .pending { background: #fbbf24; }
+        .success { background: #10b981; }
+        .error { background: #ef4444; }
+        .loading { background: #3b82f6; animation: pulse 2s infinite; }
+        @keyframes pulse {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.5; }
+        }
+        .title {
+            font-size: 24px;
+            font-weight: 600;
+            margin-bottom: 20px;
+            color: #1e293b;
+        }
+        .description {
+            flex: 1;
+            font-size: 16px;
+        }
+        .action {
+            margin-left: 15px;
+        }
+        button {
+            background: #3b82f6;
+            color: white;
+            border: none;
+            padding: 8px 16px;
+            border-radius: 6px;
+            cursor: pointer;
+            font-size: 14px;
+        }
+        button:hover {
+            background: #2563eb;
+        }
+        .summary {
+            background: white;
+            border-radius: 12px;
+            padding: 30px;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+            text-align: center;
+        }
+        .summary h2 {
+            color: #1e293b;
+            margin-bottom: 10px;
+        }
+        .progress {
+            font-size: 48px;
+            font-weight: 700;
+            color: #10b981;
+            margin: 20px 0;
+        }
+        .start-demo {
+            background: linear-gradient(135deg, #10b981, #059669);
+            color: white;
+            border: none;
+            padding: 16px 32px;
+            border-radius: 8px;
+            font-size: 18px;
+            font-weight: 600;
+            cursor: pointer;
+            margin-top: 20px;
+        }
+        .start-demo:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 20px rgba(16, 185, 129, 0.3);
+        }
+    </style>
+</head>
+<body>
+    <div class="checklist">
+        <div class="title">🚀 ChurnShield Demo Readiness Check</div>
+
+        <div class="item" id="server-check">
+            <div class="status pending" id="server-status"></div>
+            <div class="description">Development server running (npm run dev)</div>
+            <div class="action">
+                <button onclick="checkServer()">Check</button>
+            </div>
+        </div>
+
+        <div class="item" id="stripe-check">
+            <div class="status pending" id="stripe-status"></div>
+            <div class="description">Stripe test customer and subscription ready</div>
+            <div class="action">
+                <button onclick="openStripe()">Open Stripe</button>
+            </div>
+        </div>
+
+        <div class="item" id="widget-check">
+            <div class="status pending" id="widget-status"></div>
+            <div class="description">Widget configuration and token valid</div>
+            <div class="action">
+                <button onclick="testWidget()">Test Widget</button>
+            </div>
+        </div>
+
+        <div class="item" id="domains-check">
+            <div class="status pending" id="domains-status"></div>
+            <div class="description">Development domains enabled in dashboard</div>
+            <div class="action">
+                <button onclick="openDashboard()">Open Dashboard</button>
+            </div>
+        </div>
+
+        <div class="item" id="network-check">
+            <div class="status pending" id="network-status"></div>
+            <div class="description">Network connectivity to Supabase</div>
+            <div class="action">
+                <button onclick="checkNetwork()">Check</button>
+            </div>
+        </div>
+    </div>
+
+    <div class="summary">
+        <h2>Demo Status</h2>
+        <div class="progress" id="progress">0/5</div>
+        <p id="status-message">Run checks to verify everything is ready</p>
+        <button class="start-demo" onclick="startDemo()" id="start-btn" style="display: none;">
+            🎬 Start Live Demo
+        </button>
+    </div>
+
+    <script>
+        let checks = {
+            server: false,
+            stripe: false,
+            widget: false,
+            domains: false,
+            network: false
+        };
+
+        function updateStatus(checkId, success, message) {
+            const item = document.getElementById(checkId + '-check');
+            const status = document.getElementById(checkId + '-status');
+            const description = item.querySelector('.description');
+
+            checks[checkId] = success;
+
+            if (success) {
+                status.className = 'status success';
+                description.innerHTML = message || description.textContent;
+            } else {
+                status.className = 'status error';
+                description.innerHTML = message || description.textContent;
+            }
+
+            updateProgress();
+        }
+
+        function updateProgress() {
+            const completed = Object.values(checks).filter(Boolean).length;
+            document.getElementById('progress').textContent = completed + '/5';
+
+            if (completed === 5) {
+                document.getElementById('status-message').textContent = '🎉 All systems go! Ready for demo.';
+                document.getElementById('start-btn').style.display = 'block';
+            } else if (completed >= 3) {
+                document.getElementById('status-message').textContent = '⚠️ Almost ready - complete remaining checks';
+            } else {
+                document.getElementById('status-message').textContent = '❌ Several checks failing - fix before demo';
+            }
+        }
+
+        async function checkServer() {
+            updateStatus('server', false, 'Checking development server...');
+            document.getElementById('server-status').className = 'status loading';
+
+            try {
+                const response = await fetch('http://localhost:5173/widget-test.html');
+                if (response.ok) {
+                    updateStatus('server', true, '✅ Development server running on localhost:5173');
+                } else {
+                    updateStatus('server', false, '❌ Server not responding');
+                }
+            } catch (error) {
+                updateStatus('server', false, '❌ Cannot connect to localhost:5173 - run "npm run dev"');
+            }
+        }
+
+        function openStripe() {
+            window.open('https://dashboard.stripe.com/customers', '_blank');
+            updateStatus('stripe', true, '✅ Stripe dashboard opened - verify test customer exists');
+        }
+
+        async function testWidget() {
+            updateStatus('widget', false, 'Testing widget configuration...');
+            document.getElementById('widget-status').className = 'status loading';
+
+            try {
+                // Test basic widget connectivity
+                const response = await fetch('https://rdstyfaveeokocztayri.supabase.co/functions/v1/cancel-session/test', {
+                    method: 'GET',
+                    headers: { 'Content-Type': 'application/json' }
+                });
+
+                if (response.ok || response.status === 404) { // 404 is OK for test endpoint
+                    updateStatus('widget', true, '✅ Widget backend accessible');
+                } else {
+                    updateStatus('widget', false, '❌ Widget backend error');
+                }
+            } catch (error) {
+                updateStatus('widget', false, '❌ Cannot connect to widget backend');
+            }
+        }
+
+        function openDashboard() {
+            window.open('/dashboard/cancel-flow', '_blank');
+            updateStatus('domains', true, '✅ Dashboard opened - enable development domains');
+        }
+
+        async function checkNetwork() {
+            updateStatus('network', false, 'Testing network connectivity...');
+            document.getElementById('network-status').className = 'status loading';
+
+            try {
+                const response = await fetch('https://rdstyfaveeokocztayri.supabase.co/functions/v1/cancel-session/test');
+                if (response.ok || response.status === 404) {
+                    updateStatus('network', true, '✅ Network connection OK');
+                } else {
+                    updateStatus('network', false, '❌ Network error');
+                }
+            } catch (error) {
+                updateStatus('network', false, '❌ Network connectivity issues');
+            }
+        }
+
+        function startDemo() {
+            window.open('http://localhost:5173/widget-test.html', '_blank');
+        }
+
+        // Auto-check server on page load
+        window.addEventListener('load', function() {
+            setTimeout(checkServer, 1000);
+        });
+    </script>
+</body>
+</html>

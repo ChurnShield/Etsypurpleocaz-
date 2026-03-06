@@ -54,6 +54,31 @@
 
 ---
 
+## Working Style
+
+### Plan First
+- Enter plan mode for ANY non-trivial task (3+ steps or architectural decisions)
+- Write plan to `tasks/todo.md` with checkable items before implementing
+- If something goes sideways, STOP and re-plan -- don't keep pushing
+- Verify plan with the user before starting implementation
+
+### Self-Improvement Loop
+- After ANY correction from the user, update `tasks/lessons.md` with the pattern
+- Write rules for yourself that prevent the same mistake
+- Review lessons at session start for the relevant project
+
+### Verification Before Done
+- Never mark a task complete without proving it works
+- Beyond `pytest tests/ -v`: check execution_logs, diff behavior, verify the workflow ran end-to-end
+- Ask yourself: "Would a staff engineer approve this?"
+
+### Subagent Strategy
+- Use subagents liberally to keep main context window clean
+- Offload research, exploration, and parallel analysis to subagents
+- One task per subagent for focused execution
+
+---
+
 ## Project Conventions
 
 - **Files**: `snake_case.py` (e.g., `execution_logger.py`, `base_tool.py`)

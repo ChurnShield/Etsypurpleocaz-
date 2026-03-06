@@ -1,0 +1,119 @@
+{
+  "thumbnail": {
+    "format": {
+      "shape": "square",
+      "resolution": "2000x2000 px (or 1080x1080 px)",
+      "file_type": "PNG with transparency option"
+    },
+    "background": {
+      "type": "textured flat-lay",
+      "colors": ["soft beige #F5F0E8", "warm cream", "light taupe", "subtle light gray marble"],
+      "texture": "linen/paper/fabric (very subtle, not busy)",
+      "lighting": "soft natural, gentle shadows"
+    },
+    "lifestyle_props": {
+      "mandatory": [
+        {
+          "item": "coffee/latte cup (partial view, foam art or steam)",
+          "position": "bottom-left or center-bottom",
+          "size": "medium-large, ~20-30% of canvas width"
+        },
+        {
+          "item": "green plant sprig or small potted plant",
+          "positions": ["top-left corner", "top-right corner (or both)"],
+          "size": "small-medium"
+        }
+      ],
+      "optional_common": [
+        {"item": "rose-gold or black pen", "position": "bottom-right or diagonal across mockups"},
+        {"item": "tortoise shell glasses", "position": "bottom-right"},
+        {"item": "small succulent/notebook", "position": "as filler"}
+      ],
+      "rule": "Props frame mockups without overlapping text; keep cozy workspace aesthetic"
+    },
+    "mockup_composition": {
+      "style": "realistic digital mockups with soft drop shadows and slight elevation",
+      "arrangement": "2-5 overlapping/fanned elements for depth and bundle feel",
+      "common_patterns": [
+        "2 certificates/cards rotated 8-15 degrees behind main one",
+        "1 large centered flyer + surrounding floating pieces",
+        "Central laptop/phone screen showing product + orbiting cards/docs"
+      ],
+      "main_focus": "Product mockup(s) occupy central 60-75% of canvas"
+    },
+    "color_palette": {
+      "base": "neutral warm (beige/cream/taupe)",
+      "accent_banner": {
+        "beauty_feminine": "soft pink / rose (#F8D7E3 or similar)",
+        "edgy_dark": "black / charcoal",
+        "energetic": "deep red / maroon",
+        "professional_clean": "cool gray / slate",
+        "neutral_fallback": "beige or taupe darker shade"
+      },
+      "text": "black/dark gray on light; white on dark banners"
+    },
+    "typography": {
+      "hierarchy": [
+        {
+          "role": "product_title_main",
+          "style": "bold or semi-bold sans-serif (e.g. Montserrat Bold, Bebas Neue)",
+          "size": "largest on banner",
+          "case": "Title Case or ALL CAPS",
+          "color": "white on accent banner"
+        },
+        {
+          "role": "benefit_subtitle",
+          "style": "smaller uppercase sans or light italic script",
+          "examples": ["ADVERTISE YOUR SERVICES IN STYLE", "STAND OUT IN THE CROWD"]
+        },
+        {
+          "role": "brand_name_on_mockup",
+          "style": "elegant cursive/script (e.g. Great Vibes, Parisienne)",
+          "size": "prominent but not dominant"
+        },
+        {
+          "role": "details_fields",
+          "style": "clean thin sans-serif (Montserrat Light, Poppins)"
+        }
+      ]
+    },
+    "badges_labels": {
+      "mandatory": [
+        {
+          "text": "EDIT IN CANVA",
+          "shape": "circle",
+          "color": "dark (black/blue/gray)",
+          "position": "bottom-right corner of canvas or banner"
+        },
+        {
+          "text": "Primary",
+          "size": "tiny",
+          "position": "top-right corner of entire thumbnail"
+        }
+      ],
+      "optional_bonus": [
+        "FREE BONUS cover letters & affirmation cards",
+        "SET OF 3",
+        "PRINTABLE AT HOME",
+        "SO MUCH VALUE INSIDE"
+      ]
+    },
+    "bottom_banner": {
+      "height": "20-35% of canvas",
+      "full_width": true,
+      "sharp_cutoff": "clean horizontal line separating from background",
+      "content": [
+        "Main niche title (large)",
+        "Product descriptor (medium)",
+        "Benefit/CTA phrase (smaller)"
+      ],
+      "overlap": "props can slightly overlap banner edges for flow"
+    },
+    "niche_adaptation_rules": {
+      "visuals": "Replace collage/photos/mockup content only",
+      "accent_color": "Match niche mood (pink=beauty, black=tattoo/edgy, red=fitness/energy)",
+      "props": "Keep core (coffee + plant); optional swap 1 prop if strongly thematic",
+      "text": "Update title, subtitle, mockup placeholders only"
+    }
+  }
+}

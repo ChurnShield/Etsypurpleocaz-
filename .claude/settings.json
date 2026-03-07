@@ -1,0 +1,25 @@
+{
+  "permissions": {
+    "allow": [
+      "Read",
+      "Glob",
+      "Grep",
+      "Bash(pytest tests/ -v)",
+      "Bash(python scripts/init_db.py)",
+      "Bash(python main.py *)",
+      "Bash(pip install -r requirements.txt)",
+      "Bash(git status)",
+      "Bash(git diff *)",
+      "Bash(git log *)"
+    ],
+    "deny": [
+      "Bash(rm -rf *)",
+      "Bash(* --force *)",
+      "Bash(DROP TABLE *)",
+      "Bash(* data/system.db *)"
+    ]
+  },
+  "env": {
+    "PYTHONPATH": "."
+  }
+}

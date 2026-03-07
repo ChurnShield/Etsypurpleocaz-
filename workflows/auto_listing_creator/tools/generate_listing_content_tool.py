@@ -172,7 +172,8 @@ class GenerateListingContentTool(BaseTool):
                 print(f"     Generating listing {i}/{len(opportunities)}: "
                       f"{opp.get('product_title', '')[:50]}...", flush=True)
 
-                prompt = self._build_prompt(opp, focus_niche, currency)
+                prompt = self._build_prompt(opp, focus_niche, currency,
+                                            opp.get("research_context"))
                 response = self._call_claude(api_key, model, prompt)
                 listing = self._parse_response(response, opp)
 
@@ -212,7 +213,7 @@ class GenerateListingContentTool(BaseTool):
                 "metadata": {"exception_type": type(e).__name__},
             }
 
-    def _build_prompt(self, opportunity, focus_niche, currency):
+    def _build_prompt(self, opportunity, focus_niche, currency, research_context=None):
         """Build a Claude prompt for generating a complete Etsy listing.
 
         Anti-Gravity keyword strategy:
@@ -231,7 +232,7 @@ class GenerateListingContentTool(BaseTool):
         buyer_intent = ", ".join(f'"{bi}"' for bi in niche_kw_guidance["buyer_intent_modifiers"][:6])
         product_categories = ", ".join(f'"{pc}"' for pc in niche_kw_guidance["product_categories"][:8])
 
-        return f"""You are an expert Etsy seller specializing in digital Canva templates for the {focus_niche} industry. You have a shop called "PurpleOcaz" that sells editable templates.
+        prompt = f"""You are an expert Etsy seller specializing in digital Canva templates for the {focus_niche} industry. You have a shop called "PurpleOcaz" that sells editable templates.
 
 PRODUCT IDEA:
   Title suggestion: {opportunity.get('product_title', '')}
@@ -285,6 +286,31 @@ RESPOND IN EXACT JSON FORMAT:
   "product_type": "Precise product category label",
   "bundle_tags": ["category-tag-1", "category-tag-2"]
 }}"""
+
+        # Append grounded research context from NotebookLM if available
+        if research_context and research_context.get("insights"):
+            research_section = f"""
+
+MARKET RESEARCH (grounded, citation-backed from NotebookLM):
+{research_context['insights']}
+"""
+            if research_context.get("keywords"):
+                kw_str = ", ".join(f'"{k}"' for k in research_context["keywords"][:8])
+                research_section += f"\nAdditional keyword opportunities: {kw_str}"
+
+            if research_context.get("positioning"):
+                research_section += f"\nPositioning insight: {research_context['positioning']}"
+
+            research_section += """
+
+Use these research insights to:
+- Improve keyword selection with terms actual buyers use
+- Address specific pain points in the description
+- Strengthen the PERFECT FOR and FAQ sections with real buyer concerns
+"""
+            prompt += research_section
+
+        return prompt
 
     def _call_claude(self, api_key, model, prompt):
         """Call the Anthropic Claude API with retry/backoff on 529 (overloaded)."""

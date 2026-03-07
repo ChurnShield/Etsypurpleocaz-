@@ -39,6 +39,8 @@ from config import (
     GEMINI_API_KEY,
     PROPOSAL_THRESHOLD_RUNS,
     ENABLE_BUNDLES, MIN_BUNDLE_SIZE,
+    ENABLE_NOTEBOOKLM_RESEARCH, NOTEBOOKLM_NOTEBOOK_IDS,
+    MIN_RESEARCH_ENRICHMENT_RATE,
 )
 
 from lib.common_tools.sqlite_client import SQLiteClient
@@ -50,8 +52,10 @@ from tools.bundle_creator_tool           import BundleCreatorTool
 from tools.publish_listings_tool         import PublishListingsTool
 from tools.product_creator_tool          import ProductCreatorTool
 from tools.canva_export_tool             import CanvaExportTool
+from tools.notebooklm_research_tool      import NotebookLmResearchTool
 
 from validators.opportunities_loaded_validator import OpportunitiesLoadedValidator
+from validators.research_enriched_validator    import ResearchEnrichedValidator
 from validators.content_generated_validator    import ContentGeneratedValidator
 from validators.listings_published_validator   import ListingsPublishedValidator
 
@@ -137,6 +141,8 @@ def main():
     print(f"  NanoBanana: {nano_status}")
     bundle_status = "enabled" if ENABLE_BUNDLES else "disabled"
     print(f"  Bundles   : {bundle_status} (min {MIN_BUNDLE_SIZE} items)")
+    nlm_status = "enabled" if ENABLE_NOTEBOOKLM_RESEARCH else "disabled"
+    print(f"  NotebookLM: {nlm_status}")
     print(f"{'=' * 60}")
 
     if not ETSY_API_KEY or ETSY_API_KEY == ":":
@@ -196,6 +202,30 @@ def main():
         opportunities = load_data["opportunities"]
         print(f"     Loaded: {load_data['total_loaded']} opportunities")
         print(f"     New: {len(opportunities)} (skipped {load_data['skipped_duplicates']} duplicates)")
+
+        # ==== PHASE 1.5: NotebookLM Research Enrichment ====
+        if ENABLE_NOTEBOOKLM_RESEARCH:
+            print(f"\n[4a+] Phase 1.5: Enriching with NotebookLM research...")
+            research_result = _run_phase(
+                logger, "Phase 1.5: NotebookLM Research",
+                tool=NotebookLmResearchTool(),
+                params={
+                    "opportunities": opportunities,
+                    "notebook_ids": NOTEBOOKLM_NOTEBOOK_IDS,
+                    "focus_niche": FOCUS_NICHE,
+                    "enable_research": True,
+                },
+                validator=ResearchEnrichedValidator(),
+            )
+
+            if research_result["success"] and research_result["data"]:
+                opportunities = research_result["data"]
+                enriched = sum(1 for o in opportunities if o.get("research_context"))
+                print(f"     Enriched: {enriched}/{len(opportunities)} opportunities")
+            else:
+                print(f"     Research skipped: {research_result.get('error', 'see metadata')}")
+        else:
+            print(f"\n[4a+] NotebookLM research: disabled in config")
 
         # ==== PHASE 2: Generate listing content ====
         print(f"\n[4b] Phase 2: Generating listing content with Claude...")

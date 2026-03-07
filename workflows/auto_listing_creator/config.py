@@ -72,3 +72,13 @@ CANVA_CLIENT_ID     = os.getenv("CANVA_CLIENT_ID", "")
 CANVA_CLIENT_SECRET = os.getenv("CANVA_CLIENT_SECRET", "")
 CANVA_TOKEN_FILE    = os.path.join(os.path.dirname(os.path.abspath(__file__)),
                                    "canva_tokens.json")
+
+# -- NotebookLM Research (Phase 1.5 -- grounded niche research via MCP)
+ENABLE_NOTEBOOKLM_RESEARCH = os.getenv("ENABLE_NOTEBOOKLM_RESEARCH", "true").lower() == "true"
+NOTEBOOKLM_NOTEBOOK_IDS = {
+    "tattoo": os.getenv("NOTEBOOKLM_NOTEBOOK_TATTOO", ""),
+    "nail": os.getenv("NOTEBOOKLM_NOTEBOOK_NAIL", ""),
+    "hair": os.getenv("NOTEBOOKLM_NOTEBOOK_HAIR", ""),
+    "beauty": os.getenv("NOTEBOOKLM_NOTEBOOK_BEAUTY", ""),
+}
+MIN_RESEARCH_ENRICHMENT_RATE = float(os.getenv("MIN_RESEARCH_ENRICHMENT_RATE", "0.0"))

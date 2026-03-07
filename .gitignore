@@ -62,8 +62,10 @@ workflows/auto_listing_creator/exports/
 # API credentials folder
 ETSY API/
 
-# Claude Code hooks (contain credentials - NEVER commit)
+# Claude Code (machine-local / personal files - NEVER commit)
 .claude/hooks/
+.claude/settings.local.json
+.claude/projects/
 
 # Logs
 logs/

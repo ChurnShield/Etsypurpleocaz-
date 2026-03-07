@@ -30,7 +30,13 @@ from tools.image_renderer import (
 )
 from tools.image_compositor import composite_hero, copy_boilerplate_pages
 from tools.tier_config import classify_tier, TIER_1, BADGE_TEXT
-from tools.gemini_image_client import generate_product_image, build_product_prompt
+from tools.gemini_image_client import (
+    generate_product_image as gemini_generate,
+    build_product_prompt,
+)
+from tools.ideogram_image_client import (
+    generate_product_image as ideogram_generate,
+)
 from tools.editable_pdf_generator import create_editable_pdf
 from tools.affiliate_guide_generator import create_affiliate_guide
 
@@ -48,6 +54,8 @@ class ProductCreatorTool(BaseTool):
         focus_niche = kwargs.get("focus_niche", "tattoo")
         theme = kwargs.get("theme", "dark")
         gemini_api_key = kwargs.get("gemini_api_key", "")
+        ideogram_api_key = kwargs.get("ideogram_api_key", "")
+        tier1_provider = kwargs.get("tier1_provider", "gemini")
 
         if not listings:
             return {
@@ -78,14 +86,23 @@ class ProductCreatorTool(BaseTool):
                           f"[{tier_label}]: {title}...", flush=True)
 
                     try:
-                        if tier == TIER_1 and gemini_api_key:
+                        # Resolve which AI provider to use for Tier 1
+                        tier1_key = None
+                        if tier == TIER_1:
+                            if tier1_provider == "ideogram" and ideogram_api_key:
+                                tier1_key = ideogram_api_key
+                            elif gemini_api_key:
+                                tier1_key = gemini_api_key
+
+                        if tier == TIER_1 and tier1_key:
                             result = self._create_tier1_listing(
                                 browser, listing, focus_niche, theme,
-                                gemini_api_key, i,
+                                tier1_key, i,
+                                provider=tier1_provider if tier1_provider == "ideogram" and ideogram_api_key else "gemini",
                             )
                         else:
-                            if tier == TIER_1 and not gemini_api_key:
-                                print("       No Gemini key — falling "
+                            if tier == TIER_1 and not tier1_key:
+                                print("       No AI image key — falling "
                                       "back to HTML pipeline", flush=True)
                             result = self._create_tier2_listing(
                                 browser, listing, focus_niche, theme, i,
@@ -157,14 +174,15 @@ class ProductCreatorTool(BaseTool):
     # ---- Tier 1: Nano Banana + Editable PDF -----------------------------------
 
     def _create_tier1_listing(self, browser, listing, niche, theme,
-                              gemini_api_key, index):
-        """Create listing images using Gemini AI mockup + editable PDF.
+                              ai_api_key, index, provider="gemini"):
+        """Create listing images using AI mockup + editable PDF.
 
-        The Gemini image is a complete product photo (background, cards,
-        props, footer banner, badge) so it is used directly as the hero
-        — no dark-background compositing needed.
+        Supports multiple AI providers (Gemini, Ideogram) for mockup
+        generation. The AI image is a complete product photo (background,
+        cards, props, footer banner, badge) so it is used directly as
+        the hero — no dark-background compositing needed.
 
-        Falls back to Tier 2 HTML pipeline if Gemini generation fails.
+        Falls back to Tier 2 HTML pipeline if AI generation fails.
         """
         from PIL import Image
 
@@ -177,16 +195,20 @@ class ProductCreatorTool(BaseTool):
         hero_title = self._derive_hero_title(title, product_type, niche)
         tagline = self._derive_tagline(product_type, niche)
 
-        # Step 1: Generate AI mockup via Gemini (complete scene)
-        print("       Generating Nano Banana mockup...", flush=True)
+        # Step 1: Generate AI mockup (Gemini or Ideogram)
+        provider_label = "Ideogram" if provider == "ideogram" else "Nano Banana"
+        print(f"       Generating {provider_label} mockup...", flush=True)
         prompt = build_product_prompt(
             product_type, niche, theme,
             hero_title=hero_title, tagline=tagline,
         )
-        gen_result = generate_product_image(gemini_api_key, prompt)
+        if provider == "ideogram":
+            gen_result = ideogram_generate(ai_api_key, prompt)
+        else:
+            gen_result = gemini_generate(ai_api_key, prompt)
 
         if not gen_result["success"]:
-            print(f"       Gemini failed: {gen_result['error'][:80]}", flush=True)
+            print(f"       {provider_label} failed: {gen_result['error'][:80]}", flush=True)
             print("       Falling back to HTML pipeline...", flush=True)
             return self._create_tier2_listing(
                 browser, listing, niche, theme, index,
@@ -229,7 +251,7 @@ class ProductCreatorTool(BaseTool):
         listing_with_niche = dict(listing, focus_niche=niche)
         pdf_result = create_editable_pdf(
             listing_with_niche, product_type, mockup_path,
-            gemini_api_key=gemini_api_key,
+            gemini_api_key=ai_api_key if provider == "gemini" else "",
         )
 
         pdf_path = None

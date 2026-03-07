@@ -36,7 +36,8 @@ from config import (
     LISTING_QUEUE_SHEET, FOCUS_NICHE,
     DEFAULT_CURRENCY, DEFAULT_TAXONOMY_ID, TOKEN_FILE,
     CANVA_CLIENT_ID, CANVA_CLIENT_SECRET,
-    GEMINI_API_KEY,
+    GEMINI_API_KEY, IDEOGRAM_API_KEY,
+    TIER1_IMAGE_PROVIDER,
     PROPOSAL_THRESHOLD_RUNS,
     ENABLE_BUNDLES, MIN_BUNDLE_SIZE,
 )
@@ -60,7 +61,7 @@ def _run_phase(logger, phase_name, tool, params, validator=None, max_retries=MAX
     logger.phase_start(phase_name)
     log_params = {}
     for k, v in params.items():
-        if k in ("api_key", "anthropic_api_key", "gemini_api_key"):
+        if k in ("api_key", "anthropic_api_key", "gemini_api_key", "ideogram_api_key"):
             continue
         if isinstance(v, list):
             log_params[k] = f"[{len(v)} items]"
@@ -125,7 +126,7 @@ def _update_workflow_stats(db, wid, success):
 
 
 def main():
-    nano_banana_enabled = bool(GEMINI_API_KEY)
+    nano_banana_enabled = bool(GEMINI_API_KEY) or bool(IDEOGRAM_API_KEY)
 
     print(f"\n{'=' * 60}")
     print(f"  Workflow  : {WORKFLOW_NAME}")
@@ -134,7 +135,8 @@ def main():
     print(f"  Model     : {ANTHROPIC_MODEL}")
     print(f"  Currency  : {DEFAULT_CURRENCY}")
     nano_status = "enabled" if nano_banana_enabled else "disabled (no key)"
-    print(f"  NanoBanana: {nano_status}")
+    provider_label = TIER1_IMAGE_PROVIDER if nano_banana_enabled else "none"
+    print(f"  NanoBanana: {nano_status} (provider: {provider_label})")
     bundle_status = "enabled" if ENABLE_BUNDLES else "disabled"
     print(f"  Bundles   : {bundle_status} (min {MIN_BUNDLE_SIZE} items)")
     print(f"{'=' * 60}")
@@ -291,6 +293,8 @@ def main():
                 "model": ANTHROPIC_MODEL,
                 "focus_niche": FOCUS_NICHE,
                 "gemini_api_key": GEMINI_API_KEY,
+                "ideogram_api_key": IDEOGRAM_API_KEY,
+                "tier1_provider": TIER1_IMAGE_PROVIDER,
             },
         )
 

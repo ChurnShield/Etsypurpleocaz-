@@ -8,8 +8,11 @@ ANTHROPIC_API_KEY = os.getenv("ANTHROPIC_API_KEY")
 ANTHROPIC_MODEL = os.getenv("ANTHROPIC_MODEL", "claude-sonnet-4-20250514")
 GEMINI_API_KEY = os.getenv("GEMINI_API_KEY")
 REPLICATE_API_TOKEN = os.getenv("REPLICATE_API_TOKEN")
+IDEOGRAM_API_KEY = os.getenv("IDEOGRAM_API_KEY")
 # "gemini" or "replicate" — controls which AI generates SVG botanical designs
 SVG_IMAGE_PROVIDER = os.getenv("SVG_IMAGE_PROVIDER", "gemini")
+# "gemini", "ideogram", or "replicate" — controls Tier 1 AI image provider
+TIER1_IMAGE_PROVIDER = os.getenv("TIER1_IMAGE_PROVIDER", "gemini")
 GOOGLE_SPREADSHEET_ID = os.getenv("GOOGLE_SPREADSHEET_ID")
 GOOGLE_SHEET_NAME = os.getenv("GOOGLE_SHEET_NAME", "AI News")
 GOOGLE_CREDENTIALS_FILE = os.getenv("GOOGLE_CREDENTIALS_FILE", "google-credentials.json")

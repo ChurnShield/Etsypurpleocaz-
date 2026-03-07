@@ -64,8 +64,11 @@ MIN_BUNDLE_SIZE    = int(os.getenv("MIN_BUNDLE_SIZE", "3"))
 TOKEN_FILE = os.path.join(os.path.dirname(os.path.abspath(__file__)),
                           "..", "etsy_analytics", "etsy_tokens.json")
 
-# -- Gemini API (Nano Banana -- AI image generation for Tier 1 products)
-GEMINI_API_KEY = os.getenv("GEMINI_API_KEY", "")
+# -- AI Image Generation (Tier 1 products) --
+# Supported providers: "gemini", "ideogram", "replicate"
+TIER1_IMAGE_PROVIDER = os.getenv("TIER1_IMAGE_PROVIDER", "gemini")
+GEMINI_API_KEY       = os.getenv("GEMINI_API_KEY", "")
+IDEOGRAM_API_KEY     = os.getenv("IDEOGRAM_API_KEY", "")
 
 # -- Canva API (for design export)
 CANVA_CLIENT_ID     = os.getenv("CANVA_CLIENT_ID", "")

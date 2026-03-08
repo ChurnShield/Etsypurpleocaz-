@@ -95,11 +95,19 @@ class SmallBrain:
         proposals.extend(self._analyze_validators())
         proposals.extend(self._analyze_slow_tools())
 
+        saved = []
+        skipped = 0
         for proposal in proposals:
-            self._save_proposal(proposal)
+            if self._is_duplicate(proposal):
+                skipped += 1
+            else:
+                self._save_proposal(proposal)
+                saved.append(proposal)
 
-        print(f"SmallBrain: {len(proposals)} proposal(s) generated.")
-        return proposals
+        if skipped:
+            print(f"SmallBrain: {skipped} duplicate(s) skipped.")
+        print(f"SmallBrain: {len(saved)} proposal(s) generated.")
+        return saved
 
     # -------------------------------------------------------------------------
     # Analysis helpers
@@ -247,6 +255,39 @@ class SmallBrain:
                 })
 
         return proposals
+
+    # -------------------------------------------------------------------------
+    # Deduplication
+    # -------------------------------------------------------------------------
+
+    def _is_duplicate(self, proposal: dict) -> bool:
+        """
+        Check if a matching pending proposal already exists for this workflow.
+
+        A proposal is a duplicate if the same workflow already has a pending
+        proposal with the same proposal_type AND the same target (validator
+        or tool name).  This prevents the same suggestion from piling up
+        every time SmallBrain runs.
+        """
+        target = (
+            proposal.get("proposed_changes", {}).get("target", "")
+        )
+        existing = (
+            self.db.table("proposals")
+            .select("id, proposed_changes")
+            .eq("workflow_id", self.workflow_id)
+            .eq("status", "pending")
+            .eq("proposal_type", proposal["proposal_type"])
+            .execute()
+        )
+        for row in existing:
+            try:
+                changes = json.loads(row.get("proposed_changes", "{}"))
+            except (json.JSONDecodeError, TypeError):
+                changes = {}
+            if changes.get("target") == target:
+                return True
+        return False
 
     # -------------------------------------------------------------------------
     # Database write

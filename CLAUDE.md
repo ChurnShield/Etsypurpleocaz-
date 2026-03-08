@@ -153,3 +153,26 @@ Phase 4  -> Publish to Sheets + Etsy drafts + upload images/PDFs
 1. Read this file (critical rules and conventions)
 2. Load the relevant docs/architecture/ file for your task
 3. Run tests before claiming any change is complete: `pytest tests/ -v`
+## Knowledge Base: YouTube Intelligence Feed
+
+On every session start:
+1. Read the most recent file in `digests/`
+2. Check `ideas_backlog.md` for unchecked [ ] items
+3. Check `transcripts/` for any files newer than the latest digest
+4. Report: "📚 Knowledge base loaded: [N] transcripts, latest digest [date], [N] unactioned ideas"
+5. Surface top 1-2 backlog items relevant to today's work
+
+## Self-Improvement Protocol
+
+When a transcript contains a useful idea:
+1. Flag it to Andy with a 1-sentence summary
+2. Add to ideas_backlog.md with [ ] checkbox
+3. If code/prompt related, draft the specific change
+4. Wait for Andy's approval before applying anything
+
+## Business Context
+
+#PurpleOcaz    → Etsy, templates, digital products, Canva, passive income
+#ChurnShield   → SaaS, churn, retention, B2B, first paying customer
+#AgentLearning → Claude, AI agents, MCP, n8n, automation, pipeline
+#Wealth        → Entrepreneurship, income streams, business building

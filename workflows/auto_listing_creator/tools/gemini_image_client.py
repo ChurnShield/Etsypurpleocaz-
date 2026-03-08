@@ -32,157 +32,46 @@ GEMINI_API_URL = (
 # ---------------------------------------------------------------------------
 
 # Product-type-specific prompt components
+#
+# IMPORTANT: card_description is NO LONGER USED for the main hero prompt.
+# The hero prompt now requests blank cards (no text) and uses card_count only.
+# Text is composited afterwards by text_compositor.py using real TTF fonts.
+#
+# These descriptions are kept for reference and for any future use.
 PROMPT_TEMPLATES = {
     "appointment card": {
-        "card_description": (
-            "Two overlapping appointment cards (front and back visible). "
-            "BOTH cards must be the EXACT SAME pure WHITE colour — no cream, "
-            "no off-white, no variation between the two cards. "
-            "BOTH cards use the SAME elegant script font at the SAME size "
-            "for their titles — consistency is critical. "
-            "Front card: pure white background. A fine-line tattoo-style "
-            "ornamental divider (e.g. a thin mandala line, dagger, or "
-            "geometric dot-work line) separates the heading area from the "
-            "form fields. Title: 'Appointment Card' in white script. "
-            "Below the divider are four form fields, each on its own line: "
-            "NAME:  followed by a thin horizontal line. "
-            "DATE:  followed by a thin horizontal line. "
-            "TIME:  followed by a thin horizontal line. "
-            "DAY:   followed by a thin horizontal line. "
-            "ALL four horizontal lines must END at the SAME right-hand edge "
-            "of the card — perfectly aligned, same length, creating a neat "
-            "uniform column. No slashes, no extra symbols, no random marks. "
-            "Show these fields ONLY ONCE — do not duplicate any text. "
-            "Back card: SAME pure white background as front card — identical "
-            "colour, no variation. Same style ornamental divider. "
-            "Title: 'Book Appointment' in the same script font and size as "
-            "the front card. Below the divider are EXACTLY three form fields "
-            "and NOTHING else — no extra words, no misspellings: "
-            "EMAIL:   followed by a thin horizontal line. "
-            "PHONE:   followed by a thin horizontal line. "
-            "WEBSITE: followed by a thin horizontal line. "
-            "That is THREE fields total. Do NOT add any other text or labels. "
-            "ALL three lines must END at the SAME right-hand edge — perfectly "
-            "aligned, same length. "
-            "Below the three fields, in the remaining space, place a small "
-            "decorative tattoo-style line art icon centred on the card — "
-            "such as a fine-line rose, a small mandala, or a minimalist "
-            "dagger/arrow illustration. This should be subtle and decorative, "
-            "not overpowering. "
-            "A small circular 'LOGO' placeholder in the top-right corner"
-        ),
         "card_count": "two cards",
-        "design_element": (
-            "fine-line tattoo-style ornamental dividers (thin mandala lines, "
-            "geometric dot-work, or delicate dagger/arrow line art)"
-        ),
     },
     "gift certificate": {
-        "card_description": (
-            "One elegant gift certificate card. Bold black background with "
-            "a niche-appropriate ornamental divider separating sections. "
-            "Elegant script heading 'Gift Certificate' (same font family and "
-            "size as used on all other cards). Gold or white placeholder fields "
-            "for TO:, FROM:, AMOUNT:, EXPIRES: each with thin underlines. "
-            "Studio name placeholder at top. Contact details footer with "
-            "email, phone, website"
-        ),
         "card_count": "one card",
     },
     "gift voucher": {
-        "card_description": (
-            "One elegant gift voucher card. Bold black background with "
-            "a niche-appropriate ornamental divider. Elegant script heading "
-            "'Gift Voucher' (same font family and size as all other cards). "
-            "White placeholder fields for RECIPIENT:, AMOUNT:, FROM:, "
-            "VALID UNTIL: each with thin underlines. Studio name at top. "
-            "Contact details footer"
-        ),
         "card_count": "one card",
     },
     "price list": {
-        "card_description": (
-            "One price list / service menu card, larger format (A5 or A4 size). "
-            "Bold black background with niche-appropriate ornamental dividers "
-            "between sections. Elegant script heading 'Price List' (same font "
-            "as all other cards). Organized sections with service categories "
-            "and prices in clean columns. Studio name placeholder at top. "
-            "Contact footer"
-        ),
         "card_count": "one card",
     },
     "service menu": {
-        "card_description": (
-            "One service menu card, larger format. Bold black background with "
-            "niche-appropriate ornamental dividers between pricing tiers. "
-            "Script heading 'Service Menu' (same font as all other cards). "
-            "Tiered pricing sections with service names and prices. Studio "
-            "name at top, contact details at bottom"
-        ),
         "card_count": "one card",
     },
     "business card": {
-        "card_description": (
-            "Two overlapping business cards (front and back visible). "
-            "BOTH cards use the SAME elegant script font at the SAME size "
-            "for their titles. "
-            "Front: bold black background, niche-appropriate ornamental "
-            "divider, centered studio name in elegant script, minimal "
-            "contact details (phone, email, website) in clean sans-serif. "
-            "Back: bold black background, large 'LOGO' circular placeholder, "
-            "tagline, same ornamental design elements"
-        ),
         "card_count": "two cards",
     },
     "aftercare card": {
-        "card_description": (
-            "One aftercare instruction card. Bold black background with "
-            "niche-appropriate ornamental divider. Script heading 'Aftercare "
-            "Instructions' (same font as all other cards). Numbered care "
-            "steps in clean white text. Studio name and contact footer"
-        ),
         "card_count": "one card",
     },
     "branding bundle": {
-        "card_description": (
-            "Multiple matching stationery pieces fanned out and overlapping — "
-            "business card, appointment card, gift certificate, and letterhead. "
-            "All share the same bold black background with matching "
-            "niche-appropriate ornamental design elements. Studio name "
-            "placeholder consistent across all pieces"
-        ),
         "card_count": "multiple cards fanned out",
     },
     "consent form": {
-        "card_description": (
-            "One consent/waiver form. Bold black header band with niche-"
-            "appropriate ornamental divider. Script heading 'Consent Form' "
-            "(same font as all other cards). Clean form fields for CLIENT "
-            "NAME:, DATE:, SIGNATURE: with thin underlines. Professional "
-            "legal feel with organized sections. Studio name at top"
-        ),
         "card_count": "one form",
     },
     "social media": {
-        "card_description": (
-            "One social media post template (square format). Bold black "
-            "background with niche-appropriate ornamental accents. Large "
-            "script heading (same font as all other cards) with promotional "
-            "text. Studio name and logo placeholder. Modern, Instagram-ready "
-            "composition"
-        ),
         "card_count": "one template",
     },
 }
 
 _DEFAULT_PROMPT_PARTS = {
-    "card_description": (
-        "One professional editable template card. Bold black background with "
-        "a niche-appropriate ornamental divider. Elegant script heading with "
-        "the product title. Clean white placeholder fields for NAME:, DATE:, "
-        "PHONE:, EMAIL: each with thin underlines. Studio name at top, "
-        "contact footer"
-    ),
     "card_count": "one card",
 }
 
@@ -238,14 +127,18 @@ def build_product_prompt(product_type, niche, theme,
     The prompt is engineered to produce consistent, Star-Seller-quality
     flat-lay product photography — not generic graphic design posters.
 
+    IMPORTANT: Text is NOT rendered by Gemini. The prompt asks for BLANK
+    white cards with only decorative dividers/ornaments. All typography
+    (card titles, field labels, footer banner, badge) is composited
+    afterwards by text_compositor.py using real TTF fonts for pixel-perfect
+    results.
+
     Args:
         product_type: e.g. "appointment card", "gift certificate"
         niche: e.g. "tattoo", "nail", "hair"
         theme: e.g. "dark", "light"
-        hero_title: Bold title for the footer banner (e.g. "Tattoo Studio
-                    Appointment Card"). Auto-derived if not provided.
-        tagline: Subtitle for the footer banner (e.g. "EDITABLE CANVA
-                 TEMPLATE | INSTANT DOWNLOAD"). Default used if not provided.
+        hero_title: (unused — text added by compositor, kept for API compat)
+        tagline: (unused — text added by compositor, kept for API compat)
     """
     pt_lower = product_type.lower().strip()
     parts = _DEFAULT_PROMPT_PARTS
@@ -254,12 +147,6 @@ def build_product_prompt(product_type, niche, theme,
         if key in pt_lower:
             parts = template_parts
             break
-
-    # Auto-derive footer banner text if not provided
-    if not hero_title:
-        hero_title = f"{niche.title()} Studio {product_type.title()}"
-    if not tagline:
-        tagline = "EDITABLE CANVA TEMPLATE | INSTANT DOWNLOAD"
 
     # Niche-specific prop sets — ALL props should reflect the niche
     # so the customer instantly knows what industry the template is for
@@ -330,6 +217,9 @@ def build_product_prompt(product_type, niche, theme,
         "BOTTOM-RIGHT: a stylish pen and a small notebook"
     ))
 
+    # Card count description (without text-specific instructions)
+    card_count = parts.get("card_count", "one card")
+
     return (
         # === SCENE TYPE ===
         f"A styled overhead flat-lay product photograph shot from directly above, "
@@ -348,30 +238,22 @@ def build_product_prompt(product_type, niche, theme,
         f"touch the paper. NOT smooth, NOT flat, NOT digitally clean. Think "
         f"real recycled craft paper photographed up close. "
 
-        # === THE PRODUCT (CARDS) ===
-        f"Center of the top zone: {parts['card_description']}. "
-        f"The {parts['card_count']} should be placed in the center, "
+        # === THE PRODUCT (BLANK CARDS — NO TEXT) ===
+        f"Center of the top zone: {card_count} — pure white (#FFFFFF) "
+        f"rectangular cards with slightly rounded corners, placed in the center, "
         f"slightly overlapping at a casual angle (not perfectly aligned — styled "
         f"to look natural, as if placed by hand on a desk). "
+        f"The cards must be COMPLETELY BLANK — NO text whatsoever. No titles, "
+        f"no labels, no words, no letters, no numbers. Just clean white cards. "
+        f"Each card should have a thin subtle double-line grey border around "
+        f"the edge, and a single thin ornamental divider line across the "
+        f"upper third of the card — a {niche}-appropriate fine-line art "
+        f"element (thin mandala, geometric dot-work, filigree, or delicate "
+        f"line art). The divider is purely decorative. "
+        f"Below the divider, the card is EMPTY white space. "
 
         # === NICHE CONTEXT ===
         f"This is a {niche} studio template product. "
-
-        # === CARD TYPOGRAPHY (CRITICAL — READ CAREFULLY) ===
-        f"ALL text on the cards must be PERFECTLY SHARP, SPELLED CORRECTLY, "
-        f"and clearly LEGIBLE even at small sizes. This is non-negotiable. "
-        f"Title text: elegant flowing script/calligraphy font, large enough "
-        f"to read instantly. "
-        f"Form field labels: clean UPPERCASE sans-serif font, moderate size. "
-        f"Each field is: LABEL: followed by a thin horizontal line. "
-        f"ALIGNMENT RULE: every horizontal fill-in line on a card must be "
-        f"the SAME length and END at the SAME right-hand margin — creating "
-        f"a clean, uniform, professional form layout. No stray lines, no "
-        f"random slashes, no extra marks or symbols anywhere on the cards. "
-        f"Do NOT render checkboxes, tick boxes, or any tiny UI elements. "
-        f"Keep the form fields simple: LABEL + underline, nothing more. "
-        f"Every word must be spelled correctly — no garbled, duplicated, "
-        f"or overlapping text. "
 
         # === PROPS (NICHE-SPECIFIC PLACEMENT) ===
         f"Surrounding props arranged in a styled flat-lay composition — every "
@@ -381,33 +263,12 @@ def build_product_prompt(product_type, niche, theme,
         f"create depth — they are secondary to the cards in the center. "
         f"Props should look real and photographed, not illustrated or clipart. "
 
-        # === CARD DESIGN STYLE ===
-        f"Card design style: the cards have pure WHITE backgrounds (#FFFFFF) "
-        f"— not cream, not off-white. Both cards must be the exact same white. "
-        f"Use niche-appropriate ornamental design elements as dividers and "
-        f"accents — for {niche} this means fine-line art such as thin mandala "
-        f"lines, compass roses, geometric dot-work borders, delicate dagger/"
-        f"arrow line art, or ornate filigree patterns. These dividers should "
-        f"be thin, dark, and elegant — separating the title from the form fields. "
-        f"ALL cards must use the SAME script font family at the SAME size "
-        f"for their titles to ensure a consistent, branded look across "
-        f"the product range. "
-
-        # === FOOTER BANNER (BOTTOM 30%) ===
-        f"Below the product photography scene, there is a BOLD, HIGH-CONTRAST "
-        f"footer banner that spans the full width of the image. This banner "
-        f"must visually POP and be clearly distinct from the beige scene above. "
-        f"Banner background colour: SOLID BLACK (#000000) — flat, opaque, "
-        f"no texture, no transparency. Sharp clean edge where the black "
-        f"banner meets the beige photography area above. "
-        f"Banner text (centered, stacked on the black background): "
-        f"Line 1 (large): '{hero_title}' in bold WHITE serif font "
-        f"(like Playfair Display), large and prominent. "
-        f"Line 2 (small): '{tagline}' in smaller uppercase "
-        f"WHITE sans-serif tracking-wide letters underneath. "
-        f"BOTTOM-RIGHT corner of the banner: a small circular badge with "
-        f"the Canva logo 'C' icon and text 'EDIT IN CANVA' — white circle "
-        f"with dark text, or inverted. "
+        # === FOOTER BANNER (BOTTOM 30%) — BLANK ===
+        f"Below the product photography scene, there is a SOLID BLACK (#000000) "
+        f"footer banner that spans the full width of the image. "
+        f"The banner must be completely EMPTY — solid flat black, no text, "
+        f"no logos, no badges, nothing. Just a clean black rectangle. "
+        f"Sharp clean edge where the black banner meets the beige scene above. "
 
         # === LIGHTING & PHOTOGRAPHY ===
         f"Lighting: soft, diffused natural daylight from the top-left. Gentle "
@@ -419,6 +280,8 @@ def build_product_prompt(product_type, niche, theme,
         f"The image should look indistinguishable from a professional product "
         f"photo on a top-selling Etsy shop. Crisp details, natural textures, "
         f"photorealistic rendering. "
+        f"Do NOT include ANY text, words, letters, or numbers anywhere in the "
+        f"image. The cards and banner must be completely blank. "
         f"Do NOT include any human hands, fingers, arms, or body parts. "
         f"Do NOT include any real brand names, logos, or trademarked text. "
         f"Do NOT include any phones, tablets, laptops, or device screens. "

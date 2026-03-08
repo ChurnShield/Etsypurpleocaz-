@@ -323,32 +323,20 @@ def _generate_card_images(api_key, product_type, niche,
     back_fields = ", ".join(
         f["label"].upper() for f in back_layout["fields"])
 
-    # --- Front card prompt ---
+    # --- Front card prompt (blank — text added by ReportLab) ---
     front_prompt = (
         f"A single professional printed business card, viewed perfectly "
         f"straight-on (flat, no perspective, no angle, no shadow). "
         f"JUST the card on a pure white (#FFFFFF) background — nothing else. "
         f"Card design: clean WHITE card with a thin subtle double-line "
         f"grey border around the edge. "
-        f"At the top centre: '{front_layout['page_title']}' in large, "
-        f"elegant black script/calligraphy font (like Great Vibes). "
-        f"Below the title: a {divider} centred on the card. "
-        f"Below the divider, exactly {len(front_layout['fields'])} form "
-        f"fields stacked vertically, left-aligned: "
-        + " then ".join(
-            f"'{f['label'].upper()}:' followed by a thin black horizontal line"
-            for f in front_layout["fields"]
-        )
-        + f". ALL horizontal lines MUST be the same length and end at the "
-        f"same right margin — perfectly aligned, creating a clean uniform "
-        f"column. "
-        f"This card must look IDENTICAL in style to the cards shown in "
-        f"a premium Etsy flat-lay product photo — polished, professional, "
-        f"print-ready. Clean sans-serif for field labels, elegant script "
-        f"for the title. "
+        f"In the upper third of the card: a {divider} centred on the card. "
+        f"The rest of the card is COMPLETELY BLANK — no text, no labels, "
+        f"no words, no letters. Just empty white space below the divider. "
+        f"Do NOT include any text whatsoever on this card. "
         f"Do NOT include any props, hands, shadows, background scene, or "
         f"mockup staging. Output the card ONLY. "
-        f"High resolution, crisp sharp text, 300 DPI quality."
+        f"High resolution, sharp details, 300 DPI quality."
     )
 
     front_path = None
@@ -369,31 +357,24 @@ def _generate_card_images(api_key, product_type, niche,
         "logo). " if has_logo else ""
     )
 
+    # --- Back card prompt (blank — text added by ReportLab) ---
     back_prompt = (
         f"A single professional printed business card, viewed perfectly "
         f"straight-on (flat, no perspective, no angle, no shadow). "
         f"JUST the card on a pure white (#FFFFFF) background — nothing else. "
         f"Card design: clean WHITE card with a thin subtle double-line "
         f"grey border around the edge — SAME style as the front card. "
-        f"At the top centre: '{back_layout['page_title']}' in the SAME "
-        f"large elegant black script/calligraphy font as the front card "
-        f"(same size, same style — consistency is critical). "
         f"{logo_instruction}"
-        f"Below the title: a {divider} centred on the card — SAME style "
-        f"as the front card divider. "
-        f"Below the divider, exactly {len(back_layout['fields'])} form "
-        f"fields stacked vertically, left-aligned: "
-        + " then ".join(
-            f"'{f['label'].upper()}:' followed by a thin black horizontal line"
-            for f in back_layout["fields"]
-        )
-        + f". ALL lines same length, same right margin — matching the front. "
-        f"Below the fields, centred on the card, a small subtle "
+        f"In the upper third of the card: a {divider} centred on the card "
+        f"— SAME style as the front card divider. "
+        f"Below the divider: COMPLETELY BLANK white space. No text at all. "
+        f"Near the bottom of the card, centred, a small subtle "
         f"{niche}-themed line art icon (e.g. a fine-line rose, dagger, "
         f"or mandala — small and decorative, not overpowering). "
+        f"Do NOT include any text whatsoever on this card. "
         f"Do NOT include any props, hands, shadows, background scene, or "
         f"mockup staging. Output the card ONLY. "
-        f"High resolution, crisp sharp text, 300 DPI quality."
+        f"High resolution, sharp details, 300 DPI quality."
     )
 
     back_path = None

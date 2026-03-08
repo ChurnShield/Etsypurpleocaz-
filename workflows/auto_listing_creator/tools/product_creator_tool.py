@@ -31,6 +31,7 @@ from tools.image_renderer import (
 from tools.image_compositor import composite_hero, copy_boilerplate_pages
 from tools.tier_config import classify_tier, TIER_1, BADGE_TEXT
 from tools.gemini_image_client import generate_product_image, build_product_prompt
+from tools.text_compositor import composite_text_on_hero
 from tools.editable_pdf_generator import create_editable_pdf
 from tools.affiliate_guide_generator import create_affiliate_guide
 
@@ -192,25 +193,37 @@ class ProductCreatorTool(BaseTool):
                 browser, listing, niche, theme, index,
             )
 
-        # Step 2: Save raw mockup
+        # Step 2: Save raw mockup (blank cards, no text)
         mockup_path = os.path.join(EXPORT_DIR, f"{safe_title}_mockup.png")
         with open(mockup_path, "wb") as f:
             f.write(gen_result["image_bytes"])
         print(f"       Mockup saved: {os.path.basename(mockup_path)} "
               f"({len(gen_result['image_bytes']) // 1024}KB)", flush=True)
 
-        # Step 3: Resize Gemini image to Etsy dimensions (2250x3000)
-        # The Gemini output is already a complete product photo with
-        # background, cards, props, footer banner, and badge — so we
-        # just resize to the correct Etsy listing dimensions.
-        print("       Resizing hero to Etsy dimensions...", flush=True)
+        # Step 3: Composite text onto the Gemini scene using real fonts.
+        # Gemini generates the flat-lay photography (blank cards, props,
+        # background). Text compositor overlays pixel-perfect typography
+        # (card titles, field labels, footer banner, badge) using TTF fonts.
+        print("       Compositing text with real fonts...", flush=True)
         hero_path = os.path.join(EXPORT_DIR, f"{safe_title}_page1.png")
-        img = Image.open(mockup_path).convert("RGB")
-        from tools.design_constants import IMG_W, IMG_H
-        img_resized = img.resize((IMG_W, IMG_H), Image.LANCZOS)
-        img_resized.save(hero_path, "PNG")
-        img_resized.close()
-        img.close()
+        composite_result = composite_text_on_hero(
+            mockup_path, product_type, niche,
+            hero_title=hero_title, tagline=tagline,
+            output_path=hero_path,
+            browser=browser,
+        )
+
+        if not composite_result:
+            # Fallback: just resize the raw Gemini image
+            print("       Text composite failed, using raw mockup...",
+                  flush=True)
+            from tools.design_constants import IMG_W, IMG_H
+            img = Image.open(mockup_path).convert("RGB")
+            img_resized = img.resize((IMG_W, IMG_H), Image.LANCZOS)
+            img_resized.save(hero_path, "PNG")
+            img_resized.close()
+            img.close()
+
         print(f"       Hero saved: {os.path.basename(hero_path)}", flush=True)
 
         # Step 4: Create page 2 (What You Get — tier-aware)

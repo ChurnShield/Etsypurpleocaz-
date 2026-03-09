@@ -1,289 +1,192 @@
 # =============================================================================
 # workflows/auto_listing_creator/tools/hero_generator.py
 #
-# Standalone BaseTool for generating Etsy listing hero images (page 1).
+# PurpleOcaz Hero Image Generator
+# Composites real Canva card exports onto a branded linen background
+# to produce a polished Etsy primary listing image.
 #
-# Two-tier hero generation:
-#   Tier 1 (Nano Banana): Gemini AI flat-lay scene + text compositing
-#   Tier 2 (HTML/Playwright): HTML template + dark-bg fanned-card composite
-#
-# Delegates rendering to image_renderer, compositing to image_compositor
-# and text_compositor, and AI generation to gemini_image_client.
+# Called by product_creator_tool._inject_hero() for every listing.
 # =============================================================================
 
 import os
-import sys
-import time
+import math
+import numpy as np
+from PIL import Image, ImageDraw, ImageFilter, ImageFont
 
-_here = os.path.dirname(os.path.abspath(__file__))
-_workflow = os.path.dirname(_here)
-_project_root = os.path.dirname(os.path.dirname(_workflow))
-if _project_root not in sys.path:
-    sys.path.insert(0, _project_root)
+# ── Output config ─────────────────────────────────────────────────────────────
+W, H           = 2000, 1500
+CARD_W_RATIO   = 0.50
+BACK_ANGLE     = -5
+FRONT_ANGLE    =  4
+BACK_POS       = (0.34, 0.06)
+FRONT_POS      = (0.16, 0.28)
+BANNER_RATIO   = 0.16
+BADGE_R        = 130
+BADGE_POS      = (0.785, 0.60)
 
-from lib.orchestrator.base_tool import BaseTool
-
-from tools.design_constants import (
-    EXPORT_DIR, IMG_W, IMG_H, THEME_ACCENTS, safe_filename,
-)
-from tools.image_renderer import render_template, render_band, render_badge
-from tools.image_compositor import composite_hero
-from tools.text_compositor import composite_text_on_hero
-from tools.tier_config import classify_tier, TIER_1, TIER_2, BADGE_TEXT
-from tools.gemini_image_client import generate_product_image, build_product_prompt
+# Font paths — DejaVu ships with most Linux/Python environments
+_FONT_BOLD   = '/usr/share/fonts/truetype/dejavu/DejaVuSans-Bold.ttf'
+_FONT_SERIF  = '/usr/share/fonts/truetype/dejavu/DejaVuSerif-Bold.ttf'
+_FONT_SANS   = '/usr/share/fonts/truetype/dejavu/DejaVuSans.ttf'
 
 
-class HeroGeneratorTool(BaseTool):
-    """Generate a single hero image (page 1) for an Etsy listing.
+def _load_font(path, size):
+    try:
+        return ImageFont.truetype(path, size)
+    except Exception:
+        return ImageFont.load_default()
 
-    Routes through Tier 1 (Gemini AI + text compositing) or Tier 2
-    (HTML template + Pillow compositing) based on product type.
 
-    Required kwargs:
-        listing (dict): Listing data with at least 'title' and 'product_type'.
-        focus_niche (str): Niche keyword, e.g. 'tattoo'.
+def _make_background(w, h):
+    """Warm linen texture with crimson corner triangles."""
+    np.random.seed(7)
+    arr = np.zeros((h, w, 3), dtype=np.float32)
+    br, bg, bb = 225, 210, 188
+    for y in range(h):
+        for x in range(w):
+            nx, ny = x / w, y / h
+            dist = ((nx - 0.5) ** 2 + (ny - 0.45) ** 2) ** 0.5
+            v = 1.0 - dist * 0.55
+            arr[y, x] = [br * v, bg * v, bb * v]
+    for y in range(0, h, 4):
+        a = np.random.uniform(0.92, 1.08, w)
+        arr[y, :, 0] *= a
+        arr[y, :, 1] *= a * 0.99
+        arr[y, :, 2] *= a * 0.97
+    for x in range(0, w, 4):
+        a = np.random.uniform(0.94, 1.06, h)
+        arr[:, x, 0] *= a
+        arr[:, x, 1] *= a * 0.99
+        arr[:, x, 2] *= a * 0.97
+    noise = np.random.normal(0, 3.5, (h, w, 3))
+    arr = np.clip(arr + noise, 0, 255).astype(np.uint8)
+    bg_img = Image.fromarray(arr).filter(
+        ImageFilter.GaussianBlur(radius=0.4)
+    ).convert('RGBA')
 
-    Optional kwargs:
-        theme (str): Theme name from THEME_ACCENTS. Default 'dark'.
-        gemini_api_key (str): API key for Tier 1 Gemini generation.
-        browser: Playwright browser instance (reused if provided).
+    # Crimson corner triangles
+    ac = Image.new('RGBA', (w, h), (0, 0, 0, 0))
+    ad = ImageDraw.Draw(ac)
+    ad.polygon([(0, 0), (480, 0), (0, 380)],
+        fill=(140, 20, 20, 230))
+    ad.polygon([(w, h), (w-480, h), (w, h-380)],
+    fill=(140, 20, 20, 210))
+    ad.polygon([(0, 0), (320, 0), (0, 240)],
+         fill=(100, 10, 10, 180))
+    ad.polygon([(w, h), (w-320, h), (w, h-240)],
+    fill=(100, 10, 10, 160))
+    ad.line([(480, 0), (0, 380)],
+    fill=(200, 160, 100, 180), width=3)
+    ad.line([(w-480, h), (w, h-380)], fill=(200, 160, 100, 160), width=3)
+    return Image.alpha_composite(bg_img, ac)
+
+
+def _rotate_with_shadow(img, angle):
+    shadow = Image.new('RGBA', img.size, (0, 0, 0, 200))
+    return (
+        img.rotate(angle, expand=True, resample=Image.BICUBIC),
+        shadow.rotate(angle, expand=True, resample=Image.BICUBIC),
+    )
+
+
+def _paste_shadow_card(canvas, card, shadow, x, y):
+    blurred = shadow.filter(ImageFilter.GaussianBlur(radius=22))
+    canvas.paste(blurred, (x + 22, y + 22), blurred)
+    canvas.paste(card, (x, y), card)
+
+
+def _draw_star(draw, cx, cy, r_out, r_in, fill, outline=None):
+    pts = [
+        (cx + (r_out if i % 2 == 0 else r_in) * math.cos(math.radians(i * 36 - 90)),
+         cy + (r_out if i % 2 == 0 else r_in) * math.sin(math.radians(i * 36 - 90)))
+        for i in range(10)
+    ]
+    draw.polygon(pts, fill=fill, outline=outline)
+
+
+def generate_hero_image(front_path, back_path, output_path, title):
+    """Generate a branded PurpleOcaz Etsy hero image.
+
+    Args:
+        front_path:  Path to front card PNG (Book Appointment side)
+        back_path:   Path to back card PNG (Appointment Card / fields side)
+        output_path: Where to save the finished JPG
+        title:       Product title shown in the bottom banner
     """
+    bg     = _make_background(W, H)
+    front  = Image.open(front_path).convert('RGBA')
+    back   = Image.open(back_path).convert('RGBA')
 
-    def execute(self, **kwargs) -> dict:
-        listing = kwargs.get("listing")
-        focus_niche = kwargs.get("focus_niche", "tattoo")
-        theme = kwargs.get("theme", "dark")
-        gemini_api_key = kwargs.get("gemini_api_key", "")
-        browser = kwargs.get("browser")
+    cw = int(W * CARD_W_RATIO)
+    ch = int(cw * (front.size[1] / front.size[0]))
+    back_card,  back_shad  = _rotate_with_shadow(
+        back.resize((cw, ch),  Image.LANCZOS), BACK_ANGLE)
+    front_card, front_shad = _rotate_with_shadow(
+        front.resize((cw, ch), Image.LANCZOS), FRONT_ANGLE)
 
-        if not listing:
-            return {
-                "success": False,
-                "data": None,
-                "error": "No listing provided",
-                "tool_name": self.get_name(),
-                "metadata": {},
-            }
+    canvas = bg.copy()
+    _paste_shadow_card(canvas, back_card,  back_shad,
+                       int(W * BACK_POS[0]),  int(H * BACK_POS[1]))
+    _paste_shadow_card(canvas, front_card, front_shad,
+                       int(W * FRONT_POS[0]), int(H * FRONT_POS[1]))
 
-        title = listing.get("title", "Untitled")[:60]
-        product_type = listing.get("product_type", "Gift Certificate")
-        safe_title = safe_filename(title)
-        tier = classify_tier(product_type)
-        accent = THEME_ACCENTS.get(theme, THEME_ACCENTS["default"])
+    # ── Star Seller badge ─────────────────────────────────────────────────────
+    bw, bh = 520, 175
+    badge  = Image.new('RGBA', (bw, bh), (0, 0, 0, 0))
+    bd     = ImageDraw.Draw(badge)
+    bd.rounded_rectangle([0, 0, bw-1, bh-1], radius=20, fill=(20, 20, 20, 235))
+    bd.rounded_rectangle([3, 3, bw-4, bh-4], radius=18,
+                          outline=(200, 160, 50, 255), width=3)
+    bd.text((bw // 2, 46), 'STAR SELLER',
+            font=_load_font(_FONT_BOLD, 44), fill='white', anchor='mm')
+    sx = (bw - 4 * 58 - 48) // 2 + 24
+    for i in range(5):
+        _draw_star(bd, sx + i * 58, 125, 29, 12, (255, 200, 40, 60))
+        _draw_star(bd, sx + i * 58, 125, 24, 10,
+                   (255, 200, 40, 255), (180, 130, 20, 255))
+    canvas.paste(badge, (44, 44), badge)
 
-        hero_title = self._derive_hero_title(title, product_type, focus_niche)
-        tagline = self._derive_tagline(product_type, focus_niche)
+    # ── Edit in Canva badge ───────────────────────────────────────────────────
+    br = BADGE_R
+    bcx, bcy = int(W * BADGE_POS[0]), int(H * BADGE_POS[1])
+    eb = Image.new('RGBA', (br * 2, br * 2), (0, 0, 0, 0))
+    ed = ImageDraw.Draw(eb)
+    ed.ellipse([0, 0, br*2-1, br*2-1], fill=(30, 30, 30, 255))
+    ed.ellipse([6, 6, br*2-7, br*2-7], outline=(180, 140, 60, 255), width=3)
+    f_b = _load_font(_FONT_BOLD, 30)
+    ed.text((br, br - 22), 'EDIT IN', font=f_b,
+            fill=(220, 220, 220, 255), anchor='mm')
+    ed.text((br, br + 16), 'CANVA',   font=f_b,
+            fill=(255, 255, 255, 255), anchor='mm')
+    canvas.paste(eb, (bcx - br, bcy - br), eb)
 
-        os.makedirs(EXPORT_DIR, exist_ok=True)
+    # ── Canva Template scroll-stopper pill ────────────────────────────────────
+    tw, th = 420, 85
+    tag = Image.new('RGBA', (tw, th), (0, 0, 0, 0))
+    td  = ImageDraw.Draw(tag)
+    td.rounded_rectangle([0, 0, tw-1, th-1], radius=42, fill=(140, 20, 20, 240))
+    td.rounded_rectangle([4, 4, tw-5,  th-5], radius=40,
+                          outline=(200, 160, 60, 200), width=2)
+    td.text((tw // 2, th // 2), '✦  CANVA TEMPLATE  ✦',
+            font=_load_font(_FONT_BOLD, 30), fill='white', anchor='mm')
+    canvas.paste(tag, (int(W * 0.60), int(H * 0.055)), tag)
 
-        own_browser = False
-        try:
-            # Launch Playwright browser if not provided
-            if browser is None:
-                try:
-                    from playwright.sync_api import sync_playwright
-                    pw = sync_playwright().start()
-                    browser = pw.chromium.launch(headless=True)
-                    own_browser = True
-                except Exception as e:
-                    return {
-                        "success": False,
-                        "data": None,
-                        "error": f"Playwright unavailable: {e}",
-                        "tool_name": self.get_name(),
-                        "metadata": {"tier": tier},
-                    }
+    # ── Bottom banner ─────────────────────────────────────────────────────────
+    BH     = int(H * BANNER_RATIO)
+    banner = Image.new('RGBA', (W, BH), (18, 18, 20, 252))
+    bd2    = ImageDraw.Draw(banner)
+    bd2.line([(0, 0), (W, 0)], fill=(180, 140, 60, 200), width=4)
 
-            # Route to the appropriate tier
-            if tier == TIER_1 and gemini_api_key:
-                hero_path, mockup_path = self._generate_tier1_hero(
-                    browser, listing, product_type, focus_niche,
-                    theme, gemini_api_key, safe_title,
-                    hero_title, tagline,
-                )
-            else:
-                if tier == TIER_1 and not gemini_api_key:
-                    print("       HeroGenerator: No Gemini key — "
-                          "falling back to HTML pipeline", flush=True)
-                hero_path = self._generate_tier2_hero(
-                    browser, listing, focus_niche, accent,
-                    safe_title, hero_title, tagline,
-                )
-                mockup_path = None
+    display_title = title[:55] if len(title) > 55 else title
 
-            if not hero_path or not os.path.exists(hero_path):
-                return {
-                    "success": False,
-                    "data": None,
-                    "error": "Hero image generation failed — no output file",
-                    "tool_name": self.get_name(),
-                    "metadata": {"tier": tier, "safe_title": safe_title},
-                }
+    bd2.text((W // 2, BH // 2 - 22), display_title,
+             font=_load_font(_FONT_SERIF, 82), fill='white', anchor='mm')
+    bd2.text((W // 2, BH // 2 + 50),
+             'EDITABLE CANVA TEMPLATE  ·  INSTANT DOWNLOAD  ·  FRONT & BACK',
+             font=_load_font(_FONT_BOLD, 28), fill=(180, 140, 60, 230),
+             anchor='mm')
+    canvas.paste(banner, (0, H - BH), banner)
 
-            size_kb = os.path.getsize(hero_path) // 1024
-            return {
-                "success": True,
-                "data": {
-                    "hero_path": hero_path,
-                    "mockup_path": mockup_path,
-                    "tier": tier,
-                    "hero_title": hero_title,
-                    "tagline": tagline,
-                    "safe_title": safe_title,
-                    "size_kb": size_kb,
-                },
-                "error": None,
-                "tool_name": self.get_name(),
-                "metadata": {
-                    "tier": tier,
-                    "product_type": product_type,
-                    "size_kb": size_kb,
-                },
-            }
-
-        except Exception as e:
-            return {
-                "success": False,
-                "data": None,
-                "error": str(e),
-                "tool_name": self.get_name(),
-                "metadata": {"exception_type": type(e).__name__, "tier": tier},
-            }
-
-        finally:
-            if own_browser and browser:
-                try:
-                    browser.close()
-                    pw.stop()
-                except Exception:
-                    pass
-
-    # ---- Tier 1: Gemini AI + text compositing --------------------------------
-
-    def _generate_tier1_hero(self, browser, listing, product_type,
-                             niche, theme, gemini_api_key, safe_title,
-                             hero_title, tagline):
-        """Generate hero via Gemini AI flat-lay scene + text compositing.
-
-        Returns (hero_path, mockup_path) tuple.
-        Falls back to Tier 2 if Gemini fails.
-        """
-        print("       HeroGenerator: Generating Nano Banana mockup...",
-              flush=True)
-
-        prompt = build_product_prompt(
-            product_type, niche, theme,
-            hero_title=hero_title, tagline=tagline,
-        )
-        gen_result = generate_product_image(gemini_api_key, prompt)
-
-        if not gen_result["success"]:
-            print(f"       HeroGenerator: Gemini failed: "
-                  f"{gen_result['error'][:80]}", flush=True)
-            print("       HeroGenerator: Falling back to HTML pipeline...",
-                  flush=True)
-            accent = THEME_ACCENTS.get(theme, THEME_ACCENTS["default"])
-            hero_path = self._generate_tier2_hero(
-                browser, listing, niche, accent,
-                safe_title, hero_title, tagline,
-            )
-            return hero_path, None
-
-        # Save raw mockup (blank cards, no text)
-        mockup_path = os.path.join(EXPORT_DIR, f"{safe_title}_mockup.png")
-        with open(mockup_path, "wb") as f:
-            f.write(gen_result["image_bytes"])
-        print(f"       HeroGenerator: Mockup saved: "
-              f"{os.path.basename(mockup_path)} "
-              f"({len(gen_result['image_bytes']) // 1024}KB)", flush=True)
-
-        # Composite text onto the Gemini scene using real fonts
-        print("       HeroGenerator: Compositing text with real fonts...",
-              flush=True)
-        hero_path = os.path.join(EXPORT_DIR, f"{safe_title}_page1.png")
-        composite_result = composite_text_on_hero(
-            mockup_path, product_type, niche,
-            hero_title=hero_title, tagline=tagline,
-            output_path=hero_path, browser=browser,
-        )
-
-        if not composite_result:
-            # Fallback: resize raw Gemini image to Etsy dimensions
-            print("       HeroGenerator: Text composite failed, "
-                  "using raw mockup...", flush=True)
-            from PIL import Image
-            img = Image.open(mockup_path).convert("RGB")
-            img_resized = img.resize((IMG_W, IMG_H), Image.LANCZOS)
-            img_resized.save(hero_path, "PNG")
-            img_resized.close()
-            img.close()
-
-        print(f"       HeroGenerator: Hero saved: "
-              f"{os.path.basename(hero_path)}", flush=True)
-        return hero_path, mockup_path
-
-    # ---- Tier 2: HTML template + Pillow compositing --------------------------
-
-    def _generate_tier2_hero(self, browser, listing, niche, accent,
-                             safe_title, hero_title, tagline):
-        """Generate hero via HTML template rendering + dark-bg composite.
-
-        Returns hero_path string.
-        """
-        # Render the product template
-        print("       HeroGenerator: Rendering template design...", flush=True)
-        template_path = render_template(
-            browser, listing, niche, accent, safe_title,
-        )
-
-        # Render bottom title band
-        print("       HeroGenerator: Rendering title band...", flush=True)
-        band_path = render_band(
-            browser, hero_title, tagline, accent["band"], safe_title,
-        )
-
-        # Render badge
-        badge_top, badge_bottom = BADGE_TEXT.get(TIER_2, ("EDIT IN", "CANVA"))
-        badge_path = render_badge(browser, badge_top, badge_bottom, safe_title)
-
-        # Composite hero (dark bg + fanned cards + band + badge)
-        print("       HeroGenerator: Compositing hero image...", flush=True)
-        hero_path = composite_hero(
-            template_path, band_path, badge_path, safe_title,
-        )
-
-        print(f"       HeroGenerator: Hero saved: "
-              f"{os.path.basename(hero_path)}", flush=True)
-        return hero_path
-
-    # ---- Shared helpers ------------------------------------------------------
-
-    def _derive_hero_title(self, full_title, product_type, niche):
-        """Derive a short, punchy title for the hero image band."""
-        skip_words = {
-            "template", "editable", "canva", "instant", "download",
-            "printable", "digital", "customizable", "customisable",
-        }
-        words = full_title.split(",")[0].strip().split()
-        clean = [w for w in words if w.lower() not in skip_words]
-
-        if len(clean) <= 5:
-            return " ".join(clean)
-        return " ".join(clean[:5])
-
-    def _derive_tagline(self, product_type, niche):
-        """Generate a tagline for the hero band."""
-        taglines = {
-            "gift certificate": "MAKE EXTRA INCOME SELLING GIFT CERTIFICATES",
-            "price list": "SHOWCASE YOUR SERVICES WITH STYLE",
-            "business card": "LEAVE A LASTING FIRST IMPRESSION",
-            "appointment card": "KEEP YOUR CLIENTS COMING BACK",
-            "aftercare card": "PROFESSIONAL AFTERCARE FOR YOUR CLIENTS",
-            "social media": "GROW YOUR BUSINESS ON SOCIAL MEDIA",
-            "branding bundle": "EVERYTHING YOUR STUDIO NEEDS IN ONE BUNDLE",
-        }
-        pt_lower = product_type.lower()
-        for key, tagline in taglines.items():
-            if key in pt_lower:
-                return tagline
-        return f"PROFESSIONAL {niche.upper()} TEMPLATES"
+    # ── Save ──────────────────────────────────────────────────────────────────
+    os.makedirs(os.path.dirname(output_path) or '.', exist_ok=True)
+    canvas.convert('RGB').save(output_path, quality=96)

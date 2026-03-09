@@ -1,133 +1,165 @@
 import os
 import sys
+import math
+import tempfile
 import pytest
 from unittest.mock import patch, MagicMock
 
-# Ensure project root is first on sys.path, then workflow dir
-# (root config.py must take priority over workflow config.py)
 _here = os.path.dirname(os.path.abspath(__file__))
 _project_root = os.path.dirname(_here)
-_workflow_dir = os.path.join(
-    _project_root, "workflows", "auto_listing_creator",
+if _project_root not in sys.path:
+    sys.path.insert(0, _project_root)
+
+from workflows.auto_listing_creator.tools.hero_generator import (
+    generate_hero_image,
+    _load_font,
+    _make_background,
+    _rotate_with_shadow,
+    _paste_shadow_card,
+    _draw_star,
+    W, H, CARD_W_RATIO, BANNER_RATIO, BADGE_R,
 )
-# Insert workflow dir first, then project root (so root ends up at index 0)
-for p in (_workflow_dir, _project_root):
-    if p in sys.path:
-        sys.path.remove(p)
-    sys.path.insert(0, p)
-
-from workflows.auto_listing_creator.tools.hero_generator import HeroGeneratorTool
+from PIL import Image, ImageDraw
 
 
-SAMPLE_LISTING = {
-    "title": "Tattoo Gift Certificate Editable Template",
-    "product_type": "Gift Certificate",
-}
+# ── Constants ─────────────────────────────────────────────────────────────────
+
+def test_output_dimensions():
+    assert W == 2000
+    assert H == 1500
 
 
-def test_hero_generator_is_base_tool():
-    """HeroGeneratorTool extends BaseTool."""
-    from lib.orchestrator.base_tool import BaseTool
-    tool = HeroGeneratorTool()
-    assert isinstance(tool, BaseTool)
+def test_card_width_ratio():
+    assert 0 < CARD_W_RATIO < 1
 
 
-def test_hero_generator_tool_name():
-    tool = HeroGeneratorTool()
-    assert tool.get_name() == "HeroGeneratorTool"
+def test_banner_ratio():
+    assert 0 < BANNER_RATIO < 1
 
 
-def test_no_listing_returns_error():
-    """Returns error dict when no listing is provided."""
-    tool = HeroGeneratorTool()
-    result = tool.execute()
-
-    assert result["success"] is False
-    assert result["error"] == "No listing provided"
-    assert result["tool_name"] == "HeroGeneratorTool"
-    assert result["data"] is None
-    assert isinstance(result["metadata"], dict)
+def test_badge_radius_positive():
+    assert BADGE_R > 0
 
 
-def test_no_listing_explicit_none():
-    tool = HeroGeneratorTool()
-    result = tool.execute(listing=None)
+# ── _load_font ────────────────────────────────────────────────────────────────
 
-    assert result["success"] is False
-    assert "No listing" in result["error"]
-
-
-def test_derive_hero_title():
-    tool = HeroGeneratorTool()
-    title = tool._derive_hero_title(
-        "Tattoo Gift Certificate Editable Template, Instant Download",
-        "Gift Certificate",
-        "tattoo",
-    )
-    # "Editable", "Template", "Instant", "Download" are skip words
-    assert "Editable" not in title
-    assert "Template" not in title
-    assert "Tattoo" in title
-    assert "Gift" in title
+def test_load_font_returns_font_object():
+    """_load_font returns a usable font even if path is invalid."""
+    font = _load_font("/nonexistent/path.ttf", 24)
+    assert font is not None
 
 
-def test_derive_hero_title_short():
-    tool = HeroGeneratorTool()
-    title = tool._derive_hero_title("Simple Card", "Gift Certificate", "tattoo")
-    assert title == "Simple Card"
+def test_load_font_with_valid_dejavu():
+    """If DejaVu is available, truetype font is loaded."""
+    path = "/usr/share/fonts/truetype/dejavu/DejaVuSans-Bold.ttf"
+    font = _load_font(path, 30)
+    assert font is not None
 
 
-def test_derive_hero_title_long_truncates():
-    tool = HeroGeneratorTool()
-    title = tool._derive_hero_title(
-        "One Two Three Four Five Six Seven",
-        "Gift Certificate",
-        "tattoo",
-    )
-    words = title.split()
-    assert len(words) <= 5
+# ── _make_background ──────────────────────────────────────────────────────────
+
+def test_make_background_size():
+    bg = _make_background(200, 150)
+    assert bg.size == (200, 150)
+    assert bg.mode == "RGBA"
 
 
-def test_derive_tagline_known_type():
-    tool = HeroGeneratorTool()
-    tagline = tool._derive_tagline("Gift Certificate", "tattoo")
-    assert tagline == "MAKE EXTRA INCOME SELLING GIFT CERTIFICATES"
+def test_make_background_deterministic():
+    """Same seed produces identical output."""
+    bg1 = _make_background(100, 80)
+    bg2 = _make_background(100, 80)
+    assert list(bg1.getdata()) == list(bg2.getdata())
 
 
-def test_derive_tagline_unknown_type():
-    tool = HeroGeneratorTool()
-    tagline = tool._derive_tagline("Unknown Widget", "tattoo")
-    assert tagline == "PROFESSIONAL TATTOO TEMPLATES"
+# ── _rotate_with_shadow ──────────────────────────────────────────────────────
+
+def test_rotate_with_shadow_returns_tuple():
+    img = Image.new("RGBA", (100, 80), (255, 255, 255, 255))
+    card, shadow = _rotate_with_shadow(img, 5)
+    assert isinstance(card, Image.Image)
+    assert isinstance(shadow, Image.Image)
+    assert card.mode == "RGBA"
+    assert shadow.mode == "RGBA"
 
 
-def test_derive_tagline_price_list():
-    tool = HeroGeneratorTool()
-    tagline = tool._derive_tagline("Price List", "nail")
-    assert "SERVICES" in tagline
+def test_rotate_expands_dimensions():
+    img = Image.new("RGBA", (100, 80), (255, 255, 255, 255))
+    card, _ = _rotate_with_shadow(img, 45)
+    # Rotated with expand=True should be larger
+    assert card.size[0] > 100 or card.size[1] > 80
 
 
-def test_no_browser_no_playwright_returns_error():
-    """Returns error when no browser provided and Playwright unavailable."""
-    try:
-        import playwright
-        pytest.skip("Playwright is installed — cannot test unavailable path")
-    except ImportError:
-        pass
+# ── _paste_shadow_card ────────────────────────────────────────────────────────
 
-    tool = HeroGeneratorTool()
-    result = tool.execute(listing=SAMPLE_LISTING, focus_niche="tattoo")
-
-    assert result["success"] is False
-    assert "Playwright unavailable" in result["error"]
+def test_paste_shadow_card_no_crash():
+    canvas = Image.new("RGBA", (400, 300), (200, 200, 200, 255))
+    card = Image.new("RGBA", (100, 80), (255, 255, 255, 255))
+    shadow = Image.new("RGBA", (100, 80), (0, 0, 0, 200))
+    _paste_shadow_card(canvas, card, shadow, 50, 50)
+    # Should not raise; canvas should still be valid
+    assert canvas.size == (400, 300)
 
 
-def test_return_structure_on_error():
-    """Error results follow the standard tool return format."""
-    tool = HeroGeneratorTool()
-    result = tool.execute()
+# ── _draw_star ────────────────────────────────────────────────────────────────
 
-    assert "success" in result
-    assert "data" in result
-    assert "error" in result
-    assert "tool_name" in result
-    assert "metadata" in result
+def test_draw_star_no_crash():
+    img = Image.new("RGBA", (100, 100), (0, 0, 0, 0))
+    draw = ImageDraw.Draw(img)
+    _draw_star(draw, 50, 50, 30, 15, (255, 200, 40, 255))
+    # Should not raise
+
+
+# ── generate_hero_image (integration) ────────────────────────────────────────
+
+def test_generate_hero_image_creates_file():
+    """Full pipeline produces an output image of correct size."""
+    with tempfile.TemporaryDirectory() as tmpdir:
+        # Create dummy front/back card PNGs
+        front = Image.new("RGBA", (800, 500), (255, 255, 255, 255))
+        back = Image.new("RGBA", (800, 500), (240, 240, 240, 255))
+        front_path = os.path.join(tmpdir, "front.png")
+        back_path = os.path.join(tmpdir, "back.png")
+        front.save(front_path)
+        back.save(back_path)
+
+        output_path = os.path.join(tmpdir, "hero.jpg")
+        generate_hero_image(front_path, back_path, output_path,
+                            "Tattoo Appointment Card")
+
+        assert os.path.exists(output_path)
+        result = Image.open(output_path)
+        assert result.size == (W, H)
+        result.close()
+
+
+def test_generate_hero_image_long_title_truncated():
+    """Titles longer than 55 chars are truncated in the banner."""
+    with tempfile.TemporaryDirectory() as tmpdir:
+        front = Image.new("RGBA", (400, 250), (255, 255, 255, 255))
+        back = Image.new("RGBA", (400, 250), (240, 240, 240, 255))
+        front_path = os.path.join(tmpdir, "front.png")
+        back_path = os.path.join(tmpdir, "back.png")
+        front.save(front_path)
+        back.save(back_path)
+
+        output_path = os.path.join(tmpdir, "hero_long.jpg")
+        long_title = "A" * 100
+        # Should not crash with a very long title
+        generate_hero_image(front_path, back_path, output_path, long_title)
+        assert os.path.exists(output_path)
+
+
+def test_generate_hero_image_creates_output_dir():
+    """Output directory is created if it doesn't exist."""
+    with tempfile.TemporaryDirectory() as tmpdir:
+        front = Image.new("RGBA", (400, 250), (255, 255, 255, 255))
+        back = Image.new("RGBA", (400, 250), (240, 240, 240, 255))
+        front_path = os.path.join(tmpdir, "front.png")
+        back_path = os.path.join(tmpdir, "back.png")
+        front.save(front_path)
+        back.save(back_path)
+
+        nested_output = os.path.join(tmpdir, "sub", "dir", "hero.jpg")
+        generate_hero_image(front_path, back_path, nested_output,
+                            "Test Card")
+        assert os.path.exists(nested_output)

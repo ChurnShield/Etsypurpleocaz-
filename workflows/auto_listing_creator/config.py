@@ -72,3 +72,6 @@ CANVA_CLIENT_ID     = os.getenv("CANVA_CLIENT_ID", "")
 CANVA_CLIENT_SECRET = os.getenv("CANVA_CLIENT_SECRET", "")
 CANVA_TOKEN_FILE    = os.path.join(os.path.dirname(os.path.abspath(__file__)),
                                    "canva_tokens.json")
+
+HERO_FRONT_CARD = os.getenv("HERO_FRONT_CARD", "")
+HERO_BACK_CARD  = os.getenv("HERO_BACK_CARD", "")

@@ -4,32 +4,49 @@ YouTube Channel Monitor + Transcriber for Agentic AI Pipeline
 Monitors YouTube channels, pulls videos from the last 7 days,
 and saves clean .md transcripts into your transcripts/ folder.
 
+Two modes:
+  1. YouTube Data API v3 (recommended for servers — set YOUTUBE_API_KEY in .env)
+  2. yt-dlp fallback (no API key needed, may hit bot detection on cloud IPs)
+
+Transcripts are fetched via youtube-transcript-api (no auth required).
+
 Usage:
   python transcribe.py                        # process all channels in urls.txt
   python transcribe.py <youtube_channel_url>  # single channel
   python transcribe.py <youtube_video_url>    # single video
 
-Requirements (install once in PowerShell):
-  pip install yt-dlp openai-whisper
-  winget install ffmpeg
+Requirements:
+  pip install youtube-transcript-api google-api-python-client python-dotenv
+  Optional: pip install yt-dlp  (+ deno for fallback mode)
 """
 
 import sys
 import os
 import re
 import json
+import time
 import subprocess
 import argparse
-import shutil
 from datetime import datetime, timedelta
 from pathlib import Path
+
+from dotenv import load_dotenv
+
+load_dotenv()
+
+# ── Ensure deno is on PATH (for yt-dlp fallback) ────────────────────────────
+_deno_bin = os.path.expanduser("~/.deno/bin")
+if _deno_bin not in os.environ.get("PATH", ""):
+    os.environ["PATH"] = _deno_bin + os.pathsep + os.environ.get("PATH", "")
 
 # ── Config ────────────────────────────────────────────────────────────────────
 SCRIPT_DIR      = Path(__file__).parent
 TRANSCRIPTS_DIR = SCRIPT_DIR / "transcripts"
 URLS_FILE       = SCRIPT_DIR / "urls.txt"
-WHISPER_MODEL   = "base"   # tiny | base | small | medium | large
-DAYS_BACK       = 7        # only transcribe videos published within this many days
+DAYS_BACK       = 7
+MAX_VIDEOS_PER_CHANNEL = 5
+YOUTUBE_API_KEY = os.getenv("YOUTUBE_API_KEY", "")
+RATE_LIMIT_DELAY = 2  # seconds between transcript fetches
 
 # ── Helpers ───────────────────────────────────────────────────────────────────
 
@@ -41,20 +58,107 @@ def is_channel_url(url: str) -> bool:
     return any(x in url for x in ["/@", "/c/", "/channel/", "/user/"])
 
 
-def get_cutoff_date() -> str:
-    """Return date string N days ago in yt-dlp format YYYYMMDD."""
-    cutoff = datetime.now() - timedelta(days=DAYS_BACK)
-    return cutoff.strftime("%Y%m%d")
+def extract_video_id(url: str) -> str:
+    match = re.search(r"(?:v=|youtu\.be/)([A-Za-z0-9_-]{11})", url)
+    return match.group(1) if match else ""
 
 
-def get_channel_videos(channel_url: str) -> list:
-    """
-    Fetch metadata for all videos published in the last DAYS_BACK days
-    from a YouTube channel. Returns list of video metadata dicts.
-    """
-    cutoff = get_cutoff_date()
-    print(f"\n📡 Scanning channel: {channel_url}")
-    print(f"   Looking for videos published since {cutoff} ({DAYS_BACK} days)...")
+def extract_channel_id_from_url(url: str) -> str:
+    """Extract @handle or channel ID from URL for API lookup."""
+    # /@handle format
+    match = re.search(r"/@([^/\s?]+)", url)
+    if match:
+        return f"@{match.group(1)}"
+    # /channel/UCxxx format
+    match = re.search(r"/channel/([^/\s?]+)", url)
+    if match:
+        return match.group(1)
+    return ""
+
+
+# ── YouTube Data API v3 ──────────────────────────────────────────────────────
+
+def _get_youtube_service():
+    """Build YouTube Data API v3 client."""
+    from googleapiclient.discovery import build
+    return build("youtube", "v3", developerKey=YOUTUBE_API_KEY)
+
+
+def _resolve_channel_id(youtube, handle_or_id: str) -> str:
+    """Resolve @handle to channel ID using forHandle parameter."""
+    if handle_or_id.startswith("UC"):
+        return handle_or_id  # Already a channel ID
+
+    handle = handle_or_id.lstrip("@")
+    resp = youtube.channels().list(
+        part="id", forHandle=handle
+    ).execute()
+
+    items = resp.get("items", [])
+    if items:
+        return items[0]["id"]
+
+    raise RuntimeError(f"Cannot resolve channel handle: @{handle}")
+
+
+def get_channel_videos_api(channel_url: str) -> list:
+    """Fetch recent videos using YouTube Data API v3."""
+    youtube = _get_youtube_service()
+    handle_or_id = extract_channel_id_from_url(channel_url)
+    if not handle_or_id:
+        raise RuntimeError(f"Cannot parse channel URL: {channel_url}")
+
+    print(f"\n  Scanning channel (API): {channel_url}")
+
+    channel_id = _resolve_channel_id(youtube, handle_or_id)
+    cutoff = (datetime.utcnow() - timedelta(days=DAYS_BACK)).strftime("%Y-%m-%dT%H:%M:%SZ")
+
+    # Search for recent videos from this channel
+    videos = []
+    next_page = None
+
+    while True:
+        resp = youtube.search().list(
+            part="snippet",
+            channelId=channel_id,
+            publishedAfter=cutoff,
+            type="video",
+            order="date",
+            maxResults=min(MAX_VIDEOS_PER_CHANNEL, 50),
+            pageToken=next_page,
+        ).execute()
+
+        for item in resp.get("items", []):
+            snippet = item["snippet"]
+            video_id = item["id"]["videoId"]
+            pub_date = snippet.get("publishedAt", "")[:10].replace("-", "")
+            videos.append({
+                "url": f"https://www.youtube.com/watch?v={video_id}",
+                "video_id": video_id,
+                "title": snippet.get("title", "Unknown"),
+                "channel": snippet.get("channelTitle", "Unknown"),
+                "upload_date": pub_date,
+                "duration": "?",
+            })
+
+        if len(videos) >= MAX_VIDEOS_PER_CHANNEL:
+            videos = videos[:MAX_VIDEOS_PER_CHANNEL]
+            break
+        next_page = resp.get("nextPageToken")
+        if not next_page:
+            break
+
+    print(f"   Found {len(videos)} video(s) in the last {DAYS_BACK} days.")
+    return videos
+
+
+# ── yt-dlp fallback ──────────────────────────────────────────────────────────
+
+def get_channel_videos_ytdlp(channel_url: str) -> list:
+    """Fetch recent videos using yt-dlp flat-playlist (fallback)."""
+    cutoff = (datetime.now() - timedelta(days=DAYS_BACK)).strftime("%Y%m%d")
+    print(f"\n  Scanning channel (yt-dlp): {channel_url}")
+    print(f"   Looking for videos since {cutoff} ({DAYS_BACK} days)...")
 
     result = subprocess.run(
         [
@@ -63,9 +167,11 @@ def get_channel_videos(channel_url: str) -> list:
             "--flat-playlist",
             "--dateafter", cutoff,
             "--yes-playlist",
+            "--no-warnings",
             channel_url
         ],
-        capture_output=True, text=True, encoding="utf-8"
+        capture_output=True, text=True, encoding="utf-8",
+        timeout=120,
     )
 
     videos = []
@@ -74,105 +180,63 @@ def get_channel_videos(channel_url: str) -> list:
             continue
         try:
             data = json.loads(line)
-            video_id = data.get("id") or data.get("url", "").split("v=")[-1]
+            video_id = data.get("id") or ""
             if video_id:
                 videos.append({
                     "url": f"https://www.youtube.com/watch?v={video_id}",
+                    "video_id": video_id,
                     "title": data.get("title", "Unknown"),
+                    "channel": (data.get("playlist_uploader")
+                                or data.get("uploader")
+                                or "Unknown Channel"),
                     "upload_date": data.get("upload_date", ""),
+                    "duration": data.get("duration_string")
+                               or str(int(data.get("duration", 0) or 0)) + "s",
                 })
         except json.JSONDecodeError:
             continue
 
-    print(f"   Found {len(videos)} video(s) in the last {DAYS_BACK} days.")
+    if len(videos) > MAX_VIDEOS_PER_CHANNEL:
+        print(f"   Found {len(videos)} video(s), capping to {MAX_VIDEOS_PER_CHANNEL}.")
+        videos = videos[:MAX_VIDEOS_PER_CHANNEL]
+    else:
+        print(f"   Found {len(videos)} video(s).")
     return videos
 
 
-def get_video_metadata(url: str) -> dict:
-    print(f"  → Fetching metadata...")
-    result = subprocess.run(
-        ["yt-dlp", "--dump-json", "--no-playlist", url],
-        capture_output=True, text=True, encoding="utf-8"
-    )
-    if result.returncode != 0:
-        raise RuntimeError(f"yt-dlp metadata failed: {result.stderr[:200]}")
-    data = json.loads(result.stdout)
-    return {
-        "title":       data.get("title", "Unknown Title"),
-        "channel":     data.get("uploader", "Unknown Channel"),
-        "duration":    data.get("duration_string", "?"),
-        "upload_date": data.get("upload_date", ""),
-        "url":         url,
-        "video_id":    data.get("id", ""),
-    }
+def get_channel_videos(channel_url: str) -> list:
+    """Route to API or yt-dlp depending on available credentials."""
+    if YOUTUBE_API_KEY:
+        return get_channel_videos_api(channel_url)
+    return get_channel_videos_ytdlp(channel_url)
 
 
-def try_captions(url: str, out_dir: Path):
-    print(f"  → Trying YouTube captions...")
-    subprocess.run(
-        [
-            "yt-dlp",
-            "--write-auto-sub", "--write-sub",
-            "--sub-lang", "en",
-            "--sub-format", "vtt",
-            "--skip-download",
-            "--no-playlist",
-            "-o", str(out_dir / "captions"),
-            url
-        ],
-        capture_output=True, text=True, encoding="utf-8"
-    )
-    vtt_files = list(out_dir.glob("*.vtt"))
-    if not vtt_files:
-        print(f"  → No captions found, falling back to Whisper...")
-        return None
-    print(f"  → Captions found!")
-    return clean_vtt(vtt_files[0].read_text(encoding="utf-8"))
+# ── Transcript fetching ──────────────────────────────────────────────────────
 
+def fetch_transcript(video_id: str) -> str:
+    """Fetch transcript using youtube-transcript-api."""
+    from youtube_transcript_api import YouTubeTranscriptApi
 
-def clean_vtt(vtt_text: str) -> str:
-    lines = []
-    seen = set()
-    for line in vtt_text.splitlines():
-        if (line.startswith("WEBVTT") or
-                "-->" in line or
-                re.match(r"^\d+$", line.strip()) or
-                line.strip() == ""):
+    api = YouTubeTranscriptApi()
+    for langs in [["en"], ["en-US", "en-GB"], None]:
+        try:
+            if langs:
+                transcript = api.fetch(video_id, languages=langs)
+            else:
+                transcript = api.fetch(video_id)
+            text = " ".join(snippet.text for snippet in transcript)
+            if text.strip():
+                return text
+        except Exception:
             continue
-        clean = re.sub(r"<[^>]+>", "", line).strip()
-        if clean and clean not in seen:
-            seen.add(clean)
-            lines.append(clean)
-    return " ".join(lines)
+
+    raise RuntimeError("No transcript available (may be IP-blocked or no captions)")
 
 
-def try_whisper(url: str, out_dir: Path) -> str:
-    print(f"  → Downloading audio for Whisper (this may take a moment)...")
-    audio_path = out_dir / "audio.mp3"
-    dl = subprocess.run(
-        ["yt-dlp", "-x", "--audio-format", "mp3", "--no-playlist",
-         "-o", str(audio_path), url],
-        capture_output=True, text=True, encoding="utf-8"
-    )
-    if dl.returncode != 0:
-        raise RuntimeError(f"Audio download failed: {dl.stderr[:200]}")
-
-    audio_files = (list(out_dir.glob("*.mp3")) +
-                   list(out_dir.glob("*.m4a")) +
-                   list(out_dir.glob("*.webm")))
-    if not audio_files:
-        raise RuntimeError("No audio file found after download.")
-
-    print(f"  → Running Whisper ({WHISPER_MODEL})... (1-2 mins for a typical video)")
-    import whisper
-    model = whisper.load_model(WHISPER_MODEL)
-    result = model.transcribe(str(audio_files[0]))
-    return result["text"]
-
+# ── Tagging + Saving ─────────────────────────────────────────────────────────
 
 def tag_transcript(title: str, transcript: str) -> str:
-    """Auto-tag transcript by likely use case for agent context."""
-    text = (title + " " + transcript).lower()
+    text = (title + " " + transcript[:2000]).lower()
     tags = []
     if any(w in text for w in ["etsy", "template", "digital product", "canva", "listing", "design trend"]):
         tags.append("#PurpleOcaz")
@@ -192,7 +256,7 @@ def save_transcript(meta: dict, transcript: str, method: str) -> Path:
     filename = f"{date_str}_{safe_title}.md"
     out_path = TRANSCRIPTS_DIR / filename
 
-    upload_date = meta["upload_date"]
+    upload_date = meta.get("upload_date", "")
     if len(upload_date) == 8:
         upload_date = f"{upload_date[:4]}-{upload_date[4:6]}-{upload_date[6:]}"
 
@@ -200,12 +264,13 @@ def save_transcript(meta: dict, transcript: str, method: str) -> Path:
 
     content = f"""# {meta['title']}
 
-**Channel:** {meta['channel']}  
-**URL:** {meta['url']}  
-**Published:** {upload_date}  
-**Duration:** {meta['duration']}  
-**Transcribed:** {date_str} via {method}  
-**Tags:** {tags}  
+**Channel:** {meta['channel']}
+**URL:** {meta['url']}
+**Video ID:** {meta.get('video_id', '')}
+**Published:** {upload_date}
+**Duration:** {meta.get('duration', '?')}
+**Transcribed:** {date_str} via {method}
+**Tags:** {tags}
 
 ---
 
@@ -221,47 +286,63 @@ def save_transcript(meta: dict, transcript: str, method: str) -> Path:
     return out_path
 
 
-def transcribe_video(url: str) -> Path:
+def _already_transcribed(video_id: str) -> bool:
+    if not TRANSCRIPTS_DIR.exists():
+        return False
+    for f in TRANSCRIPTS_DIR.glob("*.md"):
+        try:
+            content = f.read_text(encoding="utf-8")[:500]
+            if video_id in content:
+                return True
+        except Exception:
+            continue
+    return False
+
+
+def transcribe_video(url: str, meta: dict = None) -> Path:
     """Full pipeline for a single video URL."""
-    print(f"\n🎬 Processing: {url}")
-    tmp_dir = SCRIPT_DIR / ".tmp_transcribe"
-    tmp_dir.mkdir(exist_ok=True)
-    try:
-        meta = get_video_metadata(url)
-        print(f"  Title:   {meta['title']}")
-        print(f"  Channel: {meta['channel']}")
+    video_id = extract_video_id(url)
+    if not video_id:
+        raise RuntimeError(f"Cannot extract video ID from: {url}")
 
-        transcript = try_captions(url, tmp_dir)
-        method = "YouTube captions"
-        if not transcript:
-            transcript = try_whisper(url, tmp_dir)
-            method = f"Whisper ({WHISPER_MODEL})"
+    if _already_transcribed(video_id):
+        print(f"   Skipping (already transcribed): {video_id}")
+        return None
 
-        out_path = save_transcript(meta, transcript, method)
-        print(f"  ✅ Saved → transcripts/{out_path.name}")
-        return out_path
-    finally:
-        shutil.rmtree(tmp_dir, ignore_errors=True)
+    if meta is None:
+        meta = {"url": url, "video_id": video_id, "title": "Unknown",
+                "channel": "Unknown", "upload_date": "", "duration": "?"}
+    meta["video_id"] = video_id
+
+    print(f"\n  Processing: {meta['title'][:60]}")
+    print(f"   Fetching transcript...")
+
+    transcript = fetch_transcript(video_id)
+    method = "youtube-transcript-api"
+
+    word_count = len(transcript.split())
+    print(f"   Got {word_count} words")
+
+    out_path = save_transcript(meta, transcript, method)
+    print(f"   Saved -> transcripts/{out_path.name}")
+    return out_path
 
 
 def load_channels() -> list:
-    """Read channel URLs from urls.txt."""
     if not URLS_FILE.exists():
-        print(f"❌ urls.txt not found at {URLS_FILE}")
-        print("   Create it in Notepad with one YouTube channel URL per line.")
+        print(f"ERROR: urls.txt not found at {URLS_FILE}")
         sys.exit(1)
-    channels = [
+    return [
         line.strip() for line in URLS_FILE.read_text(encoding="utf-8").splitlines()
         if line.strip() and not line.startswith("#")
     ]
-    return channels
 
 
 # ── Main ──────────────────────────────────────────────────────────────────────
 
 def main():
     parser = argparse.ArgumentParser(
-        description="YouTube Channel Monitor → Transcript Pipeline"
+        description="YouTube Channel Monitor -> Transcript Pipeline"
     )
     parser.add_argument(
         "url", nargs="?",
@@ -269,12 +350,14 @@ def main():
     )
     args = parser.parse_args()
 
-    # Determine sources
+    mode = "YouTube Data API v3" if YOUTUBE_API_KEY else "yt-dlp (no API key)"
+    print(f"[transcribe] Mode: {mode}")
+
     if args.url:
         sources = [args.url]
     else:
         sources = load_channels()
-        print(f"📋 Loaded {len(sources)} channel(s) from urls.txt")
+        print(f"[transcribe] Loaded {len(sources)} channel(s) from urls.txt")
 
     results = []
     errors  = []
@@ -284,35 +367,38 @@ def main():
             if is_channel_url(source):
                 videos = get_channel_videos(source)
                 if not videos:
-                    print(f"  ℹ️  No new videos in the last {DAYS_BACK} days.")
+                    print(f"   No new videos in the last {DAYS_BACK} days.")
                     continue
                 for video in videos:
                     try:
-                        path = transcribe_video(video["url"])
-                        results.append(path)
+                        path = transcribe_video(video["url"], meta=video)
+                        if path:
+                            results.append(path)
+                        time.sleep(RATE_LIMIT_DELAY)
                     except Exception as e:
-                        print(f"  ❌ Failed: {video['url']}\n     {e}")
-                        errors.append((video["url"], str(e)))
+                        err_msg = str(e)[:120]
+                        print(f"   FAILED: {video.get('title', '?')[:40]}: {err_msg}")
+                        errors.append((video["url"], err_msg))
             else:
-                # Direct video URL
                 path = transcribe_video(source)
-                results.append(path)
+                if path:
+                    results.append(path)
         except Exception as e:
-            print(f"❌ Error processing {source}: {e}")
-            errors.append((source, str(e)))
+            err_msg = str(e)[:120]
+            print(f"ERROR: {source}: {err_msg}")
+            errors.append((source, err_msg))
 
     # Summary
     print(f"\n{'='*55}")
-    print(f"✅ Done! {len(results)} transcript(s) saved to /transcripts/")
+    print(f"Done! {len(results)} transcript(s) saved to transcripts/")
     if results:
         for r in results:
-            print(f"   📄 {r.name}")
+            print(f"   {r.name}")
     if errors:
-        print(f"\n❌ {len(errors)} failed:")
+        print(f"\n{len(errors)} failed:")
         for url, err in errors:
             print(f"   {url}: {err}")
     print(f"{'='*55}")
-    print(f"\n💡 Your agent will auto-load these next Claude Code session.")
 
 
 if __name__ == "__main__":

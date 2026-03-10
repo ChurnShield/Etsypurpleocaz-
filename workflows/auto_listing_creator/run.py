@@ -36,7 +36,7 @@ from config import (
     LISTING_QUEUE_SHEET, FOCUS_NICHE,
     DEFAULT_CURRENCY, DEFAULT_TAXONOMY_ID, TOKEN_FILE,
     CANVA_CLIENT_ID, CANVA_CLIENT_SECRET,
-    GEMINI_API_KEY,
+    IDEOGRAM_API_KEY,
     PROPOSAL_THRESHOLD_RUNS,
     ENABLE_BUNDLES, MIN_BUNDLE_SIZE,
 )
@@ -60,7 +60,7 @@ def _run_phase(logger, phase_name, tool, params, validator=None, max_retries=MAX
     logger.phase_start(phase_name)
     log_params = {}
     for k, v in params.items():
-        if k in ("api_key", "anthropic_api_key", "gemini_api_key"):
+        if k in ("api_key", "anthropic_api_key", "ideogram_api_key"):
             continue
         if isinstance(v, list):
             log_params[k] = f"[{len(v)} items]"
@@ -125,7 +125,7 @@ def _update_workflow_stats(db, wid, success):
 
 
 def main():
-    nano_banana_enabled = bool(GEMINI_API_KEY)
+    nano_banana_enabled = bool(IDEOGRAM_API_KEY)
 
     print(f"\n{'=' * 60}")
     print(f"  Workflow  : {WORKFLOW_NAME}")
@@ -290,7 +290,7 @@ def main():
                 "anthropic_api_key": ANTHROPIC_API_KEY,
                 "model": ANTHROPIC_MODEL,
                 "focus_niche": FOCUS_NICHE,
-                "gemini_api_key": GEMINI_API_KEY,
+                "ideogram_api_key": IDEOGRAM_API_KEY,
             },
         )
 

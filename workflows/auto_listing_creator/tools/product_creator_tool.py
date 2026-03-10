@@ -30,8 +30,10 @@ from tools.image_renderer import (
 )
 from tools.image_compositor import composite_hero, copy_boilerplate_pages
 from tools.tier_config import classify_tier, TIER_1, BADGE_TEXT
-from tools.gemini_image_client import generate_product_image, build_product_prompt
-from tools.text_compositor import composite_text_on_hero
+from tools.ideogram_image_client import (
+    generate_product_image, build_product_prompt,
+    needs_full_composite, composite_appointment_card,
+)
 from tools.editable_pdf_generator import create_editable_pdf
 from tools.affiliate_guide_generator import create_affiliate_guide
 
@@ -48,7 +50,7 @@ class ProductCreatorTool(BaseTool):
         listings = kwargs.get("generated_listings", [])
         focus_niche = kwargs.get("focus_niche", "tattoo")
         theme = kwargs.get("theme", "dark")
-        gemini_api_key = kwargs.get("gemini_api_key", "")
+        ideogram_api_key = kwargs.get("ideogram_api_key", "")
 
         if not listings:
             return {
@@ -79,13 +81,13 @@ class ProductCreatorTool(BaseTool):
                           f"[{tier_label}]: {title}...", flush=True)
 
                     try:
-                        if tier == TIER_1 and gemini_api_key:
+                        if tier == TIER_1 and ideogram_api_key:
                             result = self._create_tier1_listing(
                                 browser, listing, focus_niche, theme,
-                                gemini_api_key, i,
+                                ideogram_api_key, i,
                             )
                         else:
-                            if tier == TIER_1 and not gemini_api_key:
+                            if tier == TIER_1 and not ideogram_api_key:
                                 print("       No Gemini key — falling "
                                       "back to HTML pipeline", flush=True)
                             result = self._create_tier2_listing(
@@ -158,7 +160,7 @@ class ProductCreatorTool(BaseTool):
     # ---- Tier 1: Nano Banana + Editable PDF -----------------------------------
 
     def _create_tier1_listing(self, browser, listing, niche, theme,
-                              gemini_api_key, index):
+                              ideogram_api_key, index):
         """Create listing images using Gemini AI mockup + editable PDF.
 
         The Gemini image is a complete product photo (background, cards,
@@ -178,52 +180,59 @@ class ProductCreatorTool(BaseTool):
         hero_title = self._derive_hero_title(title, product_type, niche)
         tagline = self._derive_tagline(product_type, niche)
 
-        # Step 1: Generate AI mockup via Gemini (complete scene)
-        print("       Generating Nano Banana mockup...", flush=True)
+        # Step 1: Generate AI image via Ideogram
+        use_full_composite = needs_full_composite(product_type)
+        if use_full_composite:
+            print("       Generating Ideogram background (full composite)...",
+                  flush=True)
+        else:
+            print("       Generating Nano Banana mockup...", flush=True)
+
         prompt = build_product_prompt(
             product_type, niche, theme,
             hero_title=hero_title, tagline=tagline,
         )
-        gen_result = generate_product_image(gemini_api_key, prompt)
+        gen_result = generate_product_image(ideogram_api_key, prompt)
 
         if not gen_result["success"]:
-            print(f"       Gemini failed: {gen_result['error'][:80]}", flush=True)
+            print(f"       Ideogram failed: {gen_result['error'][:80]}",
+                  flush=True)
             print("       Falling back to HTML pipeline...", flush=True)
             return self._create_tier2_listing(
                 browser, listing, niche, theme, index,
             )
 
-        # Step 2: Save raw mockup (blank cards, no text)
-        mockup_path = os.path.join(EXPORT_DIR, f"{safe_title}_mockup.png")
-        with open(mockup_path, "wb") as f:
-            f.write(gen_result["image_bytes"])
-        print(f"       Mockup saved: {os.path.basename(mockup_path)} "
-              f"({len(gen_result['image_bytes']) // 1024}KB)", flush=True)
+        # Step 2: Full composite or direct mockup
+        if use_full_composite:
+            # Two-step: Ideogram bg + Pillow draws cards/banner/badge
+            print("       Compositing cards + banner (Pillow)...", flush=True)
+            hero_bytes = composite_appointment_card(
+                gen_result["image_bytes"],
+                banner_title=hero_title,
+                banner_subtitle=tagline,
+            )
+            mockup_path = os.path.join(EXPORT_DIR, f"{safe_title}_mockup.png")
+            with open(mockup_path, "wb") as f:
+                f.write(hero_bytes)
+            print(f"       Composite saved: {os.path.basename(mockup_path)} "
+                  f"({len(hero_bytes) // 1024}KB)", flush=True)
+        else:
+            # Single-step: Ideogram generates complete scene
+            mockup_path = os.path.join(EXPORT_DIR, f"{safe_title}_mockup.png")
+            with open(mockup_path, "wb") as f:
+                f.write(gen_result["image_bytes"])
+            print(f"       Mockup saved: {os.path.basename(mockup_path)} "
+                  f"({len(gen_result['image_bytes']) // 1024}KB)", flush=True)
 
-        # Step 3: Composite text onto the Gemini scene using real fonts.
-        # Gemini generates the flat-lay photography (blank cards, props,
-        # background). Text compositor overlays pixel-perfect typography
-        # (card titles, field labels, footer banner, badge) using TTF fonts.
-        print("       Compositing text with real fonts...", flush=True)
+        # Step 3: Resize to Etsy dimensions (2250x3000)
+        print("       Resizing hero to Etsy dimensions...", flush=True)
         hero_path = os.path.join(EXPORT_DIR, f"{safe_title}_page1.png")
-        composite_result = composite_text_on_hero(
-            mockup_path, product_type, niche,
-            hero_title=hero_title, tagline=tagline,
-            output_path=hero_path,
-            browser=browser,
-        )
-
-        if not composite_result:
-            # Fallback: just resize the raw Gemini image
-            print("       Text composite failed, using raw mockup...",
-                  flush=True)
-            from tools.design_constants import IMG_W, IMG_H
-            img = Image.open(mockup_path).convert("RGB")
-            img_resized = img.resize((IMG_W, IMG_H), Image.LANCZOS)
-            img_resized.save(hero_path, "PNG")
-            img_resized.close()
-            img.close()
-
+        img = Image.open(mockup_path).convert("RGB")
+        from tools.design_constants import IMG_W, IMG_H
+        img_resized = img.resize((IMG_W, IMG_H), Image.LANCZOS)
+        img_resized.save(hero_path, "PNG")
+        img_resized.close()
+        img.close()
         print(f"       Hero saved: {os.path.basename(hero_path)}", flush=True)
 
         # Step 4: Create page 2 (What You Get — tier-aware)
@@ -242,7 +251,7 @@ class ProductCreatorTool(BaseTool):
         listing_with_niche = dict(listing, focus_niche=niche)
         pdf_result = create_editable_pdf(
             listing_with_niche, product_type, mockup_path,
-            gemini_api_key=gemini_api_key,
+            ideogram_api_key=ideogram_api_key,
         )
 
         pdf_path = None
@@ -354,7 +363,7 @@ class ProductCreatorTool(BaseTool):
             "gift certificate": "MAKE EXTRA INCOME SELLING GIFT CERTIFICATES",
             "price list": "SHOWCASE YOUR SERVICES WITH STYLE",
             "business card": "LEAVE A LASTING FIRST IMPRESSION",
-            "appointment card": "KEEP YOUR CLIENTS COMING BACK",
+            "appointment card": "KEEP YOUR CLIENTS ORGANISED AND ON TIME",
             "aftercare card": "PROFESSIONAL AFTERCARE FOR YOUR CLIENTS",
             "social media": "GROW YOUR BUSINESS ON SOCIAL MEDIA",
             "branding bundle": "EVERYTHING YOUR STUDIO NEEDS IN ONE BUNDLE",

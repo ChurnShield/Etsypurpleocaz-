@@ -142,26 +142,26 @@ tbody td {
   
 <div class="summary-box">
   <h1>Workflow Log Report</h1>
-  <div class="filter-row">Filters:&nbsp; <span class="badge bdg-validate">example_workflow</span>&nbsp;<span class="badge bdg-tool">last 2</span></div>
+  <div class="filter-row">Filters:&nbsp; <span class="badge bdg-validate">auto_listing_creator</span>&nbsp;<span class="badge bdg-tool">last 1</span></div>
   <div class="stats-row">
     <div class="stat">
-      <div class="stat-val">2</div>
+      <div class="stat-val">1</div>
       <div class="stat-lbl">Total Runs</div>
     </div>
     <div class="stat">
-      <div class="stat-val ok">2</div>
+      <div class="stat-val ok">0</div>
       <div class="stat-lbl">Completed</div>
     </div>
     <div class="stat">
-      <div class="stat-val fail">0</div>
+      <div class="stat-val fail">1</div>
       <div class="stat-lbl">Failed</div>
     </div>
     <div class="stat">
-      <div class="stat-val">100%</div>
+      <div class="stat-val">0%</div>
       <div class="stat-lbl">Success Rate</div>
     </div>
     <div class="stat">
-      <div class="stat-val">0.02s</div>
+      <div class="stat-val">32.0s</div>
       <div class="stat-lbl">Avg Duration</div>
     </div>
   </div>
@@ -169,61 +169,223 @@ tbody td {
 
 
   <p class="hint">
-    Showing 2 execution(s), newest first &mdash;
+    Showing 1 execution(s), newest first &mdash;
     click any bar to expand its event log.
   </p>
 
   
 <details>
-  <summary class="exec-summary hdr-completed">
-    <span class="wf-name">example_workflow</span>
+  <summary class="exec-summary hdr-failed">
+    <span class="wf-name">auto_listing_creator</span>
     <span class="sep">|</span>
-    <span class="ts">2026-02-19T07:46:28</span>
-    &nbsp;|&nbsp; 0.02s
+    <span class="ts">2026-03-10T16:23:23</span>
+    &nbsp;|&nbsp; 32.00s
     <span class="sep">|</span>
-    <span class="status-label">COMPLETED</span>
+    <span class="status-label">FAILED</span>
     <span class="sep">|</span>
-    <span class="exec-id">bd25ea65…</span>
+    <span class="exec-id">485705d6…</span>
     <span class="sep">|</span>
-    <span class="event-count">5 event(s) &mdash; click to expand</span>
+    <span class="event-count">12 event(s) &mdash; click to expand</span>
   </summary>
   <div class="exec-body">
-    <p class="full-id">Full execution ID: <code>bd25ea65-d8a6-4245-9e9e-151834e40999</code></p>
-    <table><thead><tr><th>Time</th><th>Phase</th><th>Event</th><th>Tool / Validator</th><th>Result</th><th>Duration</th><th>Metadata</th><th>Error</th></tr></thead><tbody><tr class="row-phase"><td>07:46:28.222</td><td>Phase 1: Process Text</td><td><span class="badge bdg-phase">PHASE START</span></td><td></td><td><span class="badge bdg-pass">PASS</span></td><td>—</td><td class="meta-cell"><span class="none">—</span></td><td>—</td></tr><tr class="row-tool-call"><td>07:46:28.222</td><td>Phase 1: Process Text</td><td><span class="badge bdg-tool">TOOL CALL</span></td><td>ExampleTool</td><td></td><td>—</td><td class="meta-cell"><table class="meta-tbl"><tr><td class="mk">text</td><td class="mv">hello world — this is my workflow input</td></tr></table></td><td>—</td></tr><tr class="row-success"><td>07:46:28.222</td><td>Phase 1: Process Text</td><td><span class="badge bdg-tool">TOOL RESULT</span></td><td>ExampleTool</td><td><span class="badge bdg-pass">PASS</span></td><td>0&thinsp;ms</td><td class="meta-cell"><table class="meta-tbl"><tr><td class="mk">success</td><td class="mv">True</td></tr><tr><td class="mk">data</td><td class="mv">{
-  &quot;processed_text&quot;: &quot;HELLO WORLD \u2014 THIS IS MY WORKFLOW INPUT&quot;
-}</td></tr><tr><td class="mk">error</td><td class="mv">None</td></tr><tr><td class="mk">tool_name</td><td class="mv">ExampleTool</td></tr><tr><td class="mk">metadata</td><td class="mv">{
-  &quot;input_length&quot;: 39
-}</td></tr></table></td><td>—</td></tr><tr class="row-success"><td>07:46:28.222</td><td>Phase 1: Process Text</td><td><span class="badge bdg-validate">VALIDATE</span></td><td>ExampleValidator</td><td><span class="badge bdg-pass">PASS</span></td><td>—</td><td class="meta-cell"><table class="meta-tbl"><tr><td class="mk">issues</td><td class="mv">[]</td></tr></table></td><td>—</td></tr><tr class="row-phase"><td>07:46:28.222</td><td>Phase 1: Process Text</td><td><span class="badge bdg-phase">PHASE END</span></td><td></td><td><span class="badge bdg-pass">PASS</span></td><td>—</td><td class="meta-cell"><span class="none">—</span></td><td>—</td></tr></tbody></table>
-  </div>
-</details>
-
-
-<details>
-  <summary class="exec-summary hdr-completed">
-    <span class="wf-name">example_workflow</span>
-    <span class="sep">|</span>
-    <span class="ts">2026-02-19T07:45:35</span>
-    &nbsp;|&nbsp; 0.03s
-    <span class="sep">|</span>
-    <span class="status-label">COMPLETED</span>
-    <span class="sep">|</span>
-    <span class="exec-id">3ffc5ab6…</span>
-    <span class="sep">|</span>
-    <span class="event-count">5 event(s) &mdash; click to expand</span>
-  </summary>
-  <div class="exec-body">
-    <p class="full-id">Full execution ID: <code>3ffc5ab6-0935-4aeb-abed-b421cc05eb53</code></p>
-    <table><thead><tr><th>Time</th><th>Phase</th><th>Event</th><th>Tool / Validator</th><th>Result</th><th>Duration</th><th>Metadata</th><th>Error</th></tr></thead><tbody><tr class="row-phase"><td>07:45:35.859</td><td>Phase 1: Process Text</td><td><span class="badge bdg-phase">PHASE START</span></td><td></td><td><span class="badge bdg-pass">PASS</span></td><td>—</td><td class="meta-cell"><span class="none">—</span></td><td>—</td></tr><tr class="row-tool-call"><td>07:45:35.859</td><td>Phase 1: Process Text</td><td><span class="badge bdg-tool">TOOL CALL</span></td><td>ExampleTool</td><td></td><td>—</td><td class="meta-cell"><table class="meta-tbl"><tr><td class="mk">text</td><td class="mv">hello world — this is my workflow input</td></tr></table></td><td>—</td></tr><tr class="row-success"><td>07:45:35.864</td><td>Phase 1: Process Text</td><td><span class="badge bdg-tool">TOOL RESULT</span></td><td>ExampleTool</td><td><span class="badge bdg-pass">PASS</span></td><td>2&thinsp;ms</td><td class="meta-cell"><table class="meta-tbl"><tr><td class="mk">success</td><td class="mv">True</td></tr><tr><td class="mk">data</td><td class="mv">{
-  &quot;processed_text&quot;: &quot;HELLO WORLD \u2014 THIS IS MY WORKFLOW INPUT&quot;
-}</td></tr><tr><td class="mk">error</td><td class="mv">None</td></tr><tr><td class="mk">tool_name</td><td class="mv">ExampleTool</td></tr><tr><td class="mk">metadata</td><td class="mv">{
-  &quot;input_length&quot;: 39
-}</td></tr></table></td><td>—</td></tr><tr class="row-success"><td>07:45:35.864</td><td>Phase 1: Process Text</td><td><span class="badge bdg-validate">VALIDATE</span></td><td>ExampleValidator</td><td><span class="badge bdg-pass">PASS</span></td><td>—</td><td class="meta-cell"><table class="meta-tbl"><tr><td class="mk">issues</td><td class="mv">[]</td></tr></table></td><td>—</td></tr><tr class="row-phase"><td>07:45:35.864</td><td>Phase 1: Process Text</td><td><span class="badge bdg-phase">PHASE END</span></td><td></td><td><span class="badge bdg-pass">PASS</span></td><td>—</td><td class="meta-cell"><span class="none">—</span></td><td>—</td></tr></tbody></table>
+    <p class="full-id">Full execution ID: <code>485705d6-b904-4994-8d7b-e9c9e980bef9</code></p>
+    <table><thead><tr><th>Time</th><th>Phase</th><th>Event</th><th>Tool / Validator</th><th>Result</th><th>Duration</th><th>Metadata</th><th>Error</th></tr></thead><tbody><tr class="row-phase"><td>16:23:23.521</td><td>Phase 1: Load Opportunities</td><td><span class="badge bdg-phase">PHASE START</span></td><td></td><td><span class="badge bdg-pass">PASS</span></td><td>—</td><td class="meta-cell"><span class="none">—</span></td><td>—</td></tr><tr class="row-tool-call"><td>16:23:23.521</td><td>Phase 1: Load Opportunities</td><td><span class="badge bdg-tool">TOOL CALL</span></td><td>LoadOpportunitiesTool</td><td></td><td>—</td><td class="meta-cell"><table class="meta-tbl"><tr><td class="mk">credentials_file</td><td class="mv">google-credentials.json</td></tr><tr><td class="mk">spreadsheet_id</td><td class="mv">1pRzSABpw5hDQXId7MPfMH0IgSnnKYWqpyyHYI9t_AoE</td></tr><tr><td class="mk">opportunities_sheet_name</td><td class="mv">Tattoo Opportunities</td></tr><tr><td class="mk">market_intel_sheet_name</td><td class="mv">Market Intelligence</td></tr><tr><td class="mk">shop_id</td><td class="mv">34071205</td></tr><tr><td class="mk">page_limit</td><td class="mv">100</td></tr><tr><td class="mk">attempt</td><td class="mv">1</td></tr></table></td><td>—</td></tr><tr class="row-success"><td>16:23:54.797</td><td>Phase 1: Load Opportunities</td><td><span class="badge bdg-tool">TOOL RESULT</span></td><td>LoadOpportunitiesTool</td><td><span class="badge bdg-pass">PASS</span></td><td>31276&thinsp;ms</td><td class="meta-cell"><table class="meta-tbl"><tr><td class="mk">success</td><td class="mv">True</td></tr><tr><td class="mk">data</td><td class="mv">{
+  &quot;opportunities&quot;: [
+    {
+      &quot;rank&quot;: 2,
+      &quot;product_title&quot;: &quot;Tattoo Price List Template - Editable Canva Pricing Menu Digital Download for Tattoo Artists&quot;,
+      &quot;why&quot;: &quot;Rising trend with 1561.3% growth and low competition presents massive opportunity for business templates.&quot;,
+      &quot;suggested_price&quot;: 12.99,
+      &quot;priority&quot;: &quot;HIGH&quot;,
+      &quot;effort&quot;: &quot;quick&quot;,
+      &quot;target_keywords&quot;: [
+        &quot;tattoo price list&quot;,
+        &quot;price list template&quot;,
+        &quot;canva template&quot;,
+        &quot;tattoo template&quot;,
+        &quot;editable price list&quot;,
+        &quot;tattoo business&quot;,
+        &quot;tattoo artist&quot;,
+        &quot;pricing menu&quot;,
+        &quot;digital download&quot;,
+        &quot;tattoo shop&quot;,
+        &quot;instant download&quot;,
+        &quot;business template&quot;,
+        &quot;tattoo pricing&quot;
+      ],
+      &quot;opportunity_score&quot;: 88,
+      &quot;source&quot;: &quot;market_intelligence&quot;
+    },
+    {
+      &quot;rank&quot;: 4,
+      &quot;product_title&quot;: &quot;Fine Line Tattoo Flash Sheet Bundle - 50 Minimalist Designs Digital Download Procreate Stamps&quot;,
+      &quot;why&quot;: &quot;Rising fine line trend with stable 75 signal score and growing interest in educational content.&quot;,
+      &quot;suggested_price&quot;: 24.99,
+      &quot;priority&quot;: &quot;HIGH&quot;,
+      &quot;effort&quot;: &quot;complex&quot;,
+      &quot;target_keywords&quot;: [
+        &quot;fine line tattoo&quot;,
+        &quot;tattoo flash sheet&quot;,
+        &quot;minimalist tattoo&quot;,
+        &quot;procreate stamps&quot;,
+        &quot;tattoo design&quot;,
+        &quot;digital download&quot;,
+        &quot;flash tattoos&quot;,
+        &quot;tattoo art&quot;,
+        &quot;fine line&quot;,
+        &quot;tattoo ideas&quot;,
+        &quot;procreate&quot;,
+        &quot;instant download&quot;,
+        &quot;tattoo stencil&quot;
+      ],
+      &quot;opportunity_score&quot;: 75,
+      &quot;source&quot;: &quot;market_intelligence&quot;
+    },
+    {
+      &quot;rank&quot;: 10,
+      &quot;product_title&quot;: &quot;Tattoo Studio Complete Business Kit: Consent Form, Aftercare Card, Price List &amp; Appointment Card (Canva Bundle)&quot;,
+      &quot;why&quot;: &quot;Mega-bundle strategy combining your top individual opportunities into one high-value listing. Tattoo shops want a cohesive brand kit rather than piecemeal purchases. Avg competitor prices across included categories range from $10-$28 per item \u2014 a bundled kit at $59-$79 represents strong value. Low competition for 'complete kit' style listings in the tattoo niche. Higher AOV, fewer refund requests, stronger reviews.&quot;,
+      &quot;suggested_price&quot;: 64.99,
+      &quot;priority&quot;: &quot;MEDIUM&quot;,
+      &quot;effort&quot;: &quot;complex&quot;,
+      &quot;target_keywords&quot;: [
+        &quot;tattoo studio kit&quot;,
+        &quot;tattoo business bundle&quot;,
+        &quot;tattoo artist bundle&quot;,
+        &quot;tattoo consent form&quot;,
+        &quot;tattoo aftercare card&quot;,
+        &quot;canva template&quot;,
+        &quot;tattoo shop templates&quot;,
+        &quot;tattoo studio bundle&quot;,
+        &quot;editable tattoo forms&quot;
+      ],
+      &quot;source&quot;: &quot;tattoo_trend_monitor&quot;,
+      &quot;opportunity_score&quot;: 10
+    },
+    {
+      &quot;rank&quot;: 9,
+      &quot;product_title&quot;: &quot;Tattoo Social Media Template Bundle: 30 Editable Instagram &amp; Story Posts (Canva)&quot;,
+      &quot;why&quot;: &quot;823 competitors but at a high $53.72 avg price \u2014 the highest avg price of any category analyzed. Max views of 2,525 shows strong ceiling. You have Instagram templates but a focused '30-post bundle' framing with a higher price point can outperform your current listings. Social media content is a recurring need for tattoo artists, creating repeat customers.&quot;,
+      &quot;suggested_price&quot;: 47.99,
+      &quot;priority&quot;: &quot;MEDIUM&quot;,
+      &quot;effort&quot;: &quot;complex&quot;,
+      &quot;target_keywords&quot;: [
+        &quot;tattoo artist&quot;,
+        &quot;canva template&quot;,
+        &quot;tattoo templates&quot;,
+        &quot;instagram flyer&quot;,
+        &quot;tattoo shop flyer&quot;,
+        &quot;social media template&quot;,
+        &quot;tattoo social media&quot;,
+        &quot;instagram template&quot;,
+        &quot;editable instagram&quot;
+      ],
+      &quot;source&quot;: &quot;tattoo_trend_monitor&quot;,
+      &quot;opportunity_score&quot;: 9
+    },
+    {
+      &quot;rank&quot;: 8,
+      &quot;product_title&quot;: &quot;Tattoo Studio Client Intake Form Template: Booking &amp; Health History Form (Editable Canva)&quot;,
+      &quot;why&quot;: &quot;Complements your consent form opportunity and captures a separate but related search intent. Tattoo shops need both a legal consent form AND a client intake/health history form \u2014 selling both as related products enables cross-selling. Minimal competition in this specific framing, and it sits in the rising 'tattoo consent form' trend ecosystem (trend score 41). Upsell opportunity to existing consent form buyers.&quot;,
+      &quot;suggested_price&quot;: 22.99,
+      &quot;priority&quot;: &quot;MEDIUM&quot;,
+      &quot;effort&quot;: &quot;moderate&quot;,
+      &quot;target_keywords&quot;: [
+        &quot;tattoo intake form&quot;,
+        &quot;client intake form&quot;,
+        &quot;tattoo booking form&quot;,
+        &quot;tattoo health form&quot;,
+        &quot;tattoo consent form&quot;,
+        &quot;canva template&quot;,
+        &quot;tattoo artist&quot;,
+        &quot;tattoo studio&quot;,
+        &quot;editable form&quot;
+      ],
+      &quot;source&quot;: &quot;tattoo_trend_monitor&quot;,
+      &quot;opportunity_score&quot;: 8
+    },
+    {
+      &quot;rank&quot;: 6,
+      &quot;product_title&quot;: &quot;Tattoo Release Form Template: Editable Liability Waiver for Tattoo Studios (Canva, Instant Download)&quot;,
+      &quot;why&quot;: &quot;Google Trends shows 1,200% growth for 'tattoo release form' \u2014 second highest growth rate in the dataset. Tattoo waiver category has 104 competitors at $11.78 avg. Positioning this specifically as a 'release form' captures searches that 'consent form' misses. Legal-adjacent templates command higher prices and have strong repeat purchase potential as shops update their forms.&quot;,
+      &quot;suggested_price&quot;: 15.99,
+      &quot;priority&quot;: &quot;HIGH&quot;,
+      &quot;effort&quot;: &quot;moderate&quot;,
+      &quot;target_keywords&quot;: [
+        &quot;tattoo release form&quot;,
+        &quot;tattoo waiver&quot;,
+        &quot;tattoo waiver form&quot;,
+        &quot;tattoo consent form&quot;,
+        &quot;liability waiver&quot;,
+        &quot;tattoo consent&quot;,
+        &quot;tattoo studio form&quot;,
+        &quot;canva template&quot;,
+        &quot;editable waiver&quot;
+      ],
+      &quot;source&quot;: &quot;tattoo_trend_monitor&quot;,
+      &quot;opportunity_score&quot;: 6
+    },
+    {
+      &quot;rank&quot;: 5,
+      &quot;product_title&quot;: &quot;Tattoo Price List Template Bundle: 3 Editable Canva Styles (Digital Download)&quot;,
+      &quot;why&quot;: &quot;Google Trends shows a massive 1,440% growth \u2014 the highest percentage growth of any keyword in the dataset. Only 102 competitors at a low $10.05 avg, meaning the market is not yet saturated and pricing can be pushed higher with a bundle. You have 3 individual pricelist templates \u2014 bundling them as a set increases conversion and competes better against the rising search interest.&quot;,
+      &quot;suggested_price&quot;: 19.99,
+      &quot;priority&quot;: &quot;HIGH&quot;,
+      &quot;effort&quot;: &quot;quick&quot;,
+      &quot;target_keywords&quot;: [
+        &quot;tattoo price list&quot;,
+        &quot;price list template&quot;,
+        &quot;tattoo pricelist&quot;,
+        &quot;canva template&quot;,
+        &quot;editable price list&quot;,
+        &quot;tattoo studio&quot;,
+        &quot;tattoo artist&quot;,
+        &quot;price menu&quot;,
+        &quot;tattoo shop&quot;
+      ],
+      &quot;source&quot;: &quot;tattoo_trend_monitor&quot;,
+      &quot;opportunity_score&quot;: 5
+    },
+    {
+      &quot;rank&quot;: 2,
+      &quot;product_title&quot;: &quot;Tattoo Flash Sheet Template: Editable Canva Digital Download (Printable)&quot;,
+      &quot;why&quot;: &quot;Your only confirmed inventory GAP with zero listings. 2,280 competitors with avg views of 1,761 and max of 18,824 \u2014 second highest engagement of all categories. Avg price of $25.18 is strong. Google Trends shows 50% growth with rising direction. High revenue potential per sale and high search volume make this urgent.&quot;,
+      &quot;suggested_price&quot;: 24.99,
+      &quot;priority&quot;: &quot;HIGH&quot;,
+      &quot;effort&quot;: &quot;moderate&quot;,
+      &quot;target_keywords&quot;: [
+        &quot;tattoo flash sheet&quot;,
+        &quot;tattoo flash&quot;,
+        &quot;tattoo design&quot;,
+        &quot;digital download&quot;,
+        &quot;flash sheet&quot;,
+        &quot;printable flash sheet&quot;,
+        &quot;tattoo artist template&quot;,
+        &quot;canva template&quot;,
+        &quot;tattoo studio&quot;
+      ],
+      &quot;source&quot;: &quot;tattoo_trend_monitor&quot;,
+      &quot;opportunity_score&quot;: 2
+    }
+  ],
+  &quot;skipped_duplicates&quot;: 4,
+  &quot;total_loaded&quot;: 12,
+  &quot;existing_listing_count&quot;: 937
+}</td></tr><tr><td class="mk">error</td><td class="mv">None</td></tr><tr><td class="mk">tool_name</td><td class="mv">LoadOpportunitiesTool</td></tr><tr><td class="mk">metadata</td><td class="mv">{
+  &quot;loaded&quot;: 12,
+  &quot;new&quot;: 8,
+  &quot;skipped&quot;: 4
+}</td></tr></table></td><td>—</td></tr><tr class="row-success"><td>16:23:54.799</td><td>Phase 1: Load Opportunities</td><td><span class="badge bdg-validate">VALIDATE</span></td><td>OpportunitiesLoadedValidator</td><td><span class="badge bdg-pass">PASS</span></td><td>—</td><td class="meta-cell"><table class="meta-tbl"><tr><td class="mk">issues</td><td class="mv">[]</td></tr></table></td><td>—</td></tr><tr class="row-phase"><td>16:23:54.799</td><td>Phase 1: Load Opportunities</td><td><span class="badge bdg-phase">PHASE END</span></td><td></td><td><span class="badge bdg-pass">PASS</span></td><td>—</td><td class="meta-cell"><span class="none">—</span></td><td>—</td></tr><tr class="row-phase"><td>16:23:54.799</td><td>Phase 2: Generate Listing Content</td><td><span class="badge bdg-phase">PHASE START</span></td><td></td><td><span class="badge bdg-pass">PASS</span></td><td>—</td><td class="meta-cell"><span class="none">—</span></td><td>—</td></tr><tr class="row-tool-call"><td>16:23:54.799</td><td>Phase 2: Generate Listing Content</td><td><span class="badge bdg-tool">TOOL CALL</span></td><td>GenerateListingContentTool</td><td></td><td>—</td><td class="meta-cell"><table class="meta-tbl"><tr><td class="mk">opportunities</td><td class="mv">[8 items]</td></tr><tr><td class="mk">model</td><td class="mv">claude-sonnet-4-6</td></tr><tr><td class="mk">focus_niche</td><td class="mv">tattoo</td></tr><tr><td class="mk">currency</td><td class="mv">GBP</td></tr><tr><td class="mk">attempt</td><td class="mv">1</td></tr></table></td><td>—</td></tr><tr class="row-fail"><td>16:23:55.388</td><td>Phase 2: Generate Listing Content</td><td><span class="badge bdg-tool">TOOL RESULT</span></td><td>GenerateListingContentTool</td><td><span class="badge bdg-fail">FAIL</span></td><td>589&thinsp;ms</td><td class="meta-cell"><table class="meta-tbl"><tr><td class="mk">success</td><td class="mv">False</td></tr><tr><td class="mk">data</td><td class="mv">None</td></tr><tr><td class="mk">error</td><td class="mv">HTTP Error 400: Bad Request</td></tr><tr><td class="mk">tool_name</td><td class="mv">GenerateListingContentTool</td></tr><tr><td class="mk">metadata</td><td class="mv">{
+  &quot;exception_type&quot;: &quot;HTTPError&quot;
+}</td></tr></table></td><td>—</td></tr><tr class="row-tool-call"><td>16:23:55.388</td><td>Phase 2: Generate Listing Content</td><td><span class="badge bdg-tool">TOOL CALL</span></td><td>GenerateListingContentTool</td><td></td><td>—</td><td class="meta-cell"><table class="meta-tbl"><tr><td class="mk">opportunities</td><td class="mv">[8 items]</td></tr><tr><td class="mk">model</td><td class="mv">claude-sonnet-4-6</td></tr><tr><td class="mk">focus_niche</td><td class="mv">tattoo</td></tr><tr><td class="mk">currency</td><td class="mv">GBP</td></tr><tr><td class="mk">attempt</td><td class="mv">2</td></tr></table></td><td>—</td></tr><tr class="row-fail"><td>16:23:55.514</td><td>Phase 2: Generate Listing Content</td><td><span class="badge bdg-tool">TOOL RESULT</span></td><td>GenerateListingContentTool</td><td><span class="badge bdg-fail">FAIL</span></td><td>125&thinsp;ms</td><td class="meta-cell"><table class="meta-tbl"><tr><td class="mk">success</td><td class="mv">False</td></tr><tr><td class="mk">data</td><td class="mv">None</td></tr><tr><td class="mk">error</td><td class="mv">HTTP Error 400: Bad Request</td></tr><tr><td class="mk">tool_name</td><td class="mv">GenerateListingContentTool</td></tr><tr><td class="mk">metadata</td><td class="mv">{
+  &quot;exception_type&quot;: &quot;HTTPError&quot;
+}</td></tr></table></td><td>—</td></tr><tr class="row-phase"><td>16:23:55.514</td><td>Phase 2: Generate Listing Content</td><td><span class="badge bdg-phase">PHASE END</span></td><td></td><td><span class="badge bdg-fail">FAIL</span></td><td>—</td><td class="meta-cell"><span class="none">—</span></td><td>—</td></tr><tr class="row-error"><td>16:23:55.514</td><td>—</td><td><span class="badge bdg-error">ERROR</span></td><td></td><td><span class="badge bdg-fail">FAIL</span></td><td>—</td><td class="meta-cell"><span class="none">—</span></td><td><span class="err">Phase 2 failed: HTTP Error 400: Bad Request</span></td></tr></tbody></table>
   </div>
 </details>
 
 
   <div class="footer">
-    Generated 2026-02-19 07:53:41 &mdash; source: data/system.db
+    Generated 2026-03-10 16:28:47 &mdash; source: data/system.db
   </div>
 </body>
 </html>

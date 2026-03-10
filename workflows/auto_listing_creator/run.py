@@ -6,15 +6,14 @@
 #   python workflows/auto_listing_creator/run.py
 #
 # Pipeline:
-#   Phase 1  (Load)     -> Read opportunities from Tattoo Trend Monitor
-#                            |
-#   Phase 2  (Generate) -> Claude creates full listing content (anti-gravity keywords)
-#                            |
-#   Phase 2b (Bundle)   -> Auto-group products into value bundles (optional)
-#                            |
-#   Phase 3  (Create)   -> Generate product images (HTML templates + Playwright)
-#                            |
-#   Phase 4  (Publish)  -> Save to Sheets + create Etsy drafts + upload images
+#   Phase 1     (Load)       -> Read opportunities from Tattoo Trend Monitor
+#   Phase 2     (Generate)   -> Claude creates full listing content (anti-gravity keywords)
+#   Phase 2-QA  (Validate)   -> Listing quality check (title, tags, description, price)
+#   Phase 2b    (Bundle)     -> Auto-group products into value bundles (optional)
+#   Phase 3     (Create)     -> Generate product images (HTML templates + Playwright)
+#   Phase 3-QA  (Validate)   -> Image quality check (file size, dimensions)
+#   Phase 4     (Publish)    -> Save to Sheets + create Etsy drafts + upload images
+#   Phase 5     (Report)     -> Quality report + save outcome_quality to DB
 # =============================================================================
 
 import sys
@@ -54,6 +53,8 @@ from tools.canva_export_tool             import CanvaExportTool
 from validators.opportunities_loaded_validator import OpportunitiesLoadedValidator
 from validators.content_generated_validator    import ContentGeneratedValidator
 from validators.listings_published_validator   import ListingsPublishedValidator
+from validators.listing_quality_validator      import ListingQualityValidator
+from validators.image_quality_validator        import ImageQualityValidator
 
 
 def _run_phase(logger, phase_name, tool, params, validator=None, max_retries=MAX_RETRIES):
@@ -221,6 +222,25 @@ def main():
         if gen_stats["failed"] > 0:
             print(f"     Failed: {gen_stats['failed']}")
 
+        # ==== PHASE 2-QA: Listing quality validation ====
+        print(f"\n[4b-QA] Validating listing quality...")
+        listing_quality_validator = ListingQualityValidator()
+        listing_qa = listing_quality_validator.validate(gen_data)
+        logger.validation_event(
+            listing_quality_validator.get_name(),
+            listing_qa["passed"],
+            listing_qa["issues"],
+        )
+        listing_qa_meta = listing_qa["metadata"]
+        listing_avg_score = listing_qa_meta.get("average_score", 0)
+        print(f"     Average listing quality: {listing_avg_score}/100")
+        if not listing_qa["passed"]:
+            print(f"     WARNING: Quality below threshold ({len(listing_qa['issues'])} issues)")
+        for issue in listing_qa["issues"][:5]:
+            print(f"       - {issue}")
+        if len(listing_qa["issues"]) > 5:
+            print(f"       ... and {len(listing_qa['issues']) - 5} more")
+
         # ==== PHASE 2b: Auto-bundle creation (Anti-Gravity) ====
         all_listings = gen_data["generated_listings"]
 
@@ -308,6 +328,29 @@ def main():
             print(f"     Product creation failed: {create_result.get('error')}")
             print(f"     Continuing without images...")
 
+        # ==== PHASE 3-QA: Image quality validation ====
+        image_qa_meta = {}
+        if create_result["success"]:
+            print(f"\n[4c-QA] Validating image quality...")
+            image_quality_validator = ImageQualityValidator()
+            image_qa = image_quality_validator.validate(create_data)
+            logger.validation_event(
+                image_quality_validator.get_name(),
+                image_qa["passed"],
+                image_qa["issues"],
+            )
+            image_qa_meta = image_qa["metadata"]
+            img_score = image_qa_meta.get("score", 0)
+            print(f"     Image pass rate: {image_qa_meta.get('images_passed', 0)}"
+                  f"/{image_qa_meta.get('images_checked', 0)} "
+                  f"({img_score}%)")
+            if not image_qa["passed"]:
+                print(f"     WARNING: Image quality below threshold")
+            for issue in image_qa["issues"][:5]:
+                print(f"       - {issue}")
+            if len(image_qa["issues"]) > 5:
+                print(f"       ... and {len(image_qa['issues']) - 5} more")
+
         # ==== PHASE 4: Publish (Sheets + Etsy drafts + upload images) ====
         print(f"\n[4d] Phase 4: Publishing listings...")
         publish_result = _run_phase(
@@ -342,9 +385,64 @@ def main():
         else:
             print(f"     Publish failed: {publish_result.get('error')}")
 
+        # ==== PHASE 5: Quality Report ====
+        print(f"\n[4e] Phase 5: Quality Report")
+        print(f"     {'─' * 50}")
+
+        # Compute combined outcome_quality score (listing 70%, image 30%)
+        img_score_val = image_qa_meta.get("score", 0) if image_qa_meta else 0
+        outcome_quality = round(listing_avg_score * 0.7 + img_score_val * 0.3, 1)
+
+        # Grade
+        if outcome_quality >= 90:
+            grade = "A"
+        elif outcome_quality >= 70:
+            grade = "B"
+        else:
+            grade = "C"
+
+        print(f"     Listing quality avg : {listing_avg_score}/100")
+        print(f"     Image quality score : {img_score_val}/100")
+        print(f"     Combined score      : {outcome_quality}/100")
+        print(f"     Pipeline grade      : {grade}")
+
+        # Failed listings detail
+        failed_listings = [
+            d for d in listing_qa_meta.get("listing_details", [])
+            if d.get("issues")
+        ]
+        if failed_listings:
+            print(f"\n     Listings with issues ({len(failed_listings)}):")
+            for detail in failed_listings:
+                title = detail.get("title", "?")[:40]
+                score = detail.get("score", 0)
+                print(f"       [{score}/100] {title}")
+                for issue in detail.get("issues", []):
+                    print(f"               - {issue}")
+
+        # Failed images detail
+        failed_images = [
+            d for d in image_qa_meta.get("image_details", [])
+            if not d.get("passed")
+        ]
+        if failed_images:
+            print(f"\n     Images with issues ({len(failed_images)}):")
+            for detail in failed_images:
+                title = detail.get("title", "?")[:40]
+                print(f"       FAIL: {title}")
+                for issue in detail.get("issues", []):
+                    print(f"             - {issue}")
+
+        if not failed_listings and not failed_images:
+            print(f"\n     All listings and images passed validation.")
+
+        print(f"     {'─' * 50}")
+
+        # Write outcome_quality to executions table
         db.table("executions").update({
             "status": "completed" if overall_success else "failed",
             "completed_at": datetime.now(timezone.utc).isoformat(),
+            "outcome_quality": outcome_quality,
         }).eq("id", execution_id).execute()
 
     except Exception as exc:

@@ -43,3 +43,9 @@ SLOW_TOOL_THRESHOLD_MS = 5000  # 5 seconds
 # SmallBrain only saves a proposal when the pattern appears this often.
 # 0.7 = the problem must occur in ≥70 % of observations.
 MIN_PATTERN_CONFIDENCE = 0.7
+
+# ---------------------------------------------------------------------------
+# Shared constants (must match root config.py / workflow config.py)
+# ---------------------------------------------------------------------------
+# SQLiteClient uses this for connection timeout.
+DEFAULT_TIMEOUT_SECONDS = 120

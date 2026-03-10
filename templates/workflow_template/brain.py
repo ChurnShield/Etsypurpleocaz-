@@ -94,6 +94,7 @@ class SmallBrain:
         proposals = []
         proposals.extend(self._analyze_validators())
         proposals.extend(self._analyze_slow_tools())
+        proposals.extend(self._analyze_outcome_quality())
 
         for proposal in proposals:
             self._save_proposal(proposal)
@@ -247,6 +248,64 @@ class SmallBrain:
                 })
 
         return proposals
+
+    def _analyze_outcome_quality(self) -> list:
+        """
+        Check if average outcome_quality is dropping below 70.
+
+        Reads the outcome_quality column from the executions table for this
+        workflow.  Only completed executions with a non-null score are
+        considered.  If the average falls below 70, a proposal is generated.
+        """
+        rows = (
+            self.db.table("executions")
+            .select("outcome_quality")
+            .eq("workflow_id", self.workflow_id)
+            .eq("status", "completed")
+            .execute()
+        )
+
+        scores = [
+            r["outcome_quality"] for r in rows
+            if r.get("outcome_quality") is not None
+        ]
+
+        if len(scores) < 5:
+            # Not enough scored runs to draw conclusions
+            return []
+
+        avg_quality = sum(scores) / len(scores)
+
+        if avg_quality >= 70:
+            return []
+
+        return [{
+            "proposal_type": "quality_improvement",
+            "title": f"Average output quality below threshold ({avg_quality:.1f}/100)",
+            "description": (
+                f"Over the last {len(scores)} scored executions, "
+                f"the average outcome_quality is {avg_quality:.1f} "
+                f"(threshold: 70). Recent scores: "
+                f"{[round(s, 1) for s in scores[-5:]]}. "
+                f"Review listing content generation prompts, keyword "
+                f"strategy, or image pipeline for quality regressions."
+            ),
+            "pattern_data": {
+                "average_quality": round(avg_quality, 2),
+                "scored_runs": len(scores),
+                "recent_scores": [round(s, 1) for s in scores[-5:]],
+                "threshold": 70,
+            },
+            "proposed_changes": {
+                "action": "review_quality",
+                "target": self.workflow_id,
+                "suggestion": (
+                    "Review Claude prompt templates, keyword strategies, "
+                    "and image generation pipeline. Check if recent changes "
+                    "degraded output quality."
+                ),
+            },
+        }]
 
     # -------------------------------------------------------------------------
     # Database write

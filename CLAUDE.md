@@ -180,11 +180,29 @@ On every session start:
 
 ## Self-Improvement Protocol
 
+### LESSONS.md
+Maintain /root/NEW-AI-PROJECT/LESSONS.md as a living document.
+At the end of every session, automatically append:
+
+**What worked** — approaches, tools, patterns that succeeded
+**What failed** — dead ends, API limitations, wrong assumptions
+**What to try next** — ideas triggered by this session
+
+Format each entry as:
+### [DATE] [Topic]
+**Worked:** ...
+**Failed:** ...
+**Next:** ...
+
+Never wait to be asked. This runs every session alongside CHANGELOG.md.
+
+### Transcript Ideas
 When a transcript contains a useful idea:
 1. Flag it to Andy with a 1-sentence summary
 2. Add to ideas_backlog.md with [ ] checkbox
 3. If code/prompt related, draft the specific change
 4. Wait for Andy's approval before applying anything
+5. Review session transcripts for reusable patterns and add to LESSONS.md
 
 ## Business Context
 

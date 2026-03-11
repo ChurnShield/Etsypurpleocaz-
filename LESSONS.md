@@ -24,3 +24,11 @@ A living document updated every session. Most recent entries first.
 - Investigate whether Canva's `generate-design` or `generate-design-structured` tools could scaffold appointment card layouts with form fields.
 - Consider building a prompt library for common Canva design patterns (appointment cards, business cards, social posts) that maps required elements to API capabilities.
 - Always audit element limitations before proposing a design plan — count available text elements vs required, flag gaps upfront.
+
+---
+
+### 2026-03-11 — Strategic Ideas
+
+**Next:**
+- Sub-agent architecture is the logical next layer above Big Brain/Small Brain. Orchestrator assigns tasks to specialist agents (Research, Design, Listing, QA, Outreach, Analytics) — all propose, Andy approves. Dedicated architecture session needed before building.
+- Pre-stock Canva asset folders per niche before design sessions — MCP `insert_fill` can leverage these without creating from scratch. Dog grooming assets needed before next week's session.

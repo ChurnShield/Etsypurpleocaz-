@@ -50,3 +50,17 @@ Auto-populated from weekly YouTube digest.
 [ ] **General** Hire based on skills demonstration rather than credentials — Source: How to Get Better Employees
 [ ] **General** Focus on proving yourself through results, not credentials — Source: I Would Never Get To Prove Myself
 [ ] **General** Avoid "shiny object syndrome" when starting business ventures — Source: Don't Make This Mistake When Starting A Business
+
+## Added 2026-03-11 — Strategic
+
+[ ] **Architecture** Sub-agent architecture for PurpleOcaz + ChurnShield
+    - Orchestrator (Big Brain) assigns tasks to specialist sub-agents
+    - Research Agent: YouTube feed monitoring, niche trends, ideas_backlog updates
+    - Design Agent: asset sourcing + Canva MCP design building
+    - Listing Agent: Etsy titles, descriptions, tags (SEO optimised)
+    - QA Agent: reviews outputs before anything goes live
+    - ChurnShield Outreach Agent: Reddit monitoring, draft responses for approval
+    - ChurnShield Analytics Agent: PostHog churn signal monitoring
+    - Key principle: agents propose, Andy approves — nothing live without sign-off
+    - Frameworks to evaluate: agency-agents repo, Claude multi-agent API, n8n
+    - Dedicated architecture session needed before building

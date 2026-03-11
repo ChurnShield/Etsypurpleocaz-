@@ -8,7 +8,8 @@ Two modes:
   1. YouTube Data API v3 (recommended for servers — set YOUTUBE_API_KEY in .env)
   2. yt-dlp fallback (no API key needed, may hit bot detection on cloud IPs)
 
-Transcripts are fetched via youtube-transcript-api (no auth required).
+Transcripts are fetched via yt-dlp subtitle download (handles IP blocks better
+than youtube-transcript-api).
 
 Usage:
   python transcribe.py                        # process all channels in urls.txt
@@ -16,8 +17,7 @@ Usage:
   python transcribe.py <youtube_video_url>    # single video
 
 Requirements:
-  pip install youtube-transcript-api google-api-python-client python-dotenv
-  Optional: pip install yt-dlp  (+ deno for fallback mode)
+  pip install yt-dlp google-api-python-client python-dotenv
 """
 
 import sys
@@ -213,24 +213,75 @@ def get_channel_videos(channel_url: str) -> list:
 
 # ── Transcript fetching ──────────────────────────────────────────────────────
 
-def fetch_transcript(video_id: str) -> str:
-    """Fetch transcript using youtube-transcript-api."""
-    from youtube_transcript_api import YouTubeTranscriptApi
-
-    api = YouTubeTranscriptApi()
-    for langs in [["en"], ["en-US", "en-GB"], None]:
-        try:
-            if langs:
-                transcript = api.fetch(video_id, languages=langs)
-            else:
-                transcript = api.fetch(video_id)
-            text = " ".join(snippet.text for snippet in transcript)
-            if text.strip():
-                return text
-        except Exception:
+def _parse_vtt(vtt_text: str) -> str:
+    """Parse VTT subtitle content into plain text, removing duplicates."""
+    lines = []
+    seen = set()
+    for line in vtt_text.splitlines():
+        # Skip VTT header, timestamps, positioning tags, and blank lines
+        if (not line.strip()
+                or line.startswith("WEBVTT")
+                or line.startswith("Kind:")
+                or line.startswith("Language:")
+                or line.startswith("NOTE")
+                or re.match(r"^\d{2}:\d{2}", line)
+                or re.match(r"^[\d\s]*$", line)):
             continue
+        # Strip HTML tags (e.g. <c>, </c>, <00:01:02.345>)
+        clean = re.sub(r"<[^>]+>", "", line).strip()
+        if clean and clean not in seen:
+            seen.add(clean)
+            lines.append(clean)
+    return " ".join(lines)
 
-    raise RuntimeError("No transcript available (may be IP-blocked or no captions)")
+
+def fetch_transcript(video_id: str) -> str:
+    """Fetch transcript using yt-dlp to download subtitles as VTT, then parse."""
+    import tempfile
+
+    url = f"https://www.youtube.com/watch?v={video_id}"
+
+    with tempfile.TemporaryDirectory() as tmpdir:
+        output_template = os.path.join(tmpdir, "subs")
+
+        result = subprocess.run(
+            [
+                "yt-dlp",
+                "--write-auto-sub",
+                "--write-sub",
+                "--sub-lang", "en",
+                "--sub-format", "vtt",
+                "--skip-download",
+                "--no-warnings",
+                "-o", output_template,
+                url,
+            ],
+            capture_output=True, text=True, encoding="utf-8",
+            timeout=120,
+        )
+
+        # Find the VTT file (could be subs.en.vtt or subs.en.*.vtt)
+        vtt_files = list(Path(tmpdir).glob("*.vtt"))
+        if not vtt_files:
+            stderr = result.stderr.strip()[:200] if result.stderr else ""
+            raise RuntimeError(
+                f"No subtitles found for {video_id}. yt-dlp stderr: {stderr}"
+            )
+
+        # Prefer manually uploaded subs over auto-generated
+        vtt_file = vtt_files[0]
+        for f in vtt_files:
+            if ".en." in f.name and ".en-orig" not in f.name:
+                vtt_file = f
+                break
+
+        vtt_text = vtt_file.read_text(encoding="utf-8")
+        transcript = _parse_vtt(vtt_text)
+
+        if not transcript.strip():
+            raise RuntimeError(f"Parsed transcript is empty for {video_id}")
+
+        return transcript
 
 
 # ── Tagging + Saving ─────────────────────────────────────────────────────────
@@ -318,7 +369,7 @@ def transcribe_video(url: str, meta: dict = None) -> Path:
     print(f"   Fetching transcript...")
 
     transcript = fetch_transcript(video_id)
-    method = "youtube-transcript-api"
+    method = "yt-dlp-subtitles"
 
     word_count = len(transcript.split())
     print(f"   Got {word_count} words")

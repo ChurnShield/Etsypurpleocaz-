@@ -1,7 +1,7 @@
 """
-Browser Use smoke test — navigates to a GitHub repo page.
-Uses a whitelisted domain (github.com) to prove Browser Use works
-end-to-end on this container before moving to a real droplet.
+Browser Use — Google tattoo trend research.
+Searches Google for trending tattoo styles and collects data
+for the Etsy listing pipeline.
 """
 
 import asyncio
@@ -110,18 +110,32 @@ async def run_test():
         max_tokens=8192,
     )
 
-    # ── Task (uses whitelisted github.com domain) ───────────────────────
-    task = """Go to https://www.github.com/browser-use/browser-use and do the following:
+    # ── Task: Google tattoo trend research ──────────────────────────────
+    task = """Go to https://www.google.com and search for "trending tattoo styles 2026".
 
-1. Read the repository name and description from the page.
-2. Take a screenshot using screenshot_action with label "repo_homepage".
-3. Find and click on the "README" or scroll down to see the README content.
-4. Take a screenshot using screenshot_action with label "readme_content".
-5. Tell me:
-   - The repository name
-   - The description/tagline
-   - The number of stars (approximate is fine)
-   - The first 2-3 sentences of the README
+1. Take a screenshot of the search results using screenshot_action with label "search_results".
+2. Look through the first page of results. Identify the top 5 trending tattoo styles mentioned.
+3. Click on the most promising result (a blog post or article, not an ad).
+4. Take a screenshot of the article using screenshot_action with label "top_article".
+5. Read the article content and extract:
+   - The top trending tattoo styles/themes for 2026
+   - Any specific keywords or phrases that buyers might search for
+   - Popular tattoo placements mentioned
+6. Go back to Google and search for "best selling tattoo digital downloads Etsy 2026".
+7. Take a screenshot using screenshot_action with label "etsy_search".
+8. Summarize your findings in this format:
+
+TRENDING TATTOO STYLES:
+- [list each style with a brief description]
+
+HIGH-VALUE KEYWORDS:
+- [list keywords that could be used in Etsy listings]
+
+POPULAR PLACEMENTS:
+- [list body placements mentioned]
+
+PRODUCT OPPORTUNITIES:
+- [list 3-5 digital product ideas based on the trends]
 
 Take screenshots after each major step."""
 
@@ -134,7 +148,7 @@ Take screenshots after each major step."""
     )
 
     logger.info("Starting Browser Use agent...")
-    logger.info(f"Target: github.com/browser-use/browser-use")
+    logger.info(f"Target: Google tattoo trend research")
     logger.info(f"Screenshots → {SCREENSHOT_DIR}")
 
     try:

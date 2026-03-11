@@ -34,6 +34,7 @@ from tools.ideogram_image_client import (
     generate_product_image, build_product_prompt,
     needs_full_composite, composite_appointment_card,
 )
+from tools.image_provider import generate_images, get_best_result, save_provider_images
 from tools.editable_pdf_generator import create_editable_pdf
 from tools.affiliate_guide_generator import create_affiliate_guide
 
@@ -51,6 +52,8 @@ class ProductCreatorTool(BaseTool):
         focus_niche = kwargs.get("focus_niche", "tattoo")
         theme = kwargs.get("theme", "dark")
         ideogram_api_key = kwargs.get("ideogram_api_key", "")
+        xai_api_key = kwargs.get("xai_api_key", "")
+        image_provider = kwargs.get("image_provider", "ideogram")
 
         if not listings:
             return {
@@ -81,14 +84,17 @@ class ProductCreatorTool(BaseTool):
                           f"[{tier_label}]: {title}...", flush=True)
 
                     try:
-                        if tier == TIER_1 and ideogram_api_key:
+                        has_image_key = ideogram_api_key or xai_api_key
+                        if tier == TIER_1 and has_image_key:
                             result = self._create_tier1_listing(
                                 browser, listing, focus_niche, theme,
                                 ideogram_api_key, i,
+                                xai_api_key=xai_api_key,
+                                image_provider=image_provider,
                             )
                         else:
-                            if tier == TIER_1 and not ideogram_api_key:
-                                print("       No Gemini key — falling "
+                            if tier == TIER_1 and not has_image_key:
+                                print("       No image API key — falling "
                                       "back to HTML pipeline", flush=True)
                             result = self._create_tier2_listing(
                                 browser, listing, focus_niche, theme, i,
@@ -160,14 +166,15 @@ class ProductCreatorTool(BaseTool):
     # ---- Tier 1: Nano Banana + Editable PDF -----------------------------------
 
     def _create_tier1_listing(self, browser, listing, niche, theme,
-                              ideogram_api_key, index):
-        """Create listing images using Gemini AI mockup + editable PDF.
+                              ideogram_api_key, index,
+                              xai_api_key="", image_provider="ideogram"):
+        """Create listing images using AI mockup + editable PDF.
 
-        The Gemini image is a complete product photo (background, cards,
-        props, footer banner, badge) so it is used directly as the hero
-        — no dark-background compositing needed.
+        Routes to Ideogram, Grok, or both via image_provider setting.
+        When provider is 'both', saves comparison images side-by-side
+        with provider-suffixed filenames.
 
-        Falls back to Tier 2 HTML pipeline if Gemini generation fails.
+        Falls back to Tier 2 HTML pipeline if all image generation fails.
         """
         from PIL import Image
 
@@ -176,38 +183,58 @@ class ProductCreatorTool(BaseTool):
         accent = THEME_ACCENTS.get(theme, THEME_ACCENTS["default"])
         product_type = listing.get("product_type", "Gift Certificate")
 
-        # Derive hero text for the Gemini prompt footer banner
+        # Derive hero text for the prompt footer banner
         hero_title = self._derive_hero_title(title, product_type, niche)
         tagline = self._derive_tagline(product_type, niche)
 
-        # Step 1: Generate AI image via Ideogram
+        # Step 1: Generate AI image(s) via configured provider(s)
         use_full_composite = needs_full_composite(product_type)
+        provider_label = image_provider.upper()
         if use_full_composite:
-            print("       Generating Ideogram background (full composite)...",
-                  flush=True)
+            print(f"       Generating background [{provider_label}] "
+                  f"(full composite)...", flush=True)
         else:
-            print("       Generating Nano Banana mockup...", flush=True)
+            print(f"       Generating Nano Banana mockup [{provider_label}]...",
+                  flush=True)
 
         prompt = build_product_prompt(
             product_type, niche, theme,
             hero_title=hero_title, tagline=tagline,
         )
-        gen_result = generate_product_image(ideogram_api_key, prompt)
 
-        if not gen_result["success"]:
-            print(f"       Ideogram failed: {gen_result['error'][:80]}",
+        gen_output = generate_images(
+            prompt,
+            ideogram_api_key=ideogram_api_key,
+            grok_api_key=xai_api_key,
+            aspect_ratio="3:4",
+            provider=image_provider,
+        )
+
+        if not gen_output["success"]:
+            print(f"       All image providers failed: {gen_output['error'][:80]}",
                   flush=True)
             print("       Falling back to HTML pipeline...", flush=True)
             return self._create_tier2_listing(
                 browser, listing, niche, theme, index,
             )
 
+        # Save comparison images when using 'both' provider
+        if image_provider == "both":
+            comparison_base = f"listing_{index}"
+            save_provider_images(gen_output, EXPORT_DIR, comparison_base)
+
+        # Use the best result for the main pipeline hero image
+        best = get_best_result(gen_output)
+        gen_image_bytes = best["image_bytes"]
+        used_provider = best["provider"]
+        print(f"       Using {used_provider} image for hero", flush=True)
+
         # Step 2: Full composite or direct mockup
         if use_full_composite:
-            # Two-step: Ideogram bg + Pillow draws cards/banner/badge
+            # Two-step: AI bg + Pillow draws cards/banner/badge
             print("       Compositing cards + banner (Pillow)...", flush=True)
             hero_bytes = composite_appointment_card(
-                gen_result["image_bytes"],
+                gen_image_bytes,
                 banner_title=hero_title,
                 banner_subtitle=tagline,
             )
@@ -217,12 +244,12 @@ class ProductCreatorTool(BaseTool):
             print(f"       Composite saved: {os.path.basename(mockup_path)} "
                   f"({len(hero_bytes) // 1024}KB)", flush=True)
         else:
-            # Single-step: Ideogram generates complete scene
+            # Single-step: AI generates complete scene
             mockup_path = os.path.join(EXPORT_DIR, f"{safe_title}_mockup.png")
             with open(mockup_path, "wb") as f:
-                f.write(gen_result["image_bytes"])
+                f.write(gen_image_bytes)
             print(f"       Mockup saved: {os.path.basename(mockup_path)} "
-                  f"({len(gen_result['image_bytes']) // 1024}KB)", flush=True)
+                  f"({len(gen_image_bytes) // 1024}KB)", flush=True)
 
         # Step 3: Resize to Etsy dimensions (2250x3000)
         print("       Resizing hero to Etsy dimensions...", flush=True)

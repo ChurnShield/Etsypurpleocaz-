@@ -68,6 +68,12 @@ TOKEN_FILE = os.path.join(os.path.dirname(os.path.abspath(__file__)),
 GEMINI_API_KEY = os.getenv("GEMINI_API_KEY", "")
 IDEOGRAM_API_KEY = os.getenv("IDEOGRAM_API_KEY", "")
 
+# -- xAI Grok image generation
+XAI_API_KEY = os.getenv("XAI_API_KEY", "")
+
+# -- Image provider routing: "ideogram", "grok", or "both"
+IMAGE_PROVIDER = os.getenv("IMAGE_PROVIDER", "ideogram").lower().strip()
+
 # -- Canva API (for design export)
 CANVA_CLIENT_ID     = os.getenv("CANVA_CLIENT_ID", "")
 CANVA_CLIENT_SECRET = os.getenv("CANVA_CLIENT_SECRET", "")

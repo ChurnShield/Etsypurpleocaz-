@@ -36,6 +36,8 @@ from config import (
     DEFAULT_CURRENCY, DEFAULT_TAXONOMY_ID, TOKEN_FILE,
     CANVA_CLIENT_ID, CANVA_CLIENT_SECRET,
     IDEOGRAM_API_KEY,
+    XAI_API_KEY,
+    IMAGE_PROVIDER,
     PROPOSAL_THRESHOLD_RUNS,
     ENABLE_BUNDLES, MIN_BUNDLE_SIZE,
 )
@@ -61,7 +63,7 @@ def _run_phase(logger, phase_name, tool, params, validator=None, max_retries=MAX
     logger.phase_start(phase_name)
     log_params = {}
     for k, v in params.items():
-        if k in ("api_key", "anthropic_api_key", "ideogram_api_key"):
+        if k in ("api_key", "anthropic_api_key", "ideogram_api_key", "xai_api_key"):
             continue
         if isinstance(v, list):
             log_params[k] = f"[{len(v)} items]"
@@ -311,6 +313,8 @@ def main():
                 "model": ANTHROPIC_MODEL,
                 "focus_niche": FOCUS_NICHE,
                 "ideogram_api_key": IDEOGRAM_API_KEY,
+                "xai_api_key": XAI_API_KEY,
+                "image_provider": IMAGE_PROVIDER,
             },
         )
 

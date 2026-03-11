@@ -148,6 +148,22 @@ Phase 4  -> Publish to Sheets + Etsy drafts + upload images/PDFs
 
 ---
 
+## Session Management
+
+### Changelog
+At the end of every session, before any git push, automatically:
+1. Update the [Unreleased] section of CHANGELOG.md with what was done
+2. Include: Added, Changed, Fixed, and Known Issues where relevant
+3. Never wait to be asked — this happens on every commit
+
+### Session End Checklist
+Before closing any session always:
+1. Update CHANGELOG.md [Unreleased] section
+2. git add + commit + push all changed files
+3. Confirm push was successful
+
+---
+
 ## Quick Start
 
 1. Read this file (critical rules and conventions)

@@ -1,15 +1,15 @@
 """
-YouTube Channel Monitor + Transcriber for Agentic AI Pipeline
+YouTube Channel Monitor + Metadata Pipeline for Agentic AI
 =============================================================
 Monitors YouTube channels, pulls videos from the last 7 days,
-and saves clean .md transcripts into your transcripts/ folder.
+and saves video metadata (title, description, tags, view count)
+as .md files into your transcripts/ folder.
 
-Two modes:
+Two modes for channel scanning:
   1. YouTube Data API v3 (recommended for servers — set YOUTUBE_API_KEY in .env)
   2. yt-dlp fallback (no API key needed, may hit bot detection on cloud IPs)
 
-Transcripts are fetched via yt-dlp subtitle download (handles IP blocks better
-than youtube-transcript-api).
+Video metadata is fetched via YouTube Data API v3 (not IP-blocked).
 
 Usage:
   python transcribe.py                        # process all channels in urls.txt
@@ -17,7 +17,7 @@ Usage:
   python transcribe.py <youtube_video_url>    # single video
 
 Requirements:
-  pip install yt-dlp google-api-python-client python-dotenv
+  pip install google-api-python-client python-dotenv
 """
 
 import sys
@@ -211,77 +211,60 @@ def get_channel_videos(channel_url: str) -> list:
     return get_channel_videos_ytdlp(channel_url)
 
 
-# ── Transcript fetching ──────────────────────────────────────────────────────
+# ── Video metadata fetching (YouTube Data API v3) ────────────────────────────
 
-def _parse_vtt(vtt_text: str) -> str:
-    """Parse VTT subtitle content into plain text, removing duplicates."""
-    lines = []
-    seen = set()
-    for line in vtt_text.splitlines():
-        # Skip VTT header, timestamps, positioning tags, and blank lines
-        if (not line.strip()
-                or line.startswith("WEBVTT")
-                or line.startswith("Kind:")
-                or line.startswith("Language:")
-                or line.startswith("NOTE")
-                or re.match(r"^\d{2}:\d{2}", line)
-                or re.match(r"^[\d\s]*$", line)):
-            continue
-        # Strip HTML tags (e.g. <c>, </c>, <00:01:02.345>)
-        clean = re.sub(r"<[^>]+>", "", line).strip()
-        if clean and clean not in seen:
-            seen.add(clean)
-            lines.append(clean)
-    return " ".join(lines)
+def _format_duration(iso_duration: str) -> str:
+    """Convert ISO 8601 duration (PT1H2M3S) to human-readable string."""
+    match = re.match(r"PT(?:(\d+)H)?(?:(\d+)M)?(?:(\d+)S)?", iso_duration or "")
+    if not match:
+        return "?"
+    h, m, s = match.groups(default="0")
+    parts = []
+    if int(h):
+        parts.append(f"{h}h")
+    if int(m):
+        parts.append(f"{m}m")
+    if int(s):
+        parts.append(f"{s}s")
+    return " ".join(parts) or "0s"
 
 
-def fetch_transcript(video_id: str) -> str:
-    """Fetch transcript using yt-dlp to download subtitles as VTT, then parse."""
-    import tempfile
-
-    url = f"https://www.youtube.com/watch?v={video_id}"
-
-    with tempfile.TemporaryDirectory() as tmpdir:
-        output_template = os.path.join(tmpdir, "subs")
-
-        result = subprocess.run(
-            [
-                "yt-dlp",
-                "--write-auto-sub",
-                "--write-sub",
-                "--sub-lang", "en",
-                "--sub-format", "vtt",
-                "--skip-download",
-                "--no-warnings",
-                "-o", output_template,
-                url,
-            ],
-            capture_output=True, text=True, encoding="utf-8",
-            timeout=120,
+def fetch_video_metadata(video_id: str) -> dict:
+    """Fetch video metadata (snippet, statistics, contentDetails) via YouTube Data API v3."""
+    if not YOUTUBE_API_KEY:
+        raise RuntimeError(
+            "YOUTUBE_API_KEY is required for metadata fetching. "
+            "Set it in your .env file."
         )
 
-        # Find the VTT file (could be subs.en.vtt or subs.en.*.vtt)
-        vtt_files = list(Path(tmpdir).glob("*.vtt"))
-        if not vtt_files:
-            stderr = result.stderr.strip()[:200] if result.stderr else ""
-            raise RuntimeError(
-                f"No subtitles found for {video_id}. yt-dlp stderr: {stderr}"
-            )
+    youtube = _get_youtube_service()
+    resp = youtube.videos().list(
+        part="snippet,statistics,contentDetails",
+        id=video_id,
+    ).execute()
 
-        # Prefer manually uploaded subs over auto-generated
-        vtt_file = vtt_files[0]
-        for f in vtt_files:
-            if ".en." in f.name and ".en-orig" not in f.name:
-                vtt_file = f
-                break
+    items = resp.get("items", [])
+    if not items:
+        raise RuntimeError(f"Video not found: {video_id}")
 
-        vtt_text = vtt_file.read_text(encoding="utf-8")
-        transcript = _parse_vtt(vtt_text)
+    item = items[0]
+    snippet = item.get("snippet", {})
+    stats = item.get("statistics", {})
+    details = item.get("contentDetails", {})
 
-        if not transcript.strip():
-            raise RuntimeError(f"Parsed transcript is empty for {video_id}")
-
-        return transcript
+    return {
+        "video_id": video_id,
+        "title": snippet.get("title", "Unknown"),
+        "channel": snippet.get("channelTitle", "Unknown"),
+        "url": f"https://www.youtube.com/watch?v={video_id}",
+        "description": snippet.get("description", ""),
+        "tags": snippet.get("tags", []),
+        "upload_date": snippet.get("publishedAt", "")[:10].replace("-", ""),
+        "duration": _format_duration(details.get("duration", "")),
+        "view_count": stats.get("viewCount", "0"),
+        "like_count": stats.get("likeCount", "0"),
+        "comment_count": stats.get("commentCount", "0"),
+    }
 
 
 # ── Tagging + Saving ─────────────────────────────────────────────────────────
@@ -300,7 +283,7 @@ def tag_transcript(title: str, transcript: str) -> str:
     return " ".join(tags)
 
 
-def save_transcript(meta: dict, transcript: str, method: str) -> Path:
+def save_video_metadata(meta: dict, method: str) -> Path:
     TRANSCRIPTS_DIR.mkdir(parents=True, exist_ok=True)
     date_str = datetime.now().strftime("%Y-%m-%d")
     safe_title = sanitize_filename(meta["title"])
@@ -311,7 +294,12 @@ def save_transcript(meta: dict, transcript: str, method: str) -> Path:
     if len(upload_date) == 8:
         upload_date = f"{upload_date[:4]}-{upload_date[4:6]}-{upload_date[6:]}"
 
-    tags = tag_transcript(meta["title"], transcript)
+    # Use description + tags for tagging since we don't have transcript text
+    tagging_text = meta.get("description", "") + " " + " ".join(meta.get("tags", []))
+    tags = tag_transcript(meta["title"], tagging_text)
+
+    video_tags = meta.get("tags", [])
+    tags_str = ", ".join(video_tags) if video_tags else "None"
 
     content = f"""# {meta['title']}
 
@@ -320,14 +308,23 @@ def save_transcript(meta: dict, transcript: str, method: str) -> Path:
 **Video ID:** {meta.get('video_id', '')}
 **Published:** {upload_date}
 **Duration:** {meta.get('duration', '?')}
-**Transcribed:** {date_str} via {method}
+**Views:** {meta.get('view_count', '0')}
+**Likes:** {meta.get('like_count', '0')}
+**Comments:** {meta.get('comment_count', '0')}
+**Fetched:** {date_str} via {method}
 **Tags:** {tags}
 
 ---
 
-## Transcript
+## Video Tags
 
-{transcript.strip()}
+{tags_str}
+
+---
+
+## Description
+
+{meta.get('description', 'No description available.').strip()}
 
 ---
 
@@ -350,31 +347,31 @@ def _already_transcribed(video_id: str) -> bool:
     return False
 
 
-def transcribe_video(url: str, meta: dict = None) -> Path:
-    """Full pipeline for a single video URL."""
+def process_video(url: str, meta: dict = None) -> Path:
+    """Full pipeline for a single video URL — fetches metadata via API."""
     video_id = extract_video_id(url)
     if not video_id:
         raise RuntimeError(f"Cannot extract video ID from: {url}")
 
     if _already_transcribed(video_id):
-        print(f"   Skipping (already transcribed): {video_id}")
+        print(f"   Skipping (already processed): {video_id}")
         return None
 
-    if meta is None:
-        meta = {"url": url, "video_id": video_id, "title": "Unknown",
-                "channel": "Unknown", "upload_date": "", "duration": "?"}
-    meta["video_id"] = video_id
+    print(f"\n  Processing: {(meta or {}).get('title', video_id)[:60]}")
+    print(f"   Fetching metadata via YouTube Data API...")
 
-    print(f"\n  Processing: {meta['title'][:60]}")
-    print(f"   Fetching transcript...")
+    api_meta = fetch_video_metadata(video_id)
 
-    transcript = fetch_transcript(video_id)
-    method = "yt-dlp-subtitles"
+    # Merge any existing meta (from channel scan) with richer API data
+    if meta:
+        api_meta["channel"] = meta.get("channel") or api_meta["channel"]
 
-    word_count = len(transcript.split())
-    print(f"   Got {word_count} words")
+    desc_words = len(api_meta.get("description", "").split())
+    tag_count = len(api_meta.get("tags", []))
+    print(f"   Got {desc_words} words in description, {tag_count} tags, "
+          f"{api_meta.get('view_count', '?')} views")
 
-    out_path = save_transcript(meta, transcript, method)
+    out_path = save_video_metadata(api_meta, method="youtube-data-api-v3")
     print(f"   Saved -> transcripts/{out_path.name}")
     return out_path
 
@@ -422,7 +419,7 @@ def main():
                     continue
                 for video in videos:
                     try:
-                        path = transcribe_video(video["url"], meta=video)
+                        path = process_video(video["url"], meta=video)
                         if path:
                             results.append(path)
                         time.sleep(RATE_LIMIT_DELAY)
@@ -431,7 +428,7 @@ def main():
                         print(f"   FAILED: {video.get('title', '?')[:40]}: {err_msg}")
                         errors.append((video["url"], err_msg))
             else:
-                path = transcribe_video(source)
+                path = process_video(source)
                 if path:
                     results.append(path)
         except Exception as e:

@@ -9,6 +9,18 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+### Added
+- `browser_use_test.py` — Browser Use smoke test script with headless Chromium support
+- Canva MCP integration confirmed working via Claude Code on droplet — replaces Browser Use for all Canva workflows
+
+### Changed
+- Design DAHDolzpMTY restyled from dark red torn-edge to premium gold aesthetic (#C9A96E, #E8E0D4)
+- Established MCP edit pattern: one transaction per operation, commit before next
+
+### Known Limitations
+- Canva MCP cannot add new text elements, only restyle existing ones
+- Canva MCP cannot search the template library or element library
+
 ---
 
 ## [0.9.0] - 2026-02-25

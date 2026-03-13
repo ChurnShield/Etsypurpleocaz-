@@ -520,12 +520,17 @@ body {{
     return None
 
 
-def render_business_card_light(browser, safe_title):
+def render_business_card_light(browser, safe_title, ideogram_api_key=None):
     """Render the light business card HTML template to a printable PDF.
 
-    Reads templates/business_card_light.html and produces an A4 PDF with
-    front and back card previews. Returns the PDF path or None.
+    Reads templates/business_card_light.html, renders via Playwright, then
+    optionally generates a tattoo niche photo via Ideogram, crops it to a
+    circle, and composites it onto the front card's photo placeholder.
+
+    Returns the PDF path or None.
     """
+    from PIL import Image, ImageDraw
+
     _templates_dir = os.path.join(os.path.dirname(os.path.dirname(__file__)),
                                   "templates")
     template_path = os.path.join(_templates_dir, "business_card_light.html")
@@ -545,9 +550,113 @@ def render_business_card_light(browser, safe_title):
     png_path = os.path.join(EXPORT_DIR, f"{safe_title}_biz_card_light.png")
     page.screenshot(path=png_path,
                     clip={"x": 0, "y": 0, "width": 1050, "height": 600})
+    page.close()
 
-    # PDF for digital download
+    # ---- Ideogram photo composite ----
+    if ideogram_api_key:
+        _composite_circle_photo(png_path, ideogram_api_key, safe_title)
+
+    # Generate PDF from the final composited PNG
     pdf_path = os.path.join(EXPORT_DIR, f"{safe_title}_biz_card_light.pdf")
+    _png_to_pdf(browser, png_path, pdf_path)
+
+    if os.path.exists(pdf_path):
+        size_kb = os.path.getsize(pdf_path) // 1024
+        print(f"       Light card PDF: {os.path.basename(pdf_path)} ({size_kb}KB)",
+              flush=True)
+        return pdf_path
+    return None
+
+
+# Circle photo position on the front card (px coordinates in the 1050x600 canvas).
+# Canvas 1050x600, cards 480x276 each, 50px gap, centred.
+# Front card top-left: (20, 162). Circle: bottom-right of front card.
+# CSS: bottom:32, right:36, 130px diameter.
+# Centre X = 20 + 480 - 36 - 65 = 399
+# Centre Y = 162 + 276 - 32 - 65 = 341
+_CIRCLE_X = 399      # centre X of the photo circle
+_CIRCLE_Y = 341      # centre Y of the photo circle
+_CIRCLE_R = 65       # radius (130px diameter / 2)
+
+_CIRCLE_PROMPT = (
+    "Close-up professional photograph of a tattoo artist's hands tattooing "
+    "a detailed floral design on a forearm, shallow depth of field, warm "
+    "studio lighting, black nitrile gloves, tattoo machine, clean and "
+    "professional, no text, no logos, photorealistic"
+)
+
+
+def _composite_circle_photo(png_path, ideogram_api_key, safe_title):
+    """Generate a tattoo photo via Ideogram, crop to circle, composite."""
+    from PIL import Image, ImageDraw
+    from tools.ideogram_image_client import generate_product_image
+
+    print("       Generating tattoo circle photo (Ideogram)...", flush=True)
+    result = generate_product_image(
+        ideogram_api_key, _CIRCLE_PROMPT,
+        aspect_ratio="1:1", max_retries=1,
+    )
+    if not result["success"]:
+        print(f"       Circle photo failed: {result['error'][:80]}", flush=True)
+        return
+
+    # Load the generated image and crop to circle
+    photo = Image.open(BytesIO(result["image_bytes"])).convert("RGBA")
+    diameter = _CIRCLE_R * 2
+    photo = photo.resize((diameter, diameter), Image.LANCZOS)
+
+    # Create circular mask
+    mask = Image.new("L", (diameter, diameter), 0)
+    draw = ImageDraw.Draw(mask)
+    draw.ellipse((0, 0, diameter - 1, diameter - 1), fill=255)
+
+    # Apply mask — transparent outside the circle
+    circle_photo = Image.new("RGBA", (diameter, diameter), (0, 0, 0, 0))
+    circle_photo.paste(photo, (0, 0), mask)
+    photo.close()
+
+    # Draw gold border ring
+    border_draw = ImageDraw.Draw(circle_photo)
+    gold = (201, 168, 76, 255)  # #C9A84C
+    for offset in range(2):
+        border_draw.ellipse(
+            (offset, offset, diameter - 1 - offset, diameter - 1 - offset),
+            outline=gold, width=1,
+        )
+
+    # Load the card PNG and composite
+    canvas = Image.open(png_path).convert("RGBA")
+    paste_x = _CIRCLE_X - _CIRCLE_R
+    paste_y = _CIRCLE_Y - _CIRCLE_R
+    canvas.paste(circle_photo, (paste_x, paste_y), circle_photo)
+
+    # Save back as PNG (flatten to RGB)
+    canvas.convert("RGB").save(png_path, "PNG")
+    canvas.close()
+    circle_photo.close()
+
+    size_kb = os.path.getsize(png_path) // 1024
+    print(f"       Circle photo composited: {os.path.basename(png_path)} ({size_kb}KB)",
+          flush=True)
+
+
+def _png_to_pdf(browser, png_path, pdf_path):
+    """Convert a PNG to a single-page PDF via Playwright."""
+    with open(png_path, "rb") as f:
+        import base64 as b64mod
+        img_b64 = b64mod.b64encode(f.read()).decode("utf-8")
+
+    html = (
+        '<!DOCTYPE html><html><head><meta charset="utf-8">'
+        '<style>*{margin:0;padding:0}body{width:1050px;height:600px;overflow:hidden}</style>'
+        '</head><body>'
+        f'<img src="data:image/png;base64,{img_b64}" width="1050" height="600">'
+        '</body></html>'
+    )
+    page = browser.new_page(viewport={"width": 1050, "height": 600})
+    page.set_content(html, wait_until="networkidle",
+                     timeout=PLAYWRIGHT_PAGE_TIMEOUT_MS)
+    page.wait_for_timeout(1000)
     page.pdf(
         path=pdf_path,
         width="1050px",
@@ -556,10 +665,3 @@ def render_business_card_light(browser, safe_title):
         margin={"top": "0", "right": "0", "bottom": "0", "left": "0"},
     )
     page.close()
-
-    if os.path.exists(pdf_path):
-        size_kb = os.path.getsize(pdf_path) // 1024
-        print(f"       Light card PDF: {os.path.basename(pdf_path)} ({size_kb}KB)",
-              flush=True)
-        return pdf_path
-    return None

@@ -69,6 +69,26 @@ html, body {
     letter-spacing: 0.5px;
 }
 
+.front .photo-circle {
+    position: absolute;
+    bottom: 32px;
+    right: 36px;
+    width: 130px;
+    height: 130px;
+    border-radius: 50%;
+    border: 2px solid var(--gold);
+    background: #F0EDE6;
+    overflow: hidden;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.front .photo-circle .placeholder-icon {
+    font-size: 32px;
+    color: var(--light-rule);
+}
+
 .front .gold-corner {
     position: absolute;
     bottom: 28px;
@@ -77,6 +97,7 @@ html, body {
     height: 36px;
     border-right: 2px solid var(--gold);
     border-bottom: 2px solid var(--gold);
+    display: none;  /* hidden when photo circle is present */
 }
 
 /* ---------- BACK ---------- */
@@ -131,6 +152,9 @@ html, body {
     <div class="studio-name">Elegant Tattoo<br>Studio</div>
     <div class="divider"></div>
     <div class="tagline">Artistry on Skin for every journey</div>
+    <div class="photo-circle">
+        <span class="placeholder-icon">&#9670;</span>
+    </div>
     <div class="gold-corner"></div>
 </div>
 

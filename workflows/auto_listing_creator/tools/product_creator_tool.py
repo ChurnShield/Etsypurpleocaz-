@@ -93,6 +93,7 @@ class ProductCreatorTool(BaseTool):
                                       "back to HTML pipeline", flush=True)
                             result = self._create_tier2_listing(
                                 browser, listing, focus_niche, theme, i,
+                                ideogram_api_key=ideogram_api_key,
                             )
 
                         png_paths = result["png_paths"]
@@ -201,6 +202,7 @@ class ProductCreatorTool(BaseTool):
             print("       Falling back to HTML pipeline...", flush=True)
             return self._create_tier2_listing(
                 browser, listing, niche, theme, index,
+                ideogram_api_key=ideogram_api_key,
             )
 
         # Step 2: Full composite or direct mockup
@@ -272,7 +274,9 @@ class ProductCreatorTool(BaseTool):
         light_card_path = None
         if "business" in product_type.lower() or "kit" in product_type.lower():
             print("       Rendering light business card variant...", flush=True)
-            light_card_path = render_business_card_light(browser, safe_title)
+            light_card_path = render_business_card_light(
+                browser, safe_title, ideogram_api_key=ideogram_api_key,
+            )
 
         return {
             "png_paths": png_paths,
@@ -284,7 +288,8 @@ class ProductCreatorTool(BaseTool):
 
     # ---- Tier 2: HTML/Playwright (existing pipeline) --------------------------
 
-    def _create_tier2_listing(self, browser, listing, niche, theme, index):
+    def _create_tier2_listing(self, browser, listing, niche, theme, index,
+                              ideogram_api_key=None):
         """Create all 5 listing images using HTML templates + Playwright."""
         title = listing.get("title", "Template")
         safe_title = safe_filename(title)
@@ -347,7 +352,9 @@ class ProductCreatorTool(BaseTool):
         light_card_path = None
         if "business" in product_type.lower() or "kit" in product_type.lower():
             print("       Rendering light business card variant...", flush=True)
-            light_card_path = render_business_card_light(browser, safe_title)
+            light_card_path = render_business_card_light(
+                browser, safe_title, ideogram_api_key=ideogram_api_key,
+            )
 
         return {
             "png_paths": png_paths,

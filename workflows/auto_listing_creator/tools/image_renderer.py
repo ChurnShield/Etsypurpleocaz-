@@ -305,10 +305,61 @@ body {{
 
 
 def create_pdf(browser, listing, niche):
-    """Generate a branded PDF digital download via Playwright."""
+    """Generate a branded PDF digital download via Playwright.
+
+    If listing contains 'template_links', those real Canva URLs are used.
+    Otherwise placeholder links are inserted.
+    """
     title = listing.get("title", "Template")
     safe_title_str = safe_filename(title)
     product_type = listing.get("product_type", "Gift Certificate")
+
+    # Use real template links if provided, otherwise placeholders.
+    # template_links can contain per-product entries keyed by product name,
+    # plus legacy keys (a4, letter, print_layout) for single-product listings.
+    template_links = listing.get("template_links", {})
+
+    # Build list of template link boxes to render in the PDF
+    link_boxes = []
+
+    # Check for named product entries (e.g. "appointment_card", "business_card")
+    named_products = {
+        "appointment_card": "Appointment Card Template",
+        "business_card": "Business Card Template",
+        "gift_certificate": "Gift Certificate Template",
+        "price_list": "Price List Template",
+        "aftercare_card": "Aftercare Card Template",
+    }
+    for key, label in named_products.items():
+        url = template_links.get(key)
+        if url:
+            link_boxes.append((label, url))
+
+    # Fallback: legacy single-product keys (a4 / letter / print_layout)
+    if not link_boxes:
+        link_boxes.append((
+            f"{esc(product_type)} Template (A4 Size)",
+            template_links.get("a4", "https://www.canva.com/design/your-template-a4"),
+        ))
+        link_boxes.append((
+            f"{esc(product_type)} Template (US Letter Size)",
+            template_links.get("letter", "https://www.canva.com/design/your-template-letter"),
+        ))
+        link_boxes.append((
+            "Print Layout Sheet (3-Up)",
+            template_links.get("print_layout", "https://www.canva.com/design/your-print-layout"),
+        ))
+
+    # Build HTML for all link boxes
+    link_boxes_html = "\n".join(
+        f'<div class="link-box">\n'
+        f'    <div class="link-label">{esc(label)}</div>\n'
+        f'    <div class="link-url">\n'
+        f'        <a href="{esc(url)}">{esc(url)}</a>\n'
+        f'    </div>\n'
+        f'</div>'
+        for label, url in link_boxes
+    )
 
     html = f'''<!DOCTYPE html>
 <html><head><meta charset="utf-8">
@@ -429,26 +480,7 @@ body {{
     open your editable templates in Canva.
 </div>
 
-<div class="link-box">
-    <div class="link-label">{esc(product_type)} Template (A4 Size)</div>
-    <div class="link-url">
-        <a href="#">https://www.canva.com/design/your-template-a4</a>
-    </div>
-</div>
-
-<div class="link-box">
-    <div class="link-label">{esc(product_type)} Template (US Letter Size)</div>
-    <div class="link-url">
-        <a href="#">https://www.canva.com/design/your-template-letter</a>
-    </div>
-</div>
-
-<div class="link-box">
-    <div class="link-label">Print Layout Sheet (3-Up)</div>
-    <div class="link-url">
-        <a href="#">https://www.canva.com/design/your-print-layout</a>
-    </div>
-</div>
+{link_boxes_html}
 
 <div class="instructions">
     <div class="section-title" style="font-size:20px; margin-bottom:6mm;">How to Edit Your Template</div>

@@ -18,10 +18,15 @@ IDEOGRAM_API_URL = "https://api.ideogram.ai/v1/ideogram-v3/generate"
 PROMPT_TEMPLATES = {
     "appointment card": {
         "raw_prompt": (
-            "Light grey linen textured surface, green succulent plant top left, "
-            "latte coffee cup bottom left, reading glasses top right, soft "
-            "natural lighting, top-down view, nothing in the centre, no cards, "
-            "no text"
+            "Two business cards overlapping at a natural angle on a light grey "
+            "linen textured surface. Front card: black background, gold script "
+            "heading Book Appointment, fine-line gold rose illustration, small "
+            "circular logo placeholder top right. Back card: white background, "
+            "script heading Appointment Card, clean horizontal form lines, "
+            "7 small black rounded pill shapes in a row at bottom. Green plant "
+            "top left, latte coffee cup bottom left, glasses top right. Bright "
+            "clean studio lighting, professional product photography, no people, "
+            "no text banners, no bottom strip."
         ),
         "full_composite": True,
     },
@@ -291,15 +296,16 @@ def composite_appointment_card(
     back_heading="Appointment Card",
     back_fields=("NAME:", "DATE:", "TIME:", "YOUR ARTIST:"),
     day_labels=("MON", "TUE", "WED", "THU", "FRI", "SAT"),
-    banner_color=(244, 184, 193),   # #F4B8C1
+    banner_color=(242, 196, 206),   # #F2C4CE blush pink
     strip_color=(80, 80, 80),
     badge_color=(80, 80, 80),
 ):
     """Build a complete appointment card hero image.
 
-    Ideogram provides ONLY the flatlay background (linen + props).
-    Pillow draws every element: rotated cards, text, buttons, banner, badge.
-    Cards use standard business card ratio (85mm x 55mm = ~1.545:1).
+    Two-step process:
+      Step 1 (Ideogram): flatlay photo of two cards with props, NO text banner.
+      Step 2 (Pillow):   composite crisp text — blush pink banner, dark strip,
+                         badge circle. All typography rendered by Pillow.
     """
     from PIL import Image, ImageDraw, ImageFont
 
@@ -645,7 +651,7 @@ def composite_hero_banner(
     badge_text="EDIT IN\nCANVA",
     card_title=None,
     day_buttons=None,
-    banner_color=(244, 184, 193),   # blush pink #F4B8C1
+    banner_color=(242, 196, 206),   # blush pink #F2C4CE
     strip_color=(80, 80, 80),       # dark grey
     badge_color=(80, 80, 80),       # dark grey
 ):

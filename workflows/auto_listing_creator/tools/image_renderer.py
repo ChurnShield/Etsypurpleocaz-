@@ -325,7 +325,8 @@ def create_pdf(browser, listing, niche):
     # Check for named product entries (e.g. "appointment_card", "business_card")
     named_products = {
         "appointment_card": "Appointment Card Template",
-        "business_card": "Business Card Template",
+        "business_card": "Business Card Template (Dark)",
+        "business_card_light": "Business Card Template (Light)",
         "gift_certificate": "Gift Certificate Template",
         "price_list": "Price List Template",
         "aftercare_card": "Aftercare Card Template",
@@ -516,4 +517,49 @@ body {{
         size_kb = os.path.getsize(path) // 1024
         print(f"       PDF: {os.path.basename(path)} ({size_kb}KB)", flush=True)
         return path
+    return None
+
+
+def render_business_card_light(browser, safe_title):
+    """Render the light business card HTML template to a printable PDF.
+
+    Reads templates/business_card_light.html and produces an A4 PDF with
+    front and back card previews. Returns the PDF path or None.
+    """
+    _templates_dir = os.path.join(os.path.dirname(os.path.dirname(__file__)),
+                                  "templates")
+    template_path = os.path.join(_templates_dir, "business_card_light.html")
+    if not os.path.exists(template_path):
+        print(f"       WARN: business_card_light.html not found", flush=True)
+        return None
+
+    with open(template_path, "r", encoding="utf-8") as f:
+        html = f.read()
+
+    page = browser.new_page(viewport={"width": 1050, "height": 600})
+    page.set_content(html, wait_until="networkidle",
+                     timeout=PLAYWRIGHT_PAGE_TIMEOUT_MS)
+    page.wait_for_timeout(2000)
+
+    # Screenshot as PNG preview (for Etsy listing images)
+    png_path = os.path.join(EXPORT_DIR, f"{safe_title}_biz_card_light.png")
+    page.screenshot(path=png_path,
+                    clip={"x": 0, "y": 0, "width": 1050, "height": 600})
+
+    # PDF for digital download
+    pdf_path = os.path.join(EXPORT_DIR, f"{safe_title}_biz_card_light.pdf")
+    page.pdf(
+        path=pdf_path,
+        width="1050px",
+        height="600px",
+        print_background=True,
+        margin={"top": "0", "right": "0", "bottom": "0", "left": "0"},
+    )
+    page.close()
+
+    if os.path.exists(pdf_path):
+        size_kb = os.path.getsize(pdf_path) // 1024
+        print(f"       Light card PDF: {os.path.basename(pdf_path)} ({size_kb}KB)",
+              flush=True)
+        return pdf_path
     return None

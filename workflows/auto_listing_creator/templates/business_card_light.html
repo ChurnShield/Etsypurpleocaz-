@@ -1,0 +1,149 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;1,400&family=Montserrat:wght@300;400;500;600&display=swap');
+
+/* ---------- reset ---------- */
+*, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+
+/* ---------- tokens ---------- */
+:root {
+    --cream:    #FDFBF7;
+    --charcoal: #1A1A1A;
+    --gold:     #C9A84C;
+    --muted:    #6B6B6B;
+    --light-rule: #E0DCD4;
+}
+
+html, body {
+    width: 1050px;   /* 2 cards side-by-side + gap */
+    height: 600px;
+    background: var(--cream);
+    font-family: 'Montserrat', sans-serif;
+    color: var(--charcoal);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 50px;
+}
+
+/* ---------- card ---------- */
+.card {
+    width: 480px;
+    height: 276px;         /* 3.5 : 2 ratio */
+    background: var(--cream);
+    border: 1px solid var(--light-rule);
+    border-radius: 6px;
+    display: flex;
+    flex-direction: column;
+    padding: 32px 36px;
+    position: relative;
+    box-shadow: 0 4px 20px rgba(0,0,0,0.06);
+}
+
+/* ---------- FRONT ---------- */
+.front .studio-name {
+    font-family: 'Playfair Display', serif;
+    font-size: 28px;
+    font-weight: 700;
+    color: var(--charcoal);
+    letter-spacing: 1px;
+    line-height: 1.2;
+}
+
+.front .divider {
+    width: 48px;
+    height: 2px;
+    background: var(--gold);
+    margin: 16px 0;
+}
+
+.front .tagline {
+    font-family: 'Playfair Display', serif;
+    font-style: italic;
+    font-size: 14px;
+    font-weight: 400;
+    color: var(--muted);
+    letter-spacing: 0.5px;
+}
+
+.front .gold-corner {
+    position: absolute;
+    bottom: 28px;
+    right: 36px;
+    width: 36px;
+    height: 36px;
+    border-right: 2px solid var(--gold);
+    border-bottom: 2px solid var(--gold);
+}
+
+/* ---------- BACK ---------- */
+.back {
+    justify-content: flex-end;
+}
+
+.back .studio-label {
+    font-family: 'Playfair Display', serif;
+    font-size: 20px;
+    font-weight: 700;
+    color: var(--charcoal);
+    letter-spacing: 1px;
+    margin-bottom: 10px;
+}
+
+.back .divider {
+    width: 100%;
+    height: 1px;
+    background: var(--light-rule);
+    margin-bottom: 16px;
+}
+
+.back .contact-line {
+    font-size: 11px;
+    font-weight: 400;
+    color: var(--muted);
+    line-height: 1.8;
+    letter-spacing: 0.3px;
+}
+
+.back .contact-line .gold {
+    color: var(--gold);
+    font-weight: 500;
+}
+
+.back .gold-bar {
+    position: absolute;
+    top: 0;
+    left: 36px;
+    right: 36px;
+    height: 3px;
+    background: var(--gold);
+    border-radius: 0 0 2px 2px;
+}
+</style>
+</head>
+<body>
+
+<!-- FRONT -->
+<div class="card front">
+    <div class="studio-name">Elegant Tattoo<br>Studio</div>
+    <div class="divider"></div>
+    <div class="tagline">Artistry on Skin for every journey</div>
+    <div class="gold-corner"></div>
+</div>
+
+<!-- BACK -->
+<div class="card back">
+    <div class="gold-bar"></div>
+    <div class="studio-label">YOUR STUDIO NAME</div>
+    <div class="divider"></div>
+    <div class="contact-line">Your Address, City, Postcode</div>
+    <div class="contact-line">Phone: <span class="gold">+44 (0) 000 000 0000</span></div>
+    <div class="contact-line">Email: hello@yourstudio.com</div>
+    <div class="contact-line">Website: www.yourstudio.com &nbsp;<span class="gold">|</span>&nbsp; Instagram: @yourstudio</div>
+</div>
+
+</body>
+</html>

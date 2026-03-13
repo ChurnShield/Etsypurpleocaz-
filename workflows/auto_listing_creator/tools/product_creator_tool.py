@@ -27,6 +27,7 @@ from lib.orchestrator.base_tool import BaseTool
 from tools.design_constants import EXPORT_DIR, THEME_ACCENTS, safe_filename
 from tools.image_renderer import (
     render_template, render_band, render_badge, create_page2, create_pdf,
+    render_business_card_light,
 )
 from tools.image_compositor import composite_hero, copy_boilerplate_pages
 from tools.tier_config import classify_tier, TIER_1, BADGE_TEXT
@@ -267,10 +268,17 @@ class ProductCreatorTool(BaseTool):
         guide_result = create_affiliate_guide(listing, product_type, TIER_1)
         guide_path = guide_result.get("pdf_path") if guide_result["success"] else None
 
+        # Step 8: Render light business card variant
+        light_card_path = None
+        if "business" in product_type.lower() or "kit" in product_type.lower():
+            print("       Rendering light business card variant...", flush=True)
+            light_card_path = render_business_card_light(browser, safe_title)
+
         return {
             "png_paths": png_paths,
             "pdf_path": pdf_path,
             "guide_path": guide_path,
+            "light_card_path": light_card_path,
             "has_editable_pdf": pdf_result["success"],
         }
 
@@ -335,10 +343,17 @@ class ProductCreatorTool(BaseTool):
         guide_result = create_affiliate_guide(listing, product_type, TIER_2)
         guide_path = guide_result.get("pdf_path") if guide_result["success"] else None
 
+        # Step 9: Render light business card variant
+        light_card_path = None
+        if "business" in product_type.lower() or "kit" in product_type.lower():
+            print("       Rendering light business card variant...", flush=True)
+            light_card_path = render_business_card_light(browser, safe_title)
+
         return {
             "png_paths": png_paths,
             "pdf_path": pdf_path,
             "guide_path": guide_path,
+            "light_card_path": light_card_path,
             "has_editable_pdf": False,
         }
 

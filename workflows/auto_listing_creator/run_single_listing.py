@@ -44,6 +44,7 @@ from validators.image_quality_validator import ImageQualityValidator
 # Real Canva buyer-template links for the Tattoo Studio Business Kit
 TEMPLATE_LINKS = {
     "business_card": "https://www.canva.com/d/e21A6ZQJ3XcCIq-",
+    "business_card_light": "Included as printable PDF in your download files",
 }
 
 OPPORTUNITY = {

@@ -4,6 +4,26 @@ A living document updated every session. Most recent entries first.
 
 ---
 
+### 2026-03-13 — Etsy Thumbnails
+
+**Worked:**
+- Canva MCP `get-design-thumbnail` returns real card artwork usable directly in Python — no screenshot hacks needed
+- Canva `generate-design` produces good layout candidates when given detailed prompts with exact dimensions, colors, and element placement
+- Existing 2+ year old Etsy listing designs are the right base — clone and swap card images rather than building from scratch
+- Canva brand gradient confirmed: `#00C4CC` to `#7D2AE8` left to right
+
+**Failed:**
+- Python/Pillow card cropping is fragile — Canva exports both pages side by side so crops give wrong dimensions without careful math
+- Iterating PIL compositing is slow — Canva native editing is faster and more accurate for layout work
+- Rebuilding thumbnails from scratch wastes hours when proven designs already exist
+
+**Next:**
+- Open existing proven listing design (`DAFx_dsWpTA` or `DAFxukwKaiA`) in Canva MCP
+- Clone it, swap card images with real dark `DAHD07F9MsY` and light `DAHD15IcxRs` designs
+- Complete all 6 listing thumbnails using clone-and-swap method only
+
+---
+
 ### 2026-03-13 — Light Business Card & Delivery PDF Pipeline
 
 **Worked:**

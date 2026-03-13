@@ -10,6 +10,14 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ## [Unreleased]
 
 ### Added
+- **Canva MCP in claude.ai** — discovered Canva MCP works directly in claude.ai chat sessions (no CLI required)
+- **`build_listing_1.py`** — 2700×2700 Etsy thumbnail compositor using real Canva card exports via Python/Pillow
+- **Canva thumbnail candidate** (`DAHD3curHkM`) — generated via Canva MCP `generate-design` with detailed layout prompts
+
+### Changed
+- **Etsy thumbnail strategy** — correct approach identified: clone existing proven 2+ year old Etsy listing designs and swap card images via Canva MCP, never rebuild from scratch
+
+### Added (prior)
 - **Light business card Canva design** (`DAHD15IcxRs`) — cream #FDFBF7 background, charcoal #1A1A1A text, gold #C9A84C accents, circular tattoo photo on front. Generated via Canva MCP `generate-design`, text replaced via editing transactions
 - **HTML light business card template** (`templates/business_card_light.html`) — Playwright-rendered fallback with Ideogram circle photo composite
 - **Multi-product delivery PDF** — `create_pdf()` in `image_renderer.py` now supports named product link boxes (`business_card`, `business_card_light`, `appointment_card`, etc.) with fallback to legacy A4/Letter/Print layout

@@ -10,16 +10,27 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ## [Unreleased]
 
 ### Added
+- **Light business card Canva design** (`DAHD15IcxRs`) — cream #FDFBF7 background, charcoal #1A1A1A text, gold #C9A84C accents, circular tattoo photo on front. Generated via Canva MCP `generate-design`, text replaced via editing transactions
+- **HTML light business card template** (`templates/business_card_light.html`) — Playwright-rendered fallback with Ideogram circle photo composite
+- **Multi-product delivery PDF** — `create_pdf()` in `image_renderer.py` now supports named product link boxes (`business_card`, `business_card_light`, `appointment_card`, etc.) with fallback to legacy A4/Letter/Print layout
+- **Ideogram circle photo composite** — `render_business_card_light()` generates tattoo artist close-up via Ideogram, crops to circle with Pillow, composites with gold border ring onto the HTML card
+- **`TEMPLATE_LINKS`** in `run_single_listing.py` — wired with real Canva buyer URLs:
+  - Dark: `https://www.canva.com/d/e21A6ZQJ3XcCIq-` (DAHD07F9MsY)
+  - Light: `https://www.canva.com/d/vyaBAtIupW1g7zH` (DAHD15IcxRs)
 - `browser_use_test.py` — Browser Use smoke test script with headless Chromium support
-- Canva MCP integration confirmed working via Claude Code on droplet — replaces Browser Use for all Canva workflows
+- Canva MCP integration confirmed working via Claude Code on droplet
 
 ### Changed
+- **Ideogram appointment card prompt** updated to two-card flatlay composition (front + back overlapping)
+- **Pillow composite banner color** adjusted to #F2C4CE blush pink
+- **`product_creator_tool.py`** — both tiers render light business card variant for business/kit products, pass `ideogram_api_key` through
 - Design DAHDolzpMTY restyled from dark red torn-edge to premium gold aesthetic (#C9A96E, #E8E0D4)
 - Established MCP edit pattern: one transaction per operation, commit before next
 
 ### Known Limitations
 - Canva MCP cannot add new text elements, only restyle existing ones
 - Canva MCP cannot search the template library or element library
+- Canva MCP cannot clone/duplicate designs — must generate fresh or manually copy
 
 ---
 

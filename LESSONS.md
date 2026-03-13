@@ -4,6 +4,26 @@ A living document updated every session. Most recent entries first.
 
 ---
 
+### 2026-03-13 — Light Business Card & Delivery PDF Pipeline
+
+**Worked:**
+- Canva MCP `generate-design` with highly specific layout prompts (exact element positions, colors, font styles) produces much better results than vague descriptions. Including negative instructions ("no geometric shapes, no patterns") is critical.
+- Two-step Ideogram + Pillow composite for circle photos: Ideogram generates the photo (1:1 ratio), Pillow crops to circle mask, draws gold border ring, composites onto HTML-rendered card. Clean separation of concerns.
+- Multi-product `template_links` dict with named keys (`business_card`, `business_card_light`) scales cleanly — `create_pdf()` renders one link box per product with proper labels and fallback to legacy format.
+- Canva MCP grouped element IDs (triple-segment like `page-group-element`) work with `find_and_replace_text` even when `replace_text` fails with "not_found" on the same element.
+
+**Failed:**
+- First Canva `generate-design` round produced geometric/abstract designs with no tattoo relevance despite requesting "tattoo studio". Needed a second round with explicit negative constraints and style references ("Shoreditch/Brooklyn luxury meets ink artistry").
+- Canva MCP has no clone/duplicate design tool — wasted time looking for it. Must generate fresh or user copies manually in Canva UI.
+- `replace_text` on grouped elements returns "not_found" when using the 2-segment page-element ID format. Must use the full 3-segment page-group-element ID from the richtexts response.
+
+**Next:**
+- Build a prompt template library for Canva `generate-design` by niche (tattoo, nail, hair, etc.) with proven layout descriptions that work first time.
+- Wire the light card PDF into Etsy digital file uploads alongside the dark version — buyers get both colour variants.
+- Consider auto-generating both dark and light Canva designs in a single pipeline run using the `generate-design` → `create-design-from-candidate` → `start-editing-transaction` flow.
+
+---
+
 ### 2026-03-11 — Canva MCP Integration & Design Editing
 
 **Worked:**

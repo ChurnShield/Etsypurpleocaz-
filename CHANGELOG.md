@@ -10,6 +10,9 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ## [Unreleased]
 
 ### Added
+- **AI Brain Principles** section in LESSONS.md — tool design principles from Claude Code team insights (progressive disclosure, capability-shaped tools, right-tool-for-the-job)
+
+### Added (prior)
 - **Canva MCP in claude.ai** — discovered Canva MCP works directly in claude.ai chat sessions (no CLI required)
 - **`build_listing_1.py`** — 2700×2700 Etsy thumbnail compositor using real Canva card exports via Python/Pillow
 - **Canva thumbnail candidate** (`DAHD3curHkM`) — generated via Canva MCP `generate-design` with detailed layout prompts

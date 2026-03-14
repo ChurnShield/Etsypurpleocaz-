@@ -4,6 +4,15 @@ A living document updated every session. Most recent entries first.
 
 ---
 
+## AI Brain Principles
+
+- **Give Claude tools shaped to its abilities** — not the easiest to implement. A well-designed tool that the model understands beats a quick hack it struggles with.
+- **Progressive disclosure** — skill files that reference other files recursively beats a bloated system prompt. Let the agent discover context layer by layer instead of front-loading everything.
+- **Revisit tool design as model capabilities improve** — what helped before can become a constraint. TodoWrite kept early models on track but later made them rigid; it was replaced with Tasks.
+- **Always use the right tool for the job** — Canva MCP for layout, Python for data, Claude for reasoning. Match the tool to the domain rather than forcing one tool to do everything.
+
+---
+
 ### 2026-03-13 — Etsy Thumbnails
 
 **Worked:**

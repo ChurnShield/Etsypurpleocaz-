@@ -10,17 +10,35 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ## [Unreleased]
 
 ### Added
-- **AI Brain Principles** section in LESSONS.md — tool design principles from Claude Code team insights (progressive disclosure, capability-shaped tools, right-tool-for-the-job)
-
-### Added (prior)
+- **purpleocaz-canva-mcp** — TypeScript MCP server foundation for Canva + Spaces pipeline
+  - `src/spaces-client.ts` — DigitalOcean Spaces wrapper (upload/download/delete via S3-compatible API)
+  - `src/canva-client.ts` — Canva API wrapper (export designs as PNG, upload assets via binary API)
+  - `src/tools/asset-tools.ts` — `canva_export_and_stage`: export → download → Spaces → Canva asset
+  - `src/tools/render-tools.ts` — four shadow/export tools:
+    - `purpleocaz_export_full_card` — high-res (2100px) full design export to Spaces + Canva
+    - `purpleocaz_render_card_with_shadow` — configurable drop shadow compositing
+    - `purpleocaz_apply_etsy_shadow` — Canva-native shadow preset with asymmetric padding (extra right/bottom for listing templates)
+    - `purpleocaz_apply_etsy_shadow_angled` — -5 degree rotated lifestyle variant
+  - `src/config/niches.ts` — `ETSY_CARD_SHADOW_PRESET` and `ETSY_CARD_SHADOW_ANGLED_PRESET`
+- **Canva OAuth headless flow** (`workflows/auto_listing_creator/canva_oauth_headless.py`) — PKCE flow for remote servers, auto-updates MCP `.env` with tokens
+- **Slash commands** in `.claude/commands/`:
+  - `/export-full-card` — export full design PNG to Spaces
+  - `/etsy-shadow` — apply Etsy-standard drop shadow
+  - `/etsy-angled` — apply angled lifestyle shadow
+- **DigitalOcean Spaces** bucket `purpleocaz-assets` (lon1) configured with permanent public CDN URLs
+- **AI Brain Principles** section in LESSONS.md — tool design principles from Claude Code team insights
 - **Canva MCP in claude.ai** — discovered Canva MCP works directly in claude.ai chat sessions (no CLI required)
-- **`build_listing_1.py`** — 2700×2700 Etsy thumbnail compositor using real Canva card exports via Python/Pillow
+- **`build_listing_1.py`** — 2700x2700 Etsy thumbnail compositor using real Canva card exports via Python/Pillow
 - **Canva thumbnail candidate** (`DAHD3curHkM`) — generated via Canva MCP `generate-design` with detailed layout prompts
 
 ### Changed
+- **CLAUDE.md** — added Canva & Pipeline Tools section with session-start instructions
+- **LESSONS.md** — added 2026-03-15 entry with full pipeline learnings (Spaces, OAuth, shadow presets, API gotchas)
 - **Etsy thumbnail strategy** — correct approach identified: clone existing proven 2+ year old Etsy listing designs and swap card images via Canva MCP, never rebuild from scratch
 
-### Added (prior)
+### Known Issues
+- Canva access tokens expire — no auto-refresh flow yet (refresh token saved but not wired)
+- Canva asset upload name limited to 50 chars — currently truncated with `.slice(-50)`
 - **Light business card Canva design** (`DAHD15IcxRs`) — cream #FDFBF7 background, charcoal #1A1A1A text, gold #C9A84C accents, circular tattoo photo on front. Generated via Canva MCP `generate-design`, text replaced via editing transactions
 - **HTML light business card template** (`templates/business_card_light.html`) — Playwright-rendered fallback with Ideogram circle photo composite
 - **Multi-product delivery PDF** — `create_pdf()` in `image_renderer.py` now supports named product link boxes (`business_card`, `business_card_light`, `appointment_card`, etc.) with fallback to legacy A4/Letter/Print layout

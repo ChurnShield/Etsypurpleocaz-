@@ -1,6 +1,6 @@
 # Session Quick Resume
 
-Last updated: 2026-03-13
+Last updated: 2026-03-15
 
 ---
 
@@ -19,41 +19,53 @@ TATTOO_MASTER_DESIGN_ID=DAHD07F9MsY
 TATTOO_MASTER_LIGHT_DESIGN_ID=DAHD15IcxRs
 ```
 
-## TEMPLATE_LINKS (run_single_listing.py)
+## purpleocaz-canva-mcp (NEW — 2026-03-15)
 
-```python
-TEMPLATE_LINKS = {
-    "business_card": "https://www.canva.com/d/e21A6ZQJ3XcCIq-",
-    "business_card_light": "https://www.canva.com/d/vyaBAtIupW1g7zH",
-}
+TypeScript MCP server at `/root/NEW-AI-PROJECT/purpleocaz-canva-mcp/`
+
+**Slash commands:**
+- `/export-full-card <designId> [page]` — export full design PNG to Spaces + Canva asset
+- `/etsy-shadow <spaces_key>` — apply Etsy drop shadow (blur=12, opacity=0.75, asymmetric padding)
+- `/etsy-angled <spaces_key>` — angled -5deg lifestyle shadow variant
+
+**Quick test:**
+```bash
+cd /root/NEW-AI-PROJECT/purpleocaz-canva-mcp
+npx tsx src/tools/render-tools.ts export-full DAHD07F9MsY 1
+npx tsx src/tools/render-tools.ts etsy-shadow designs/DAHD07F9MsY/full_page1_1773531422649.png
 ```
 
-## Key Files Changed This Session
+**Spaces CDN:** `https://purpleocaz-assets.lon1.digitaloceanspaces.com/`
 
-| File | What |
-|------|------|
-| `workflows/auto_listing_creator/templates/business_card_light.html` | Light card HTML template (cream/charcoal/gold) |
-| `workflows/auto_listing_creator/tools/image_renderer.py` | Multi-product delivery PDF, `render_business_card_light()` with Ideogram circle photo |
-| `workflows/auto_listing_creator/tools/product_creator_tool.py` | Both tiers render light card variant, pass ideogram_api_key |
-| `workflows/auto_listing_creator/tools/ideogram_image_client.py` | Two-card flatlay prompt, #F2C4CE banner color |
-| `workflows/auto_listing_creator/run_single_listing.py` | TEMPLATE_LINKS with both Canva buyer URLs |
+## Next Session Priorities
 
-## Delivery PDF
+### Priority 1: Build weekly_review.py
+Build `scripts/weekly_review.py` that:
+1. Reads Google Sheet queue — counts DONE/PENDING/FAILED
+2. Reads CHANGELOG.md — summarises last 7 days of entries
+3. Reads LESSONS.md — shows last 5 lessons added
+4. Compares listings count against the 16-week plan targets
+5. Writes plain English summary to Google Sheet tab "WEEKLY_REVIEW" with today's date
+6. Add to cron: every Monday at 7:30am after digest.py
 
-Tested and working. Shows two link boxes:
-- **Business Card Template (Dark)** with clickable Canva URL
-- **Business Card Template (Light)** with clickable Canva URL
+### Priority 2: Session end hook
+Create `.claude/hooks/stop.sh` that prompts the session end checklist:
+1. Did you update CHANGELOG.md?
+2. Did you update LESSONS.md?
+3. Did you update SESSION_START.md?
+4. Is the Google Sheet queue updated?
 
-Test file: `/root/NEW-AI-PROJECT/exports/delivery_test.pdf`
+### Priority 3: Canva token auto-refresh
+Wire refresh token flow so expired access tokens auto-refresh using saved refresh token.
+
+### Priority 4: Wire shadow tools into listing pipeline
+Connect `/export-full-card` and `/etsy-shadow` into auto listing creator Phase 3.
+
+### Priority 5: More kit products
+- Appointment card, gift cert, price list, aftercare card
+- Wire light card PDF into Etsy digital file uploads
 
 ## Etsy Drafts Created
 
 - Draft ID `4471274562` (first run)
 - Draft ID `4471271403` (second run)
-
-## Next Steps
-
-- Wire light card PDF into Etsy digital file uploads
-- Add more products to the kit (appointment card, gift cert, price list, aftercare)
-- Run full pipeline test with Ideogram two-step process
-- Build Canva prompt template library per niche

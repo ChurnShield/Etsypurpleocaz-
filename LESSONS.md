@@ -13,6 +13,36 @@ A living document updated every session. Most recent entries first.
 
 ---
 
+### 2026-03-15 — purpleocaz-canva-mcp Pipeline: Spaces, OAuth, Shadow Tools
+
+**Worked:**
+- DigitalOcean Spaces via `@aws-sdk/client-s3` with S3-compatible endpoint works perfectly. CDN base: `https://purpleocaz-assets.lon1.digitaloceanspaces.com/`. Upload with `ACL: "public-read"` for permanent public URLs.
+- Canva OAuth PKCE flow on headless server: created `canva_oauth_headless.py` — shows auth URL, user authorizes in browser, pastes redirect URL back. No local callback server needed. Tokens auto-saved to both `canva_tokens.json` and MCP project `.env`.
+- Canva export API: `POST /exports` with `format.width: 2100` gets full-resolution business card PNGs (2100x1200). Without explicit width, defaults to tiny 336x192.
+- Canva asset upload API uses binary `application/octet-stream` with `Asset-Upload-Metadata` header containing base64-encoded name. NOT JSON body. Asset name max 50 chars.
+- Sharp shadow compositing pipeline: create shadow rect → place on transparent canvas at offset → blur → composite original on top. Transparent RGBA PNG output. Works cleanly for both flat and angled variants.
+- Shadow preset iteration: started at blur=8/opacity=0.35, went through blur=4/0.6, settled on blur=12/opacity=0.75/offset=15,15/padding=40 as the Canva-native match (`ETSY_CARD_SHADOW_PRESET` in `config/niches.ts`).
+- Asymmetric padding (extra_right_padding=80, extra_bottom_padding=40) keeps card away from EDIT IN CANVA badge in listing templates. Total: T40/R120/B80/L40.
+- `applyShadowToBuffer()` shared helper with per-side padding (`pad_top/right/bottom/left`) used by all three shadow tools — no code duplication.
+
+**Failed:**
+- First Canva export API attempt used `quality: "pro"` (wrong field) and assumed response shape `job.result.urls[0].url`. Actual shape is `job.urls[0]` (plain string array directly on job). Always debug-dump the actual API response before building parsers.
+- First asset upload used JSON body with `upload_ref.type: "url"` — returned 400 "Unsupported content type". Canva asset upload requires binary body + octet-stream header.
+- Asset name >50 chars causes 400 "Invalid upload metadata header" — truncated with `.slice(-50)`.
+
+**Proven Design IDs:**
+- `DAHD07F9MsY` — dark business card (page 1)
+- `DAHD15IcxRs` — light business card (page 1)
+- Spaces keys: `designs/{designId}/full_page1_{timestamp}.png`
+
+**Next:**
+- Wire `/export-full-card` and `/etsy-shadow` slash commands into the full listing creation pipeline so new designs auto-export with shadows.
+- Build token refresh flow — current access token expires; `canva_oauth_headless.py` saves refresh token but no auto-refresh yet.
+- Test `/etsy-angled` (-5 degree rotation) variant for lifestyle mockup images.
+- Consider batch tool: export all pages of a multi-page design in one call.
+
+---
+
 ### 2026-03-13 — Etsy Thumbnails
 
 **Worked:**

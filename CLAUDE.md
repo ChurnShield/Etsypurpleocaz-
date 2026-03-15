@@ -169,6 +169,14 @@ Before closing any session always:
 1. Read this file (critical rules and conventions)
 2. Load the relevant docs/architecture/ file for your task
 3. Run tests before claiming any change is complete: `pytest tests/ -v`
+## Canva & Pipeline Tools
+
+On every session start, before any Canva or pipeline work:
+1. Read `LESSONS.md` for proven patterns, API gotchas, and design IDs
+2. Shadow tools available as slash commands: `/export-full-card`, `/etsy-shadow`, `/etsy-angled`
+3. Shadow preset config: `purpleocaz-canva-mcp/src/config/niches.ts` (`ETSY_CARD_SHADOW_PRESET`)
+4. Canva OAuth tokens: `workflows/auto_listing_creator/canva_tokens.json` + `purpleocaz-canva-mcp/.env`
+
 ## Knowledge Base: YouTube Intelligence Feed
 
 On every session start:

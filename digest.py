@@ -33,6 +33,13 @@ DIGEST_DIR      = SCRIPT_DIR / "digests"
 BACKLOG_FILE    = SCRIPT_DIR / "ideas_backlog.md"
 DAYS_BACK       = 7
 
+# ── Tool Intelligence: keywords to flag at the top of every digest ───────────
+TOOL_INTEL_KEYWORDS = [
+    "Claude Code", "MCP", "Canva API", "Etsy API", "n8n",
+    "browser automation", "Playwright", "Chrome extension",
+    "OAuth", "DigitalOcean", "TypeScript MCP",
+]
+
 # ── Load API Key ──────────────────────────────────────────────────────────────
 
 def load_api_key() -> str:
@@ -80,6 +87,45 @@ def get_recent_transcripts(all_time: bool = False) -> list[dict]:
             })
 
     return transcripts
+
+
+# ── Tool Intelligence Scanner ─────────────────────────────────────────────
+
+def scan_tool_intelligence(transcripts: list[dict]) -> str:
+    """Scan transcripts for tool-related keywords and build a report section."""
+    hits = []  # list of (keyword, filename, matching_line)
+
+    for t in transcripts:
+        content_lower = t["content"].lower()
+        for kw in TOOL_INTEL_KEYWORDS:
+            if kw.lower() in content_lower:
+                # Find the first line containing this keyword for context
+                context_line = ""
+                for line in t["content"].splitlines():
+                    if kw.lower() in line.lower():
+                        context_line = line.strip()[:120]
+                        break
+                hits.append((kw, t["filename"], context_line))
+
+    if not hits:
+        return ""
+
+    # Group by keyword
+    by_keyword = {}
+    for kw, fname, ctx in hits:
+        by_keyword.setdefault(kw, []).append((fname, ctx))
+
+    lines = ["## 🛠️ TOOL INTELLIGENCE\n"]
+    lines.append("Keywords detected in this week's transcripts that are directly relevant to our stack.\n")
+
+    for kw, matches in sorted(by_keyword.items()):
+        lines.append(f"**{kw}** — found in {len(matches)} transcript(s):")
+        for fname, ctx in matches:
+            lines.append(f"- `{fname}`: {ctx}")
+        lines.append("")
+
+    lines.append("---\n")
+    return "\n".join(lines)
 
 
 # ── Claude Analysis ───────────────────────────────────────────────────────────
@@ -155,7 +201,7 @@ Brief one-liner on each transcript processed and its relevance score (1-10) for 
 
 # ── Save Outputs ──────────────────────────────────────────────────────────────
 
-def save_digest(analysis: str, transcript_count: int) -> Path:
+def save_digest(analysis: str, transcript_count: int, tool_intel: str = "") -> Path:
     """Save the weekly digest as a markdown file."""
     DIGEST_DIR.mkdir(parents=True, exist_ok=True)
     date_str = datetime.now().strftime("%Y-%m-%d")
@@ -163,11 +209,12 @@ def save_digest(analysis: str, transcript_count: int) -> Path:
 
     content = f"""# Weekly Intelligence Digest — {date_str}
 
-**Transcripts processed:** {transcript_count}  
-**Generated:** {datetime.now().strftime("%Y-%m-%d %H:%M")}  
+**Transcripts processed:** {transcript_count}
+**Generated:** {datetime.now().strftime("%Y-%m-%d %H:%M")}
 
 ---
 
+{tool_intel}
 {analysis}
 
 ---
@@ -234,12 +281,21 @@ def main():
     for t in transcripts:
         print(f"   {t['tags']} -- {t['filename']}")
 
+    # Scan for tool-relevant keywords (runs locally, no API)
+    print("\n[SCAN] Scanning for Tool Intelligence keywords...")
+    tool_intel = scan_tool_intelligence(transcripts)
+    if tool_intel:
+        kw_count = tool_intel.count("**") // 2  # each keyword is wrapped in **
+        print(f"  -> Found {kw_count} keyword match(es)")
+    else:
+        print("  -> No tool keywords detected this week")
+
     print("\n[AI] Analysing with Claude...")
     result = analyse_transcripts(transcripts, api_key)
     analysis = result["analysis"]
 
     # Save digest
-    digest_path = save_digest(analysis, len(transcripts))
+    digest_path = save_digest(analysis, len(transcripts), tool_intel)
     print(f"\n[OK] Digest saved -> digests/{digest_path.name}")
 
     # Update backlog

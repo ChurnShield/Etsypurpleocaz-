@@ -64,3 +64,18 @@ Auto-populated from weekly YouTube digest.
     - Key principle: agents propose, Andy approves — nothing live without sign-off
     - Frameworks to evaluate: agency-agents repo, Claude multi-agent API, n8n
     - Dedicated architecture session needed before building
+
+## Future Integrations
+
+### Chrome 146 Browser MCP (Browser Use CLI)
+- Chrome 146 shipped a feature allowing coding agents to connect to a live Chrome browser via MCP with a single toggle in DevTools
+- No extensions needed — one button exposes the browser session to Claude Code
+- Potential use cases for PurpleOcaz:
+  - Solve Canva OAuth mobile blocker — Claude Code completes browser auth flow automatically
+  - Verify Etsy listings look correct after posting via API
+  - Navigate Canva directly as API fallback
+  - Test delivery PDFs by opening in Chrome
+- Requires Chrome running on same machine as Claude Code
+- Current blocker: Claude Code runs on headless droplet — no browser available
+- When to revisit: after Termius SSH key setup on laptop, explore running Claude Code locally with browser access
+- Reference: Chrome 146 + Browser Use CLI — @xpasky on Twitter

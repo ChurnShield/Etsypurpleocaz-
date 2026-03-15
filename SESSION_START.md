@@ -39,6 +39,55 @@ npx tsx src/tools/render-tools.ts etsy-shadow designs/DAHD07F9MsY/full_page1_177
 
 ## Next Session Priorities
 
+### Priority 0 — Bulletproof the Mobile Workflow
+
+**Why this matters:**
+Today's session lost 2+ hours to dropped sessions, wrong environments, and silent failures. These fixes compound — every future session gets faster and more reliable.
+
+**Tasks:**
+
+1. **Upgrade start.sh** to:
+   - Validate we are running on the droplet (not cloud environment)
+   - Check Canva tokens are valid before starting
+   - Write current /rc URL to /root/session_url.txt so it can always be found
+   - Print clear READY or BLOCKED status with reason
+   - Estimated time saving: 30+ mins per session
+
+2. **Add check_canva_auth.sh script** at /root/check_canva_auth.sh:
+   - Validates Canva token is live
+   - Shows expiry time remaining
+   - Prints VALID or EXPIRED with fix instructions
+   - Run this before any Canva export work
+   - Estimated time saving: prevents entire blocked sessions
+
+3. **Add to CLAUDE.md under Mobile Sessions rule:**
+   - One task per message on mobile
+   - Wait for confirmation before sending next task
+   - If stuck for more than 5 mins, stop and report status
+   - Never attempt Canva exports without running check_canva_auth.sh first
+   - Estimated time saving: prevents looping and wasted compute
+
+4. **Add session status file** at /root/session_status.txt:
+   - Updated after every completed step
+   - Shows: current task, last completed step, any blockers
+   - Readable from DO Console even if remote control drops
+   - Estimated time saving: instant visibility without needing claude.ai open
+
+5. **Add /rc URL to a fixed location:**
+   - Write current session URL to /root/session_url.txt on every start
+   - So you can always run: cat /root/session_url.txt from DO Console
+   - Estimated time saving: eliminates URL hunting entirely
+
+**Compound value:**
+These 5 fixes together mean:
+- Every session starts with a clear READY or BLOCKED status
+- You always know the /rc URL without hunting
+- Mobile sessions never loop silently
+- Canva auth issues are caught before they waste time
+- Progress is always visible even when remote control drops
+
+This is a one-time 30 min investment that saves hours every week going forward.
+
 ### Priority 1: Build weekly_review.py
 Build `scripts/weekly_review.py` that:
 1. Reads Google Sheet queue — counts DONE/PENDING/FAILED

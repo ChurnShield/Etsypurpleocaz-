@@ -9,6 +9,9 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+### Added — 2026-03-16
+- **Terminus mobile SSH access** configured. UFW opened port 22 (`sudo ufw allow 22`). Root password set for password-based auth. Terminus on Android now successfully connects to droplet via password. Key-based auth attempted but not completed - future task to clean up.
+
 ### Added
 - **purpleocaz-canva-mcp** — TypeScript MCP server foundation for Canva + Spaces pipeline
   - `src/spaces-client.ts` — DigitalOcean Spaces wrapper (upload/download/delete via S3-compatible API)

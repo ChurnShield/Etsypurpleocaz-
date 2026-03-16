@@ -13,6 +13,13 @@ A living document updated every session. Most recent entries first.
 
 ---
 
+### 2026-03-16 — Terminus Mobile SSH Access
+
+**Worked:**
+- SSH into droplet from phone: use Terminus app, password auth, root@167.99.90.58 port 22. UFW must have port 22 open - if SSH times out run: `sudo ufw allow 22` from the DO web console.
+
+---
+
 ### 2026-03-15 — purpleocaz-canva-mcp Pipeline: Spaces, OAuth, Shadow Tools
 
 **Worked:**

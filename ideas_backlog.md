@@ -64,3 +64,31 @@ Auto-populated from weekly YouTube digest.
     - Key principle: agents propose, Andy approves — nothing live without sign-off
     - Frameworks to evaluate: agency-agents repo, Claude multi-agent API, n8n
     - Dedicated architecture session needed before building
+
+## Added 2026-03-16
+
+[ ] **Agent Automation** Set up Mac Mini with autonomous agents for end-to-end device operation — Source: Mac Mini Agents OpenClaw
+[ ] **Etsy Keywords** Target "Ita bags" as unsaturated high-opportunity keyword — Source: eRank Trend Report
+[ ] **Etsy Strategy** Launch 20-40 listings quickly to gather customer validation data — Source: How To Make $1,000 a month on Etsy
+[ ] **AI Tools** Use Nano Banana AI for creating digital products and video content — Source: I discovered how to make $100K with Nano Banana AI
+[ ] **Etsy Trends** Create spring 2026 products around trending colors/themes/aesthetics — Source: Our 2026 Spring Trends Forecast
+[ ] **Etsy SEO** Implement 5-step SEO optimization framework for better discoverability — Source: Struggling to get noticed on Etsy
+[ ] **Etsy Strategy** Focus on broad customer appeal vs narrow niches to maximize revenue — Source: Why Niches LOSE You Money
+[ ] **Business Focus** Concentrate on mastering one business before expanding to multiple — Source: I Don't Fear The Man With 10 Businesses
+[ ] **Pricing Strategy** Avoid constant sales and deceptive pricing tactics on Etsy — Source: Constant Sales, Deceptive Pricing
+[ ] **Etsy Trends** Target crochet-related keywords showing fast growth — Source: This Etsy Keyword is GROWING FAST
+[ ] **Competition Analysis** Use competitor research to inspire and validate product direction — Source: Etsy Competitors Understanding
+[ ] **Employee Quality** Improve hiring by being more selective and raising standards — Source: How to Get Better Employees
+[ ] **Business Metrics** Understand difference between gross vs net profit for decision making — Source: Gross Profit VS Net Profit
+[ ] **Customer Targeting** Ensure marketing attracts the right customer segments — Source: I'm Attracting The Wrong People
+[ ] **Decision Making** Know when to push through vs pivot business strategies — Source: Push vs Pivot
+[ ] **Helping Others** Focus on providing value rather than just giving advice — Source: The Best Way To Help Others
+[ ] **Business Boundaries** Learn to say no to opportunities that don't align with core goals — Source: You Have To Learn To Say No
+[ ] **Marketplace Alternatives** Monitor Etsy competitors like GoImagine for strategic insights — Source: Why Etsy's Biggest Alternative is Closing Down
+
+## Added 2026-03-16 — Agentic Pipeline Architecture
+
+[ ] [Architecture] **Verification agent step** — after every upload/API call, a verification check runs automatically before reporting success. Based on Manus architecture. No task is marked done without GET confirmation.
+[ ] [Process] **TODO.md per session** — CC creates task list at session start, ticks off as it goes, audit trail at end. Prevents missed steps and gives Andy clear visibility on progress.
+[ ] [Automation] **Manus for weekly niche research** — evaluate Manus for automated niche research runs every Monday morning. Drops findings to Google Sheet for Andy to review. Removes manual trend hunting.
+[ ] [Vision] **Overnight listing pipeline** — Andy approves niche on phone → pipeline runs overnight → draft listing ready for review next morning. No manual steps. Full autonomy: niche selection → trend research → content generation → design → thumbnail → PDF → Etsy draft.

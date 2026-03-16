@@ -27,3 +27,7 @@ Most recent first.
 3. **Validate ThumbnailPipelineTool live** — run against real Canva API to confirm editing session endpoints work end-to-end
 4. **Wire ThumbnailPipelineTool into run_single_listing.py** — if registry has a matching design, use it for hero image instead of HTML/Playwright fallback
 5. **Agentic AI research session** — explore agentic AI frameworks (Manus, Perplexity deep research, Twitter/X build-in-public accounts) for sub-agent architecture ideas that reduce Andy's manual orchestration. Goal: identify what we can adopt or adapt for PurpleOcaz pipeline. Add findings to ideas_backlog.md.
+6. **Verification agent step** — design and implement automatic GET verification after every upload/API call. Based on Manus architecture. No task marked done without confirmation.
+7. **TODO.md per session** — CC creates task list at session start, ticks off as it goes, audit trail at end.
+8. **Evaluate Manus for weekly niche research** — automated Monday morning runs, drops findings to Google Sheet.
+9. **Long-term vision doc** — write up the overnight pipeline goal: Andy approves niche on phone → pipeline runs overnight → draft listing ready for review next morning. Zero manual steps.

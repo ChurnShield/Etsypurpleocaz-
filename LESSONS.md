@@ -4,6 +4,34 @@ A living document updated every session. Most recent entries first.
 
 ---
 
+### 2026-03-16 — Etsy Listing Pipeline: Complete Learnings
+
+**Design page sources — know which pages live where:**
+- `DAHDc0gyebE` has only 1 page — the hero thumbnail. No pages 2/3 exist.
+- `DAFx_dsWpTA` is the 5-page listing design containing the generic pages used across all listings:
+  - Page 3: "Canva Basics" — Includes a free e-book to help you with Canva editing basics
+  - Page 5: "Please Note" — Digital product disclaimer with PurpleOcaz branding
+- Correct image sources for any tattoo listing:
+  - Rank 1: `DAHDc0gyebE` page 1 (hero thumbnail with black banner post-processing)
+  - Rank 2: `DAFx_dsWpTA` page 3 (Canva Basics)
+  - Rank 3: `DAFx_dsWpTA` page 5 (Please Note)
+
+**Approved hero thumbnail URL:** `https://purpleocaz-assets.lon1.digitaloceanspaces.com/thumbnails/tattoo_business_card_hero_APPROVED_1773687738456.png`
+
+**Etsy API rules learned the hard way:**
+- Tags have a hard 20-character maximum — always validate lengths before submitting. API returns 400 if any tag exceeds 20 chars.
+- Duplicate tags are rejected — API returns 400 "You may have duplicate tags."
+- Cloning/copying listings is NOT supported in Etsy v3 API — no `copy_listing` or `clone` endpoint exists.
+- Price changes via PATCH are silently ignored on draft listings — must set price at creation time or change manually in dashboard.
+- Digital PDF upload via `POST /shops/{id}/listings/{id}/files` is confirmed working. Verified on listing #4472977919.
+
+**Verification rule — NEVER skip this:**
+- Always verify uploads with a GET API call before reporting success. Never assume an upload worked based on the POST response alone.
+- Run `GET /listings/{id}/images` and `GET /shops/{id}/listings/{id}/files` after every upload and show the raw response.
+- Do not mark a task as done without API confirmation.
+
+---
+
 ### 2026-03-16 — Hero Thumbnail: Approved Pipeline (End-to-End)
 
 **The approved flow for tattoo/business_card hero thumbnail:**

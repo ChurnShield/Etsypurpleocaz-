@@ -97,6 +97,22 @@
       }
     }
   },
+  "generic_listing_pages": {
+    "design_id": "DAFx_dsWpTA",
+    "design_title": "Etsy Listing - Business Card Purple (5-page)",
+    "pages": {
+      "canva_basics": {
+        "page_number": 3,
+        "description": "Includes a free e-book to help you with Canva editing basics",
+        "default_etsy_rank": 2
+      },
+      "please_note": {
+        "page_number": 5,
+        "description": "Digital product disclaimer with PurpleOcaz branding",
+        "default_etsy_rank": 3
+      }
+    }
+  },
   "spaces": {
     "bucket": "purpleocaz-assets",
     "region": "lon1",

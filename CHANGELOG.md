@@ -9,11 +9,13 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
-### Added — 2026-03-16 (Hero Thumbnail Approved)
-- **Approved hero thumbnail pipeline** — DAHDc0gyebE template → card swap → full-width banner → export → Sharp black banner post-processing → Spaces CDN upload → Etsy listing upload. Fully documented in LESSONS.md.
-- **Etsy draft #4472947789** created with hero image (rank 1) + delivery PDF. Ready for Andy to review and publish live.
-- **Black banner via post-export pixel swap** — Canva API cannot change shape fill colors or control z-order, so crimson→black is done in Sharp after export. All dark pixels below y=82% are swapped to #000000, preserving white text.
+### Added — 2026-03-16 (Listing Pipeline)
+- **Complete Etsy listing pipeline** — draft #4472977919 with verbatim copy, 3 images (hero + Canva Basics + Please Note), delivery PDF with Canva template links, 12 SEO tags. All verified via raw Etsy API GET calls.
+- **Approved hero thumbnail pipeline** — DAHDc0gyebE template → card swap → full-width banner → export → Sharp black banner post-processing → Spaces CDN upload → Etsy listing upload.
+- **Black banner via post-export pixel swap** — Canva API cannot change shape fill colors or control z-order, so crimson→black is done in Sharp after export.
 - **Solid black Canva asset** `MAHEIi_EfxE` uploaded for future use.
+- **Design page source documentation** — DAHDc0gyebE (1 page, hero only), DAFx_dsWpTA pages 3+5 are standard generic listing pages (Canva Basics + Please Note).
+- **Etsy API learnings documented** — 20-char tag limit, no clone endpoint, price PATCH ignored on drafts, duplicate tag rejection, mandatory GET verification after uploads.
 
 ### Fixed — 2026-03-16
 - **Hero thumbnail shadow approach** — replaced Pillow/Sharp shadow compositing (which produced hard black rectangles) with Canva template `DAHDc0gyebE` that has natural flatlay shadows built in. Cards now look physically lifted off the surface.

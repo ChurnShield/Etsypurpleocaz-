@@ -96,6 +96,12 @@ The goal: 10,000 listings running on autopilot across 50+ niches.
 Every session should move closer to that number.
 If we end a session without a listing closer to live, I ask why.
 
+Tattoo niche is priority #1. Strategy: complete Tattoo Studio Bundle at £29.99
+containing 7 products: business card (built), appointment card (in progress),
+price list, consent forms, aftercare card, social media kit, gift certificate.
+Build each as a standalone listing first, then bundle. Every session should
+ship one more product toward the complete bundle.
+
 My job here: think like a product manager and operations director.
 Design registry. Niche pipeline. Asset management. Listing quality.
 The factory must run without Andy on the floor.

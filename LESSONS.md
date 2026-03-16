@@ -13,6 +13,24 @@ A living document updated every session. Most recent entries first.
 
 ---
 
+### 2026-03-16 — Proactive Etsy OAuth Token Refresh
+
+**Worked:**
+- Storing `expires_at` as an absolute Unix timestamp in the token JSON file — simple, no parsing needed, works across process restarts. Computed as `time.time() + expires_in` at refresh time.
+- 5-minute buffer window (`_TOKEN_EXPIRY_BUFFER_SECONDS = 300`) avoids edge cases where token expires mid-request. Etsy tokens last 3600s so 300s buffer is conservative enough.
+- Graceful fallback chain: proactive refresh -> validation API call -> reactive 401 refresh. If proactive refresh fails (network blip), the still-valid token gets one more shot via validation.
+- Legacy token files (no `expires_at` field) silently fall through to the existing validation-based flow — no migration needed.
+
+**Failed:**
+- Nothing significant — clean implementation. The main risk was overcomplicating with a shared token manager class, but keeping it self-contained in the publish tool was the right call for now.
+
+**Next:**
+- Port the same `expires_at` pattern to `fetch_etsy_data_tool.py` (analytics tool uses identical logic but separate implementation).
+- Consider extracting a shared `EtsyTokenManager` helper if a third tool needs OAuth — two copies is tolerable, three is a smell.
+- Wire `expires_at` into `etsy_oauth.py` initial token exchange so the very first token file already has the field.
+
+---
+
 ### 2026-03-15 — purpleocaz-canva-mcp Pipeline: Spaces, OAuth, Shadow Tools
 
 **Worked:**

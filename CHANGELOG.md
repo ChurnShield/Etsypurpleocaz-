@@ -10,6 +10,15 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ## [Unreleased]
 
 ### Added
+- **Proactive OAuth token refresh** in `publish_listings_tool.py` — checks `expires_at` timestamp before making API calls. If token is within 5 minutes of expiry, refreshes immediately instead of waiting for a 401 rejection. Falls back to reactive 401 refresh for legacy token files without expiry info
+- **`expires_at` persistence** — `_try_refresh()` now computes and saves an absolute `expires_at` timestamp (from Etsy's `expires_in` response) to the token file, enabling proactive refresh on subsequent runs
+- **`tests/test_publish_token_refresh.py`** — 7 tests covering proactive refresh (near expiry, already expired, no expiry info, refresh failure fallback), reactive 401 refresh, and `expires_at` persistence
+
+### Changed
+- **`_load_access_token()`** in `publish_listings_tool.py` — now checks expiry before validation API call, saving a wasted round-trip when token is known to be expired
+- **`_try_refresh()`** in `publish_listings_tool.py` — computes `expires_at = time.time() + expires_in` and persists it alongside the refreshed tokens
+
+### Previously Added
 - **purpleocaz-canva-mcp** — TypeScript MCP server foundation for Canva + Spaces pipeline
   - `src/spaces-client.ts` — DigitalOcean Spaces wrapper (upload/download/delete via S3-compatible API)
   - `src/canva-client.ts` — Canva API wrapper (export designs as PNG, upload assets via binary API)

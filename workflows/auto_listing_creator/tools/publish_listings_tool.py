@@ -381,8 +381,17 @@ class PublishListingsTool(BaseTool):
                 f"Activate digital delivery {e.code}: {body[:300]}"
             )
 
+    # Refresh proactively when token expires within this many seconds
+    _TOKEN_EXPIRY_BUFFER_SECONDS = 300  # 5 minutes
+
     def _load_access_token(self, token_file, api_key):
-        """Load and validate OAuth access token."""
+        """Load OAuth access token, refreshing proactively before expiry.
+
+        Checks expires_at timestamp first. If token is within 5 minutes of
+        expiry (or already expired), refreshes immediately — no wasted API
+        call that would 401. Falls back to validation + 401 refresh if no
+        expiry info is stored.
+        """
         if not os.path.exists(token_file):
             return None
 
@@ -394,7 +403,20 @@ class PublishListingsTool(BaseTool):
             if not access_token:
                 return None
 
-            # Quick validation
+            # -- Proactive expiry check --
+            expires_at = tokens.get("expires_at", 0)
+            now = time.time()
+            if expires_at and now >= (expires_at - self._TOKEN_EXPIRY_BUFFER_SECONDS):
+                remaining = max(0, int(expires_at - now))
+                print(f"          Token expires in {remaining}s — refreshing proactively",
+                      flush=True)
+                refreshed = self._try_refresh(tokens, api_key, token_file)
+                if refreshed:
+                    return refreshed
+                # Refresh failed — fall through to validation attempt
+                # (token might still work for a few more seconds)
+
+            # -- Validate with API call --
             req = urllib.request.Request(f"{ETSY_BASE_URL}/users/me")
             req.add_header("x-api-key", api_key)
             req.add_header("Authorization", f"Bearer {access_token}")
@@ -404,14 +426,14 @@ class PublishListingsTool(BaseTool):
 
         except urllib.error.HTTPError as e:
             if e.code == 401:
-                # Try refresh
+                # Reactive refresh as fallback
                 return self._try_refresh(tokens, api_key, token_file)
             return None
         except Exception:
             return None
 
     def _try_refresh(self, tokens, api_key, token_file):
-        """Refresh expired OAuth token."""
+        """Refresh expired OAuth token and persist expires_at timestamp."""
         refresh_token = tokens.get("refresh_token")
         if not refresh_token:
             return None
@@ -430,8 +452,16 @@ class PublishListingsTool(BaseTool):
             req.add_header("x-api-key", api_key)
             with urllib.request.urlopen(req, timeout=30) as resp:
                 new_tokens = json.loads(resp.read().decode("utf-8"))
+
+            # Compute absolute expiry timestamp for proactive refresh
+            expires_in = new_tokens.get("expires_in", 0)
+            if expires_in:
+                new_tokens["expires_at"] = time.time() + expires_in
+
             with open(token_file, "w") as f:
                 json.dump(new_tokens, f, indent=2)
+            print(f"          Token refreshed (expires in {expires_in}s)",
+                  flush=True)
             return new_tokens.get("access_token")
         except Exception:
             return None

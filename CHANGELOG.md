@@ -13,6 +13,12 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - **Terminus mobile SSH access** configured. UFW opened port 22 (`sudo ufw allow 22`). Root password set for password-based auth. Terminus on Android now successfully connects to droplet via password. Key-based auth attempted but not completed - future task to clean up.
 - **Etsy OAuth headless flow** — `etsy_oauth.py` rewritten to use paste-the-redirect-URL approach (like Canva OAuth) instead of localhost callback server. Works from remote droplet and Terminus mobile SSH.
 - **Etsy OAuth tokens live** — verified working against `/v3/application/users/me` and shop endpoint. Shop ID `34071205`, 937 active listings, 931 sales.
+- **Full pipeline end-to-end run successful** — `run_single_listing.py` completed all 4 phases:
+  - Phase 2: Claude generated listing content (13 tags, 100/100 quality)
+  - Phase 3: Created 2 product images + delivery PDF + light business card variant + getting started guide
+  - Phase 4: Published Etsy draft `#4472750162` with 2 images + digital PDF, saved to Google Sheets
+  - Combined quality score: 100/100
+  - Title: "Tattoo Business Kit Template, Editable Studio Branding Bundle, Printable Tattoo Shop Templates for Canva" at £12.99
 
 ### Added
 - **purpleocaz-canva-mcp** — TypeScript MCP server foundation for Canva + Spaces pipeline

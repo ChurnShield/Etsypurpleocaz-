@@ -10,6 +10,22 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ## [Unreleased]
 
 ### Added
+- **`docs/architecture/11-agentic-automation.md`** — Sub-agent architecture design document
+  - 6 specialist agents: Research, Design, Listing, QA, Publish, Analytics
+  - Each agent maps to existing workflows/tools (no new infrastructure)
+  - Approval model: agents propose, Andy approves — nothing goes live without sign-off
+  - Progressive autonomy roadmap (4 phases from fully gated to auto-publish)
+  - Niche expansion strategy: same agents, different config per niche
+
+### Changed
+- **Proactive OAuth token refresh** in `publish_listings_tool.py`
+  - `_load_access_token()` now checks `expires_at` timestamp before making API calls
+  - Refreshes proactively when token is within 5 minutes of expiry (not just on 401)
+  - `_try_refresh()` saves `expires_at` alongside new tokens for next run
+- **`etsy_oauth.py`** — `save_tokens()` now stamps `expires_at = time.time() + expires_in` into token JSON
+- **`docs/architecture/00-index.md`** — added agentic automation doc to navigation table
+
+### Added
 - **purpleocaz-canva-mcp** — TypeScript MCP server foundation for Canva + Spaces pipeline
   - `src/spaces-client.ts` — DigitalOcean Spaces wrapper (upload/download/delete via S3-compatible API)
   - `src/canva-client.ts` — Canva API wrapper (export designs as PNG, upload assets via binary API)

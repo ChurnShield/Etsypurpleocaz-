@@ -21,6 +21,7 @@ CLAUDE.md at the project root is the main entry point for AI assistants.
 | Configuration | [08-configuration.md](08-configuration.md) | Config pattern, env vars, LLM client |
 | Testing | [09-testing.md](09-testing.md) | pytest patterns, running tests, coverage |
 | Operations | [10-operations.md](10-operations.md) | Running, debugging, show_logs, troubleshooting |
+| Agentic Automation | [11-agentic-automation.md](11-agentic-automation.md) | Sub-agent architecture, approval model, progressive autonomy |
 
 ## Reading Paths
 

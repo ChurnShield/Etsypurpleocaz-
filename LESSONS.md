@@ -13,6 +13,24 @@ A living document updated every session. Most recent entries first.
 
 ---
 
+### 2026-03-16 — Pipeline Review, Token Hardening, Agentic Architecture
+
+**Worked:**
+- Full codebase audit revealed all 7 workflows are production-complete — more built than we realised. The "gaps" were smaller than assumed: `publish_listings_tool.py` already had reactive token refresh (`_try_refresh()` on 401). Only proactive expiry checking was missing.
+- Mapping agents to existing tools (not new code) is the right approach for agentic automation. Every agent in the architecture doc wraps workflows that already exist.
+- Phone-friendly session: design review and architecture planning don't need a terminal. Save interactive work (OAuth, pipeline runs) for laptop sessions.
+
+**Failed:**
+- Initially overestimated the token refresh gap — assumed it wasn't implemented at all. Always read the code before planning changes. The audit agents saved us from building something that mostly existed.
+
+**Next:**
+- Complete Etsy OAuth on laptop (needs browser + localhost callback)
+- Run `run_single_listing.py` end-to-end to verify draft creation + image upload
+- Wire Canva export into Phase 3 of the auto_listing_creator pipeline
+- Start implementing agent scheduling (Phase 1 of progressive autonomy roadmap)
+
+---
+
 ### 2026-03-15 — purpleocaz-canva-mcp Pipeline: Spaces, OAuth, Shadow Tools
 
 **Worked:**

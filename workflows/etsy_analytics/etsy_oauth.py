@@ -21,6 +21,7 @@ import json
 import hashlib
 import base64
 import secrets
+import time
 import webbrowser
 import urllib.request
 import urllib.parse
@@ -100,7 +101,9 @@ def refresh_access_token(refresh_token):
 
 
 def save_tokens(token_data):
-    """Save tokens to disk."""
+    """Save tokens to disk with expires_at timestamp for proactive refresh."""
+    if "expires_in" in token_data and "expires_at" not in token_data:
+        token_data["expires_at"] = time.time() + token_data["expires_in"]
     with open(TOKEN_FILE, "w") as f:
         json.dump(token_data, f, indent=2)
     print(f"  Tokens saved to: {TOKEN_FILE}")

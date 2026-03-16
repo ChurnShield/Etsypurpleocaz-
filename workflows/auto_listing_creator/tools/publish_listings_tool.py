@@ -382,7 +382,7 @@ class PublishListingsTool(BaseTool):
             )
 
     def _load_access_token(self, token_file, api_key):
-        """Load and validate OAuth access token."""
+        """Load and validate OAuth access token with proactive expiry check."""
         if not os.path.exists(token_file):
             return None
 
@@ -394,7 +394,16 @@ class PublishListingsTool(BaseTool):
             if not access_token:
                 return None
 
-            # Quick validation
+            # Proactive refresh: if expires_at is known and within 5 min, refresh now
+            import time
+            expires_at = tokens.get("expires_at")
+            if expires_at and time.time() > (expires_at - 300):
+                refreshed = self._try_refresh(tokens, api_key, token_file)
+                if refreshed:
+                    return refreshed
+                # Fall through to validation if refresh fails
+
+            # Quick validation via API call
             req = urllib.request.Request(f"{ETSY_BASE_URL}/users/me")
             req.add_header("x-api-key", api_key)
             req.add_header("Authorization", f"Bearer {access_token}")
@@ -404,7 +413,7 @@ class PublishListingsTool(BaseTool):
 
         except urllib.error.HTTPError as e:
             if e.code == 401:
-                # Try refresh
+                # Reactive refresh on 401 (fallback)
                 return self._try_refresh(tokens, api_key, token_file)
             return None
         except Exception:
@@ -430,6 +439,10 @@ class PublishListingsTool(BaseTool):
             req.add_header("x-api-key", api_key)
             with urllib.request.urlopen(req, timeout=30) as resp:
                 new_tokens = json.loads(resp.read().decode("utf-8"))
+            # Save with expires_at for proactive refresh on next run
+            import time
+            if "expires_in" in new_tokens:
+                new_tokens["expires_at"] = time.time() + new_tokens["expires_in"]
             with open(token_file, "w") as f:
                 json.dump(new_tokens, f, indent=2)
             return new_tokens.get("access_token")

@@ -56,6 +56,12 @@ CRITICAL: Read SOUL.md before anything else every session. If SOUL.md is missing
 
 ---
 
+## Content Rules
+
+When exact copy is provided for listing titles, descriptions or tags — use it VERBATIM. Never rewrite, summarise or improve provided copy. If a technical limitation prevents exact use, flag it before proceeding and do not substitute your own version.
+
+---
+
 ## Project Conventions
 
 - **Files**: `snake_case.py` (e.g., `execution_logger.py`, `base_tool.py`)

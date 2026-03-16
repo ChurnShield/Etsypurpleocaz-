@@ -13,6 +13,27 @@ A living document updated every session. Most recent entries first.
 
 ---
 
+### 2026-03-16 — ThumbnailPipelineTool & Design Registry
+
+**Worked:**
+- Design registry JSON (`config/design_registry.json`) decouples Canva design IDs from code — adding a new niche/product_type is a JSON edit, not a code change. Stores confirmed-unlocked element IDs, card variant asset IDs, shadow preset, and Spaces config in one file.
+- Canva REST editing API works from Python via `urllib.request` — start session, perform operation, commit. One transaction per operation is the hard rule. Two separate element swaps on DAFx_dsWpTA page 1 confirmed working: front card `PBYdP0fP9tx4c7Hw-LBStl4Tz3Wf18JQg` and back card `PBYdP0fP9tx4c7Hw-LBYSdstM3fGX4Vqg`.
+- Shadow compositing ported from TypeScript Sharp to Python Pillow: create shadow rect at opacity → paste at offset on transparent canvas → GaussianBlur → composite original on top. Identical visual result. Asymmetric padding (extra_right=80, extra_bottom=40) keeps card clear of EDIT IN CANVA badge.
+- Reusing `get_valid_token()` from `canva_token_manager.py` keeps token management DRY — no duplicate refresh logic.
+- Spaces upload via boto3 with creds loaded from MCP `.env` — same source as TypeScript pipeline, no duplication.
+
+**Failed:**
+- First attempt to identify card elements on DAFx_dsWpTA was by guessing from position/size — got the right elements but Andy flagged that the visual result didn't look swapped. Root cause: Canva `update_fill` replaces the image but internal crop/zoom may differ from the original. Need to verify visually after every swap, not just check the API response.
+- Canva design ID `DAHDc0gyebE` referenced but not found anywhere in the codebase — likely from a session that wasn't persisted. Always register design IDs in the registry immediately after creating them.
+
+**Next:**
+- Add more niches to the registry: nail, hair, beauty, spa — each needs a base listing design with confirmed element IDs.
+- Wire ThumbnailPipelineTool into `run_single_listing.py` as an optional Phase 3 enhancement — if registry has a matching design, use it for the hero image instead of HTML/Playwright.
+- Test the Canva editing API endpoint paths — the session/operations/commit flow needs validation against the actual REST API (current implementation uses assumed endpoint structure from MCP tools).
+- Consider adding a `clone_design` step before editing so the base design is never modified — currently edits the base directly.
+
+---
+
 ### 2026-03-16 — Terminus Mobile SSH Access
 
 **Worked:**

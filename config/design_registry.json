@@ -1,0 +1,81 @@
+{
+  "version": 1,
+  "designs": {
+    "tattoo": {
+      "business_card": {
+        "base_design_id": "DAFx_dsWpTA",
+        "base_design_title": "Etsy Listing - Business Card Purple",
+        "page_count": 5,
+        "pages": {
+          "1": {
+            "width": 3000,
+            "height": 2250,
+            "card_slots": {
+              "front_card": {
+                "element_id": "PBYdP0fP9tx4c7Hw-LBStl4Tz3Wf18JQg",
+                "original_asset_id": "MAFx_hPfdk0",
+                "width": 1425,
+                "height": 814,
+                "top": 197,
+                "left": 353,
+                "confirmed_unlocked": true,
+                "confirmed_date": "2026-03-16"
+              },
+              "back_card": {
+                "element_id": "PBYdP0fP9tx4c7Hw-LBYSdstM3fGX4Vqg",
+                "original_asset_id": "MAFx_sdcedo",
+                "width": 1451,
+                "height": 829,
+                "top": 743,
+                "left": 936,
+                "confirmed_unlocked": true,
+                "confirmed_date": "2026-03-16"
+              }
+            },
+            "text_elements": {
+              "title": {
+                "element_id": "PBYdP0fP9tx4c7Hw-LBxKw3mlnn9fvQtq",
+                "default_text": "Tattoo Studio\nBusiness Card"
+              },
+              "subtitle": {
+                "element_id": "PBYdP0fP9tx4c7Hw-LBMzzm2JK93kPpr8",
+                "default_text": "MAKE A MEMORABLE IMPRESSION WITH THIS MODERN CARD"
+              }
+            }
+          }
+        },
+        "card_designs": {
+          "dark": {
+            "design_id": "DAHD07F9MsY",
+            "canva_asset_id": "MAHEHX1itYY",
+            "export_page": 1,
+            "export_width": 2100
+          },
+          "light": {
+            "design_id": "DAHD15IcxRs",
+            "canva_asset_id": "MAHEHd3QNt0",
+            "export_page": 1,
+            "export_width": 2100
+          }
+        }
+      }
+    }
+  },
+  "shadow_preset": {
+    "shadow_color": [0, 0, 0],
+    "shadow_opacity": 0.75,
+    "shadow_blur": 12,
+    "shadow_offset_x": 15,
+    "shadow_offset_y": 15,
+    "padding": 40,
+    "extra_right_padding": 80,
+    "extra_bottom_padding": 40
+  },
+  "spaces": {
+    "bucket": "purpleocaz-assets",
+    "region": "lon1",
+    "endpoint": "https://lon1.digitaloceanspaces.com",
+    "cdn_base": "https://purpleocaz-assets.lon1.digitaloceanspaces.com",
+    "thumbnail_prefix": "thumbnails"
+  }
+}

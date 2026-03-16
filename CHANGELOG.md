@@ -20,6 +20,9 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
   - Combined quality score: 100/100
   - Title: "Tattoo Business Kit Template, Editable Studio Branding Bundle, Printable Tattoo Shop Templates for Canva" at £12.99
 - **Proactive Etsy token refresh** built in `publish_listings_tool.py` — 7 new tests, 16/16 passing, `expires_at` now persisted on refresh
+- **Design registry** (`config/design_registry.json`) — maps niche + product_type to base Canva designs with confirmed-unlocked element IDs, card variants, text elements, shadow preset, and Spaces config. Initial entry: tattoo/business_card using DAFx_dsWpTA with 2 confirmed card slots and 2 text elements.
+- **ThumbnailPipelineTool** (`workflows/auto_listing_creator/tools/thumbnail_pipeline_tool.py`) — autonomous Etsy thumbnail generator. Reads registry → gets Canva token (auto-refresh) → swaps card images via Canva REST editing API (one transaction per operation) → swaps text → exports PNG → applies ETSY_CARD_SHADOW_PRESET via Pillow (blur=12, opacity=0.75, asymmetric padding T40/R120/B80/L40) → uploads to DigitalOcean Spaces → returns CDN URL. Extends `BaseTool`, standard return shape.
+- **20 tests** for thumbnail pipeline — registry lookup (9 tests), shadow compositing (5 tests), mocked execute flow (6 tests). All 47/47 project tests passing.
 
 ---
 

@@ -215,14 +215,23 @@ class TestShadowCompositing:
         img = Image.open(io.BytesIO(output_bytes))
         assert img.mode == "RGBA"
 
+    def test_shadow_has_white_background(self, tool):
+        """Corners should be white (flattened onto white background)."""
+        input_bytes = _make_test_png(100, 50)
+        output_bytes = tool._apply_shadow(input_bytes, SHADOW_PRESET)
+        img = Image.open(io.BytesIO(output_bytes))
+        corner = img.getpixel((0, 0))
+        assert corner == (255, 255, 255, 255)
+
     def test_shadow_preserves_original_area(self, tool):
-        """The original image area should not be fully transparent."""
+        """The original image area should contain the card pixels."""
         input_bytes = _make_test_png(100, 50, (255, 0, 0, 255))
         output_bytes = tool._apply_shadow(input_bytes, SHADOW_PRESET)
         img = Image.open(io.BytesIO(output_bytes))
         # Sample pixel at original position (pad_l, pad_t) = (40, 40)
         pixel = img.getpixel((40, 40))
-        assert pixel[3] > 0  # Not transparent
+        assert pixel[0] == 255  # Red channel preserved
+        assert pixel[3] == 255  # Fully opaque
 
     def test_shadow_with_custom_preset(self, tool):
         preset = {

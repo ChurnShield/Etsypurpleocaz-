@@ -381,11 +381,15 @@ class ThumbnailPipelineTool(BaseTool):
         blur_radius = preset.get("shadow_blur", 12)
         canvas = canvas.filter(ImageFilter.GaussianBlur(radius=blur_radius))
 
-        # Composite original on top
-        canvas.paste(img, (pad_l, pad_t), img)
+        # Composite original on top (no alpha mask — paste opaque over shadow)
+        canvas.paste(img, (pad_l, pad_t))
+
+        # Flatten onto white background so shadow is visible in final output
+        background = Image.new("RGBA", canvas.size, (255, 255, 255, 255))
+        background = Image.alpha_composite(background, canvas)
 
         buf = io.BytesIO()
-        canvas.save(buf, "PNG")
+        background.save(buf, "PNG")
         return buf.getvalue()
 
     # =========================================================================

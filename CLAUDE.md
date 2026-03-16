@@ -1,3 +1,5 @@
+CRITICAL: Read SOUL.md before anything else every session. If SOUL.md is missing from disk, stop immediately and tell Andy.
+
 # CLAUDE.md -- 3-Layer Dual Learning Agentic AI System
 
 **For AI Assistants**: Read this file first. For detailed docs, load files from docs/architecture/ on-demand.

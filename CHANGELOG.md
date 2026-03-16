@@ -9,6 +9,12 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+### Added — 2026-03-16 (Hero Thumbnail Approved)
+- **Approved hero thumbnail pipeline** — DAHDc0gyebE template → card swap → full-width banner → export → Sharp black banner post-processing → Spaces CDN upload → Etsy listing upload. Fully documented in LESSONS.md.
+- **Etsy draft #4472947789** created with hero image (rank 1) + delivery PDF. Ready for Andy to review and publish live.
+- **Black banner via post-export pixel swap** — Canva API cannot change shape fill colors or control z-order, so crimson→black is done in Sharp after export. All dark pixels below y=82% are swapped to #000000, preserving white text.
+- **Solid black Canva asset** `MAHEIi_EfxE` uploaded for future use.
+
 ### Fixed — 2026-03-16
 - **Hero thumbnail shadow approach** — replaced Pillow/Sharp shadow compositing (which produced hard black rectangles) with Canva template `DAHDc0gyebE` that has natural flatlay shadows built in. Cards now look physically lifted off the surface.
 - **Black border on export** — removed explicit `width: 2000` from Canva export; native 1587x2245 dimensions export cleanly with no letterboxing.

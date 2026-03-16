@@ -4,6 +4,31 @@ A living document updated every session. Most recent entries first.
 
 ---
 
+### 2026-03-16 — Hero Thumbnail: Approved Pipeline (End-to-End)
+
+**The approved flow for tattoo/business_card hero thumbnail:**
+1. Open `DAHDc0gyebE` editing transaction
+2. `update_fill` front card element with dark card export asset
+3. `update_fill` back card element with light card export asset
+4. `replace_text` headline + subtext as needed
+5. `position_element` / `resize_element` banner shape to full width (left=0, width=1587)
+6. Commit transaction
+7. Export at native dimensions (no width override = 1587x2245; or width=3000 for high-res = 3000x4243)
+8. **Post-export**: Sharp pixel swap — all dark pixels (brightness < 180) below y=82% of image height → black #000000. This changes the crimson banner to black while preserving white text.
+9. Upload to Spaces + Etsy listing as rank 1 image
+
+**Why post-processing for the banner color?**
+- Canva MCP `update_fill` on SHAPE elements returns "shape does not contain an editable fill" — only works on image/video containers
+- `insert_fill` creates new image elements that always go on TOP of the z-stack, covering the text elements. No z-order control via API.
+- The only reliable approach: keep the original shape (preserves z-order under text), export, then swap colors in the PNG via Sharp pixel manipulation.
+
+**Key assets:**
+- Black PNG asset `MAHEIi_EfxE` uploaded for future use if Canva adds z-order control
+- Approved hero CDN: `thumbnails/tattoo_business_card_hero_APPROVED_1773687738456.png`
+- Etsy draft: #4472947789
+
+---
+
 ### 2026-03-16 — Hero Thumbnail: Shadow Approach That Works
 
 **Worked:**

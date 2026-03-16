@@ -7,6 +7,14 @@
         "thumbnail_design_title": "Etsy Listing - Business Card Thumbnail Template",
         "thumbnail_page_id": "PB7y4RXXMjNRSBxN",
         "thumbnail_dimensions": { "width": 1587, "height": 2245 },
+        "thumbnail_approved": true,
+        "thumbnail_approved_url": "https://purpleocaz-assets.lon1.digitaloceanspaces.com/thumbnails/tattoo_business_card_hero_APPROVED_1773687738456.png",
+        "thumbnail_banner_color": "#000000",
+        "thumbnail_banner_element_id": "PB7y4RXXMjNRSBxN-LBzT2S3CNqpg6NDp",
+        "thumbnail_banner_note": "Shape fill cannot be changed via API. Export at native dims, then swap dark pixels below y=82% to black via Sharp post-processing.",
+        "thumbnail_black_asset_id": "MAHEIi_EfxE",
+        "etsy_listing_id": "4472947789",
+        "etsy_listing_image_id": "7859958111",
         "thumbnail_elements": {
           "front_card": {
             "element_id": "PB7y4RXXMjNRSBxN-LBzNYh3QYlcjmnDQ",

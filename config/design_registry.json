@@ -1,12 +1,40 @@
 {
-  "version": 1,
+  "version": 2,
   "designs": {
     "tattoo": {
       "business_card": {
-        "base_design_id": "DAFx_dsWpTA",
-        "base_design_title": "Etsy Listing - Business Card Purple",
-        "page_count": 5,
-        "pages": {
+        "thumbnail_design_id": "DAHDc0gyebE",
+        "thumbnail_design_title": "Etsy Listing - Business Card Thumbnail Template",
+        "thumbnail_page_id": "PB7y4RXXMjNRSBxN",
+        "thumbnail_dimensions": { "width": 1587, "height": 2245 },
+        "thumbnail_elements": {
+          "front_card": {
+            "element_id": "PB7y4RXXMjNRSBxN-LBzNYh3QYlcjmnDQ",
+            "width": 979,
+            "height": 546,
+            "top": 554,
+            "left": 196
+          },
+          "back_card": {
+            "element_id": "PB7y4RXXMjNRSBxN-LBQPQW8s9ZqqhvZc",
+            "width": 928,
+            "height": 517,
+            "top": 987,
+            "left": 470
+          },
+          "headline": {
+            "element_id": "PB7y4RXXMjNRSBxN-LBnzshp3wwmD5XxT",
+            "default_text": "TATTOO STUDIO\nBUSINESS CARD"
+          },
+          "subtext": {
+            "element_id": "PB7y4RXXMjNRSBxN-LBL801k0tMcMCblR",
+            "default_text": "EDITABLE CANVA TEMPLATE  |  INSTANT DOWNLOAD"
+          }
+        },
+        "listing_design_id": "DAFx_dsWpTA",
+        "listing_design_title": "Etsy Listing - Business Card Purple",
+        "listing_page_count": 5,
+        "listing_pages": {
           "1": {
             "width": 3000,
             "height": 2250,
@@ -60,16 +88,6 @@
         }
       }
     }
-  },
-  "shadow_preset": {
-    "shadow_color": [0, 0, 0],
-    "shadow_opacity": 0.75,
-    "shadow_blur": 12,
-    "shadow_offset_x": 15,
-    "shadow_offset_y": 15,
-    "padding": 40,
-    "extra_right_padding": 80,
-    "extra_bottom_padding": 40
   },
   "spaces": {
     "bucket": "purpleocaz-assets",

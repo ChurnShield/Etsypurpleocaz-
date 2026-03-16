@@ -4,6 +4,29 @@ A living document updated every session. Most recent entries first.
 
 ---
 
+### 2026-03-16 — Hero Thumbnail: Shadow Approach That Works
+
+**Worked:**
+- Design `DAHDc0gyebE` is the correct base thumbnail template for tattoo/business_card. It has a flatlay background with natural shadow and depth built into the Canva design — no Pillow/Sharp shadow processing needed.
+- `update_fill` on the existing card element containers swaps the card image while preserving the template's built-in shadow and rotation. Element IDs: front card `PB7y4RXXMjNRSBxN-LBzNYh3QYlcjmnDQ`, back card `PB7y4RXXMjNRSBxN-LBQPQW8s9ZqqhvZc`.
+- Text elements confirmed working: headline `PB7y4RXXMjNRSBxN-LBnzshp3wwmD5XxT`, subtext `PB7y4RXXMjNRSBxN-LBL801k0tMcMCblR`.
+- Export without specifying width gets native 1587x2245 dimensions — no black borders. Specifying `width: 2000` on a non-matching aspect ratio causes letterboxing.
+- `position_element` successfully shifts card containers to fix cropping issues.
+
+**Failed:**
+- Pillow/Sharp shadow compositing approach: creating shadow rect → gaussian blur → composite card on top. Even with large padding (120px), high blur sigma (20-30), and varying opacity (0.6-0.95), the result looked like a hard black rectangle, not a natural shadow. Root cause: the shadow rect has sharp edges that gaussian blur softens but never makes look organic — real shadows have irregular falloff affected by the surface texture.
+- Uploading pre-shadowed card PNGs via `update_fill` to Canva containers: Canva's internal crop/zoom eats the shadow padding, making it invisible. The container is sized to the card, not the card+shadow.
+- Canva REST editing API (`/designs/{id}/editing_sessions`) returns 404 — this endpoint doesn't exist. Must use Canva MCP tools (`start-editing-transaction`, `perform-editing-operations`, `commit-editing-transaction`) for all design editing.
+- Exporting at a width that doesn't match the design's aspect ratio adds black borders/letterboxing.
+
+**Key Rule:** For thumbnails with natural shadows, use a Canva template that has the shadow built into the design (flatlay photo background with positioned card containers). Never try to synthesize shadows programmatically — it always looks fake. The template IS the shadow system.
+
+**Next:**
+- Register `DAHDc0gyebE` element IDs for other niches (nail, hair, beauty, spa) — clone the template and swap card designs per niche.
+- Add the thumbnail template step to the automated listing pipeline: export cards → `update_fill` into `DAHDc0gyebE` → export → upload to Spaces.
+
+---
+
 ## AI Brain Principles
 
 - **Give Claude tools shaped to its abilities** — not the easiest to implement. A well-designed tool that the model understands beats a quick hack it struggles with.

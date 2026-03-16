@@ -9,6 +9,14 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+### Fixed — 2026-03-16
+- **Hero thumbnail shadow approach** — replaced Pillow/Sharp shadow compositing (which produced hard black rectangles) with Canva template `DAHDc0gyebE` that has natural flatlay shadows built in. Cards now look physically lifted off the surface.
+- **Black border on export** — removed explicit `width: 2000` from Canva export; native 1587x2245 dimensions export cleanly with no letterboxing.
+- **Light card right-edge crop** — repositioned back card element from left=541 to left=470 so full card is visible within frame.
+
+### Changed — 2026-03-16
+- **Design registry v2** — `DAHDc0gyebE` is now the canonical thumbnail template for tattoo/business_card (replaces `DAFx_dsWpTA` for thumbnails). Registry restructured: `thumbnail_design_id` for hero images, `listing_design_id` for the 5-page listing design. Removed `shadow_preset` (shadows are now handled by the template, not code).
+
 ### Added — 2026-03-16
 - **Terminus mobile SSH access** configured. UFW opened port 22 (`sudo ufw allow 22`). Root password set for password-based auth. Terminus on Android now successfully connects to droplet via password. Key-based auth attempted but not completed - future task to clean up.
 - **Etsy OAuth headless flow** — `etsy_oauth.py` rewritten to use paste-the-redirect-URL approach (like Canva OAuth) instead of localhost callback server. Works from remote droplet and Terminus mobile SSH.

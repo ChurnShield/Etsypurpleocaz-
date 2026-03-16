@@ -19,58 +19,44 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
   - Phase 4: Published Etsy draft `#4472750162` with 2 images + digital PDF, saved to Google Sheets
   - Combined quality score: 100/100
   - Title: "Tattoo Business Kit Template, Editable Studio Branding Bundle, Printable Tattoo Shop Templates for Canva" at £12.99
+- **Proactive Etsy token refresh** built in `publish_listings_tool.py` — 7 new tests, 16/16 passing, `expires_at` now persisted on refresh
+
+---
+
+## [1.0.0] - 2026-03-15 — Canva MCP Pipeline & Shadow Tools
 
 ### Added
-- **purpleocaz-canva-mcp** — TypeScript MCP server foundation for Canva + Spaces pipeline
-  - `src/spaces-client.ts` — DigitalOcean Spaces wrapper (upload/download/delete via S3-compatible API)
-  - `src/canva-client.ts` — Canva API wrapper (export designs as PNG, upload assets via binary API)
+- **purpleocaz-canva-mcp** — TypeScript MCP server for Canva + DigitalOcean Spaces pipeline
+  - `src/spaces-client.ts` — S3-compatible Spaces wrapper (upload/download/delete, CDN base `purpleocaz-assets.lon1.digitaloceanspaces.com`)
+  - `src/canva-client.ts` — Canva API wrapper (export designs as PNG at 2100px, upload assets via binary `application/octet-stream` API)
   - `src/tools/asset-tools.ts` — `canva_export_and_stage`: export → download → Spaces → Canva asset
   - `src/tools/render-tools.ts` — four shadow/export tools:
-    - `purpleocaz_export_full_card` — high-res (2100px) full design export to Spaces + Canva
-    - `purpleocaz_render_card_with_shadow` — configurable drop shadow compositing
-    - `purpleocaz_apply_etsy_shadow` — Canva-native shadow preset with asymmetric padding (extra right/bottom for listing templates)
+    - `purpleocaz_export_full_card` — high-res full design export to Spaces + Canva
+    - `purpleocaz_render_card_with_shadow` — configurable drop shadow compositing via Sharp
+    - `purpleocaz_apply_etsy_shadow` — Canva-native shadow preset with asymmetric padding (T40/R120/B80/L40 for listing templates)
     - `purpleocaz_apply_etsy_shadow_angled` — -5 degree rotated lifestyle variant
-  - `src/config/niches.ts` — `ETSY_CARD_SHADOW_PRESET` and `ETSY_CARD_SHADOW_ANGLED_PRESET`
-- **Canva OAuth headless flow** (`workflows/auto_listing_creator/canva_oauth_headless.py`) — PKCE flow for remote servers, auto-updates MCP `.env` with tokens
-- **Slash commands** in `.claude/commands/`:
-  - `/export-full-card` — export full design PNG to Spaces
-  - `/etsy-shadow` — apply Etsy-standard drop shadow
-  - `/etsy-angled` — apply angled lifestyle shadow
-- **DigitalOcean Spaces** bucket `purpleocaz-assets` (lon1) configured with permanent public CDN URLs
-- **AI Brain Principles** section in LESSONS.md — tool design principles from Claude Code team insights
-- **Canva MCP in claude.ai** — discovered Canva MCP works directly in claude.ai chat sessions (no CLI required)
-- **`build_listing_1.py`** — 2700x2700 Etsy thumbnail compositor using real Canva card exports via Python/Pillow
-- **Canva thumbnail candidate** (`DAHD3curHkM`) — generated via Canva MCP `generate-design` with detailed layout prompts
+  - `src/config/niches.ts` — `ETSY_CARD_SHADOW_PRESET` (blur=12, opacity=0.75, offset=15,15) and `ETSY_CARD_SHADOW_ANGLED_PRESET`
+- **Canva OAuth headless flow** (`canva_oauth_headless.py`) — PKCE flow for remote servers, auto-updates MCP `.env` with tokens
+- **Slash commands** — `/export-full-card`, `/etsy-shadow`, `/etsy-angled`
+- **DigitalOcean Spaces** bucket `purpleocaz-assets` (lon1) with permanent public CDN URLs
+- **Canva MCP design editing** — text replacement via editing transactions, gold colour scheme bulk restyling, asset uploads via `upload-asset-from-url`
+- **Light business card** — Canva design `DAHD15IcxRs` (cream/charcoal/gold) + HTML/Playwright fallback with Ideogram circle photo composite
+- **Multi-product delivery PDF** — `create_pdf()` supports named product link boxes with fallback to legacy A4/Letter/Print layout
+- **Etsy thumbnail compositor** — `build_listing_1.py` (2700x2700 Pillow pipeline using real Canva card exports)
+- **AI Brain Principles** in LESSONS.md — tool design principles from Claude Code team insights
 
 ### Changed
 - **CLAUDE.md** — added Canva & Pipeline Tools section with session-start instructions
-- **LESSONS.md** — added 2026-03-15 entry with full pipeline learnings (Spaces, OAuth, shadow presets, API gotchas)
-- **Etsy thumbnail strategy** — correct approach identified: clone existing proven 2+ year old Etsy listing designs and swap card images via Canva MCP, never rebuild from scratch
-
-### Known Issues
-- Canva access tokens expire — no auto-refresh flow yet (refresh token saved but not wired)
-- Canva asset upload name limited to 50 chars — currently truncated with `.slice(-50)`
-- **Light business card Canva design** (`DAHD15IcxRs`) — cream #FDFBF7 background, charcoal #1A1A1A text, gold #C9A84C accents, circular tattoo photo on front. Generated via Canva MCP `generate-design`, text replaced via editing transactions
-- **HTML light business card template** (`templates/business_card_light.html`) — Playwright-rendered fallback with Ideogram circle photo composite
-- **Multi-product delivery PDF** — `create_pdf()` in `image_renderer.py` now supports named product link boxes (`business_card`, `business_card_light`, `appointment_card`, etc.) with fallback to legacy A4/Letter/Print layout
-- **Ideogram circle photo composite** — `render_business_card_light()` generates tattoo artist close-up via Ideogram, crops to circle with Pillow, composites with gold border ring onto the HTML card
-- **`TEMPLATE_LINKS`** in `run_single_listing.py` — wired with real Canva buyer URLs:
-  - Dark: `https://www.canva.com/d/e21A6ZQJ3XcCIq-` (DAHD07F9MsY)
-  - Light: `https://www.canva.com/d/vyaBAtIupW1g7zH` (DAHD15IcxRs)
-- `browser_use_test.py` — Browser Use smoke test script with headless Chromium support
-- Canva MCP integration confirmed working via Claude Code on droplet
-
-### Changed
-- **Ideogram appointment card prompt** updated to two-card flatlay composition (front + back overlapping)
-- **Pillow composite banner color** adjusted to #F2C4CE blush pink
-- **`product_creator_tool.py`** — both tiers render light business card variant for business/kit products, pass `ideogram_api_key` through
+- **Etsy thumbnail strategy** — clone existing proven designs and swap card images via Canva MCP, never rebuild from scratch
+- **Ideogram appointment card prompt** — two-card flatlay composition (front + back overlapping)
+- **`product_creator_tool.py`** — both tiers render light business card variant, pass `ideogram_api_key` through
 - Design DAHDolzpMTY restyled from dark red torn-edge to premium gold aesthetic (#C9A96E, #E8E0D4)
-- Established MCP edit pattern: one transaction per operation, commit before next
+- MCP edit pattern established: one transaction per operation, commit before next
 
 ### Known Limitations
-- Canva MCP cannot add new text elements, only restyle existing ones
-- Canva MCP cannot search the template library or element library
-- Canva MCP cannot clone/duplicate designs — must generate fresh or manually copy
+- Canva access tokens expire — no auto-refresh flow yet (refresh token saved but not wired)
+- Canva asset upload name limited to 50 chars (truncated with `.slice(-50)`)
+- Canva MCP cannot add new text elements, search templates/elements, or clone designs
 
 ---
 
@@ -306,13 +292,14 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ---
 
-[Unreleased]: https://github.com/your-org/your-repo/compare/v0.9.0...HEAD
-[0.9.0]: https://github.com/your-org/your-repo/compare/v0.8.0...v0.9.0
-[0.8.0]: https://github.com/your-org/your-repo/compare/v0.7.0...v0.8.0
-[0.7.0]: https://github.com/your-org/your-repo/compare/v0.6.0...v0.7.0
-[0.6.0]: https://github.com/your-org/your-repo/compare/v0.5.0...v0.6.0
-[0.5.0]: https://github.com/your-org/your-repo/compare/v0.4.0...v0.5.0
-[0.4.0]: https://github.com/your-org/your-repo/compare/v0.3.0...v0.4.0
-[0.3.0]: https://github.com/your-org/your-repo/compare/v0.2.0...v0.3.0
-[0.2.0]: https://github.com/your-org/your-repo/compare/v0.1.0...v0.2.0
-[0.1.0]: https://github.com/your-org/your-repo/releases/tag/v0.1.0
+[Unreleased]: https://github.com/ChurnShield/Etsypurpleocaz-/compare/v1.0.0...HEAD
+[1.0.0]: https://github.com/ChurnShield/Etsypurpleocaz-/compare/v0.9.0...v1.0.0
+[0.9.0]: https://github.com/ChurnShield/Etsypurpleocaz-/compare/v0.8.0...v0.9.0
+[0.8.0]: https://github.com/ChurnShield/Etsypurpleocaz-/compare/v0.7.0...v0.8.0
+[0.7.0]: https://github.com/ChurnShield/Etsypurpleocaz-/compare/v0.6.0...v0.7.0
+[0.6.0]: https://github.com/ChurnShield/Etsypurpleocaz-/compare/v0.5.0...v0.6.0
+[0.5.0]: https://github.com/ChurnShield/Etsypurpleocaz-/compare/v0.4.0...v0.5.0
+[0.4.0]: https://github.com/ChurnShield/Etsypurpleocaz-/compare/v0.3.0...v0.4.0
+[0.3.0]: https://github.com/ChurnShield/Etsypurpleocaz-/compare/v0.2.0...v0.3.0
+[0.2.0]: https://github.com/ChurnShield/Etsypurpleocaz-/compare/v0.1.0...v0.2.0
+[0.1.0]: https://github.com/ChurnShield/Etsypurpleocaz-/releases/tag/v0.1.0

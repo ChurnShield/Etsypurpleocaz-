@@ -11,6 +11,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Added — 2026-03-16
 - **Terminus mobile SSH access** configured. UFW opened port 22 (`sudo ufw allow 22`). Root password set for password-based auth. Terminus on Android now successfully connects to droplet via password. Key-based auth attempted but not completed - future task to clean up.
+- **Etsy OAuth headless flow** — `etsy_oauth.py` rewritten to use paste-the-redirect-URL approach (like Canva OAuth) instead of localhost callback server. Works from remote droplet and Terminus mobile SSH.
+- **Etsy OAuth tokens live** — verified working against `/v3/application/users/me` and shop endpoint. Shop ID `34071205`, 937 active listings, 931 sales.
 
 ### Added
 - **purpleocaz-canva-mcp** — TypeScript MCP server foundation for Canva + Spaces pipeline

@@ -1,16 +1,18 @@
 # =============================================================================
 # workflows/etsy_analytics/etsy_oauth.py
 #
-# One-time Etsy OAuth 2.0 setup (PKCE flow).
+# Headless Etsy OAuth 2.0 setup (PKCE flow) for remote servers.
+# Instead of a local callback server, you paste the redirect URL manually.
 #
 # Run:  python workflows/etsy_analytics/etsy_oauth.py
 #
 # What happens:
-#   1. Opens your browser to Etsy's authorization page
+#   1. Shows an authorization URL — open it in any browser
 #   2. You click "Allow" to grant your app access to your shop data
-#   3. Etsy redirects to localhost where this script captures the code
-#   4. Exchanges the code for access + refresh tokens
-#   5. Saves tokens to etsy_tokens.json (used by the analytics workflow)
+#   3. Etsy redirects to localhost (which will fail — that's OK)
+#   4. You paste the full redirect URL back here
+#   5. Exchanges the code for access + refresh tokens
+#   6. Saves tokens to etsy_tokens.json (used by the analytics workflow)
 #
 # After this, the workflow can read your transactions/receipts (sales data).
 # =============================================================================
@@ -21,12 +23,9 @@ import json
 import hashlib
 import base64
 import secrets
-import webbrowser
 import urllib.request
 import urllib.parse
 import urllib.error
-from http.server import HTTPServer, BaseHTTPRequestHandler
-from threading import Thread
 
 _here = os.path.dirname(os.path.abspath(__file__))
 _project_root = os.path.dirname(os.path.dirname(_here))
@@ -114,48 +113,15 @@ def load_tokens():
         return json.load(f)
 
 
-# -- Callback server to capture the OAuth redirect --
-
-class OAuthCallbackHandler(BaseHTTPRequestHandler):
-    """Handles the OAuth callback from Etsy."""
-    auth_code = None
-    state     = None
-
-    def do_GET(self):
-        parsed = urllib.parse.urlparse(self.path)
-        params = urllib.parse.parse_qs(parsed.query)
-
-        OAuthCallbackHandler.auth_code = params.get("code", [None])[0]
-        OAuthCallbackHandler.state     = params.get("state", [None])[0]
-
-        self.send_response(200)
-        self.send_header("Content-Type", "text/html")
-        self.end_headers()
-
-        if OAuthCallbackHandler.auth_code:
-            html = (
-                "<html><body style='font-family:sans-serif;text-align:center;padding:60px'>"
-                "<h1 style='color:#6B2189'>PurpleOcaz - Authorization Successful!</h1>"
-                "<p>You can close this tab and return to your terminal.</p>"
-                "</body></html>"
-            )
-        else:
-            error = params.get("error", ["unknown"])[0]
-            html = (
-                f"<html><body style='font-family:sans-serif;text-align:center;padding:60px'>"
-                f"<h1 style='color:red'>Authorization Failed</h1>"
-                f"<p>Error: {error}</p>"
-                f"</body></html>"
-            )
-
-        self.wfile.write(html.encode("utf-8"))
-
-    def log_message(self, format, *args):
-        pass  # Suppress server log output
+def extract_code_from_url(url):
+    """Extract the authorization code from a callback URL."""
+    parsed = urllib.parse.urlparse(url)
+    params = urllib.parse.parse_qs(parsed.query)
+    return params.get("code", [None])[0]
 
 
 def main():
-    print("\n=== Etsy OAuth Setup ===\n")
+    print("\n=== Etsy OAuth Setup (Headless) ===\n")
 
     if not ETSY_API_KEYSTRING:
         print("  ERROR: ETSY_API_KEYSTRING not set in .env")
@@ -175,35 +141,47 @@ def main():
     # Build auth URL
     auth_url = build_auth_url(code_challenge, state)
 
-    # Start local callback server
-    server = HTTPServer(("localhost", 3847), OAuthCallbackHandler)
-    server_thread = Thread(target=server.handle_request, daemon=True)
-    server_thread.start()
-
-    print("  Opening your browser to authorize with Etsy...")
-    print(f"  If the browser doesn't open, paste this URL:\n")
+    print("=" * 70)
+    print("  STEP 1: Open this URL in your browser:\n")
     print(f"  {auth_url}\n")
+    print("=" * 70)
+    print()
+    print("  STEP 2: Click 'Allow' to grant PurpleOcaz access to your shop.")
+    print()
+    print("  STEP 3: After authorizing, your browser will try to redirect to")
+    print("  http://localhost:3847/callback?code=... which will FAIL.")
+    print("  That's OK! Copy the FULL URL from your browser's address bar.\n")
+    print("=" * 70)
+    print()
 
-    webbrowser.open(auth_url)
+    raw = input("  Paste the full redirect URL here: ").strip()
 
-    print("  Waiting for authorization callback...")
-    server_thread.join(timeout=120)
-    server.server_close()
-
-    if not OAuthCallbackHandler.auth_code:
-        print("\n  ERROR: No authorization code received (timed out or denied)")
+    if not raw:
+        print("\n  ERROR: No URL provided")
         return
 
-    if OAuthCallbackHandler.state != state:
-        print("\n  ERROR: State mismatch — possible CSRF attack")
+    # Handle both full URL and bare code
+    if raw.startswith("http"):
+        auth_code = extract_code_from_url(raw)
+        # Also check state
+        parsed = urllib.parse.urlparse(raw)
+        params = urllib.parse.parse_qs(parsed.query)
+        returned_state = params.get("state", [None])[0]
+        if returned_state and returned_state != state:
+            print("\n  ERROR: State mismatch — possible CSRF attack")
+            return
+    else:
+        auth_code = raw
+
+    if not auth_code:
+        print("\n  ERROR: Could not extract authorization code from URL")
         return
 
-    print("  Authorization code received!")
-
-    # Exchange for tokens
+    print(f"\n  Authorization code: {auth_code[:20]}...")
     print("  Exchanging code for tokens...")
+
     try:
-        token_data = exchange_code(OAuthCallbackHandler.auth_code, code_verifier)
+        token_data = exchange_code(auth_code, code_verifier)
     except urllib.error.HTTPError as e:
         body = e.read().decode("utf-8")
         print(f"\n  ERROR: Token exchange failed ({e.code}): {body}")
@@ -214,7 +192,7 @@ def main():
     print(f"\n  Access token:  {token_data.get('access_token', '')[:20]}...")
     print(f"  Refresh token: {token_data.get('refresh_token', '')[:20]}...")
     print(f"  Expires in:    {token_data.get('expires_in', 0)} seconds")
-    print(f"\n=== OAuth setup complete! ===")
+    print(f"\n=== Etsy OAuth setup complete! ===")
     print(f"  The analytics workflow will now pull per-listing sales data.\n")
 
 

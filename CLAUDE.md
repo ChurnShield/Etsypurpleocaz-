@@ -1,12 +1,24 @@
 CRITICAL: Read SOUL.md before anything else every session. If SOUL.md is missing from disk, stop immediately and tell Andy.
 
-# CLAUDE.md -- 3-Layer Dual Learning Agentic AI System
+# CLAUDE.md — PurpleOcaz Agentic AI System
 
-**For AI Assistants**: Read this file first. For detailed docs, load files from docs/architecture/ on-demand.
+**Entry point.** Rules are split into focused files loaded automatically.
 
 ---
 
-## Architecture Reference
+## Rules (auto-loaded by Claude Code)
+
+| File | Scope |
+|------|-------|
+| `.claude/rules/pipeline.md` | Listing pipeline: image sources, hero thumbnails, design flow |
+| `.claude/rules/canva.md` | Canva MCP: delivery links, folder IDs, element limits, gotchas |
+| `.claude/rules/etsy.md` | Etsy API: tags, pricing, auth, verification |
+| `.claude/rules/database.md` | SQLiteClient access, schema rules |
+| `.claude/rules/security.md` | Credentials, protected files, Brain safety |
+| `.claude/rules/testing.md` | pytest conventions, mocking, coverage |
+| `.claude/rules/tool-conventions.md` | BaseTool / BaseValidator contracts |
+
+## Architecture Docs (load on-demand)
 
 | Topic | File |
 |-------|------|
@@ -24,223 +36,85 @@ CRITICAL: Read SOUL.md before anything else every session. If SOUL.md is missing
 
 ---
 
-## Critical Rules
+## Critical Rules (summary — details in rules files)
 
-### DO NOT Modify or Delete
+### ALWAYS
+- `ExecutionLogger` with `try/finally` and `logger.flush()` in finally
+- Extend `BaseTool` / `BaseValidator` for all tools/validators
+- `SQLiteClient` for all DB access (never raw sqlite3)
+- Config values from `config.py` (never hardcode)
+- `pytest tests/ -v` before claiming done
+- `python scripts/verify_listing.py {id}` after every listing build
 
-- `lib/orchestrator/base_tool.py` -- ABC contract for all tools; changing breaks all workflows
-- `lib/orchestrator/base_validator.py` -- ABC contract for all validators
-- `lib/orchestrator/execution_logger.py` -- Logging contract; Brain depends on it
-- `lib/common_tools/sqlite_client.py` -- Supabase compatibility layer
-- `scripts/init_db.py` -- Database schema; changes require migration strategy
-- `config.py` -- Root configuration; changes cascade system-wide
-- `data/system.db` -- Production data; corruption is unrecoverable
-
-### ALWAYS Do
-
-- Use `ExecutionLogger` with `try/finally` and `logger.flush()` in the finally block
-- Extend `BaseTool` for all tools; return `{success, data, error, tool_name, metadata}`
-- Extend `BaseValidator` for all validators; return `{passed, issues, needs_more, validator_name, metadata}`
-- Use `SQLiteClient` query builder for all DB access (never raw sqlite3)
-- Import config values from `config.py` (never hardcode API keys, paths, thresholds)
-- Run `pytest tests/ -v` before claiming code is complete
-
-### NEVER Do
-
-- Skip `logger.flush()` or put it outside a finally block (logs are lost, Brain goes blind)
-- Bypass base classes with custom tool/validator interfaces (breaks Brain analysis)
-- Use raw `sqlite3` instead of `SQLiteClient` (breaks Supabase compatibility)
-- Hardcode API keys, model names, file paths, or thresholds
-- Auto-apply Brain proposals without human approval
-- Log API keys or secrets in execution_logs metadata
-
----
-
-## Content Rules
-
-When exact copy is provided for listing titles, descriptions or tags — use it VERBATIM. Never rewrite, summarise or improve provided copy. If a technical limitation prevents exact use, flag it before proceeding and do not substitute your own version.
+### NEVER
+- Skip `logger.flush()` — Brain goes blind
+- Auto-apply Brain proposals — human-in-the-loop required
+- Hardcode API keys, paths, or thresholds
+- Use PUT on Etsy listings — PATCH only
+- Use `/design/.../edit` links in delivery PDFs — `/d/{shortcode}` only
 
 ---
 
 ## Project Conventions
 
-- **Files**: `snake_case.py` (e.g., `execution_logger.py`, `base_tool.py`)
-- **Classes**: `PascalCase` with `Base*` prefix for ABCs (e.g., `BaseTool`, `ExecutionLogger`)
-- **Functions/variables**: `snake_case`; private methods `_prefixed`
-- **Constants**: `UPPER_SNAKE_CASE` (e.g., `MAX_RETRIES`, `DATABASE_PATH`)
-- **Error handling**: Tools catch all exceptions and return error dicts (never raise)
-- **Database**: Always via `SQLiteClient` chainable API (`.table().select().eq().execute()`)
-- **Tools return**: `{success: bool, data: Any, error: str|None, tool_name: str, metadata: dict}`
-- **Validators return**: `{passed: bool, issues: list, needs_more: bool, validator_name: str, metadata: dict}`
+- **Files**: `snake_case.py`
+- **Classes**: `PascalCase`, `Base*` for ABCs
+- **Functions/variables**: `snake_case`, `_private`
+- **Constants**: `UPPER_SNAKE_CASE`
+- **Tools return**: `{success, data, error, tool_name, metadata}`
+- **Validators return**: `{passed, issues, needs_more, validator_name, metadata}`
+- **Content**: When exact copy is provided — use it VERBATIM. Never rewrite.
 
 ---
 
 ## Quick Task Guide
 
-**Understanding the system**: Read 01-overview -> 02-orchestrator -> 07-workflows -> 05-database
-
-**Adding a new workflow**: Read 07-workflows -> 03-tool-patterns -> 04-validator-patterns -> 08-configuration
-
-**Adding a new tool**: Read 03-tool-patterns -> 04-validator-patterns -> 09-testing
-
-**Debugging a failure**: Read 10-operations -> 02-orchestrator -> 05-database
-
-**Understanding SmallBrain**: Read 06-brain -> 02-orchestrator -> 05-database
-
-**Setting up from scratch**: Read 08-configuration -> 10-operations -> 01-overview
-
----
-
-## Out of Scope
-
-Do NOT:
-- Modify base class interfaces without explicit permission
-- Add new dependencies without approval
-- Change database schema without a migration strategy
-- Auto-apply proposals from SmallBrain (human-in-the-loop required)
-- Refactor working workflows unless explicitly requested
-
----
-
-## Emergency Procedures
-
-- **No logs after workflow run**: Missing `logger.flush()` in finally block -> see [02-orchestrator.md](docs/architecture/02-orchestrator.md)
-- **Database corruption**: Restore backup or re-run `python scripts/init_db.py` (WARNING: loses data) -> see [05-database.md](docs/architecture/05-database.md)
-- **Etsy API 401/403**: Check API key format (`keystring:shared_secret`) or re-run OAuth -> see [10-operations.md](docs/architecture/10-operations.md)
-- **Import errors**: Ensure `__init__.py` exists in all dirs and check sys.path setup -> see [10-operations.md](docs/architecture/10-operations.md)
-- **SmallBrain not generating proposals**: Need 15+ runs first; check `PROPOSAL_THRESHOLD_RUNS` -> see [06-brain.md](docs/architecture/06-brain.md)
-
----
-
-## Anti-Gravity Strategy (Etsy Growth Engine)
-
-The pipeline implements three compounding flywheels designed to produce increasing returns with decreasing effort:
-
-### 1. Algorithmic Flywheel (Etsy quality score)
-
-- **Long-tail keywords**: `NICHE_KEYWORD_STRATEGIES` in `generate_listing_content_tool.py` provides niche-specific keyword research data
-- **Dwell-time descriptions**: Listings include PERFECT FOR, FAQ, and use-case sections to increase time-on-page (2026 algorithm signal)
-- **Tag formula**: 13 tags split across core product, format/modifier, buyer intent, adjacent niche, and seasonal angles
-- **Bundle tags**: Every listing gets `bundle_tags` for automatic grouping
-
-### 2. Catalog Flywheel (compounding assets)
-
-- **Bundle auto-creator**: `BundleCreatorTool` in `tools/bundle_creator_tool.py` groups products into Starter Kit / Complete Bundle / Mega Pack tiers
-- **Niche expansion**: `EXPANSION_NICHES` in config supports multi-niche catalog growth (tattoo, nail, hair, beauty, spa)
-- **Cross-pollination**: Each bundle references its component listings, driving traffic between them
-
-### 3. Operational Flywheel (automation leverage)
-
-- **Zero marginal cost**: Digital products created once, sold infinitely
-- **Affiliate guide**: Every PDF includes branded Getting Started guide with affiliate links
-- **Pipeline phases**: Load -> Generate (anti-gravity keywords) -> Bundle -> Create -> Publish
-
-### Key Config
-
-| Setting | Location | Default |
-|---------|----------|---------|
-| `FOCUS_NICHE` | workflow config.py | `tattoo` |
-| `EXPANSION_NICHES` | env / config.py | `[FOCUS_NICHE]` |
-| `ENABLE_BUNDLES` | env / config.py | `true` |
-| `MIN_BUNDLE_SIZE` | env / config.py | `3` |
-
-### Pipeline Flow (Updated)
-
-```
-Phase 1  -> Load opportunities from Trend Monitor
-Phase 2  -> Generate listing content (anti-gravity keyword engine)
-Phase 2b -> Auto-bundle creation (groups products into value bundles)
-Phase 3  -> Create product images (Tier 1: Gemini AI / Tier 2: HTML)
-Phase 4  -> Publish to Sheets + Etsy drafts + upload images/PDFs
-```
+| Task | Read order |
+|------|------------|
+| Understanding the system | 01-overview → 02-orchestrator → 07-workflows |
+| Adding a workflow | 07-workflows → 03-tool-patterns → 08-configuration |
+| Adding a tool | 03-tool-patterns → 04-validator-patterns → 09-testing |
+| Debugging a failure | 10-operations → 02-orchestrator → 05-database |
+| Building a listing | `.claude/rules/pipeline.md` → `canva.md` → `etsy.md` |
 
 ---
 
 ## Session Management
 
-### Changelog
-At the end of every session, before any git push, automatically:
-1. Update the [Unreleased] section of CHANGELOG.md with what was done
-2. Include: Added, Changed, Fixed, and Known Issues where relevant
-3. Never wait to be asked — this happens on every commit
+### On Session Start
+1. Read SOUL.md
+2. Read most recent file in `digests/`
+3. Check `ideas_backlog.md` for unchecked items
+4. Check `transcripts/` for files newer than latest digest
+5. Check GitHub commits, Canva folders, Etsy drafts for crash recovery
 
-### Session End Checklist
-Before closing any session always:
+### On Session End
 1. Update CHANGELOG.md [Unreleased] section
-2. git add + commit + push all changed files
-3. Confirm push was successful
+2. Update LESSONS.md with worked/failed/next
+3. git add + commit + push all changed files
+4. Confirm push was successful
 
 ---
 
-## Quick Start
-
-1. Read this file (critical rules and conventions)
-2. Load the relevant docs/architecture/ file for your task
-3. Run tests before claiming any change is complete: `pytest tests/ -v`
 ## Canva & Pipeline Tools
 
-On every session start, before any Canva or pipeline work:
-1. Read `LESSONS.md` for proven patterns, API gotchas, and design IDs
-2. Shadow tools available as slash commands: `/export-full-card`, `/etsy-shadow`, `/etsy-angled`
-3. Shadow preset config: `purpleocaz-canva-mcp/src/config/niches.ts` (`ETSY_CARD_SHADOW_PRESET`)
-4. Canva OAuth tokens: `workflows/auto_listing_creator/canva_tokens.json` + `purpleocaz-canva-mcp/.env`
+- Shadow commands: `/export-full-card`, `/etsy-shadow`, `/etsy-angled`
+- Shadow preset: `purpleocaz-canva-mcp/src/config/niches.ts` (`ETSY_CARD_SHADOW_PRESET`)
+- Canva tokens: `workflows/auto_listing_creator/canva_tokens.json` + `purpleocaz-canva-mcp/.env`
 
-## Knowledge Base: YouTube Intelligence Feed
+---
 
-On every session start:
-1. Read the most recent file in `digests/`
-2. Check `ideas_backlog.md` for unchecked [ ] items
-3. Check `transcripts/` for any files newer than the latest digest
-4. Report: "📚 Knowledge base loaded: [N] transcripts, latest digest [date], [N] unactioned ideas"
-5. Surface top 1-2 backlog items relevant to today's work
+## Emergency Procedures
 
-## Self-Improvement Protocol
-
-### LESSONS.md
-Maintain /root/NEW-AI-PROJECT/LESSONS.md as a living document.
-At the end of every session, automatically append:
-
-**What worked** — approaches, tools, patterns that succeeded
-**What failed** — dead ends, API limitations, wrong assumptions
-**What to try next** — ideas triggered by this session
-
-Format each entry as:
-### [DATE] [Topic]
-**Worked:** ...
-**Failed:** ...
-**Next:** ...
-
-Never wait to be asked. This runs every session alongside CHANGELOG.md.
-
-### Transcript Ideas
-When a transcript contains a useful idea:
-1. Flag it to Andy with a 1-sentence summary
-2. Add to ideas_backlog.md with [ ] checkbox
-3. If code/prompt related, draft the specific change
-4. Wait for Andy's approval before applying anything
-5. Review session transcripts for reusable patterns and add to LESSONS.md
-
-## Hard Rules — Learned From Production
-
-1. **VERIFY BEFORE DONE**: Always run GET API confirmation after every upload. Never report success without API proof. Show raw response.
-
-2. **CANVA GENERATE-DESIGN LIMITATION**: generate-design always produces personal business cards — it cannot create appointment/booking cards with form fields. Workaround: generate for aesthetic base, then restyle existing text elements via editing transactions. One transaction per operation, commit before next.
-
-3. **ETSY TAGS**: Max 20 characters each. Validate all tag lengths before submitting. Duplicates rejected.
-
-4. **ETSY PRICE ON DRAFTS**: Price PATCH is silently ignored on draft listings — set price at creation time.
-
-5. **LISTING IMAGES STANDARD**: Rank 1 = DAHDc0gyebE page 1 (hero). Rank 2 = DAFx_dsWpTA page 3 (Canva Basics). Rank 3 = DAFx_dsWpTA page 5 (Please Note).
-
-6. **CANVA FOLDERS**: Move every new design to correct folder immediately after creation. root=FAHENpMANrQ, tattoo-masters=FAHENuO2Vkc, listing-templates=FAHENvJko1A, thumbnails-hero=FAHENqKrgvk.
-
-7. **CRASH RECOVERY**: On session start always check GitHub commits, Canva folders and Etsy drafts API to audit what survived. Never assume work from a crashed session was lost without checking.
+- **No logs after run**: Missing `logger.flush()` in finally → see 02-orchestrator.md
+- **Database corruption**: `python scripts/init_db.py` (WARNING: loses data)
+- **Etsy 401/403**: Check key format (`keystring:shared_secret`) or re-run OAuth
+- **Import errors**: Check `__init__.py` and sys.path
 
 ---
 
 ## Business Context
 
-#PurpleOcaz    → Etsy, templates, digital products, Canva, passive income
-#ChurnShield   → SaaS, churn, retention, B2B, first paying customer
-#AgentLearning → Claude, AI agents, MCP, n8n, automation, pipeline
-#Wealth        → Entrepreneurship, income streams, business building
+#PurpleOcaz → Etsy, templates, digital products, Canva, passive income
+#ChurnShield → SaaS, churn, retention, B2B
+#AgentLearning → Claude, AI agents, MCP, n8n, automation

@@ -9,6 +9,23 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+### Added — 2026-03-17 (Pipeline Architecture)
+- **`purpleocaz-pipeline` skill** (`.claude/skills/purpleocaz-pipeline/SKILL.md`) — Claude-only auto-loading skill covering standard listing spec, image sources, Canva folder IDs, delivery link rules, and 29 numbered gotchas extracted from every production failure in LESSONS.md. Replaces old `etsy-listing` skill.
+- **`verify_listing.py`** (`scripts/verify_listing.py`) — post-build listing verifier. Checks images (count + ranks), PDF attachment, tag lengths + duplicates, price (£2.99), state, and Canva link format via Etsy API. Auto-refreshes OAuth on 401. Exit code 1 on failure.
+- **`.claude/rules/pipeline.md`** — listing image sources (DAHDc0gyebE, DAFx_dsWpTA p3+p5), hero thumbnail pipeline, design creation pattern, proven design IDs.
+- **`.claude/rules/canva.md`** — delivery link rules (/d/ shortcode only), folder IDs, element limitations, generate-design workarounds, export rules, shadow rules.
+- **`.claude/rules/etsy.md`** — tag limits (20 chars, no dupes), pricing (set at creation), auth patterns, standard listing spec, verification requirement.
+
+### Changed — 2026-03-17
+- **CLAUDE.md refactored** — slimmed from 246 to 130 lines. Now a hub pointing to 7 rules files in `.claude/rules/`. All pipeline/Canva/Etsy rules extracted to dedicated files that auto-load every session.
+
+### Removed — 2026-03-17
+- **`etsy-listing` skill** — superseded by broader `purpleocaz-pipeline` skill.
+
+### Verified — 2026-03-17
+- **Listing #4472977919** (Business Card) — PASSED WITH WARNINGS (12/13 tags)
+- **Listing #4473444461** (Appointment Card) — ALL CHECKS PASSED (9/9)
+
 ### Added — 2026-03-17 (Appointment Card — Product 2/7)
 - **Tattoo appointment card — dark variant** (`DAHENCEJGjk`) — black/gold/botanical design with front appointment fields (Artist, Date, Time, Contact) and back aftercare tips + social CTA. Approved and registered.
 - **Tattoo appointment card — light variant** (`DAHENKnCBoM`) — cream/charcoal/gold/botanical matching existing light business card palette. 7 text elements on back for granular aftercare tips. Approved and registered.

@@ -4,25 +4,24 @@ Most recent first.
 
 ---
 
-## 2026-03-17
+## 2026-03-18
 
-### What we shipped
-- **Listing #4472977919** — Tattoo Business Card — LIVE £2.99 (product 1/7)
-- **Listing #4473444461** — Tattoo Appointment Card — LIVE £2.99 (product 2/7)
-- Both appointment card designs built and approved (DAHENCEJGjk dark, DAHENKnCBoM light)
-- Canva folders organised (FAHENpMANrQ root, FAHENuO2Vkc masters, FAHENvJko1A templates, FAHENqKrgvk hero)
-- 6 hard rules added to Claude.ai memory and need adding to CLAUDE.md tomorrow
+### What we shipped yesterday (2026-03-17)
+- **Pipeline architecture overhaul** — CLAUDE.md split into progressive layers (7 rules files auto-loaded)
+- **`purpleocaz-pipeline` skill** — 29 gotchas from LESSONS.md, standard specs, image sources, Canva/Etsy rules
+- **`verify_listing.py`** — automated post-build checker (images, PDF, tags, price, state, links)
+- **Both live listings verified** — #4472977919 (business card) PASSED w/ warning (12/13 tags), #4473444461 (appointment card) ALL PASSED
 
 ### What's blocked
-- Nothing critical
+- Business card listing has 12/13 tags — consider adding 1 more tag
 
 ### Tomorrow's priority
-1. **Add hard rules to CLAUDE.md on GitHub**
+1. **Add 13th tag to business card listing #4472977919**
 2. **Build 4 card mockup images for business card listing** (dark front, dark back, light front, light back)
-3. **A4 print layout mockup image**
-4. **Google Drive PDF folder** — auto-save delivery PDFs
-5. **Post Twitter thread about today's launch**
-6. **Start product 3/7 — Tattoo Price List**
+3. **A4 print layout mockup image** — 10 cards per A4 grid with cut lines
+4. **Start product 3/7 — Tattoo Price List**
+5. **Google Drive PDF folder** — auto-save delivery PDFs
+6. **Post Twitter thread about launch**
 
 ---
 

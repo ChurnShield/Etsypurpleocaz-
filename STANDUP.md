@@ -4,6 +4,28 @@ Most recent first.
 
 ---
 
+## 2026-03-17
+
+### What we shipped
+- **Listing #4472977919** — Tattoo Business Card — LIVE £2.99 (product 1/7)
+- **Listing #4473444461** — Tattoo Appointment Card — LIVE £2.99 (product 2/7)
+- Both appointment card designs built and approved (DAHENCEJGjk dark, DAHENKnCBoM light)
+- Canva folders organised (FAHENpMANrQ root, FAHENuO2Vkc masters, FAHENvJko1A templates, FAHENqKrgvk hero)
+- 6 hard rules added to Claude.ai memory and need adding to CLAUDE.md tomorrow
+
+### What's blocked
+- Nothing critical
+
+### Tomorrow's priority
+1. **Add hard rules to CLAUDE.md on GitHub**
+2. **Build 4 card mockup images for business card listing** (dark front, dark back, light front, light back)
+3. **A4 print layout mockup image**
+4. **Google Drive PDF folder** — auto-save delivery PDFs
+5. **Post Twitter thread about today's launch**
+6. **Start product 3/7 — Tattoo Price List**
+
+---
+
 ## 2026-03-16
 
 ### What we shipped

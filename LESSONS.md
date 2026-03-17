@@ -4,6 +4,25 @@ A living document updated every session. Most recent entries first.
 
 ---
 
+### 2026-03-17 — Appointment Card Listing: End-to-End Publish
+
+**Worked:**
+- Reusing the hero thumbnail template (DAHDc0gyebE) that already had appointment card images swapped in from the design session — no edits needed, just export + post-process + upload. Previous session work carries forward cleanly.
+- Generic listing pages (Canva Basics p3, Please Note p5) from DAFx_dsWpTA exported at width=3000 — reusable across all listings. Same URLs work for any product.
+- Etsy PATCH `state: active` on a draft with images + files works cleanly. No additional fields required beyond the state change.
+- Token auto-refresh on 401 during upload sequence — the upload loop handles expired tokens mid-flight without losing progress.
+- reportlab PDF generation for delivery files is fast and reliable — clickable Canva links, professional layout, branded footer.
+
+**Failed:**
+- First publish attempt used PUT instead of PATCH — Etsy v3 API returns 404 for PUT on listings endpoint. Always use PATCH for listing updates.
+
+**Next:**
+- Build 4 individual card mockup images for the business card listing (dark front, dark back, light front, light back) — these increase dwell time and conversion.
+- A4 print layout mockup showing cards arranged in a grid with cut lines.
+- Start product 3/7: Tattoo Price List.
+
+---
+
 ### 2026-03-17 — Appointment Card: generate-design + restyle approach
 
 **Worked:**

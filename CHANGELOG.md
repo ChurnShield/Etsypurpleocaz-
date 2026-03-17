@@ -14,6 +14,9 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - **Tattoo appointment card — light variant** (`DAHENKnCBoM`) — cream/charcoal/gold/botanical matching existing light business card palette. 7 text elements on back for granular aftercare tips. Approved and registered.
 - **Design registry updated** — `tattoo/appointment_card/dark` and `tattoo/appointment_card/light` entries with all element IDs, color schemes, and Spaces export URLs.
 - **Proven design pattern documented** — `generate-design` for aesthetic base → restyle text elements via editing API → export to Spaces for review → register in design_registry.json. Reusable for all future products.
+- **Listing #4473444461 published LIVE** — Tattoo Appointment Card Template, £2.99, 3 images (hero + Canva Basics + Please Note), delivery PDF with dark + light Canva template links, 13 SEO tags. All verified via GET API before publish.
+- **Hero thumbnail for appointment card** — DAHDc0gyebE template reused with appointment card images swapped in, banner post-processed to black, uploaded to Spaces CDN and Etsy rank 1.
+- **6 hard rules added to CLAUDE.md** — verify before done, generate-design limitation, Etsy tag max 20 chars, price on drafts, listing image standard, Canva folder IDs.
 
 ### Fixed — 2026-03-17
 - **STANDUP.md price correction** — tattoo business card listing price corrected from £12.99 to £2.99.

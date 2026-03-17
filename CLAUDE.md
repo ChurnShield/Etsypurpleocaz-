@@ -220,6 +220,24 @@ When a transcript contains a useful idea:
 4. Wait for Andy's approval before applying anything
 5. Review session transcripts for reusable patterns and add to LESSONS.md
 
+## Hard Rules — Learned From Production
+
+1. **VERIFY BEFORE DONE**: Always run GET API confirmation after every upload. Never report success without API proof. Show raw response.
+
+2. **CANVA GENERATE-DESIGN LIMITATION**: generate-design always produces personal business cards — it cannot create appointment/booking cards with form fields. Workaround: generate for aesthetic base, then restyle existing text elements via editing transactions. One transaction per operation, commit before next.
+
+3. **ETSY TAGS**: Max 20 characters each. Validate all tag lengths before submitting. Duplicates rejected.
+
+4. **ETSY PRICE ON DRAFTS**: Price PATCH is silently ignored on draft listings — set price at creation time.
+
+5. **LISTING IMAGES STANDARD**: Rank 1 = DAHDc0gyebE page 1 (hero). Rank 2 = DAFx_dsWpTA page 3 (Canva Basics). Rank 3 = DAFx_dsWpTA page 5 (Please Note).
+
+6. **CANVA FOLDERS**: Move every new design to correct folder immediately after creation. root=FAHENpMANrQ, tattoo-masters=FAHENuO2Vkc, listing-templates=FAHENvJko1A, thumbnails-hero=FAHENqKrgvk.
+
+7. **CRASH RECOVERY**: On session start always check GitHub commits, Canva folders and Etsy drafts API to audit what survived. Never assume work from a crashed session was lost without checking.
+
+---
+
 ## Business Context
 
 #PurpleOcaz    → Etsy, templates, digital products, Canva, passive income

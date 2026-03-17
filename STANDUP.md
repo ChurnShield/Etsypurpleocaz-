@@ -31,3 +31,5 @@ Most recent first.
 7. **TODO.md per session** — CC creates task list at session start, ticks off as it goes, audit trail at end.
 8. **Evaluate Manus for weekly niche research** — automated Monday morning runs, drops findings to Google Sheet.
 9. **Long-term vision doc** — write up the overnight pipeline goal: Andy approves niche on phone → pipeline runs overnight → draft listing ready for review next morning. Zero manual steps.
+10. **Google Drive PDF auto-save** — Save every delivery PDF to Google Drive folder PurpleOcaz/Delivery PDFs automatically as part of the listing pipeline — so Andy can access any PDF instantly when a buyer asks. Build google_drive_pdf_save step into the pipeline after PDF generation.
+11. **Canva folder organisation** — Canva folders now organised: PurpleOcaz/Tattoo-Masters, PurpleOcaz/Listing-Templates-Generic, PurpleOcaz/Thumbnails-Hero. Folder IDs saved to design_registry.json: root=FAHENpMANrQ, tattoo-masters=FAHENuO2Vkc, listing-templates=FAHENvJko1A, thumbnails-hero=FAHENqKrgvk. Future designs must be moved to correct folder immediately after creation.

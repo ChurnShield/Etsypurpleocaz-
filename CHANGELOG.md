@@ -9,6 +9,15 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+### Added — 2026-03-17 (Appointment Card — Product 2/7)
+- **Tattoo appointment card — dark variant** (`DAHENCEJGjk`) — black/gold/botanical design with front appointment fields (Artist, Date, Time, Contact) and back aftercare tips + social CTA. Approved and registered.
+- **Tattoo appointment card — light variant** (`DAHENKnCBoM`) — cream/charcoal/gold/botanical matching existing light business card palette. 7 text elements on back for granular aftercare tips. Approved and registered.
+- **Design registry updated** — `tattoo/appointment_card/dark` and `tattoo/appointment_card/light` entries with all element IDs, color schemes, and Spaces export URLs.
+- **Proven design pattern documented** — `generate-design` for aesthetic base → restyle text elements via editing API → export to Spaces for review → register in design_registry.json. Reusable for all future products.
+
+### Fixed — 2026-03-17
+- **STANDUP.md price correction** — tattoo business card listing price corrected from £12.99 to £2.99.
+
 ### Added — 2026-03-16 (Listing Pipeline)
 - **Complete Etsy listing pipeline** — draft #4472977919 with verbatim copy, 3 images (hero + Canva Basics + Please Note), delivery PDF with Canva template links, 12 SEO tags. All verified via raw Etsy API GET calls.
 - **Approved hero thumbnail pipeline** — DAHDc0gyebE template → card swap → full-width banner → export → Sharp black banner post-processing → Spaces CDN upload → Etsy listing upload.

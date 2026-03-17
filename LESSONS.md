@@ -4,6 +4,39 @@ A living document updated every session. Most recent entries first.
 
 ---
 
+### 2026-03-17 — Appointment Card: generate-design + restyle approach
+
+**Worked:**
+- Using Canva `generate-design` with `business_card` type to get a professionally designed aesthetic base, then restyling text elements via `replace_text`, `format_text`, `resize_element`, and `position_element` to convert it into an appointment card with form fields. This bypasses the limitation that Canva AI can't generate appointment/booking card layouts directly.
+- One transaction per page side, commit between. Front and back edited separately — prevents cascading failures.
+- The light variant naturally had more text elements (7 vs 4 on back page) because Canva generated separate Phone/Email/Address label+value pairs. This allowed more granular aftercare tip mapping (one tip per element) instead of cramming multiple tips into one element.
+- Requesting a highly specific aesthetic in the generate prompt (color hex codes, "botanical/floral tattoo illustration", "cream/off-white background") produces designs that match the existing brand palette closely enough to use as-is after text replacement.
+- Exporting to Spaces CDN for Andy to review on phone before any editing — prevents wasted edit cycles on a rejected base design.
+
+**Failed:**
+- First batch of `generate-design` candidates all produced standard personal business cards (artist name + title) despite requesting "appointment card with form fields". The AI interprets `business_card` design type literally — it doesn't understand "appointment booking card" as a layout concept.
+- Canva preview thumbnail URLs (`design.canva.ai/*`) redirect through auth-gated endpoints — `WebFetch` gets 403. Must use `start-editing-transaction` + `get-design-thumbnail` to see candidates, or save-then-inspect.
+- First text replacement on the front inherited the original heading font size (large serif), causing the appointment fields to overflow the card. Always `format_text` with explicit `font_size` immediately after `replace_text` when repurposing a heading element for body content.
+
+**Key Design IDs:**
+- Dark appointment card: `DAHENCEJGjk` (black/gold/botanical) — APPROVED
+- Light appointment card: `DAHENKnCBoM` (cream/charcoal/gold/botanical) — APPROVED
+- Both registered in `config/design_registry.json` under `tattoo/appointment_card/dark` and `tattoo/appointment_card/light`
+
+**The pattern for future products:**
+1. `generate-design` with detailed aesthetic prompt (colors, style, illustration type)
+2. Save candidate → export to Spaces → Andy reviews on phone
+3. If approved, `start-editing-transaction` → `replace_text` all elements → `format_text` + `resize_element` + `position_element` to fix layout → commit
+4. One transaction per page, commit between
+5. Export final PNGs to Spaces, register in `design_registry.json`
+
+**Next:**
+- Build Etsy listing for the appointment card (title, description, tags, PDF with Canva template links)
+- Create hero thumbnail using the DAHDc0gyebE template with appointment card images swapped in
+- Product 3/7: Price list card
+
+---
+
 ### 2026-03-16 — Etsy Listing Pipeline: Complete Learnings
 
 **Design page sources — know which pages live where:**

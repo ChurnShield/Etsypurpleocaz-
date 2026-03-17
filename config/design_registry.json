@@ -2,6 +2,112 @@
   "version": 2,
   "designs": {
     "tattoo": {
+      "appointment_card": {
+        "dark": {
+          "design_id": "DAHENCEJGjk",
+          "design_title": "Tattoo Appointment Card - Dark (Black/Gold/Botanical)",
+          "page_count": 2,
+          "approved": true,
+          "approved_date": "2026-03-17",
+          "dimensions": { "width": 2100, "height": 1200 },
+          "color_scheme": { "background": "#1A1A1A", "accent": "#C9A96E", "text": "#FFFFFF" },
+          "front_elements": {
+            "studio_name": {
+              "element_id": "PBDNmT0PJ0pcpDPr-LBWhSyLCXqljfNGz",
+              "default_text": "YOUR STUDIO NAME"
+            },
+            "appointment_fields": {
+              "element_id": "PBDNmT0PJ0pcpDPr-LBTB1HqBs6CgVljD",
+              "default_text": "YOUR NEXT APPOINTMENT\n\nArtist: _______________\nDate: _______________\nTime: _______________\nContact: _______________"
+            },
+            "botanical_illustration": {
+              "element_id": "PBDNmT0PJ0pcpDPr-LBHl5b0ZdjJLgQ4Q",
+              "asset_id": "MAHENBEtjCI",
+              "editable": true
+            }
+          },
+          "back_elements": {
+            "aftercare_heading": {
+              "element_id": "PB7FgnGmJBVYBLxb-LB3yHhFV9X2MznV2",
+              "default_text": "AFTERCARE REMINDER"
+            },
+            "tip_1": {
+              "element_id": "PB7FgnGmJBVYBLxb-LBt1KB5p8GY3VdzB-LBPsXXzdQfDMGn7b",
+              "default_text": "\u2022 Keep bandage on for 2-4 hours"
+            },
+            "tips_2_3": {
+              "element_id": "PB7FgnGmJBVYBLxb-LBt1KB5p8GY3VdzB-LBKf2xzsrktPtWfG",
+              "default_text": "\u2022 Wash gently with fragrance-free soap\n\u2022 Apply thin layer of moisturiser"
+            },
+            "tip_4_and_cta": {
+              "element_id": "PB7FgnGmJBVYBLxb-LBjWphyfWbtwF0Wf",
+              "default_text": "\u2022 Avoid sunlight for 2 weeks\n@yourstudio | BOOK YOUR NEXT SESSION"
+            }
+          },
+          "spaces_exports": {
+            "front": "https://purpleocaz-assets.lon1.digitaloceanspaces.com/reviews/tattoo_appointment_card_dark_FINAL_front_1773751688788.png",
+            "back": "https://purpleocaz-assets.lon1.digitaloceanspaces.com/reviews/tattoo_appointment_card_dark_FINAL_back_1773751688788.png"
+          }
+        },
+        "light": {
+          "design_id": "DAHENKnCBoM",
+          "design_title": "Tattoo Appointment Card - Light (Cream/Charcoal/Gold/Botanical)",
+          "page_count": 2,
+          "approved": true,
+          "approved_date": "2026-03-17",
+          "dimensions": { "width": 2100, "height": 1200 },
+          "color_scheme": { "background": "#E8E0D4", "accent": "#C9A96E", "text": "#2C2C2C" },
+          "front_elements": {
+            "studio_name": {
+              "element_id": "PByqxYLQvGQMdz6H-LBnMpswWS1TLYCtX-LBw7svKyDnwJFPr4",
+              "default_text": "YOUR STUDIO NAME"
+            },
+            "appointment_fields": {
+              "element_id": "PByqxYLQvGQMdz6H-LBnMpswWS1TLYCtX-LBvwxjdF3tXRJchZ",
+              "default_text": "YOUR NEXT APPOINTMENT\n\nArtist: _______________\nDate: _______________\nTime: _______________\nContact: _______________"
+            },
+            "botanical_illustration": {
+              "element_id": "PByqxYLQvGQMdz6H-LBRkJhg57kMs4dvW",
+              "asset_id": "MAHENHOPPP8",
+              "editable": true
+            }
+          },
+          "back_elements": {
+            "aftercare_heading": {
+              "element_id": "PBhZVrW490Q5RBNm-LBhVbW1v24GkFsDw",
+              "default_text": "AFTERCARE REMINDER"
+            },
+            "tip_1": {
+              "element_id": "PBhZVrW490Q5RBNm-LBvSWKW6wnGthL6s-LB8PRPK4HzX8ghxW",
+              "default_text": "\u2022 Keep bandage on for 2-4 hours"
+            },
+            "tip_2": {
+              "element_id": "PBhZVrW490Q5RBNm-LBvSWKW6wnGthL6s-LB2x974Cd0NyMTHc",
+              "default_text": "\u2022 Wash gently with fragrance-free soap"
+            },
+            "tip_3": {
+              "element_id": "PBhZVrW490Q5RBNm-LBMqysg0F71q0rRd-LBy9xYcXFLvn0hBz",
+              "default_text": "\u2022 Apply thin layer of moisturiser"
+            },
+            "tip_4": {
+              "element_id": "PBhZVrW490Q5RBNm-LBMqysg0F71q0rRd-LBVnrP91XScqqSlK",
+              "default_text": "\u2022 Avoid direct sunlight for 2 weeks"
+            },
+            "social_handle": {
+              "element_id": "PBhZVrW490Q5RBNm-LB5P5ZW5dxjzx9Dg-LBycq3c4hMs35lKy",
+              "default_text": "@yourstudio"
+            },
+            "cta": {
+              "element_id": "PBhZVrW490Q5RBNm-LB5P5ZW5dxjzx9Dg-LBpZ9CN5BxCSMqCH",
+              "default_text": "BOOK YOUR NEXT SESSION"
+            }
+          },
+          "spaces_exports": {
+            "front": "https://purpleocaz-assets.lon1.digitaloceanspaces.com/reviews/tattoo_appointment_card_light_FINAL_front_1773752210199.png",
+            "back": "https://purpleocaz-assets.lon1.digitaloceanspaces.com/reviews/tattoo_appointment_card_light_FINAL_back_1773752210199.png"
+          }
+        }
+      },
       "business_card": {
         "thumbnail_design_id": "DAHDc0gyebE",
         "thumbnail_design_title": "Etsy Listing - Business Card Thumbnail Template",

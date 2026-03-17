@@ -4,6 +4,24 @@ A living document updated every session. Most recent entries first.
 
 ---
 
+### 2026-03-17 — Canva Links in Delivery PDFs: VIEW not EDIT
+
+**Rule:** Always use Canva VIEW links (`/d/` shortlinks) in delivery PDFs, never edit links (`/design/.../edit`). Edit links give buyers write access to master designs — they can modify or delete the original template.
+
+**Why:** The first appointment card PDF was generated with `/design/.../view` links which look safe but are still Canva design URLs that could expose the master. The correct format is `/d/{shortcode}` — these are buyer template links that force "Use this template" (creates a copy) and never expose the original.
+
+**How to apply:** When generating any delivery PDF with Canva template links:
+- Use format: `https://www.canva.com/d/{shortcode}`
+- Never use: `https://www.canva.com/design/{designId}/view` or `/edit`
+- Get the shortcode from Canva's "Share > Template link" feature
+- Verify by clicking the link yourself — it should show "Use this template", not open the editor
+
+**Fixed listings:**
+- #4473444461 (appointment card): dark=`/d/Mol3iFDMHAATbQt`, light=`/d/UvTaJitKspzs1da`
+- #4472977919 (business card): already correct — dark=`/d/e21A6ZQJ3XcCIq-`, light=`/d/vyaBAtIupW1g7zH`
+
+---
+
 ### 2026-03-17 — Appointment Card Listing: End-to-End Publish
 
 **Worked:**

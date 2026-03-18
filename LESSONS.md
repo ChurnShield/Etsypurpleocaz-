@@ -4,6 +4,16 @@ A living document updated every session. Most recent entries first.
 
 ---
 
+### 2026-03-18 — generate-design Cannot Produce Custom Branded Listing Images
+
+**Rule:** Do NOT use Canva `generate-design` for custom branded listing images (e.g. "How It Works", "What's Included", etc.). It defaults to generic blue templates regardless of colour/style instructions in the prompt.
+
+**Why:** Attempted to redesign all 6 generic listing images (DAHETZyqPRg, DAHETWTJrnk, DAHETe4GcEQ, DAHETY_tjdM, DAHETeT3RNE, DAHETV-CqGU) with a white #FFFFFF / near-black #1A1A1A / warm gold #C9A96E colour scheme. All 24 candidates (4 per design × 6 designs) came back with Canva's default blue palette, ignoring the hex codes and "NO blue anywhere" instructions entirely.
+
+**How to apply:** Custom branded listing images must be built manually in Canva UI or commissioned from a designer. `generate-design` is only useful as an aesthetic base for card-type designs that get fully restyled via editing transactions — it cannot produce on-brand infographics or listing pages.
+
+---
+
 ### 2026-03-17 — Canva Links in Delivery PDFs: VIEW not EDIT
 
 **Rule:** Always use Canva VIEW links (`/d/` shortlinks) in delivery PDFs, never edit links (`/design/.../edit`). Edit links give buyers write access to master designs — they can modify or delete the original template.

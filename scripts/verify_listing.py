@@ -13,6 +13,7 @@ Checks a listing ID against all production rules:
 Usage:
     python scripts/verify_listing.py 4472977919
     python scripts/verify_listing.py 4472977919 --shop-id 12345678
+    python scripts/verify_listing.py 1508908772 --bundle
 """
 
 import json
@@ -142,7 +143,7 @@ class VerificationResult:
         return failed == 0
 
 
-def check_listing(listing_data, result):
+def check_listing(listing_data, result, is_bundle=False):
     """Check listing metadata: state, price, tags."""
     listing = listing_data
 
@@ -154,7 +155,9 @@ def check_listing(listing_data, result):
     price = listing.get("price", {})
     amount = float(price.get("amount", 0)) / int(price.get("divisor", 100))
     currency = price.get("currency_code", "???")
-    if abs(amount - EXPECTED_PRICE_GBP) < 0.01:
+    if is_bundle:
+        result.ok("Price", f"{currency} {amount:.2f} (bundle — price check skipped)")
+    elif abs(amount - EXPECTED_PRICE_GBP) < 0.01:
         result.ok("Price", f"{currency} {amount:.2f}")
     else:
         result.fail("Price", f"Expected {EXPECTED_PRICE_GBP}, got {currency} {amount:.2f}")
@@ -231,7 +234,7 @@ def check_pdf_links(listing_data, result):
 
 # ── Main ────────────────────────────────────────────────────────────────────
 
-def verify(listing_id, shop_id_override=None):
+def verify(listing_id, shop_id_override=None, is_bundle=False):
     """Run all verification checks on a listing."""
     api_key, shop_id = load_config()
     if shop_id_override:
@@ -262,7 +265,7 @@ def verify(listing_id, shop_id_override=None):
     try:
         # Fetch listing
         listing = get_with_refresh(f"{ETSY_BASE_URL}/listings/{listing_id}")
-        check_listing(listing, result)
+        check_listing(listing, result, is_bundle=is_bundle)
         check_pdf_links(listing, result)
 
         # Fetch images
@@ -290,10 +293,11 @@ if __name__ == "__main__":
 
     listing_id = sys.argv[1]
     shop_id_override = None
+    is_bundle = "--bundle" in sys.argv
     if "--shop-id" in sys.argv:
         idx = sys.argv.index("--shop-id")
         if idx + 1 < len(sys.argv):
             shop_id_override = sys.argv[idx + 1]
 
-    success = verify(listing_id, shop_id_override)
+    success = verify(listing_id, shop_id_override, is_bundle=is_bundle)
     sys.exit(0 if success else 1)

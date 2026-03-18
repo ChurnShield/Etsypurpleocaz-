@@ -6,22 +6,22 @@ Most recent first.
 
 ## 2026-03-18
 
-### What we shipped yesterday (2026-03-17)
-- **Pipeline architecture overhaul** — CLAUDE.md split into progressive layers (7 rules files auto-loaded)
-- **`purpleocaz-pipeline` skill** — 29 gotchas from LESSONS.md, standard specs, image sources, Canva/Etsy rules
-- **`verify_listing.py`** — automated post-build checker (images, PDF, tags, price, state, links)
-- **Both live listings verified** — #4472977919 (business card) PASSED w/ warning (12/13 tags), #4473444461 (appointment card) ALL PASSED
+### What we shipped today
+- **Bundle #1508908772 PDF upgraded** — deleted old 2023 PDF, uploaded new 2-page delivery PDF with 13 clickable Canva `/d/` template links across all 7 product types (business card dark/light, appointment card dark/light, loyalty card purple/black, flyer purple/black, price list purple/black, gift certificate purple, scan-to-pay purple/black)
+- **Full inventory audit** — pulled all 16 active tattoo listings via Etsy API, confirmed all 7 bundle product types already exist. Nothing needs building from scratch.
+- **Market research** — tattoo price list templates on Etsy. PurpleOcaz already has 4 variants live + dominates search results. Competitor (FlourishTemplatesCo) sells 25-page bloated guide at higher price.
+- **LESSONS.md updated** — `generate-design` cannot produce custom branded listing images (ignores colour instructions, defaults to blue). Must build manually in Canva.
+- **verify_listing.py --bundle flag** — skips £2.99 price check for bundle listings with different price expectations
+- **Both new listings confirmed** — #4472977919 (business card) and #4473444461 (appointment card) each have 7 images, PDFs attached, all tags valid
 
 ### What's blocked
-- Business card listing has 12/13 tags — consider adding 1 more tag
+- 6 generic listing images (How It Works, What's Included, etc.) need manual Canva redesign — AI generation can't produce on-brand results
 
 ### Tomorrow's priority
-1. **Add 13th tag to business card listing #4472977919**
+1. **Refresh bundle listing images** — swap in new dark/gold designs alongside originals to modernise the hero images
 2. **Build 4 card mockup images for business card listing** (dark front, dark back, light front, light back)
-3. **A4 print layout mockup image** — 10 cards per A4 grid with cut lines
-4. **Start product 3/7 — Tattoo Price List**
-5. **Google Drive PDF folder** — auto-save delivery PDFs
-6. **Post Twitter thread about launch**
+3. **A4 print layout mockup image** — cards arranged in grid with cut lines
+4. **Google Drive PDF folder** — auto-save delivery PDFs
 
 ---
 

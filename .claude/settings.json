@@ -1,5 +1,42 @@
 {
   "hooks": {
+    "PreToolUse": [
+      {
+        "matcher": "Bash",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "bash \"$CLAUDE_PROJECT_DIR\"/.claude/hooks/scripts/pre-tool-dangerous.sh",
+            "timeout": 5
+          }
+        ],
+        "description": "Block dangerous commands: rm -rf, --force, DROP TABLE, --no-verify"
+      },
+      {
+        "matcher": "Write|Edit",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "bash \"$CLAUDE_PROJECT_DIR\"/.claude/hooks/scripts/pre-tool-protected-files.sh",
+            "timeout": 5
+          }
+        ],
+        "description": "Warn when editing protected files: SOUL.md, CLAUDE.md, .env, tokens, credentials"
+      }
+    ],
+    "PostToolUse": [
+      {
+        "matcher": "Bash",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "bash \"$CLAUDE_PROJECT_DIR\"/.claude/hooks/scripts/post-tool-etsy-verify.sh",
+            "timeout": 5
+          }
+        ],
+        "description": "Remind to GET-verify after Etsy POST/PUT/PATCH calls"
+      }
+    ],
     "SessionStart": [
       {
         "matcher": "*",

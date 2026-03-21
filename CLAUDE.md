@@ -18,6 +18,8 @@ CRITICAL: Read SOUL.md before anything else every session. If SOUL.md is missing
 | `.claude/rules/testing.md` | pytest conventions, mocking, coverage |
 | `.claude/rules/tool-conventions.md` | BaseTool / BaseValidator contracts |
 
+Context modes: `.claude/contexts/` — type `/context [build|research|review]` to switch.
+
 ## Architecture Docs (load on-demand)
 
 | Topic | File |

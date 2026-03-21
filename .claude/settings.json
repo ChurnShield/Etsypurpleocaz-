@@ -22,6 +22,17 @@
           }
         ],
         "description": "Warn when editing protected files: SOUL.md, CLAUDE.md, .env, tokens, credentials"
+      },
+      {
+        "matcher": "mcp*",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "bash \"$CLAUDE_PROJECT_DIR\"/.claude/hooks/scripts/mcp-health-check.sh",
+            "timeout": 5
+          }
+        ],
+        "description": "Warn before MCP calls if Canva MCP has consecutive failures"
       }
     ],
     "PostToolUse": [
@@ -35,6 +46,17 @@
           }
         ],
         "description": "Remind to GET-verify after Etsy POST/PUT/PATCH calls"
+      },
+      {
+        "matcher": "mcp*",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "bash \"$CLAUDE_PROJECT_DIR\"/.claude/hooks/scripts/mcp-failure-tracker.sh",
+            "timeout": 5
+          }
+        ],
+        "description": "Track MCP failures, mark unhealthy after 2 consecutive, reset on success"
       }
     ],
     "SessionStart": [

@@ -63,9 +63,10 @@ workflows/auto_listing_creator/exports/
 ETSY API/
 
 # Claude Code (machine-local / personal files - NEVER commit)
-.claude/hooks/
 .claude/settings.local.json
 .claude/projects/
+# NOTE: .claude/hooks/, .claude/agents/, .claude/commands/, .claude/state/
+# ARE committed — they are project infrastructure, not personal settings.
 
 # Logs
 logs/

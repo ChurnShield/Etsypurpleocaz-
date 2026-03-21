@@ -1,0 +1,41 @@
+{
+  "hooks": {
+    "SessionStart": [
+      {
+        "matcher": "*",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "bash /root/NEW-AI-PROJECT/.claude/hooks/scripts/session-start.sh"
+          }
+        ],
+        "description": "Load SOUL.md, STANDUP.md, LESSONS.md, and prior session state into context"
+      }
+    ],
+    "PreCompact": [
+      {
+        "matcher": "*",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "bash /root/NEW-AI-PROJECT/.claude/hooks/scripts/pre-compact.sh"
+          }
+        ],
+        "description": "Save context state before compression so nothing critical is lost"
+      }
+    ],
+    "Stop": [
+      {
+        "matcher": "*",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "bash /root/NEW-AI-PROJECT/.claude/hooks/scripts/session-stop.sh",
+            "timeout": 10
+          }
+        ],
+        "description": "Persist session state (current task, what was done, what's next) after each response"
+      }
+    ]
+  }
+}

@@ -36,4 +36,20 @@ saved_at: $TIMESTAMP
 EOF
 
 echo "[session-stop] Session state saved to $STATE_FILE"
+
+# Ensure learned skills directory exists
+LEARNED_DIR="$PROJECT_ROOT/.claude/skills/learned"
+mkdir -p "$LEARNED_DIR"
+
+# Count learned patterns saved this session (modified today)
+TODAY=$(date +"%Y-%m-%d")
+LEARNED_TODAY=$(find "$LEARNED_DIR" -name "${TODAY}-*.md" -type f 2>/dev/null | wc -l)
+
 echo "Session saved"
+echo ""
+echo "=== AUTO-LEARN TRIGGER ==="
+echo "INSTRUCTION: Before ending this session, run /learn to extract reusable patterns."
+echo "Save any new patterns to .claude/skills/learned/ following the format in .claude/commands/learn.md."
+echo "Patterns already saved today: $LEARNED_TODAY"
+echo "After extracting patterns, print: Patterns extracted and saved"
+echo "=== END AUTO-LEARN ==="

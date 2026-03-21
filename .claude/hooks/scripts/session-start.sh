@@ -41,6 +41,22 @@ else
   echo "[session-start] No prior session state (fresh start)"
 fi
 
+# 5. Show what was learned in the last session
+LEARNED_DIR="$PROJECT_ROOT/.claude/skills/learned"
+if [ -d "$LEARNED_DIR" ]; then
+  LATEST_LEARNED=$(ls -t "$LEARNED_DIR"/*.md 2>/dev/null | head -1)
+  if [ -n "$LATEST_LEARNED" ]; then
+    LEARNED_NAME=$(basename "$LATEST_LEARNED" .md)
+    echo "[session-start] Last learned pattern: $LEARNED_NAME"
+    # Show the frontmatter description and Problem/Solution sections
+    awk '/^---$/{fm++; next} fm==1 && /^description:/{print "  " $0} fm>=2 && /^## (Problem|Solution)/{show=1; print "  " $0; next} fm>=2 && show && /^## /{show=0} show{print "  " $0}' "$LATEST_LEARNED"
+    echo ""
+  else
+    echo "[session-start] No learned patterns yet"
+    echo ""
+  fi
+fi
+
 echo ""
 echo "PurpleOcaz brain loaded"
 echo "=== SESSION READY ==="

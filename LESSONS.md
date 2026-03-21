@@ -4,6 +4,16 @@ A living document updated every session. Most recent entries first.
 
 ---
 
+### 2026-03-21 — DO Spaces Credentials and ACL
+
+**Rule:** DO Spaces credentials (`DO_SPACES_KEY`, `DO_SPACES_SECRET`) are in `purpleocaz-canva-mcp/.env`, NOT `NEW-AI-PROJECT/.env`. Always load from `purpleocaz-canva-mcp/.env` for any Spaces operation. Always include `ACL='public-read'` in every `s3.put_object()` call.
+
+**Why:** Every Spaces upload this session (v5 through v8) required a manual `put_object_acl` fix because the ACL snippet was loading credentials from the wrong `.env` file (which had no Spaces keys), causing auth failures. The script itself was correct but manual fixes kept using the wrong path.
+
+**How to apply:** Any Python script or one-liner that touches DO Spaces must `load_dotenv('/root/NEW-AI-PROJECT/purpleocaz-canva-mcp/.env')` and use `os.getenv('DO_SPACES_KEY')` / `os.getenv('DO_SPACES_SECRET')`. Every `s3.put_object()` must include `ACL='public-read'`. Also applies to TypeScript/Node uploads via the MCP pipeline.
+
+---
+
 ### 2026-03-18 — generate-design Cannot Produce Custom Branded Listing Images
 
 **Rule:** Do NOT use Canva `generate-design` for custom branded listing images (e.g. "How It Works", "What's Included", etc.). It defaults to generic blue templates regardless of colour/style instructions in the prompt.

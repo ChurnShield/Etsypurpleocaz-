@@ -1,5 +1,31 @@
 {
   "hooks": {
+    "SessionStart": [
+      {
+        "matcher": "*",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "bash \"$CLAUDE_PROJECT_DIR\"/.claude/hooks/scripts/session-start.sh",
+            "timeout": 15
+          }
+        ],
+        "description": "Load SOUL.md, STANDUP.md, LESSONS.md, and prior session state"
+      }
+    ],
+    "PreCompact": [
+      {
+        "matcher": "*",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "bash \"$CLAUDE_PROJECT_DIR\"/.claude/hooks/scripts/pre-compact.sh",
+            "timeout": 10
+          }
+        ],
+        "description": "Save context state before compression"
+      }
+    ],
     "Stop": [
       {
         "matcher": "",
@@ -9,7 +35,19 @@
             "command": "\"$CLAUDE_PROJECT_DIR\"/.claude/hooks/stop.sh",
             "timeout": 10
           }
-        ]
+        ],
+        "description": "Session end checklist reminder (existing)"
+      },
+      {
+        "matcher": "*",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "bash \"$CLAUDE_PROJECT_DIR\"/.claude/hooks/scripts/session-stop.sh",
+            "timeout": 10
+          }
+        ],
+        "description": "Persist session state after each response"
       }
     ]
   },

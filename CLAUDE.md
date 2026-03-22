@@ -123,5 +123,28 @@ Context modes: `.claude/contexts/` — type `/context [build|research|review]` t
 #ChurnShield → SaaS, churn, retention, B2B
 #AgentLearning → Claude, AI agents, MCP, n8n, automation
 
+## Learning Loop — Post-Task Requirements
+
+After every significant task (listing build, design creation, pipeline run, tool build, bug fix):
+
+### On success
+Run: `bash hooks/on_task_complete.sh "Task name" "What worked and why"`
+This appends the successful pattern to `WINS.md` so we repeat what works.
+
+### On failure or gotcha
+Run: `bash hooks/on_task_fail.sh "Task name" "What failed" "Root cause" "Fix applied"`
+This appends the lesson to `LESSONS.md` so we never hit the same problem twice.
+
+### What counts as "significant"
+- Any Etsy API call (create, update, activate, upload)
+- Any Canva design operation (generate, edit, export)
+- Any pipeline phase completion
+- Any tool or script creation/modification
+- Any bug fix or production incident
+
+Trivial tasks (reading files, git status, exploratory searches) do not need logging.
+
+---
+
 ## Copy Quality Rule
 ALWAYS read skills/stop-slop/SKILL.md before writing ANY Etsy listing copy, descriptions, titles or tags. No exceptions. Score the copy before submitting — must be 35/50 or above.

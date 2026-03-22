@@ -28,29 +28,36 @@ Do NOT proceed until every item passes.
 - [ ] `type`: `download`
 - [ ] `is_supply`: `false`
 
-## 4. Images
+## 4. Hero Thumbnail
+
+- [ ] **Check existing Canva assets first.** Search Canva folders (Thumbnails/Hero `FAHENqKrgvk`, Listing Templates `FAHENvJko1A`) for a proven hero design before generating anything with Pillow.
+- [ ] Only use Pillow-generated heroes when no suitable Canva design exists.
+- [ ] Hero must show **ALL product items**, not a subset. A bundle of 8 forms shows 8 pages, not 4.
+- [ ] Minimum resolution: **3000px** on the longest side.
+
+## 5. Images
 
 - [ ] **3 images** prepared, matching rank order:
-  - Rank 1: Hero thumbnail (from `DAHDc0gyebE`).
+  - Rank 1: Hero thumbnail.
   - Rank 2: "Canva Basics" (from `DAFx_dsWpTA` page 3).
   - Rank 3: "Please Note" disclaimer (from `DAFx_dsWpTA` page 5).
-- [ ] Hero thumbnail is **3000 x 3000 px** with shadow applied.
+- [ ] After every image swap, **verify all 3 ranks exist** via GET — not just R1. Deleting R1 can shift ranks or leave R2/R3 missing.
 - [ ] Upload format: `multipart/form-data`.
 
-## 5. Digital File (PDF)
+## 6. Digital File (PDF)
 
 - [ ] Delivery PDF attached with correct filename.
 - [ ] PDF links use **`/d/{shortcode}`** format only — never `/design/.../view` or `/design/.../edit`.
 - [ ] Shortcode verified by clicking — must show "Use this template".
 
-## 6. API Call Format
+## 7. API Call Format
 
 - [ ] Listing create/update uses `application/x-www-form-urlencoded` (not JSON).
 - [ ] Tags passed as comma-separated string (not array).
 - [ ] Using **PATCH** for updates (never PUT — returns 404).
 - [ ] Auth header: `x-api-key: {keystring}:{shared_secret}`, `Authorization: Bearer {access_token}`.
 
-## 7. Post-Publish Verification
+## 8. Post-Publish Verification
 
 - [ ] Run `python scripts/verify_listing.py {listing_id}` immediately after publish.
 - [ ] GET `/listings/{id}/images` — confirm image count and rank order.

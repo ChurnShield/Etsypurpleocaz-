@@ -20,11 +20,13 @@ Never introduce colours outside this palette without Andy's approval.
 
 ## Thumbnail Standards
 
-- **Dimensions**: 3000 x 3000 px (square, 1:1 aspect ratio).
+- **Dimensions**: minimum 3000px on the longest side. Match the Canva design's native aspect ratio to avoid black borders.
 - **Card placement**: centred on canvas, natural flat-lay shadow applied via Canva template (never Pillow/Sharp).
 - **Shadow source**: Canva template `DAHDc0gyebE` — the template IS the shadow system.
 - **Post-export pixel swap**: brightness < 180 below y = 82% becomes `#000000` (Sharp).
 - **Export width**: native 1587 x 2245 for hero template; `width=3000` for high-res listing upload.
+- **Canva first**: always check existing Canva assets in Thumbnails/Hero folder (`FAHENqKrgvk`) before generating with Pillow. Only use Pillow when no suitable Canva design exists.
+- **Show all items**: hero thumbnails for bundles must display ALL included products, not a subset.
 
 ---
 

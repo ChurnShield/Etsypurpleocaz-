@@ -20,7 +20,7 @@ Never introduce colours outside this palette without Andy's approval.
 
 ## Thumbnail Standards
 
-- **Dimensions**: minimum 3000px on the longest side. Match the Canva design's native aspect ratio to avoid black borders.
+- **Dimensions**: always **3000 x 3000 px square**. Never landscape. Etsy crops to square in search results and listings view — landscape heroes lose the bottom content.
 - **Card placement**: centred on canvas, natural flat-lay shadow applied via Canva template (never Pillow/Sharp).
 - **Shadow source**: Canva template `DAHDc0gyebE` — the template IS the shadow system.
 - **Post-export pixel swap**: brightness < 180 below y = 82% becomes `#000000` (Sharp).

@@ -1,4 +1,6 @@
-CRITICAL: Read SOUL.md before anything else every session. If SOUL.md is missing from disk, stop immediately and tell Andy.
+CRITICAL: Run the pre-flight hook first every session: `bash hooks/preflight.sh`
+This reads SOUL.md, STANDUP.md, and LESSONS.md and outputs a session summary.
+If SOUL.md is missing from disk, stop immediately and tell Andy.
 
 # CLAUDE.md — PurpleOcaz Agentic AI System
 

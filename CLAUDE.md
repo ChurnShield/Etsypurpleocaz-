@@ -122,3 +122,6 @@ Context modes: `.claude/contexts/` — type `/context [build|research|review]` t
 #PurpleOcaz → Etsy, templates, digital products, Canva, passive income
 #ChurnShield → SaaS, churn, retention, B2B
 #AgentLearning → Claude, AI agents, MCP, n8n, automation
+
+## Copy Quality Rule
+ALWAYS read skills/stop-slop/SKILL.md before writing ANY Etsy listing copy, descriptions, titles or tags. No exceptions. Score the copy before submitting — must be 35/50 or above.

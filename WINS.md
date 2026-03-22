@@ -5,6 +5,18 @@ Most recent first. Read this to repeat what works.
 
 ---
 
+### 2026-03-22 22:25 — Hair Salon Client Forms Bundle — fourth niche
+
+**Pattern:** 8 forms with hair salon terminology (colour patch test, hair history, colour formula record in appointment tracker, hair consultation form). Listing #4476124434 live at GBP 4.99. 2,956 competitors. All 5 researched niches now have live listings.
+
+---
+
+### 2026-03-22 22:25 — Lash Tech Client Forms Bundle — third niche
+
+**Pattern:** 8 forms with lash-specific terminology (eye & skin check, patch test record, lash style request with curl/length options). Listing #4476113851 live at GBP 4.99. 1,705 competitors.
+
+---
+
 ### 2026-03-22 22:03 — Nail Tech Client Forms Bundle — second niche expansion
 
 **Pattern:** Factory pattern proven: barbershop → nail tech took one pass. All 8 forms restyled with nail-specific terminology (nail & skin check, nail shape preferences, gel/acrylic aftercare, nail design request). Listing #4476116442 live at GBP 4.99 with 3 images + ZIP. 1,526 competitors vs 212 barbershop — moderate competition, forms bundles still under-represented.

@@ -5,6 +5,12 @@ Most recent first. Read this to repeat what works.
 
 ---
 
+### 2026-03-22 22:03 — Nail Tech Client Forms Bundle — second niche expansion
+
+**Pattern:** Factory pattern proven: barbershop → nail tech took one pass. All 8 forms restyled with nail-specific terminology (nail & skin check, nail shape preferences, gel/acrylic aftercare, nail design request). Listing #4476116442 live at GBP 4.99 with 3 images + ZIP. 1,526 competitors vs 212 barbershop — moderate competition, forms bundles still under-represented.
+
+---
+
 ### 2026-03-22 21:52 — Barbershop Client Forms Bundle — first niche expansion
 
 **Pattern:** Restyled all 8 tattoo forms for barbershop (scalp & skin check, style request, appointment tracker). Generated hero 3000x3000. Published listing #4476104249 at GBP 4.99 with 3 images + ZIP. Only 212 competitors in this niche vs 16k tattoo. Cross-niche factory pattern works: same form structure, different terminology and branding. Total time from market data to live listing: single session.

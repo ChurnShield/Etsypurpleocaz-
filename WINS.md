@@ -5,6 +5,12 @@ Most recent first. Read this to repeat what works.
 
 ---
 
+### 2026-03-23 12:11 — Tattoo Gift Certificate Canva template
+
+**Pattern:** Imported approved PDF into Canva via import-design-from-url. Design DAHEw2AXYFw in Tattoo Masters folder. Delivery shortlink: /d/YgKBSHN1dZ_U8qf. PDF hosted on Spaces. Registered in design_registry.json.
+
+---
+
 ### 2026-03-23 10:11 — swap_card_images tool
 
 **Pattern:** Built swap-card-images.ts in purpleocaz-canva-mcp. Two-step flow: REST API uploads image as Canva asset, MCP tools do the editing transaction. Successfully tested update_fill on DAHD07F9MsY circular frame element PBwdJPdRSxNJvVSz-LBdTn8WTgTDmwTJt. Token auto-refresh on 401 works. Cancelled test transaction to preserve master.

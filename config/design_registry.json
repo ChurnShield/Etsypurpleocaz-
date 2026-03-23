@@ -108,6 +108,25 @@
           }
         }
       },
+      "gift_certificate": {
+        "design_id": "DAHEw2AXYFw",
+        "design_title": "Tattoo Studio Gift Certificate",
+        "page_count": 1,
+        "approved": true,
+        "approved_date": "2026-03-23",
+        "dimensions": { "width": 842, "height": 595 },
+        "format": "A4 landscape",
+        "delivery_shortlink": "https://www.canva.com/d/YgKBSHN1dZ_U8qf",
+        "edit_url": "https://www.canva.com/d/SID5VtuxVRLyWe4",
+        "folder": "FAHENuO2Vkc",
+        "spaces_pdf": "https://purpleocaz-assets.lon1.digitaloceanspaces.com/templates/tattoo-gift-certificate/Tattoo_Gift_Certificate.pdf",
+        "photos": [
+          "assets/photos/tattoo_gift_cert/photo_1.jpg",
+          "assets/photos/tattoo_gift_cert/photo_2.jpg",
+          "assets/photos/tattoo_gift_cert/photo_3.jpg",
+          "assets/photos/tattoo_gift_cert/photo_4.jpg"
+        ]
+      },
       "business_card": {
         "thumbnail_design_id": "DAHDc0gyebE",
         "thumbnail_design_title": "Etsy Listing - Business Card Thumbnail Template",

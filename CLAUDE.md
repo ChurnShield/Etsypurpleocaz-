@@ -79,8 +79,10 @@ Context modes: `.claude/contexts/` — type `/context [build|research|review]` t
 | Understanding the system | 01-overview → 02-orchestrator → 07-workflows |
 | Adding a workflow | 07-workflows → 03-tool-patterns → 08-configuration |
 | Adding a tool | 03-tool-patterns → 04-validator-patterns → 09-testing |
+| Adding a script | `scripts/` → look at existing generators for patterns |
 | Debugging a failure | 10-operations → 02-orchestrator → 05-database |
 | Building a listing | `.claude/rules/pipeline.md` → `canva.md` → `etsy.md` |
+| Running the weekly pipeline | See "Weekly Automation Pipeline" section below |
 
 ---
 
@@ -109,12 +111,64 @@ Context modes: `.claude/contexts/` — type `/context [build|research|review]` t
 
 ---
 
+## Weekly Automation Pipeline
+
+Four cron jobs run every Monday (UTC) to produce weekly intelligence:
+
+| Time | Script | What it does |
+|------|--------|-------------|
+| 06:00 | `transcribe.py` | Fetches YouTube transcripts → `transcripts/` |
+| 07:00 | `digest.py` | Analyses transcripts via Claude → `digests/DIGEST_YYYY-MM-DD.md` |
+| 07:30 | `scripts/weekly_review.py` | Weekly performance review |
+| 08:00 | `scripts/digest_processor.py` | Extracts top 5 ideas via Claude, appends to `ideas_backlog.md`, emails summary via SendGrid |
+
+Crontab is on the VPS. Edit with `crontab -e`. Logs go to `logs/`.
+
+---
+
+## Scripts Overview
+
+`scripts/` contains 26+ utility scripts. Key categories:
+
+- **Pipeline**: `digest_processor.py`, `weekly_review.py`, `weekly_performance_check.py`, `digest_performance.py`
+- **Verification**: `verify_listing.py` (post-listing Etsy checks)
+- **PDF Generators**: `generate_tattoo_forms.py`, `generate_*_forms.py` (barbershop, lash, nail, hair), `generate_flyer_*.py`, `generate_loyalty_card.py`, `generate_gift_certificate.py`, `generate_price_list.py`
+- **Image Tools**: `composite_forms_hero.py`, `fetch_niche_photo.py`, `rebuild_rank_images.py`, `generate_starter_bundle_heroes.py`
+- **Database**: `init_db.py`, `show_logs.py`
+
+---
+
+## Skills
+
+`skills/` contains Claude Code skill definitions used by slash commands:
+
+| Skill | File |
+|-------|------|
+| Design (Canva) | `skills/design.md` |
+| Etsy listing | `skills/etsy-listing.md` |
+| PDF bundle | `skills/pdf-bundle.md` |
+| SOP | `skills/sop.md` |
+| Anti-slop copy rules | `skills/stop-slop/` |
+| Tech stack | `skills/tech-stack.md` |
+
+---
+
+## BigBrain & API
+
+- **BigBrain** (`lib/big_brain/`): Cross-workflow intelligence layer. `brain.py` analyses patterns across all workflows, `system_proposer.py` generates system-wide proposals, `hooks.py` triggers analysis on events. All proposals require human approval.
+- **API** (`api/app.py`, `server.py`): FastAPI REST layer for programmatic access.
+
+---
+
 ## Emergency Procedures
 
 - **No logs after run**: Missing `logger.flush()` in finally → see 02-orchestrator.md
 - **Database corruption**: `python scripts/init_db.py` (WARNING: loses data)
 - **Etsy 401/403**: Check key format (`keystring:shared_secret`) or re-run OAuth
 - **Import errors**: Check `__init__.py` and sys.path
+- **SendGrid email not arriving**: Check `SENDGRID_API_KEY` in `.env`, verify sender in SendGrid dashboard, check `logs/digest_processor.log`
+- **Cron jobs not running**: `crontab -l` to verify, check `logs/` for output, ensure scripts have correct shebangs
+- **Transcript pipeline stale**: Check `transcripts/` for recent files, verify YouTube API key in `.env`, check `logs/transcribe.log`
 
 ---
 

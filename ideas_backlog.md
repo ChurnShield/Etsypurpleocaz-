@@ -92,3 +92,26 @@ Auto-populated from weekly YouTube digest. Deduplicated 2026-03-23.
 [ ] **Value Creation** Create customer dependency through solving critical business problems — Source: Make Them Need You, 2026-03-23
 [ ] **AI Strategy** Focus on human-AI collaboration gap as competitive advantage — Source: The Gap AI Is Creating, 2026-03-23
 [ ] **Business Philosophy** Apply Rockefeller's systematic approach to wealth building — Source: The Greatest Lesson From Rockefeller, 2026-03-23
+
+## From Weekly Digest 2026-03-23
+
+- **Idea:** Track trends before they spike on Etsy by monitoring Pinterest and social media, then bringing fresh trends to Etsy before competition arrives
+- **Apply to:** PurpleOcaz
+- **Action:** Set up Pinterest monitoring workflow in n8n to identify emerging design trends 2-3 months before they hit Etsy
+- **Effort:** Medium
+- **Idea:** Implement "Library Meta-Skill" system for distributing and versioning AI skills/prompts across devices and projects using library.yaml config
+- **Apply to:** AgentPipeline
+- **Action:** Build library.yaml system to manage Claude Code skills and n8n workflows centrally
+- **Effort:** High
+- **Idea:** Niche down trending keywords instead of using broad terms - "digital planner templates" vs just "digital"
+- **Apply to:** PurpleOcaz
+- **Action:** Audit current listings and replace broad keywords with specific niche variations using eRank data
+- **Effort:** Low
+- **Idea:** Use best day/time data for Etsy listings to maximize visibility in algorithm
+- **Apply to:** PurpleOcaz
+- **Action:** Extract specific timing data from Starla Moore's exclusive research and schedule listings accordingly
+- **Effort:** Low
+- **Idea:** Build customer dependency through solving critical problems rather than just being convenient
+- **Apply to:** ChurnShield
+- **Action:** Position ChurnShield as essential business survival tool, not just nice-to-have analytics
+- **Effort:** Medium

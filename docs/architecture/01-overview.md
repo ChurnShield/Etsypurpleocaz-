@@ -1,6 +1,6 @@
 # System Overview -- 3-Layer Dual Learning Agentic AI
 
-**Version**: 1.0.0 | **Date**: 2026-02-25 | **Status**: 🚧 In Progress
+**Version**: 1.1.0 | **Date**: 2026-03-23 | **Status**: 🚧 In Progress
 
 > **Note**: This is the high-level system overview.
 > For project-wide rules and conventions, see [CLAUDE.md](../../CLAUDE.md).
@@ -27,7 +27,7 @@ A self-improving workflow automation platform where an Orchestrator executes tas
 - Executes multi-phase workflows (fetch data, transform, save to Google Sheets/Etsy)
 - Logs every tool call, validation, and phase transition to SQLite
 - SmallBrain analyses execution logs after 15+ runs and proposes improvements
-- BigBrain (planned) detects patterns across multiple workflows
+- BigBrain detects patterns across multiple workflows (`lib/big_brain/`)
 - All proposals require human approval before changes are applied
 
 ### What it does NOT do
@@ -47,6 +47,11 @@ A self-improving workflow automation platform where an Orchestrator executes tas
 | HTTP Client | requests | 2.31.0+ |
 | Sheets | gspread | 6.0+ |
 | RSS | feedparser | 6.0+ |
+| API | FastAPI + Uvicorn | 0.104.0+ |
+| PDF Generation | ReportLab | 4.0+ |
+| SVG | svgwrite | 1.4+ |
+| Email | SendGrid | 6.12+ |
+| Trends | pytrends | 4.9+ |
 | Testing | pytest + pytest-cov | 7.4.0+ |
 | Config | python-dotenv | 1.0.0+ |
 
@@ -54,15 +59,15 @@ A self-improving workflow automation platform where an Orchestrator executes tas
 
 ```
 Layer 3: BRAIN (Intelligence)
-    SmallBrain (per-workflow)     BigBrain (cross-workflow, planned)
+    SmallBrain (per-workflow)     BigBrain (cross-workflow) — lib/big_brain/
          |                              |
          | reads logs                   | reads logs from ALL workflows
          | writes proposals             | writes system-wide proposals
          v                              v
     [proposals table]            [proposals table]
-         |
-         | human approves
-         v
+         |                              |
+         | human approves               | human approves
+         v                              v
 
 Layer 2: ORCHESTRATOR (Execution)
     SimpleOrchestrator
@@ -130,14 +135,22 @@ NEW AI PROJECT/
 |   |-- common_tools/             Shared utilities
 |   |   |-- sqlite_client.py      Supabase-compatible query builder
 |   |   |-- llm_client.py         Claude API wrapper
+|   |   |-- canva_token_manager.py Canva OAuth token management
 |   |   +-- __init__.py
-|   +-- brain/                    Intelligence layer
-|       +-- __init__.py           (SmallBrain lives in templates/)
+|   |-- brain/                    Intelligence layer (SmallBrain lives in templates/)
+|   |   +-- __init__.py
+|   +-- big_brain/                Cross-workflow intelligence
+|       |-- brain.py              BigBrain analysis engine
+|       |-- hooks.py              Event hooks for brain triggers
+|       |-- system_proposer.py    System-wide proposal generator
+|       +-- __init__.py
 |-- workflows/                    Production workflows
 |   |-- ai_news_rss/              RSS -> Google Sheets
+|   |-- ai_news_workflow/         RSS -> Airtable (alternate pipeline)
 |   |-- etsy_analytics/           Etsy API -> analysis -> Sheets
 |   |-- etsy_seo_optimizer/       Tag analysis -> Claude -> Sheets
 |   |-- tattoo_trend_monitor/     Trends -> opportunities -> Sheets
+|   |-- market_intelligence/      Market research -> insights
 |   +-- auto_listing_creator/     Trends -> content -> images -> Etsy
 |-- templates/
 |   +-- workflow_template/        Reference implementation
@@ -147,12 +160,49 @@ NEW AI PROJECT/
 |       |-- config.py             Config template
 |       |-- tools/                Example tool
 |       +-- validators/           Example validator
-|-- tests/                        pytest test suite
-|-- scripts/                      Utility scripts
+|-- scripts/                      Utility & generation scripts
 |   |-- init_db.py                Database initialization
-|   +-- show_logs.py              HTML execution report generator
+|   |-- show_logs.py              HTML execution report generator
+|   |-- verify_listing.py         Post-listing Etsy verification
+|   |-- digest_processor.py       Weekly digest -> ideas + SendGrid email
+|   |-- weekly_review.py          Weekly performance review
+|   |-- weekly_performance_check.py  Performance metrics check
+|   |-- digest_performance.py     Digest analytics
+|   |-- generate_tattoo_forms.py  Tattoo form PDF generation (+ v2)
+|   |-- generate_*_forms.py       Niche-specific form generators (barbershop, lash, nail, hair)
+|   |-- generate_flyer_*.py       Flyer generators (flash, promo, studio, walkin)
+|   |-- generate_loyalty_card.py  Loyalty card PDF generation
+|   |-- generate_gift_certificate.py Gift certificate generation
+|   |-- generate_price_list.py    Price list generation
+|   |-- composite_forms_hero.py   Hero image compositing
+|   |-- fetch_niche_photo.py      Unsplash niche photo fetcher
+|   +-- rebuild_rank_images.py    Etsy image rank rebuilder
+|-- api/                          FastAPI REST layer
+|   +-- app.py                    API endpoints
+|-- skills/                       Claude Code skill definitions
+|   |-- design.md                 Canva design skill
+|   |-- etsy-listing.md           Etsy listing skill
+|   |-- pdf-bundle.md             PDF bundle skill
+|   |-- sop.md                    SOP skill
+|   |-- stop-slop/                Anti-slop copy quality rules
+|   +-- tech-stack.md             Tech stack skill
+|-- hooks/                        Session & task lifecycle hooks
+|   |-- preflight.sh              Session start pre-flight check
+|   |-- on_task_complete.sh       Log wins after successful tasks
+|   +-- on_task_fail.sh           Log lessons after failures
+|-- config/                       Runtime configuration
+|   +-- design_registry.json      Canva design ID registry
+|-- exports/                      Listing build scripts
+|-- tests/                        pytest test suite
 |-- data/                         SQLite database (gitignored)
+|-- digests/                      Weekly intelligence digests
+|-- transcripts/                  YouTube transcript archive
+|-- CanvaAutomationSuite/         Browser-based Canva automation
+|-- purpleocaz-canva-mcp/         Canva MCP server (Node/TS)
 |-- config.py                     Root-level configuration
+|-- digest.py                     Weekly digest generator (cron)
+|-- transcribe.py                 YouTube transcript fetcher (cron)
+|-- server.py                     FastAPI dev server entry point
 |-- main.py                       API test script (demo only)
 +-- requirements.txt              Python dependencies
 ```

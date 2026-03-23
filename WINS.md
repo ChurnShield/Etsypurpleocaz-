@@ -5,6 +5,18 @@ Most recent first. Read this to repeat what works.
 
 ---
 
+### 2026-03-23 06:15 — Tattoo Studio Starter Bundle at GBP 19.99
+
+**Pattern:** First premium bundle. Combined 8 client forms + business card templates (dark/light) + appointment card templates (dark/light) into single ZIP with branded delivery PDF containing /d/ shortlinks. Listing #4476255084 at GBP 19.99 — 4x the individual forms price. Performance data shows top performer is Tattoo Studio Branding Kit at 24.95 with 1,973 views — this bundle targets the same premium buyer. Market data confirms price ladder gap: most tattoo bundles under 10, premium 20+ range is open.
+
+---
+
+### 2026-03-23 06:09 — Deleted 2 dead listings (939d + 817d, 0 views)
+
+**Pattern:** DELETE endpoint returns 204, GET confirms 'not found'. Listings 1538873834 (Nail Tech Appt Card, Aug 2023) and 1629878924 (Valentine Flower Shop, Dec 2023) removed. Both had 0 views, 0 sales, 0 favs after 2+ years. Frees up listing slots and cleans shop metrics.
+
+---
+
 ### 2026-03-22 22:25 — Hair Salon Client Forms Bundle — fourth niche
 
 **Pattern:** 8 forms with hair salon terminology (colour patch test, hair history, colour formula record in appointment tracker, hair consultation form). Listing #4476124434 live at GBP 4.99. 2,956 competitors. All 5 researched niches now have live listings.

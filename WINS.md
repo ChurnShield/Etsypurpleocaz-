@@ -5,6 +5,12 @@ Most recent first. Read this to repeat what works.
 
 ---
 
+### 2026-03-23 12:31 — Tattoo Price List Canva template
+
+**Pattern:** Built A4 portrait price list PDF with 3 pricing boxes, Unsplash photo, serif title. Imported into Canva as DAHExFlw-yg, moved to Tattoo Masters. Delivery shortlink: /d/PQFnv85iHnoc_gv. Registered in design_registry.json.
+
+---
+
 ### 2026-03-23 12:11 — Tattoo Gift Certificate Canva template
 
 **Pattern:** Imported approved PDF into Canva via import-design-from-url. Design DAHEw2AXYFw in Tattoo Masters folder. Delivery shortlink: /d/YgKBSHN1dZ_U8qf. PDF hosted on Spaces. Registered in design_registry.json.

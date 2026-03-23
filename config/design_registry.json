@@ -108,6 +108,22 @@
           }
         }
       },
+      "price_list": {
+        "design_id": "DAHExFlw-yg",
+        "design_title": "Tattoo Studio Price List",
+        "page_count": 1,
+        "approved": true,
+        "approved_date": "2026-03-23",
+        "dimensions": { "width": 595, "height": 842 },
+        "format": "A4 portrait",
+        "delivery_shortlink": "https://www.canva.com/d/PQFnv85iHnoc_gv",
+        "edit_url": "https://www.canva.com/d/cz8PYL_ID3ihy5p",
+        "folder": "FAHENuO2Vkc",
+        "spaces_pdf": "https://purpleocaz-assets.lon1.digitaloceanspaces.com/templates/tattoo-price-list/Tattoo_Price_List.pdf",
+        "photos": [
+          "assets/photos/tattoo_price_list/photo_1.jpg"
+        ]
+      },
       "gift_certificate": {
         "design_id": "DAHEw2AXYFw",
         "design_title": "Tattoo Studio Gift Certificate",

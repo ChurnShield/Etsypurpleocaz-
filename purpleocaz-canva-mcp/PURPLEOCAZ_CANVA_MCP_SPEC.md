@@ -78,3 +78,4 @@ asset upload (REST), and the MCP tools handle the design editing.
 | Hero thumbnail template | `DAHDc0gyebE` | Not yet inspected |
 | Listing pages (5-page) | `DAFx_dsWpTA` | Not yet inspected |
 | Tattoo Gift Certificate | `DAHEw2AXYFw` | Imported from PDF. Shortlink: `/d/YgKBSHN1dZ_U8qf` |
+| Tattoo Price List | `DAHExFlw-yg` | Imported from PDF. Shortlink: `/d/PQFnv85iHnoc_gv` |

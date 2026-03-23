@@ -4,6 +4,54 @@ Most recent first.
 
 ---
 
+## 2026-03-23
+
+### What we shipped today
+- **6 forms bundles published at £4.99 each** — tattoo x2 (#4475861685, #4476074218), barbershop (#4476104249), nail tech (#4476116442), lash tech (#4476113851), hair salon (#4476124434). Each has 8 niche-specific PDFs, 3000x3000 hero, 3 listing images, ZIP delivery.
+- **5 starter bundles published at £9.99 each** — tattoo (#4476255084), barbershop (#4476249863), nail tech (#4476259024), lash tech (#4476259070), hair salon (#4476249947). Each combines 8 forms + business card + appointment card Canva templates with branded delivery PDF.
+- **Price correction £19.99 → £9.99** on all 5 starter bundles via PUT /listings/{id}/inventory endpoint. PATCH price is silently ignored on all listing states.
+- **2 dead listings deleted** — #1538873834 (939 days, 0 views), #1629878924 (817 days, 0 views). Confirmed gone via GET.
+- **Market research** — 5 niche keywords (tattoo, barbershop, nail tech, lash tech, hair salon). Barbershop widest open at 212 listings.
+- **Performance pipeline tested** — weekly_performance_check.py + digest_performance.py both run clean. PERFORMANCE_INSIGHTS.md generated.
+- **Learning loop system** — hooks/on_task_complete.sh and hooks/on_task_fail.sh auto-append to WINS.md and LESSONS.md. 16 wins logged this session.
+- **Skills created** — skills/design.md (design rules), skills/sop.md (publishing checklist)
+- **UFW hardened** — removed plain ALLOW on port 22, LIMIT rule only
+
+### Performance snapshot
+- 945 active listings (943 after 2 deletions)
+- £6,678.75 total revenue, 886 sales, 70,542 views
+- Top performer: Tattoo Studio Branding Kit — 1,973 views, 102 favs, £24.95
+- 209 underperformers (<10 views) — 22% of shop
+
+### New lessons
+- Price PATCH silently ignored on ALL listing states — must use PUT /listings/{id}/inventory
+- Hero thumbnails must be 3000x3000 square — Etsy crops to square in search
+- Cannot delete last image on active listing — upload replacement first
+- Canva-first for heroes — check existing assets before generating with Pillow
+- Hero must show ALL bundle items, not a subset
+- After image swap, verify all 3 ranks exist (R1, R2, R3) not just R1
+
+### Product ladder (per niche)
+| Tier | Product | Price | Status |
+|------|---------|-------|--------|
+| 1 | Client Forms Bundle (8 PDFs) | £4.99 | LIVE — all 5 niches |
+| 2 | Starter Bundle (forms + cards) | £9.99 | LIVE — all 5 niches |
+| 3 | Branding Kit (full template set) | £24.95 | EXISTS for tattoo only |
+| 4 | Mega Bundle (all products) | £39.99 | TO BUILD |
+
+### What's blocked
+- ideas_backlog.md has duplicate entries from YouTube digests — needs deduplication
+- 6 generic listing images (How It Works, What's Included) still need manual Canva redesign
+
+### Tomorrow's priority
+1. **Deduplicate ideas_backlog.md** — consolidate repeated Mac Mini / agent entries
+2. **Tier 3 branding kits** — build for barbershop, nail tech, lash tech, hair salon (tattoo already exists at £24.95)
+3. **Tier 4 mega bundles** — combine all tiers per niche at £39.99
+4. **Update STANDUP.md → Sunday strategy session** — repurpose bundle ladder planning, Tier 1+2 done, focus on Tier 3/4
+5. **Underperformer audit** — review the 209 listings with <10 views, batch update tags/titles or delete
+
+---
+
 ## 2026-03-18
 
 ### What we shipped today

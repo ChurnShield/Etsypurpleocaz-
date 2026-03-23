@@ -5,6 +5,12 @@ Most recent first. Read this to repeat what works.
 
 ---
 
+### 2026-03-23 21:59 — Car Detail Listing Images
+
+**Pattern:** Built 28 Etsy listing images (7 per listing x 4 listings) at 2000x2000px star-seller standard. Dark automotive brand aesthetic (#0D0D0D bg, #E02020 red accent, white text). All uploaded to DO Spaces + Etsy API. Each listing verified with GET: 7 images, ranks 1-7. Pipeline: car_detail_thumbnails.py (build+upload) + car_detail_upload_images.py (Etsy upload+verify).
+
+---
+
 ### 2026-03-23 21:38 — Car Detailing Niche Build
 
 **Pattern:** Full pipeline: 15 products (8 forms, 3 visual docs, 4 flyers), all uploaded to DO Spaces, imported to Canva with /d/ shortlinks, registered in design_registry.json, 4 Etsy listings created (forms bundle, visual bundle, flyer pack, starter bundle). Reused proven patterns from tattoo niche. Pipeline script car_detail_pipeline.py handles previews, heroes, uploads in one shot.

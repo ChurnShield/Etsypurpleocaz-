@@ -1,0 +1,38 @@
+{
+  "forms_bundle": [
+    "https://purpleocaz-assets.lon1.digitaloceanspaces.com/thumbnails/car-detail/forms_bundle/rank1_hero.png",
+    "https://purpleocaz-assets.lon1.digitaloceanspaces.com/thumbnails/car-detail/forms_bundle/rank2_whats_inside.png",
+    "https://purpleocaz-assets.lon1.digitaloceanspaces.com/thumbnails/car-detail/forms_bundle/rank3_lifestyle.png",
+    "https://purpleocaz-assets.lon1.digitaloceanspaces.com/thumbnails/car-detail/forms_bundle/rank4_how_it_works.png",
+    "https://purpleocaz-assets.lon1.digitaloceanspaces.com/thumbnails/car-detail/forms_bundle/rank5_why_buy.png",
+    "https://purpleocaz-assets.lon1.digitaloceanspaces.com/thumbnails/car-detail/forms_bundle/rank6_canva_basics.png",
+    "https://purpleocaz-assets.lon1.digitaloceanspaces.com/thumbnails/car-detail/forms_bundle/rank7_please_note.png"
+  ],
+  "visual_bundle": [
+    "https://purpleocaz-assets.lon1.digitaloceanspaces.com/thumbnails/car-detail/visual_bundle/rank1_hero.png",
+    "https://purpleocaz-assets.lon1.digitaloceanspaces.com/thumbnails/car-detail/visual_bundle/rank2_whats_inside.png",
+    "https://purpleocaz-assets.lon1.digitaloceanspaces.com/thumbnails/car-detail/visual_bundle/rank3_lifestyle.png",
+    "https://purpleocaz-assets.lon1.digitaloceanspaces.com/thumbnails/car-detail/visual_bundle/rank4_how_it_works.png",
+    "https://purpleocaz-assets.lon1.digitaloceanspaces.com/thumbnails/car-detail/visual_bundle/rank5_why_buy.png",
+    "https://purpleocaz-assets.lon1.digitaloceanspaces.com/thumbnails/car-detail/visual_bundle/rank6_canva_basics.png",
+    "https://purpleocaz-assets.lon1.digitaloceanspaces.com/thumbnails/car-detail/visual_bundle/rank7_please_note.png"
+  ],
+  "flyer_pack": [
+    "https://purpleocaz-assets.lon1.digitaloceanspaces.com/thumbnails/car-detail/flyer_pack/rank1_hero.png",
+    "https://purpleocaz-assets.lon1.digitaloceanspaces.com/thumbnails/car-detail/flyer_pack/rank2_whats_inside.png",
+    "https://purpleocaz-assets.lon1.digitaloceanspaces.com/thumbnails/car-detail/flyer_pack/rank3_lifestyle.png",
+    "https://purpleocaz-assets.lon1.digitaloceanspaces.com/thumbnails/car-detail/flyer_pack/rank4_how_it_works.png",
+    "https://purpleocaz-assets.lon1.digitaloceanspaces.com/thumbnails/car-detail/flyer_pack/rank5_why_buy.png",
+    "https://purpleocaz-assets.lon1.digitaloceanspaces.com/thumbnails/car-detail/flyer_pack/rank6_canva_basics.png",
+    "https://purpleocaz-assets.lon1.digitaloceanspaces.com/thumbnails/car-detail/flyer_pack/rank7_please_note.png"
+  ],
+  "starter_bundle": [
+    "https://purpleocaz-assets.lon1.digitaloceanspaces.com/thumbnails/car-detail/starter_bundle/rank1_hero.png",
+    "https://purpleocaz-assets.lon1.digitaloceanspaces.com/thumbnails/car-detail/starter_bundle/rank2_whats_inside.png",
+    "https://purpleocaz-assets.lon1.digitaloceanspaces.com/thumbnails/car-detail/starter_bundle/rank3_lifestyle.png",
+    "https://purpleocaz-assets.lon1.digitaloceanspaces.com/thumbnails/car-detail/starter_bundle/rank4_how_it_works.png",
+    "https://purpleocaz-assets.lon1.digitaloceanspaces.com/thumbnails/car-detail/starter_bundle/rank5_why_buy.png",
+    "https://purpleocaz-assets.lon1.digitaloceanspaces.com/thumbnails/car-detail/starter_bundle/rank6_canva_basics.png",
+    "https://purpleocaz-assets.lon1.digitaloceanspaces.com/thumbnails/car-detail/starter_bundle/rank7_please_note.png"
+  ]
+}

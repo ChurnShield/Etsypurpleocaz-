@@ -25,6 +25,7 @@ Full infrastructure and tooling reference.
 | Claude Code | Opus 4.6 (1M context) — primary AI agent |
 | Canva MCP | `purpleocaz-canva-mcp/` — design creation, editing, export via MCP protocol |
 | Etsy API | v3 — OAuth2, shop ID `34071205`, shop name `PurpleOcaz` |
+| Unsplash API | Demo mode — 50 req/hour limit. Cache photos locally under `assets/photos/{niche}/` to avoid repeat calls. Access key in `.env`. |
 
 ## Services
 

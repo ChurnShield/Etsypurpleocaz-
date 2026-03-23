@@ -5,6 +5,12 @@ Most recent first. Read this to repeat what works.
 
 ---
 
+### 2026-03-23 09:42 — Tattoo Gift Certificate PDF
+
+**Pattern:** Unsplash photo fetch + reportlab PDF generation pipeline works end-to-end. Full-bleed photo background with dark overlay, gold border, white minimal typography, 4 form fields. Cache-first fetch_niche_photo.py avoids repeat API calls.
+
+---
+
 ### 2026-03-23 08:03 — Starter bundle hero price update
 
 **Pattern:** Regenerated all 5 starter bundle hero thumbnails with £9.99 (down from £19.99). Used Pillow to match existing bold minimal dark design. Uploaded to Etsy, deleted old R1 images, verified all 5 listings show 3 images with correct rank order. All PASS.

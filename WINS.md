@@ -5,6 +5,12 @@ Most recent first. Read this to repeat what works.
 
 ---
 
+### 2026-03-23 10:11 — swap_card_images tool
+
+**Pattern:** Built swap-card-images.ts in purpleocaz-canva-mcp. Two-step flow: REST API uploads image as Canva asset, MCP tools do the editing transaction. Successfully tested update_fill on DAHD07F9MsY circular frame element PBwdJPdRSxNJvVSz-LBdTn8WTgTDmwTJt. Token auto-refresh on 401 works. Cancelled test transaction to preserve master.
+
+---
+
 ### 2026-03-23 09:42 — Tattoo Gift Certificate PDF
 
 **Pattern:** Unsplash photo fetch + reportlab PDF generation pipeline works end-to-end. Full-bleed photo background with dark overlay, gold border, white minimal typography, 4 form fields. Cache-first fetch_niche_photo.py avoids repeat API calls.

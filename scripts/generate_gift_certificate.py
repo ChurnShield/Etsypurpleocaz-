@@ -165,8 +165,8 @@ def build_pdf():
     c.setFillColor(NEAR_BLACK)
     c.rect(0, 0, PAGE_W, footer_h, fill=1, stroke=0)
 
-    c.setFillColor(white)
-    c.setFont('Helvetica', 6)
+    c.setFillColor(HexColor('#FFFFFF'))
+    c.setFont('Helvetica', 8)
     c.drawCentredString(PAGE_W / 2, footer_h / 2 - 1 * mm, 'GIFT CERTIFICATE  —  VALID FOR 12 MONTHS FROM DATE OF ISSUE')
 
     c.save()

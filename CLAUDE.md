@@ -56,6 +56,7 @@ Context modes: `.claude/contexts/` — type `/context [build|research|review]` t
 - Hardcode API keys, paths, or thresholds
 - Use PUT on Etsy listings — PATCH only
 - Use `/design/.../edit` links in delivery PDFs — `/d/{shortcode}` only
+- Commit based on "yes" alone — only commit when user explicitly says "approved, commit now" or "commit this"
 
 ---
 

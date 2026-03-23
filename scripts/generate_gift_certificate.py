@@ -105,7 +105,7 @@ def build_pdf():
 
     # Split into 3 zones: form fields (middle-upper), disclaimer, biz details (lower)
     # Form fields centred in upper half, biz details anchored near footer
-    form_centre_y = content_bottom + space * 0.62
+    form_centre_y = content_bottom + space * 0.68
     biz_centre_y = content_bottom + space * 0.18
 
     lm = 25 * mm
@@ -165,7 +165,7 @@ def build_pdf():
     c.setFillColor(NEAR_BLACK)
     c.rect(0, 0, PAGE_W, footer_h, fill=1, stroke=0)
 
-    c.setFillColor(Color(1, 1, 1, alpha=0.5))
+    c.setFillColor(white)
     c.setFont('Helvetica', 6)
     c.drawCentredString(PAGE_W / 2, footer_h / 2 - 1 * mm, 'GIFT CERTIFICATE  —  VALID FOR 12 MONTHS FROM DATE OF ISSUE')
 

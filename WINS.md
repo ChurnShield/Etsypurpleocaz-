@@ -5,6 +5,12 @@ Most recent first. Read this to repeat what works.
 
 ---
 
+### 2026-03-23 08:03 — Starter bundle hero price update
+
+**Pattern:** Regenerated all 5 starter bundle hero thumbnails with £9.99 (down from £19.99). Used Pillow to match existing bold minimal dark design. Uploaded to Etsy, deleted old R1 images, verified all 5 listings show 3 images with correct rank order. All PASS.
+
+---
+
 ### 2026-03-23 06:46 — Price update to GBP 9.99 on all 5 starter bundles
 
 **Pattern:** Used PUT /listings/{id}/inventory endpoint — the only way to update price on existing listings. PATCH price is silently ignored on both draft and active listings. All 5 GET-verified at 9.99.

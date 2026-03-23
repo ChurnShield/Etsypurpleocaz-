@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;0,700;1,400&family=Montserrat:wght@300;400;500;600&display=swap');
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body {
+    width: 2000px; height: 2000px;
+    background: #FDFBF7;
+    font-family: 'Montserrat', sans-serif;
+    display: flex; flex-direction: column;
+    align-items: center; justify-content: center;
+  }
+  h1 {
+    font-family: 'Playfair Display', serif;
+    font-size: 72px; font-weight: 700;
+    color: #1A1A1A; margin-bottom: 16px;
+    letter-spacing: 1px;
+  }
+  .subtitle {
+    font-size: 28px; color: #666;
+    font-weight: 300; margin-bottom: 80px;
+    letter-spacing: 2px; text-transform: uppercase;
+  }
+  .steps {
+    display: flex; gap: 80px;
+    align-items: flex-start;
+  }
+  .step {
+    text-align: center; width: 420px;
+  }
+  .step-circle {
+    width: 160px; height: 160px;
+    border-radius: 50%;
+    background: #1A1A1A;
+    margin: 0 auto 40px;
+    display: flex; align-items: center; justify-content: center;
+    position: relative;
+  }
+  .step-number {
+    font-family: 'Playfair Display', serif;
+    font-size: 64px; font-weight: 700;
+    color: #C9A84C;
+  }
+  .step-icon {
+    font-size: 80px; line-height: 1;
+    margin-bottom: 32px;
+  }
+  .step h3 {
+    font-family: 'Playfair Display', serif;
+    font-size: 36px; font-weight: 600;
+    color: #1A1A1A; margin-bottom: 20px;
+  }
+  .step p {
+    font-size: 24px; color: #555;
+    line-height: 1.6; font-weight: 300;
+  }
+  .gold-line {
+    width: 120px; height: 3px;
+    background: #C9A84C;
+    margin: 24px auto;
+  }
+  .connector {
+    width: 60px; height: 3px;
+    background: #C9A84C;
+    margin-top: 80px;
+    opacity: 0.5;
+  }
+  .footer-text {
+    margin-top: 80px;
+    font-size: 22px; color: #999;
+    letter-spacing: 3px; text-transform: uppercase;
+    font-weight: 400;
+  }
+</style>
+</head>
+<body>
+  <h1>How It Works</h1>
+  <p class="subtitle">Ready to use in under 5 minutes</p>
+  <div class="steps">
+    <div class="step">
+      <div class="step-circle"><span class="step-number">1</span></div>
+      <h3>Purchase</h3>
+      <div class="gold-line"></div>
+      <p>Complete your order on Etsy and receive instant access to your files</p>
+    </div>
+    <div class="step">
+      <div class="step-circle"><span class="step-number">2</span></div>
+      <h3>Open in Canva</h3>
+      <div class="gold-line"></div>
+      <p>Click your personalised Canva link &mdash; no software to install</p>
+    </div>
+    <div class="step">
+      <div class="step-circle"><span class="step-number">3</span></div>
+      <h3>Edit &amp; Download</h3>
+      <div class="gold-line"></div>
+      <p>Add your studio details, choose your fonts, and download print-ready files</p>
+    </div>
+  </div>
+  <p class="footer-text">Works with free Canva accounts</p>
+</body>
+</html>

@@ -18,6 +18,16 @@ Auto-populated from weekly YouTube digest. Deduplicated 2026-03-23.
     - Frameworks to evaluate: agency-agents repo, Claude multi-agent API, n8n
     — Source: Strategic planning, 2026-03-11
 
+[ ] **Autoresearch System** Self-improving prompt loop for CC skills (Karpathy method). 5 components:
+    1. FIND WHY SKILLS FAIL — Act as skill diagnostician. Audit skill prompt, run against 5 test inputs, score each, identify failure patterns (vague instructions, missing constraints, weak output format), rank by frequency and impact, deliver diagnosis before fixes.
+    2. BUILD SCORING CHECKLIST — Act as quality criteria specialist. Turn vague "good output" into 3-6 precise yes/no scoring questions. No subjectivity.
+    3. RUN THE AUTORESEARCH LOOP — Act as autonomous prompt optimization agent. One change at a time, scored against checklist. Continuous improvement until plateau.
+    4. TURN CHANGELOG INTO RULES — Act as prompt intelligence analyst. Extract permanent lessons from optimization logs into reusable rules for all future prompts.
+    5. AUTORESEARCH ANYTHING YOU REPEAT — Act as optimization strategist. Take any repeatable task, build autoresearch system that improves it automatically.
+    - Rules: diagnose before fixing, every failure must be specific, rank by frequency not obviousness, establish baseline before changes
+    - PRIORITY: High — apply to Etsy listing skill, flyer build skill, and thumbnail pipeline first
+    — Source: @alex_prompter on Twitter, 2026-03-23
+
 [ ] **Skills** Implement IndyDevDan's library.yaml pattern for skill management — treat skills as versioned distributable packages, single source of truth. Evaluate github.com/disler/the-library before building. Watch the Library Meta-Skill video first (26 mins, IndyDevDan, 2026-03-23 digest). Dedicated session required — do not tidy skills/ folder until this is decided. — Source: Strategic decision 2026-03-23
 
 [ ] **Agent Automation** Set up Mac Mini with autonomous agents for end-to-end device operation (GUI control, AirDrop delivery, 2-3 core skills max) — Source: Mac Mini Agents OpenClaw

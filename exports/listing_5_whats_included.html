@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;0,700;1,400&family=Montserrat:wght@300;400;500;600&display=swap');
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body {
+    width: 2000px; height: 2000px;
+    background: #1A1A1A;
+    font-family: 'Montserrat', sans-serif;
+    display: flex; flex-direction: column;
+    align-items: center; justify-content: center;
+  }
+  .gold-bar {
+    width: 120px; height: 3px;
+    background: #C9A84C; margin-bottom: 40px;
+  }
+  h1 {
+    font-family: 'Playfair Display', serif;
+    font-size: 72px; font-weight: 700;
+    color: #FDFBF7; margin-bottom: 12px;
+    letter-spacing: 1px;
+  }
+  .subtitle {
+    font-size: 26px; color: #C9A84C;
+    font-weight: 400; margin-bottom: 70px;
+    letter-spacing: 3px; text-transform: uppercase;
+  }
+  .items {
+    list-style: none; padding: 0;
+    width: 1200px;
+  }
+  .items li {
+    display: flex; align-items: center;
+    padding: 32px 48px;
+    border-bottom: 1px solid rgba(201, 168, 76, 0.15);
+    gap: 32px;
+  }
+  .items li:last-child { border-bottom: none; }
+  .check {
+    width: 48px; height: 48px;
+    border-radius: 50%; flex-shrink: 0;
+    background: rgba(201, 168, 76, 0.15);
+    display: flex; align-items: center; justify-content: center;
+    font-size: 24px; color: #C9A84C;
+  }
+  .item-text {
+    font-size: 32px; color: #FDFBF7;
+    font-weight: 400; letter-spacing: 0.5px;
+  }
+  .item-sub {
+    font-size: 22px; color: #888;
+    font-weight: 300; margin-top: 6px;
+  }
+  .footer {
+    margin-top: 70px;
+    padding: 28px 60px;
+    border: 1px solid rgba(201, 168, 76, 0.3);
+    border-radius: 8px;
+    text-align: center;
+  }
+  .footer p {
+    font-size: 24px; color: #C9A84C;
+    font-weight: 400; letter-spacing: 2px;
+  }
+  .footer .small {
+    font-size: 18px; color: #777;
+    margin-top: 8px; letter-spacing: 1px;
+  }
+</style>
+</head>
+<body>
+  <div class="gold-bar"></div>
+  <h1>What's Included</h1>
+  <p class="subtitle">Tattoo Studio Business Card Kit</p>
+  <ul class="items">
+    <li>
+      <div class="check">&#10003;</div>
+      <div>
+        <div class="item-text">Dark Business Card Template</div>
+        <div class="item-sub">Premium black &amp; gold design &mdash; front &amp; back</div>
+      </div>
+    </li>
+    <li>
+      <div class="check">&#10003;</div>
+      <div>
+        <div class="item-text">Light Business Card Template</div>
+        <div class="item-sub">Elegant cream &amp; charcoal design &mdash; front &amp; back</div>
+      </div>
+    </li>
+    <li>
+      <div class="check">&#10003;</div>
+      <div>
+        <div class="item-text">Fully Editable in Canva</div>
+        <div class="item-sub">Change text, colours, fonts &amp; photos &mdash; free Canva account works</div>
+      </div>
+    </li>
+    <li>
+      <div class="check">&#10003;</div>
+      <div>
+        <div class="item-text">Print-Ready Download</div>
+        <div class="item-sub">High resolution PDF &amp; PNG exports for professional printing</div>
+      </div>
+    </li>
+    <li>
+      <div class="check">&#10003;</div>
+      <div>
+        <div class="item-text">Commercial Use Licence</div>
+        <div class="item-sub">Use for your business &mdash; print as many as you need</div>
+      </div>
+    </li>
+  </ul>
+  <div class="footer">
+    <p>INSTANT DIGITAL DOWNLOAD</p>
+    <p class="small">No physical item shipped &mdash; access your templates immediately</p>
+  </div>
+</body>
+</html>

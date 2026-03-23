@@ -1,9 +1,9 @@
 # Performance Insights
 
-**Generated:** 2026-03-23 06:00  
-**Source report:** 2026-03-23T06:00:19.486175  
-**Total listings:** 945  
-**Total views:** 70,542  
+**Generated:** 2026-03-23 08:32  
+**Source report:** 2026-03-23T08:01:13.665729  
+**Total listings:** 948  
+**Total views:** 70,577  
 **Total sales:** 886  
 **Total revenue:** 6,678.75 GBP
 
@@ -11,35 +11,35 @@
 
 ## Winning Patterns
 
-**Median views:** 27
+**Median views:** 27.0
 
 | Metric | Above median | Below median |
 |--------|-------------|-------------|
-| Avg price | 8.06 | 5.85 |
+| Avg price | 8.06 | 5.90 |
 | Avg tag count | 13.0 | 12.9 |
-| Listing count | 478 | 467 |
+| Listing count | 478 | 470 |
 
 ### Top niches by avg views
 
 | Niche | Avg views |
 |-------|-----------|
 | planner | 699.3 |
-| bundle | 209.8 |
-| tattoo | 130.2 |
-| template | 71.0 |
+| bundle | 210.0 |
+| tattoo | 128.7 |
+| template | 71.1 |
 | other | 48.6 |
 
 ## Top 5 Performers
 
 | # | Views | Favs | Sales | Price | Title |
 |---|-------|------|-------|-------|-------|
-| 1 | 1,973 | 102 | 16 | 24.95 | Tattoo Studio Branding Kit: Business Card, Flyer Templates (Canva Editable, Inst |
+| 1 | 1,974 | 102 | 16 | 24.95 | Tattoo Studio Branding Kit: Business Card, Flyer Templates (Canva Editable, Inst |
 | 2 | 1,793 | 53 | 12 | 2.49 | Skincare Daily Routine Planner: Self Care Tracker (Printable PDF) |
 | 3 | 1,561 | 53 | 18 | 20.00 | Car Detailing Business Branding Kit: Canva Templates (Instant Download) |
-| 4 | 1,297 | 4 | 12 | 6.00 | Massage Therapy Certificate Template: Editable Award (Canva) |
+| 4 | 1,298 | 4 | 12 | 6.00 | Massage Therapy Certificate Template: Editable Award (Canva) |
 | 5 | 1,223 | 26 | 57 | 4.80 | Car Detail Gift Certificate Template: Luxury Customer Voucher (Canva Edit, Insta |
 
-## Underperformers (209 listings with <10 views)
+## Underperformers (212 listings with <10 views)
 
 Consider updating tags/titles or deleting these listings:
 
@@ -218,10 +218,12 @@ Consider updating tags/titles or deleting these listings:
 | 3 | 0 | 0 | 13 | Lash Technician Pricelist Template: Green & Black Canva Design (Digital Download | UPDATE |
 | 3 | 0 | 0 | 13 | Hair Salon Scan to Pay Sign: Green & Black Template (Digital Download) | UPDATE |
 | 3 | 0 | 0 | 13 | Makeup Artist Card Template Bundle: Business, Loyalty, Appointment Cards (Edit i | UPDATE |
+| 3 | 1 | 0 | 13 | Makeup Artist Card Template Bundle: Purple & Black Design (Edit in Canva) | UPDATE |
 | 3 | 0 | 0 | 13 | Makeup Artist Appointment Card Template: Purple & White (Edit in Canva, Instant  | UPDATE |
 | 3 | 0 | 0 | 13 | Lash Technician Appointment Card Template: Editable in Canva (Instant Download) | UPDATE |
 | 3 | 0 | 0 | 13 | Lash Technician Instagram Story Templates: 100 Editable Canva Designs (Instant D | UPDATE |
 | 3 | 0 | 0 | 13 | Baseball Lessons Gift Certificate: Youth Coach Voucher (Canva Template) | UPDATE |
+| 2 | 0 | 0 | 13 | Tattoo Studio Client Paperwork Pack — Digital Download | UPDATE |
 | 2 | 0 | 0 | 13 | Tattoo Appointment Card Template | Dark Light Canva Design (Instant Download) | UPDATE |
 | 2 | 0 | 0 | 13 | Tattoo Studio Business Card Template | Dark and Light Canva Designs | Instant Do | UPDATE |
 | 2 | 0 | 0 | 13 | Podcasting Workshop Gift Certificate Template: Editable Canva Design (Instant Do | UPDATE |
@@ -243,14 +245,15 @@ Consider updating tags/titles or deleting these listings:
 | 1 | 0 | 0 | 13 | Nail Technician Scan-to-Pay Sign: Luxury Salon Template (Digital Download) | UPDATE |
 | 1 | 0 | 0 | 13 | Enamel Pins Gift Certificate Canva Template (Instant Download) | UPDATE |
 | 1 | 0 | 0 | 13 | Birthstone Jewelry Gift Certificate: Editable Canva Template | UPDATE |
-| 1 | 1 | 0 | 13 | Makeup Artist Card Template Bundle: Purple & Black Design (Edit in Canva) | UPDATE |
 | 1 | 0 | 0 | 13 | Lash Technician Appointment Card Template: Editable in Canva (Instant Download) | UPDATE |
+| 0 | 0 | 0 | 13 | Hair Salon Starter Bundle — Client Forms, Business Card & Appointment Card Templ | DELETE |
+| 0 | 0 | 0 | 13 | Lash Tech Starter Bundle — Client Forms, Business Card & Appointment Card Templa | DELETE |
+| 0 | 0 | 0 | 13 | Nail Tech Starter Bundle — Client Forms, Business Card & Appointment Card Templa | DELETE |
+| 0 | 0 | 0 | 13 | Barbershop Starter Bundle — Client Forms, Business Card & Appointment Card Templ | DELETE |
+| 0 | 0 | 0 | 13 | Tattoo Studio Starter Bundle — Client Forms, Business Card & Appointment Card Te | DELETE |
 | 0 | 0 | 0 | 13 | Hair Salon Client Forms Bundle — Printable PDF Templates | DELETE |
 | 0 | 0 | 0 | 13 | Lash Tech Client Forms Bundle — Printable PDF Templates | DELETE |
 | 0 | 0 | 0 | 13 | Nail Tech Client Forms Bundle — Printable PDF Templates | DELETE |
 | 0 | 0 | 0 | 13 | Barbershop Client Forms Bundle — Printable PDF Templates | DELETE |
-| 0 | 0 | 0 | 13 | Tattoo Studio Client Paperwork Pack — Digital Download | DELETE |
 | 0 | 0 | 0 | 13 | Tattoo Artist Client Forms Bundle — Printable PDF Templates | DELETE |
 | 0 | 0 | 0 | 13 | Tattoo Studio Client Forms Bundle | 8 Professional PDF Templates (Digital Downlo | DELETE |
-| 0 | 0 | 0 | 13 | Valentine&#39;s Flower Shop Gift Certificate Template (Canva Editable, Instant D | DELETE |
-| 0 | 0 | 0 | 13 | Nail Technician Appointment Card Template: Black & Pink Design (Edit in Canva, I | DELETE |

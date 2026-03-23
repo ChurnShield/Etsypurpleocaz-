@@ -1,14 +1,14 @@
 {
-  "generated": "2026-03-23T06:00:19.486175",
+  "generated": "2026-03-23T08:01:13.665729",
   "shop_id": "34071205",
   "summary": {
-    "total_listings": 945,
-    "total_views": 70542,
-    "avg_views": 74.6,
+    "total_listings": 948,
+    "total_views": 70577,
+    "avg_views": 74.4,
     "total_favorites": 1892,
     "total_sales": 886,
     "total_revenue": 6678.75,
-    "underperformer_count": 209
+    "underperformer_count": 212
   },
   "top_5": [
     {
@@ -16,7 +16,7 @@
       "title": "Tattoo Studio Branding Kit: Business Card, Flyer Templates (Canva Editable, Inst",
       "price": 24.95,
       "currency": "GBP",
-      "views": 1973,
+      "views": 1974,
       "favorites": 102,
       "sales": 16,
       "revenue": 399.2,
@@ -55,7 +55,7 @@
       "title": "Massage Therapy Certificate Template: Editable Award (Canva)",
       "price": 6.0,
       "currency": "GBP",
-      "views": 1297,
+      "views": 1298,
       "favorites": 4,
       "sales": 12,
       "revenue": 72.0,
@@ -2328,6 +2328,19 @@
       "created": 1691832006
     },
     {
+      "listing_id": 1527215940,
+      "title": "Makeup Artist Card Template Bundle: Purple & Black Design (Edit in Canva)",
+      "price": 8.75,
+      "currency": "GBP",
+      "views": 3,
+      "favorites": 1,
+      "sales": 0,
+      "revenue": 0.0,
+      "tags": 13,
+      "url": "https://www.etsy.com/listing/1527215940/makeup-artist-card-template-bundle",
+      "created": 1691643536
+    },
+    {
       "listing_id": 1529709231,
       "title": "Makeup Artist Appointment Card Template: Purple & White (Edit in Canva, Instant ",
       "price": 4.8,
@@ -2378,6 +2391,19 @@
       "tags": 13,
       "url": "https://www.etsy.com/listing/1892409327/baseball-lessons-gift-certificate-youth",
       "created": 1742715734
+    },
+    {
+      "listing_id": 4476074218,
+      "title": "Tattoo Studio Client Paperwork Pack \u2014 Digital Download",
+      "price": 4.99,
+      "currency": "GBP",
+      "views": 2,
+      "favorites": 0,
+      "sales": 0,
+      "revenue": 0.0,
+      "tags": 13,
+      "url": "https://www.etsy.com/listing/4476074218/tattoo-studio-client-paperwork-pack",
+      "created": 1774211059
     },
     {
       "listing_id": 4473444461,
@@ -2653,19 +2679,6 @@
       "created": 1736021370
     },
     {
-      "listing_id": 1527215940,
-      "title": "Makeup Artist Card Template Bundle: Purple & Black Design (Edit in Canva)",
-      "price": 8.75,
-      "currency": "GBP",
-      "views": 1,
-      "favorites": 1,
-      "sales": 0,
-      "revenue": 0.0,
-      "tags": 13,
-      "url": "https://www.etsy.com/listing/1527215940/makeup-artist-card-template-bundle",
-      "created": 1691643536
-    },
-    {
       "listing_id": 1531090405,
       "title": "Lash Technician Appointment Card Template: Editable in Canva (Instant Download)",
       "price": 4.8,
@@ -2677,6 +2690,71 @@
       "tags": 13,
       "url": "https://www.etsy.com/listing/1531090405/lash-technician-appointment-card",
       "created": 1690362337
+    },
+    {
+      "listing_id": 4476249947,
+      "title": "Hair Salon Starter Bundle \u2014 Client Forms, Business Card & Appointment Card Templ",
+      "price": 9.99,
+      "currency": "GBP",
+      "views": 0,
+      "favorites": 0,
+      "sales": 0,
+      "revenue": 0.0,
+      "tags": 13,
+      "url": "https://www.etsy.com/listing/4476249947/hair-salon-starter-bundle-client-forms",
+      "created": 1774247668
+    },
+    {
+      "listing_id": 4476259070,
+      "title": "Lash Tech Starter Bundle \u2014 Client Forms, Business Card & Appointment Card Templa",
+      "price": 9.99,
+      "currency": "GBP",
+      "views": 0,
+      "favorites": 0,
+      "sales": 0,
+      "revenue": 0.0,
+      "tags": 13,
+      "url": "https://www.etsy.com/listing/4476259070/lash-tech-starter-bundle-client-forms",
+      "created": 1774247659
+    },
+    {
+      "listing_id": 4476259024,
+      "title": "Nail Tech Starter Bundle \u2014 Client Forms, Business Card & Appointment Card Templa",
+      "price": 9.99,
+      "currency": "GBP",
+      "views": 0,
+      "favorites": 0,
+      "sales": 0,
+      "revenue": 0.0,
+      "tags": 13,
+      "url": "https://www.etsy.com/listing/4476259024/nail-tech-starter-bundle-client-forms",
+      "created": 1774247651
+    },
+    {
+      "listing_id": 4476249863,
+      "title": "Barbershop Starter Bundle \u2014 Client Forms, Business Card & Appointment Card Templ",
+      "price": 9.99,
+      "currency": "GBP",
+      "views": 0,
+      "favorites": 0,
+      "sales": 0,
+      "revenue": 0.0,
+      "tags": 13,
+      "url": "https://www.etsy.com/listing/4476249863/barbershop-starter-bundle-client-forms",
+      "created": 1774247643
+    },
+    {
+      "listing_id": 4476255084,
+      "title": "Tattoo Studio Starter Bundle \u2014 Client Forms, Business Card & Appointment Card Te",
+      "price": 9.99,
+      "currency": "GBP",
+      "views": 0,
+      "favorites": 0,
+      "sales": 0,
+      "revenue": 0.0,
+      "tags": 13,
+      "url": "https://www.etsy.com/listing/4476255084/tattoo-studio-starter-bundle-client",
+      "created": 1774246468
     },
     {
       "listing_id": 4476124434,
@@ -2731,19 +2809,6 @@
       "created": 1774216273
     },
     {
-      "listing_id": 4476074218,
-      "title": "Tattoo Studio Client Paperwork Pack \u2014 Digital Download",
-      "price": 4.99,
-      "currency": "GBP",
-      "views": 0,
-      "favorites": 0,
-      "sales": 0,
-      "revenue": 0.0,
-      "tags": 13,
-      "url": "https://www.etsy.com/listing/4476074218/tattoo-studio-client-paperwork-pack",
-      "created": 1774211059
-    },
-    {
       "listing_id": 4475861685,
       "title": "Tattoo Artist Client Forms Bundle \u2014 Printable PDF Templates",
       "price": 4.99,
@@ -2768,32 +2833,6 @@
       "tags": 13,
       "url": "https://www.etsy.com/listing/4475537159/tattoo-studio-client-forms-bundle-8",
       "created": 1774110534
-    },
-    {
-      "listing_id": 1629878924,
-      "title": "Valentine&#39;s Flower Shop Gift Certificate Template (Canva Editable, Instant D",
-      "price": 4.8,
-      "currency": "GBP",
-      "views": 0,
-      "favorites": 0,
-      "sales": 0,
-      "revenue": 0.0,
-      "tags": 13,
-      "url": "https://www.etsy.com/listing/1629878924/valentines-flower-shop-gift-certificate",
-      "created": 1703582912
-    },
-    {
-      "listing_id": 1538873834,
-      "title": "Nail Technician Appointment Card Template: Black & Pink Design (Edit in Canva, I",
-      "price": 4.8,
-      "currency": "GBP",
-      "views": 0,
-      "favorites": 0,
-      "sales": 0,
-      "revenue": 0.0,
-      "tags": 13,
-      "url": "https://www.etsy.com/listing/1538873834/nail-technician-appointment-card",
-      "created": 1693070027
     }
   ],
   "all_listings": [
@@ -2802,7 +2841,7 @@
       "title": "Tattoo Studio Branding Kit: Business Card, Flyer Templates (Canva Editable, Inst",
       "price": 24.95,
       "currency": "GBP",
-      "views": 1973,
+      "views": 1974,
       "favorites": 102,
       "sales": 16,
       "revenue": 399.2,
@@ -2841,7 +2880,7 @@
       "title": "Massage Therapy Certificate Template: Editable Award (Canva)",
       "price": 6.0,
       "currency": "GBP",
-      "views": 1297,
+      "views": 1298,
       "favorites": 4,
       "sales": 12,
       "revenue": 72.0,
@@ -2906,7 +2945,7 @@
       "title": "Barber Shop Branding Kit: Editable Canva Templates (Digital Download)",
       "price": 24.95,
       "currency": "GBP",
-      "views": 999,
+      "views": 1000,
       "favorites": 37,
       "sales": 5,
       "revenue": 124.75,
@@ -2919,7 +2958,7 @@
       "title": "Botox & Filler Flyer Bundle: DIY Salon Marketing (Canva Editable, Instant Downlo",
       "price": 9.99,
       "currency": "GBP",
-      "views": 762,
+      "views": 763,
       "favorites": 26,
       "sales": 30,
       "revenue": 299.7,
@@ -3036,13 +3075,26 @@
       "title": "Hair Transplant Gift Certificate: Canva Template (Digital Download)",
       "price": 4.8,
       "currency": "GBP",
-      "views": 485,
+      "views": 486,
       "favorites": 1,
       "sales": 3,
       "revenue": 14.4,
       "tags": 13,
       "url": "https://www.etsy.com/listing/1850241717/hair-transplant-gift-certificate-canva",
       "created": 1735412729
+    },
+    {
+      "listing_id": 1706399985,
+      "title": "Office Cleaning Flyer Template: Editable DIY Marketing (Digital Download)",
+      "price": 9.99,
+      "currency": "GBP",
+      "views": 453,
+      "favorites": 27,
+      "sales": 9,
+      "revenue": 89.91,
+      "tags": 13,
+      "url": "https://www.etsy.com/listing/1706399985/office-cleaning-flyer-template-editable",
+      "created": 1711956624
     },
     {
       "listing_id": 1704401735,
@@ -3058,24 +3110,11 @@
       "created": 1711619777
     },
     {
-      "listing_id": 1706399985,
-      "title": "Office Cleaning Flyer Template: Editable DIY Marketing (Digital Download)",
-      "price": 9.99,
-      "currency": "GBP",
-      "views": 451,
-      "favorites": 27,
-      "sales": 9,
-      "revenue": 89.91,
-      "tags": 13,
-      "url": "https://www.etsy.com/listing/1706399985/office-cleaning-flyer-template-editable",
-      "created": 1711956624
-    },
-    {
       "listing_id": 1688575960,
       "title": "Wellness Coach Flyer Templates: Customizable Canva Designs",
       "price": 9.99,
       "currency": "GBP",
-      "views": 448,
+      "views": 449,
       "favorites": 11,
       "sales": 1,
       "revenue": 9.99,
@@ -3114,7 +3153,7 @@
       "title": "Editable Dentist Gift Certificate Template: Luxury Customer Voucher (Canva, Inst",
       "price": 4.8,
       "currency": "GBP",
-      "views": 395,
+      "views": 396,
       "favorites": 0,
       "sales": 9,
       "revenue": 43.2,
@@ -3127,7 +3166,7 @@
       "title": "Funeral Service Flyer Templates: Editable Canva Bundle (A4 & US Letter)",
       "price": 9.99,
       "currency": "GBP",
-      "views": 394,
+      "views": 395,
       "favorites": 7,
       "sales": 12,
       "revenue": 119.88,
@@ -3179,7 +3218,7 @@
       "title": "Catering Service Instagram Templates: Editable Posts & Stories Bundle",
       "price": 12.99,
       "currency": "GBP",
-      "views": 374,
+      "views": 376,
       "favorites": 35,
       "sales": 4,
       "revenue": 51.96,
@@ -3448,6 +3487,19 @@
       "created": 1696083164
     },
     {
+      "listing_id": 1705702558,
+      "title": "Hair Braiding Course Certificate Template: Editable in Canva (Instant Download)",
+      "price": 6.0,
+      "currency": "GBP",
+      "views": 248,
+      "favorites": 4,
+      "sales": 5,
+      "revenue": 30.0,
+      "tags": 13,
+      "url": "https://www.etsy.com/listing/1705702558/hair-braiding-course-certificate",
+      "created": 1713897810
+    },
+    {
       "listing_id": 1695640963,
       "title": "Car Detailing Flyer: Editable DIY Marketing Template (Canva)",
       "price": 9.99,
@@ -3459,19 +3511,6 @@
       "tags": 13,
       "url": "https://www.etsy.com/listing/1695640963/car-detailing-flyer-editable-diy",
       "created": 1710348275
-    },
-    {
-      "listing_id": 1705702558,
-      "title": "Hair Braiding Course Certificate Template: Editable in Canva (Instant Download)",
-      "price": 6.0,
-      "currency": "GBP",
-      "views": 247,
-      "favorites": 4,
-      "sales": 5,
-      "revenue": 30.0,
-      "tags": 13,
-      "url": "https://www.etsy.com/listing/1705702558/hair-braiding-course-certificate",
-      "created": 1713897810
     },
     {
       "listing_id": 1724312025,
@@ -3751,7 +3790,7 @@
       "title": "Hair Styling Course Certificate of Completion Template (Canva Edit)",
       "price": 6.0,
       "currency": "GBP",
-      "views": 192,
+      "views": 193,
       "favorites": 0,
       "sales": 0,
       "revenue": 0.0,
@@ -3968,24 +4007,11 @@
       "created": 1698853334
     },
     {
-      "listing_id": 1551379772,
-      "title": "Barber Shop Branding Kit: Editable Canva Templates (Digital Download)",
-      "price": 24.95,
-      "currency": "GBP",
-      "views": 161,
-      "favorites": 11,
-      "sales": 0,
-      "revenue": 0.0,
-      "tags": 13,
-      "url": "https://www.etsy.com/listing/1551379772/barber-shop-branding-kit-editable-canva",
-      "created": 1694605757
-    },
-    {
       "listing_id": 1719205205,
       "title": "Personal Trainer Certificate Template: Editable PT Award (Canva Download)",
       "price": 6.0,
       "currency": "GBP",
-      "views": 161,
+      "views": 162,
       "favorites": 0,
       "sales": 0,
       "revenue": 0.0,
@@ -3998,13 +4024,26 @@
       "title": "Car Detailing Gift Certificate Template: Luxury Small Business Voucher (Digital ",
       "price": 4.8,
       "currency": "GBP",
-      "views": 161,
+      "views": 162,
       "favorites": 1,
       "sales": 2,
       "revenue": 9.6,
       "tags": 13,
       "url": "https://www.etsy.com/listing/1616416811/car-detailing-gift-certificate-template",
       "created": 1700594689
+    },
+    {
+      "listing_id": 1551379772,
+      "title": "Barber Shop Branding Kit: Editable Canva Templates (Digital Download)",
+      "price": 24.95,
+      "currency": "GBP",
+      "views": 161,
+      "favorites": 11,
+      "sales": 0,
+      "revenue": 0.0,
+      "tags": 13,
+      "url": "https://www.etsy.com/listing/1551379772/barber-shop-branding-kit-editable-canva",
+      "created": 1694605757
     },
     {
       "listing_id": 1850532406,
@@ -4176,6 +4215,19 @@
       "created": 1697984480
     },
     {
+      "listing_id": 1668873883,
+      "title": "Bakery Gift Certificate Template: Pink White Design (Canva, Instant Download)",
+      "price": 4.8,
+      "currency": "GBP",
+      "views": 147,
+      "favorites": 6,
+      "sales": 10,
+      "revenue": 48.0,
+      "tags": 13,
+      "url": "https://www.etsy.com/listing/1668873883/bakery-gift-certificate-template-pink",
+      "created": 1706636245
+    },
+    {
       "listing_id": 1593038771,
       "title": "Tattoo Studio Business Card Template: Modern Black Design (Edit in Canva)",
       "price": 4.8,
@@ -4187,19 +4239,6 @@
       "tags": 13,
       "url": "https://www.etsy.com/listing/1593038771/tattoo-studio-business-card-template",
       "created": 1697922588
-    },
-    {
-      "listing_id": 1668873883,
-      "title": "Bakery Gift Certificate Template: Pink White Design (Canva, Instant Download)",
-      "price": 4.8,
-      "currency": "GBP",
-      "views": 146,
-      "favorites": 6,
-      "sales": 10,
-      "revenue": 48.0,
-      "tags": 13,
-      "url": "https://www.etsy.com/listing/1668873883/bakery-gift-certificate-template-pink",
-      "created": 1706636245
     },
     {
       "listing_id": 1626323433,
@@ -4228,6 +4267,19 @@
       "created": 1692037656
     },
     {
+      "listing_id": 1615585157,
+      "title": "Driving School Gift Certificate Template: Luxury Voucher (Edit in Canva)",
+      "price": 4.8,
+      "currency": "GBP",
+      "views": 146,
+      "favorites": 2,
+      "sales": 1,
+      "revenue": 4.8,
+      "tags": 13,
+      "url": "https://www.etsy.com/listing/1615585157/driving-school-gift-certificate-template",
+      "created": 1700508289
+    },
+    {
       "listing_id": 1890919182,
       "title": "Tattoo Studio Branding Bundle: Editable Canva Templates (Digital Download)",
       "price": 29.99,
@@ -4239,19 +4291,6 @@
       "tags": 13,
       "url": "https://www.etsy.com/listing/1890919182/tattoo-studio-branding-bundle-editable",
       "created": 1745005689
-    },
-    {
-      "listing_id": 1615585157,
-      "title": "Driving School Gift Certificate Template: Luxury Voucher (Edit in Canva)",
-      "price": 4.8,
-      "currency": "GBP",
-      "views": 145,
-      "favorites": 2,
-      "sales": 1,
-      "revenue": 4.8,
-      "tags": 13,
-      "url": "https://www.etsy.com/listing/1615585157/driving-school-gift-certificate-template",
-      "created": 1700508289
     },
     {
       "listing_id": 1609351977,
@@ -4293,6 +4332,19 @@
       "created": 1700597742
     },
     {
+      "listing_id": 1696697695,
+      "title": "Crystal Shop Instagram Story Templates: Spiritual Wellness (Canva Editable)",
+      "price": 9.99,
+      "currency": "GBP",
+      "views": 143,
+      "favorites": 12,
+      "sales": 2,
+      "revenue": 19.98,
+      "tags": 13,
+      "url": "https://www.etsy.com/listing/1696697695/crystal-shop-instagram-story-templates",
+      "created": 1710497076
+    },
+    {
       "listing_id": 1598947188,
       "title": "Coffee Shop Gift Certificate Template: Editable Customer Voucher (Canva, Instant",
       "price": 4.8,
@@ -4330,19 +4382,6 @@
       "tags": 13,
       "url": "https://www.etsy.com/listing/1563514576/barber-shop-card-template-bundle",
       "created": 1696011874
-    },
-    {
-      "listing_id": 1696697695,
-      "title": "Crystal Shop Instagram Story Templates: Spiritual Wellness (Canva Editable)",
-      "price": 9.99,
-      "currency": "GBP",
-      "views": 139,
-      "favorites": 12,
-      "sales": 2,
-      "revenue": 19.98,
-      "tags": 13,
-      "url": "https://www.etsy.com/listing/1696697695/crystal-shop-instagram-story-templates",
-      "created": 1710497076
     },
     {
       "listing_id": 1613768185,
@@ -5034,6 +5073,19 @@
       "created": 1699203341
     },
     {
+      "listing_id": 1636388721,
+      "title": "Heating & Plumbing Gift Certificate Template: Small Business (Canva Editable, In",
+      "price": 4.8,
+      "currency": "GBP",
+      "views": 105,
+      "favorites": 2,
+      "sales": 6,
+      "revenue": 28.8,
+      "tags": 13,
+      "url": "https://www.etsy.com/listing/1636388721/heating-plumbing-gift-certificate",
+      "created": 1702662218
+    },
+    {
       "listing_id": 1611384544,
       "title": "Ice Cream Shop Gift Certificate Template: Editable Canva Design (Instant Downloa",
       "price": 4.8,
@@ -5045,19 +5097,6 @@
       "tags": 13,
       "url": "https://www.etsy.com/listing/1611384544/ice-cream-shop-gift-certificate-template",
       "created": 1701591364
-    },
-    {
-      "listing_id": 1636388721,
-      "title": "Heating & Plumbing Gift Certificate Template: Small Business (Canva Editable, In",
-      "price": 4.8,
-      "currency": "GBP",
-      "views": 104,
-      "favorites": 2,
-      "sales": 6,
-      "revenue": 28.8,
-      "tags": 13,
-      "url": "https://www.etsy.com/listing/1636388721/heating-plumbing-gift-certificate",
-      "created": 1702662218
     },
     {
       "listing_id": 1668003367,
@@ -5097,6 +5136,19 @@
       "tags": 13,
       "url": "https://www.etsy.com/listing/1601136218/editable-black-friday-gift-certificate",
       "created": 1700483479
+    },
+    {
+      "listing_id": 1646326285,
+      "title": "Dog Training Gift Certificate Template: Editable Customer Voucher (Canva)",
+      "price": 4.8,
+      "currency": "GBP",
+      "views": 102,
+      "favorites": 1,
+      "sales": 2,
+      "revenue": 9.6,
+      "tags": 13,
+      "url": "https://www.etsy.com/listing/1646326285/dog-training-gift-certificate-template",
+      "created": 1703845625
     },
     {
       "listing_id": 1532089743,
@@ -5149,19 +5201,6 @@
       "tags": 13,
       "url": "https://www.etsy.com/listing/1579216732/tattoo-studio-pricelist-template",
       "created": 1697978805
-    },
-    {
-      "listing_id": 1646326285,
-      "title": "Dog Training Gift Certificate Template: Editable Customer Voucher (Canva)",
-      "price": 4.8,
-      "currency": "GBP",
-      "views": 101,
-      "favorites": 1,
-      "sales": 2,
-      "revenue": 9.6,
-      "tags": 13,
-      "url": "https://www.etsy.com/listing/1646326285/dog-training-gift-certificate-template",
-      "created": 1703845625
     },
     {
       "listing_id": 1600281750,
@@ -5528,6 +5567,19 @@
       "created": 1711136838
     },
     {
+      "listing_id": 1547301551,
+      "title": "Mobile Makeup Artist Branding Kit: Editable Templates (Digital Download)",
+      "price": 24.95,
+      "currency": "GBP",
+      "views": 87,
+      "favorites": 2,
+      "sales": 1,
+      "revenue": 24.95,
+      "tags": 13,
+      "url": "https://www.etsy.com/listing/1547301551/mobile-makeup-artist-branding-kit",
+      "created": 1692373136
+    },
+    {
       "listing_id": 1630853357,
       "title": "Tire Store Gift Certificate Template: Luxury Customer Voucher (Edit in Canva, In",
       "price": 4.8,
@@ -5578,19 +5630,6 @@
       "tags": 13,
       "url": "https://www.etsy.com/listing/1579335656/tattoo-studio-scan-to-pay-sign-editable",
       "created": 1697991763
-    },
-    {
-      "listing_id": 1547301551,
-      "title": "Mobile Makeup Artist Branding Kit: Editable Templates (Digital Download)",
-      "price": 24.95,
-      "currency": "GBP",
-      "views": 86,
-      "favorites": 2,
-      "sales": 1,
-      "revenue": 24.95,
-      "tags": 13,
-      "url": "https://www.etsy.com/listing/1547301551/mobile-makeup-artist-branding-kit",
-      "created": 1692373136
     },
     {
       "listing_id": 1630848075,
@@ -5944,6 +5983,19 @@
       "created": 1693136246
     },
     {
+      "listing_id": 1532982560,
+      "title": "Tattoo Studio Pricelist Template: Teal & White, Editable in Canva (Digital Downl",
+      "price": 6.5,
+      "currency": "GBP",
+      "views": 78,
+      "favorites": 0,
+      "sales": 0,
+      "revenue": 0.0,
+      "tags": 13,
+      "url": "https://www.etsy.com/listing/1532982560/tattoo-studio-pricelist-template-teal",
+      "created": 1692359498
+    },
+    {
       "listing_id": 1527482023,
       "title": "Mobile Hair Stylist Flyer: Editable Purple & Black Template (Digital Download)",
       "price": 4.8,
@@ -5981,19 +6033,6 @@
       "tags": 13,
       "url": "https://www.etsy.com/listing/1661840939/lash-extensions-training-manual-editable",
       "created": 1705758388
-    },
-    {
-      "listing_id": 1532982560,
-      "title": "Tattoo Studio Pricelist Template: Teal & White, Editable in Canva (Digital Downl",
-      "price": 6.5,
-      "currency": "GBP",
-      "views": 77,
-      "favorites": 0,
-      "sales": 0,
-      "revenue": 0.0,
-      "tags": 13,
-      "url": "https://www.etsy.com/listing/1532982560/tattoo-studio-pricelist-template-teal",
-      "created": 1692359498
     },
     {
       "listing_id": 1612206952,
@@ -6299,7 +6338,7 @@
       "title": "Seafood Restaurant Gift Certificate Template: Editable Canva Design (Digital Dow",
       "price": 4.8,
       "currency": "GBP",
-      "views": 68,
+      "views": 69,
       "favorites": 0,
       "sales": 1,
       "revenue": 4.8,
@@ -6854,6 +6893,19 @@
       "created": 1697891155
     },
     {
+      "listing_id": 1892400887,
+      "title": "Padel Coaching Gift Certificate: Editable Canva Template (Instant Download)",
+      "price": 4.8,
+      "currency": "GBP",
+      "views": 56,
+      "favorites": 2,
+      "sales": 1,
+      "revenue": 4.8,
+      "tags": 13,
+      "url": "https://www.etsy.com/listing/1892400887/padel-coaching-gift-certificate-editable",
+      "created": 1742712265
+    },
+    {
       "listing_id": 1586365592,
       "title": "Bread Making Workshop Gift Certificate: Editable Canva Template (Instant Downloa",
       "price": 4.8,
@@ -6917,19 +6969,6 @@
       "tags": 13,
       "url": "https://www.etsy.com/listing/1719264395/eyebrow-styling-course-certificate",
       "created": 1713807934
-    },
-    {
-      "listing_id": 1892400887,
-      "title": "Padel Coaching Gift Certificate: Editable Canva Template (Instant Download)",
-      "price": 4.8,
-      "currency": "GBP",
-      "views": 55,
-      "favorites": 2,
-      "sales": 1,
-      "revenue": 4.8,
-      "tags": 13,
-      "url": "https://www.etsy.com/listing/1892400887/padel-coaching-gift-certificate-editable",
-      "created": 1742712265
     },
     {
       "listing_id": 1765918174,
@@ -7179,6 +7218,19 @@
       "created": 1699184683
     },
     {
+      "listing_id": 1602730525,
+      "title": "Music Lesson Gift Certificate Template: Luxury Customer Voucher (Canva Edit, Ins",
+      "price": 4.8,
+      "currency": "GBP",
+      "views": 51,
+      "favorites": 0,
+      "sales": 1,
+      "revenue": 4.8,
+      "tags": 13,
+      "url": "https://www.etsy.com/listing/1602730525/music-lesson-gift-certificate-template",
+      "created": 1699039951
+    },
+    {
       "listing_id": 4312066905,
       "title": "Dog Obedience Certificate Template: Printable Puppy Training Award (Canva Editab",
       "price": 6.0,
@@ -7242,19 +7294,6 @@
       "tags": 13,
       "url": "https://www.etsy.com/listing/1622402409/tulip-wreath-workshop-gift-certificate",
       "created": 1701255231
-    },
-    {
-      "listing_id": 1602730525,
-      "title": "Music Lesson Gift Certificate Template: Luxury Customer Voucher (Canva Edit, Ins",
-      "price": 4.8,
-      "currency": "GBP",
-      "views": 50,
-      "favorites": 0,
-      "sales": 1,
-      "revenue": 4.8,
-      "tags": 13,
-      "url": "https://www.etsy.com/listing/1602730525/music-lesson-gift-certificate-template",
-      "created": 1699039951
     },
     {
       "listing_id": 1876777893,
@@ -7413,6 +7452,19 @@
       "created": 1690362142
     },
     {
+      "listing_id": 4311022000,
+      "title": "Permanent Jewelry Course Certificate: Editable Canva Template (Instant Download,",
+      "price": 6.0,
+      "currency": "GBP",
+      "views": 47,
+      "favorites": 1,
+      "sales": 1,
+      "revenue": 6.0,
+      "tags": 13,
+      "url": "https://www.etsy.com/listing/4311022000/permanent-jewelry-course-certificate",
+      "created": 1748287600
+    },
+    {
       "listing_id": 1578519230,
       "title": "Tattoo Studio Appointment Card Template: Blue & Black Design (Edit in Canva, Ins",
       "price": 4.8,
@@ -7437,19 +7489,6 @@
       "tags": 13,
       "url": "https://www.etsy.com/listing/1608249140/candle-workshop-gift-certificate",
       "created": 1701257925
-    },
-    {
-      "listing_id": 4311022000,
-      "title": "Permanent Jewelry Course Certificate: Editable Canva Template (Instant Download,",
-      "price": 6.0,
-      "currency": "GBP",
-      "views": 46,
-      "favorites": 1,
-      "sales": 1,
-      "revenue": 6.0,
-      "tags": 13,
-      "url": "https://www.etsy.com/listing/4311022000/permanent-jewelry-course-certificate",
-      "created": 1748287600
     },
     {
       "listing_id": 1579221780,
@@ -7933,6 +7972,19 @@
       "created": 1737202834
     },
     {
+      "listing_id": 1892403217,
+      "title": "Horse Riding Lessons Gift Certificate: Equestrian Canva Template (Digital Downlo",
+      "price": 4.8,
+      "currency": "GBP",
+      "views": 39,
+      "favorites": 0,
+      "sales": 0,
+      "revenue": 0.0,
+      "tags": 13,
+      "url": "https://www.etsy.com/listing/1892403217/horse-riding-lessons-gift-certificate",
+      "created": 1742713216
+    },
+    {
       "listing_id": 1550604223,
       "title": "Mobile Hair Salon Pricelist Template: Green & Black Canva Design (Digital Downlo",
       "price": 6.5,
@@ -7983,19 +8035,6 @@
       "tags": 13,
       "url": "https://www.etsy.com/listing/1610643478/easter-photo-session-gift-certificate",
       "created": 1701507689
-    },
-    {
-      "listing_id": 1892403217,
-      "title": "Horse Riding Lessons Gift Certificate: Equestrian Canva Template (Digital Downlo",
-      "price": 4.8,
-      "currency": "GBP",
-      "views": 38,
-      "favorites": 0,
-      "sales": 0,
-      "revenue": 0.0,
-      "tags": 13,
-      "url": "https://www.etsy.com/listing/1892403217/horse-riding-lessons-gift-certificate",
-      "created": 1742713216
     },
     {
       "listing_id": 1536476386,
@@ -14615,6 +14654,19 @@
       "created": 1691832006
     },
     {
+      "listing_id": 1527215940,
+      "title": "Makeup Artist Card Template Bundle: Purple & Black Design (Edit in Canva)",
+      "price": 8.75,
+      "currency": "GBP",
+      "views": 3,
+      "favorites": 1,
+      "sales": 0,
+      "revenue": 0.0,
+      "tags": 13,
+      "url": "https://www.etsy.com/listing/1527215940/makeup-artist-card-template-bundle",
+      "created": 1691643536
+    },
+    {
       "listing_id": 1529709231,
       "title": "Makeup Artist Appointment Card Template: Purple & White (Edit in Canva, Instant ",
       "price": 4.8,
@@ -14665,6 +14717,19 @@
       "tags": 13,
       "url": "https://www.etsy.com/listing/1892409327/baseball-lessons-gift-certificate-youth",
       "created": 1742715734
+    },
+    {
+      "listing_id": 4476074218,
+      "title": "Tattoo Studio Client Paperwork Pack \u2014 Digital Download",
+      "price": 4.99,
+      "currency": "GBP",
+      "views": 2,
+      "favorites": 0,
+      "sales": 0,
+      "revenue": 0.0,
+      "tags": 13,
+      "url": "https://www.etsy.com/listing/4476074218/tattoo-studio-client-paperwork-pack",
+      "created": 1774211059
     },
     {
       "listing_id": 4473444461,
@@ -14940,19 +15005,6 @@
       "created": 1736021370
     },
     {
-      "listing_id": 1527215940,
-      "title": "Makeup Artist Card Template Bundle: Purple & Black Design (Edit in Canva)",
-      "price": 8.75,
-      "currency": "GBP",
-      "views": 1,
-      "favorites": 1,
-      "sales": 0,
-      "revenue": 0.0,
-      "tags": 13,
-      "url": "https://www.etsy.com/listing/1527215940/makeup-artist-card-template-bundle",
-      "created": 1691643536
-    },
-    {
       "listing_id": 1531090405,
       "title": "Lash Technician Appointment Card Template: Editable in Canva (Instant Download)",
       "price": 4.8,
@@ -14964,6 +15016,71 @@
       "tags": 13,
       "url": "https://www.etsy.com/listing/1531090405/lash-technician-appointment-card",
       "created": 1690362337
+    },
+    {
+      "listing_id": 4476249947,
+      "title": "Hair Salon Starter Bundle \u2014 Client Forms, Business Card & Appointment Card Templ",
+      "price": 9.99,
+      "currency": "GBP",
+      "views": 0,
+      "favorites": 0,
+      "sales": 0,
+      "revenue": 0.0,
+      "tags": 13,
+      "url": "https://www.etsy.com/listing/4476249947/hair-salon-starter-bundle-client-forms",
+      "created": 1774247668
+    },
+    {
+      "listing_id": 4476259070,
+      "title": "Lash Tech Starter Bundle \u2014 Client Forms, Business Card & Appointment Card Templa",
+      "price": 9.99,
+      "currency": "GBP",
+      "views": 0,
+      "favorites": 0,
+      "sales": 0,
+      "revenue": 0.0,
+      "tags": 13,
+      "url": "https://www.etsy.com/listing/4476259070/lash-tech-starter-bundle-client-forms",
+      "created": 1774247659
+    },
+    {
+      "listing_id": 4476259024,
+      "title": "Nail Tech Starter Bundle \u2014 Client Forms, Business Card & Appointment Card Templa",
+      "price": 9.99,
+      "currency": "GBP",
+      "views": 0,
+      "favorites": 0,
+      "sales": 0,
+      "revenue": 0.0,
+      "tags": 13,
+      "url": "https://www.etsy.com/listing/4476259024/nail-tech-starter-bundle-client-forms",
+      "created": 1774247651
+    },
+    {
+      "listing_id": 4476249863,
+      "title": "Barbershop Starter Bundle \u2014 Client Forms, Business Card & Appointment Card Templ",
+      "price": 9.99,
+      "currency": "GBP",
+      "views": 0,
+      "favorites": 0,
+      "sales": 0,
+      "revenue": 0.0,
+      "tags": 13,
+      "url": "https://www.etsy.com/listing/4476249863/barbershop-starter-bundle-client-forms",
+      "created": 1774247643
+    },
+    {
+      "listing_id": 4476255084,
+      "title": "Tattoo Studio Starter Bundle \u2014 Client Forms, Business Card & Appointment Card Te",
+      "price": 9.99,
+      "currency": "GBP",
+      "views": 0,
+      "favorites": 0,
+      "sales": 0,
+      "revenue": 0.0,
+      "tags": 13,
+      "url": "https://www.etsy.com/listing/4476255084/tattoo-studio-starter-bundle-client",
+      "created": 1774246468
     },
     {
       "listing_id": 4476124434,
@@ -15018,19 +15135,6 @@
       "created": 1774216273
     },
     {
-      "listing_id": 4476074218,
-      "title": "Tattoo Studio Client Paperwork Pack \u2014 Digital Download",
-      "price": 4.99,
-      "currency": "GBP",
-      "views": 0,
-      "favorites": 0,
-      "sales": 0,
-      "revenue": 0.0,
-      "tags": 13,
-      "url": "https://www.etsy.com/listing/4476074218/tattoo-studio-client-paperwork-pack",
-      "created": 1774211059
-    },
-    {
       "listing_id": 4475861685,
       "title": "Tattoo Artist Client Forms Bundle \u2014 Printable PDF Templates",
       "price": 4.99,
@@ -15055,32 +15159,6 @@
       "tags": 13,
       "url": "https://www.etsy.com/listing/4475537159/tattoo-studio-client-forms-bundle-8",
       "created": 1774110534
-    },
-    {
-      "listing_id": 1629878924,
-      "title": "Valentine&#39;s Flower Shop Gift Certificate Template (Canva Editable, Instant D",
-      "price": 4.8,
-      "currency": "GBP",
-      "views": 0,
-      "favorites": 0,
-      "sales": 0,
-      "revenue": 0.0,
-      "tags": 13,
-      "url": "https://www.etsy.com/listing/1629878924/valentines-flower-shop-gift-certificate",
-      "created": 1703582912
-    },
-    {
-      "listing_id": 1538873834,
-      "title": "Nail Technician Appointment Card Template: Black & Pink Design (Edit in Canva, I",
-      "price": 4.8,
-      "currency": "GBP",
-      "views": 0,
-      "favorites": 0,
-      "sales": 0,
-      "revenue": 0.0,
-      "tags": 13,
-      "url": "https://www.etsy.com/listing/1538873834/nail-technician-appointment-card",
-      "created": 1693070027
     }
   ]
 }

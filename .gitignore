@@ -71,3 +71,13 @@ ETSY API/
 # Logs
 logs/
 *.log
+
+# Browser automation profile (contains cookies/tokens)
+browser_profile/
+
+# Canva automation suite (external tooling)
+CanvaAutomationSuite/
+
+# Large ZIP bundles (delivery files)
+outputs/**/*.zip
+stop-slop/

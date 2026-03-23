@@ -5,6 +5,12 @@ Most recent first. Read this to repeat what works.
 
 ---
 
+### 2026-03-23 21:38 — Car Detailing Niche Build
+
+**Pattern:** Full pipeline: 15 products (8 forms, 3 visual docs, 4 flyers), all uploaded to DO Spaces, imported to Canva with /d/ shortlinks, registered in design_registry.json, 4 Etsy listings created (forms bundle, visual bundle, flyer pack, starter bundle). Reused proven patterns from tattoo niche. Pipeline script car_detail_pipeline.py handles previews, heroes, uploads in one shot.
+
+---
+
 ### 2026-03-23 15:51 — Tattoo Flyer Pack Etsy listing
 
 **Pattern:** Published Etsy listing 4476438735 (draft). 5 images ranked, delivery PDF with 4 Canva shortlinks uploaded. Price £4.99, 13 tags. Full ZIP was 22MB (over Etsy 20MB limit) so used delivery PDF only — customers get Canva links to edit templates directly.

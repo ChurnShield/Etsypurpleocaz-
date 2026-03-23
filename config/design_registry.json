@@ -301,6 +301,137 @@
           }
         }
       }
+    },
+    "car_detail": {
+      "folder_id": "FAFN0i-UFTI",
+      "folder_name": "CAR DETAIL",
+      "color_scheme": {
+        "background": "#FFFFFF",
+        "dark_bg": "#0D0D0D",
+        "accent": "#E02020",
+        "text_light": "#FFFFFF",
+        "text_dark": "#0D0D0D"
+      },
+      "forms": {
+        "vehicle_intake": {
+          "design_id": "DAHEzWyYA6o",
+          "design_title": "Car Detail - Vehicle Intake Form",
+          "delivery_shortlink": "https://www.canva.com/d/6jM7CJ5sK3gtiBx",
+          "view_url": "https://www.canva.com/d/vEzO0QOJ5r5NTFM",
+          "spaces_pdf": "https://purpleocaz-assets.lon1.digitaloceanspaces.com/templates/car-detail-forms/Vehicle_Intake_Form.pdf"
+        },
+        "consent_waiver": {
+          "design_id": "DAHEzTdLCfg",
+          "design_title": "Car Detail - Consent Liability Waiver",
+          "delivery_shortlink": "https://www.canva.com/d/6hpQmg47dPpQR0K",
+          "view_url": "https://www.canva.com/d/40zXyCRUi6UZ2AT",
+          "spaces_pdf": "https://purpleocaz-assets.lon1.digitaloceanspaces.com/templates/car-detail-forms/Consent_Liability_Waiver.pdf"
+        },
+        "service_agreement": {
+          "design_id": "DAHEzavKemw",
+          "design_title": "Car Detail - Service Agreement",
+          "delivery_shortlink": "https://www.canva.com/d/48oVEKESm2U-U9k",
+          "view_url": "https://www.canva.com/d/jcmEcipvB0McXAY",
+          "spaces_pdf": "https://purpleocaz-assets.lon1.digitaloceanspaces.com/templates/car-detail-forms/Service_Agreement.pdf"
+        },
+        "invoice": {
+          "design_id": "DAHEzWtTEIc",
+          "design_title": "Car Detail - Invoice Template",
+          "delivery_shortlink": "https://www.canva.com/d/-Ljtb1ydoLFHd24",
+          "view_url": "https://www.canva.com/d/d5hGJqi1Iltsn_3",
+          "spaces_pdf": "https://purpleocaz-assets.lon1.digitaloceanspaces.com/templates/car-detail-forms/Invoice_Template.pdf"
+        },
+        "customer_feedback": {
+          "design_id": "DAHEzUxQpcw",
+          "design_title": "Car Detail - Customer Feedback Form",
+          "delivery_shortlink": "https://www.canva.com/d/5z4Sn2Diq21-b0a",
+          "view_url": "https://www.canva.com/d/deAH_T9x3gGynwh",
+          "spaces_pdf": "https://purpleocaz-assets.lon1.digitaloceanspaces.com/templates/car-detail-forms/Customer_Feedback_Form.pdf"
+        },
+        "appointment_booking": {
+          "design_id": "DAHEzRlqvW0",
+          "design_title": "Car Detail - Appointment Booking Form",
+          "delivery_shortlink": "https://www.canva.com/d/sqDFzkFwLyCzG2O",
+          "view_url": "https://www.canva.com/d/IJVtjrF9FPepfvy",
+          "spaces_pdf": "https://purpleocaz-assets.lon1.digitaloceanspaces.com/templates/car-detail-forms/Appointment_Booking_Form.pdf"
+        },
+        "aftercare": {
+          "design_id": "DAHEzZOHXRc",
+          "design_title": "Car Detail - Aftercare Instructions",
+          "delivery_shortlink": "https://www.canva.com/d/sgRuJmwwH8DnR44",
+          "view_url": "https://www.canva.com/d/Ihos4O1PtADNLiz",
+          "spaces_pdf": "https://purpleocaz-assets.lon1.digitaloceanspaces.com/templates/car-detail-forms/Aftercare_Instructions.pdf"
+        },
+        "package_menu": {
+          "design_id": "DAHEzbqtZu0",
+          "design_title": "Car Detail - Detailing Package Menu",
+          "delivery_shortlink": "https://www.canva.com/d/tBfgZ4yVTKU77oV",
+          "view_url": "https://www.canva.com/d/fyEGzSxOUQJIfU5",
+          "spaces_pdf": "https://purpleocaz-assets.lon1.digitaloceanspaces.com/templates/car-detail-forms/Detailing_Package_Menu.pdf"
+        }
+      },
+      "gift_certificate": {
+        "design_id": "DAHEzQ5Gzvk",
+        "design_title": "Car Detail - Gift Certificate",
+        "format": "A4 landscape",
+        "delivery_shortlink": "https://www.canva.com/d/RbjAeAxu2SiPK73",
+        "view_url": "https://www.canva.com/d/KJ4pzxviNufzvMX",
+        "spaces_pdf": "https://purpleocaz-assets.lon1.digitaloceanspaces.com/templates/car-detail-gift-certificate/Car_Detail_Gift_Certificate.pdf"
+      },
+      "price_list": {
+        "design_id": "DAHEzQ5NZ7U",
+        "design_title": "Car Detail - Price List",
+        "format": "A4 portrait",
+        "delivery_shortlink": "https://www.canva.com/d/36u6qoyTqtHLRwm",
+        "view_url": "https://www.canva.com/d/4y7UZprqN2qWLxG",
+        "spaces_pdf": "https://purpleocaz-assets.lon1.digitaloceanspaces.com/templates/car-detail-price-list/Car_Detail_Price_List.pdf"
+      },
+      "loyalty_card": {
+        "design_id": "DAHEzc0nzRc",
+        "design_title": "Car Detail - Loyalty Card",
+        "format": "Credit card landscape (85.6mm x 54mm)",
+        "delivery_shortlink": "https://www.canva.com/d/apKCQg7JnmgEYzv",
+        "view_url": "https://www.canva.com/d/RKGlpqi9zNR5RiX",
+        "spaces_pdf": "https://purpleocaz-assets.lon1.digitaloceanspaces.com/templates/car-detail-loyalty-card/Car_Detail_Loyalty_Card.pdf"
+      },
+      "flyer_promo": {
+        "design_id": "DAHEzfFjHnE",
+        "design_title": "Car Detail - Promo Flyer",
+        "format": "A4 portrait",
+        "delivery_shortlink": "https://www.canva.com/d/hRQFkkelwl69hC5",
+        "view_url": "https://www.canva.com/d/2pW8pgRGUaT3FhF",
+        "spaces_pdf": "https://purpleocaz-assets.lon1.digitaloceanspaces.com/templates/car-detail-flyer-promo/Car_Detail_Flyer_Promo.pdf"
+      },
+      "flyer_seasonal": {
+        "design_id": "DAHEzSrKeNQ",
+        "design_title": "Car Detail - Seasonal Flyer",
+        "format": "A4 portrait",
+        "delivery_shortlink": "https://www.canva.com/d/_nCH9OkiMoyDZDL",
+        "view_url": "https://www.canva.com/d/jWjQSbQH3Jeptfe",
+        "spaces_pdf": "https://purpleocaz-assets.lon1.digitaloceanspaces.com/templates/car-detail-flyer-seasonal/Car_Detail_Flyer_Seasonal.pdf"
+      },
+      "flyer_mobile": {
+        "design_id": "DAHEzfbaIFc",
+        "design_title": "Car Detail - Mobile Detailing Flyer",
+        "format": "A4 portrait",
+        "delivery_shortlink": "https://www.canva.com/d/nmMD_ZpNtpzMlQa",
+        "view_url": "https://www.canva.com/d/TLj0QaxTGV7nZul",
+        "spaces_pdf": "https://purpleocaz-assets.lon1.digitaloceanspaces.com/templates/car-detail-flyer-mobile/Car_Detail_Flyer_Mobile.pdf"
+      },
+      "flyer_walkin": {
+        "design_id": "DAHEzTj4YJ4",
+        "design_title": "Car Detail - Walk-In Flyer",
+        "format": "A4 portrait",
+        "delivery_shortlink": "https://www.canva.com/d/OxTtIsldP713OUl",
+        "view_url": "https://www.canva.com/d/iZSGxCxWGY19TQB",
+        "spaces_pdf": "https://purpleocaz-assets.lon1.digitaloceanspaces.com/templates/car-detail-flyer-walkin/Car_Detail_Flyer_WalkIn.pdf"
+      },
+      "heroes": {
+        "forms_bundle": "https://purpleocaz-assets.lon1.digitaloceanspaces.com/templates/car-detail-heroes/hero_forms_bundle.png",
+        "visual_bundle": "https://purpleocaz-assets.lon1.digitaloceanspaces.com/templates/car-detail-heroes/hero_visual_bundle.png",
+        "flyer_pack": "https://purpleocaz-assets.lon1.digitaloceanspaces.com/templates/car-detail-heroes/hero_flyer_pack.png",
+        "starter_bundle": "https://purpleocaz-assets.lon1.digitaloceanspaces.com/templates/car-detail-heroes/hero_starter_bundle.png"
+      }
     }
   },
   "generic_listing_pages": {

@@ -4,6 +4,24 @@ Most recent first.
 
 ---
 
+## 2026-03-23 (overnight)
+
+### Car Detailing Niche — Full Build
+- **15 products built**: 8 client forms, gift certificate, price list, loyalty card, 4 marketing flyers (promo, seasonal, mobile, walk-in)
+- **All 15 PDFs uploaded to DO Spaces** under templates/car-detail-*/
+- **All 15 imported to Canva** in CAR DETAIL folder (FAFN0i-UFTI) with /d/ shortlinks
+- **Design registry updated** — car_detail section with all design IDs, shortlinks, Spaces URLs
+- **4 Etsy listings created (draft)**:
+  - Forms Bundle (8 forms) £4.99 — #4476619120
+  - Visual Bundle (gift cert + price list + loyalty card) £4.99 — #4476619282
+  - Flyer Pack (4 flyers) £4.99 — #4476619330
+  - Starter Bundle (all 15) £9.99 — #4476610441
+- **4 hero images** (forms grid, visual fan, flyer fan, starter collage) — 3000x3000 PNG
+- **4 delivery PDFs** with Canva shortlinks per bundle
+- **Scripts created**: car_detail_pipeline.py (previews/heroes/uploads), car_detail_etsy.py (listings)
+
+---
+
 ## 2026-03-23
 
 ### What we shipped today

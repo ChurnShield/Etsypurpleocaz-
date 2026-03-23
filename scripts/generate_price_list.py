@@ -30,6 +30,7 @@ PAGE_W, PAGE_H = A4  # 595.28 x 841.89 pts
 
 CREAM = HexColor('#FFFFFF')
 NEAR_BLACK = HexColor('#1A1A1A')
+GOLD = HexColor('#C9A96E')
 FOOTER_BG = HexColor('#1A1A1A')
 
 PRICING = [
@@ -137,21 +138,21 @@ def build_pdf():
         bw = content_w
         bb = by - box_h
 
-        # Box border
-        c.setStrokeColor(NEAR_BLACK)
+        # Box border — gold
+        c.setStrokeColor(GOLD)
         c.setLineWidth(0.5)
         c.rect(bx, bb, bw, box_h, fill=0, stroke=1)
 
-        # Category header centred with rules either side
+        # Category header centred with rules either side — gold
         header_y = by - box_padding_top - 10
-        c.setFillColor(NEAR_BLACK)
+        c.setFillColor(GOLD)
         c.setFont('Helvetica-Bold', 8)
         header_text = section['title']
         hw = c.stringWidth(header_text, 'Helvetica-Bold', 8)
         c.drawCentredString(PAGE_W / 2, header_y, header_text)
 
         # Rules either side of header
-        c.setStrokeColor(Color(0.1, 0.1, 0.1, alpha=0.3))
+        c.setStrokeColor(Color(0.788, 0.663, 0.431, alpha=0.4))
         c.setLineWidth(0.4)
         rule_left_end = PAGE_W / 2 - hw / 2 - 4 * mm
         rule_right_start = PAGE_W / 2 + hw / 2 + 4 * mm

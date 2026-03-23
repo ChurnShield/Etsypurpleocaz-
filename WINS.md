@@ -5,6 +5,12 @@ Most recent first. Read this to repeat what works.
 
 ---
 
+### 2026-03-23 06:35 — 4 niche starter bundles at GBP 19.99 each
+
+**Pattern:** Barbershop #4476249863, Nail Tech #4476259024, Lash Tech #4476259070, Hair Salon #4476249947. All at GBP 19.99 with bold minimal hero (huge price as focal point), delivery PDF with /d/ shortlinks, forms ZIP. Published via single Python script — 4 listings created, uploaded, activated, verified in one run. Factory pattern fully proven across 5 niches at 2 price tiers (4.99 forms + 19.99 starter).
+
+---
+
 ### 2026-03-23 06:15 — Tattoo Studio Starter Bundle at GBP 19.99
 
 **Pattern:** First premium bundle. Combined 8 client forms + business card templates (dark/light) + appointment card templates (dark/light) into single ZIP with branded delivery PDF containing /d/ shortlinks. Listing #4476255084 at GBP 19.99 — 4x the individual forms price. Performance data shows top performer is Tattoo Studio Branding Kit at 24.95 with 1,973 views — this bundle targets the same premium buyer. Market data confirms price ladder gap: most tattoo bundles under 10, premium 20+ range is open.

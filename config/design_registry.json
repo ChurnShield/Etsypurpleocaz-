@@ -160,6 +160,54 @@
           "assets/photos/tattoo_gift_cert/photo_4.jpg"
         ]
       },
+      "flyer_promo": {
+        "design_id": "DAHEx38IXeI",
+        "design_title": "Tattoo Promo Flyer",
+        "page_count": 1,
+        "approved": true,
+        "approved_date": "2026-03-23",
+        "format": "A4 portrait",
+        "delivery_shortlink": "https://www.canva.com/d/eVQXtDNj-rtgnn6",
+        "edit_url": "https://www.canva.com/d/wvwGOTRBQOrEQ9f",
+        "folder": "FAHENuO2Vkc",
+        "spaces_pdf": "https://purpleocaz-assets.lon1.digitaloceanspaces.com/templates/tattoo-flyer-promo/Tattoo_Flyer_Promo.pdf"
+      },
+      "flyer_flash": {
+        "design_id": "DAHExzI36kU",
+        "design_title": "Tattoo Flash Day Flyer",
+        "page_count": 1,
+        "approved": true,
+        "approved_date": "2026-03-23",
+        "format": "A4 portrait",
+        "delivery_shortlink": "https://www.canva.com/d/5FvOwajQb_cy7j2",
+        "edit_url": "https://www.canva.com/d/QWbBOOROBqsq5Rb",
+        "folder": "FAHENuO2Vkc",
+        "spaces_pdf": "https://purpleocaz-assets.lon1.digitaloceanspaces.com/templates/tattoo-flyer-flash/Tattoo_Flyer_Flash.pdf"
+      },
+      "flyer_studio": {
+        "design_id": "DAHEx6j6IcY",
+        "design_title": "Tattoo Studio Flyer",
+        "page_count": 1,
+        "approved": true,
+        "approved_date": "2026-03-23",
+        "format": "A4 portrait",
+        "delivery_shortlink": "https://www.canva.com/d/Dlmi-GNskzJB-9j",
+        "edit_url": "https://www.canva.com/d/ruJJIrU-KN20CYq",
+        "folder": "FAHENuO2Vkc",
+        "spaces_pdf": "https://purpleocaz-assets.lon1.digitaloceanspaces.com/templates/tattoo-flyer-studio/Tattoo_Flyer_Studio.pdf"
+      },
+      "flyer_walkin": {
+        "design_id": "DAHEx1u1XEY",
+        "design_title": "Tattoo Walk-In Flyer",
+        "page_count": 1,
+        "approved": true,
+        "approved_date": "2026-03-23",
+        "format": "A4 portrait",
+        "delivery_shortlink": "https://www.canva.com/d/HedaAdLRwmAtclf",
+        "edit_url": "https://www.canva.com/d/aZzWP0ERkwFpRHv",
+        "folder": "FAHENuO2Vkc",
+        "spaces_pdf": "https://purpleocaz-assets.lon1.digitaloceanspaces.com/templates/tattoo-flyer-walkin/Tattoo_Flyer_WalkIn.pdf"
+      },
       "business_card": {
         "thumbnail_design_id": "DAHDc0gyebE",
         "thumbnail_design_title": "Etsy Listing - Business Card Thumbnail Template",

@@ -5,6 +5,18 @@ Most recent first. Read this to repeat what works.
 
 ---
 
+### 2026-03-23 15:51 — Tattoo Flyer Pack Etsy listing
+
+**Pattern:** Published Etsy listing 4476438735 (draft). 5 images ranked, delivery PDF with 4 Canva shortlinks uploaded. Price £4.99, 13 tags. Full ZIP was 22MB (over Etsy 20MB limit) so used delivery PDF only — customers get Canva links to edit templates directly.
+
+---
+
+### 2026-03-23 15:17 — 4 Tattoo Flyers imported to Canva
+
+**Pattern:** Imported all 4 flyers into Canva Tattoo Masters folder: Promo (DAHEx38IXeI /d/eVQXtDNj-rtgnn6), Flash Day (DAHExzI36kU /d/5FvOwajQb_cy7j2), Studio (DAHEx6j6IcY /d/Dlmi-GNskzJB-9j), Walk-In (DAHEx1u1XEY /d/HedaAdLRwmAtclf). Total tattoo niche templates now: 9 (2 BC, 2 appt card, gift cert, price list, loyalty card, 4 flyers).
+
+---
+
 ### 2026-03-23 13:17 — Loyalty Card Canva import
 
 **Pattern:** Imported loyalty card as DAHExcwRQkc. Shortlink: /d/Z55jjyBaMXE1d2p. All 3 tattoo visual templates now in Canva Tattoo Masters folder.

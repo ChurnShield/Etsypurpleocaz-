@@ -5,6 +5,12 @@ Most recent first. Read this to repeat what works.
 
 ---
 
+### 2026-03-23 06:46 — Price update to GBP 9.99 on all 5 starter bundles
+
+**Pattern:** Used PUT /listings/{id}/inventory endpoint — the only way to update price on existing listings. PATCH price is silently ignored on both draft and active listings. All 5 GET-verified at 9.99.
+
+---
+
 ### 2026-03-23 06:35 — 4 niche starter bundles at GBP 19.99 each
 
 **Pattern:** Barbershop #4476249863, Nail Tech #4476259024, Lash Tech #4476259070, Hair Salon #4476249947. All at GBP 19.99 with bold minimal hero (huge price as focal point), delivery PDF with /d/ shortlinks, forms ZIP. Published via single Python script — 4 listings created, uploaded, activated, verified in one run. Factory pattern fully proven across 5 niches at 2 price tiers (4.99 forms + 19.99 starter).

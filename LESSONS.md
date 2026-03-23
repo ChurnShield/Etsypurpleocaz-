@@ -4,6 +4,16 @@ A living document updated every session. Most recent entries first.
 
 ---
 
+### 2026-03-23 06:46 — Price PATCH silently ignored on active listings
+
+**Rule:** PATCH price=9.99 on active listings returned 200 but price stayed at 19.99
+
+**Why:** Etsy v3 PATCH on listings endpoint ignores price field for ALL listing states, not just drafts. LESSONS.md only documented this for drafts.
+
+**How to apply:** Use PUT /listings/{id}/inventory endpoint with products[].offerings[].price instead. Format: JSON body, no product_id in payload, sku as empty string.
+
+---
+
 ### 2026-03-21 — DO Spaces Credentials and ACL
 
 **Rule:** DO Spaces credentials (`DO_SPACES_KEY`, `DO_SPACES_SECRET`) are in `purpleocaz-canva-mcp/.env`, NOT `NEW-AI-PROJECT/.env`. Always load from `purpleocaz-canva-mcp/.env` for any Spaces operation. Always include `ACL='public-read'` in every `s3.put_object()` call.

@@ -5,6 +5,18 @@ Most recent first. Read this to repeat what works.
 
 ---
 
+### 2026-03-23 13:17 — Loyalty Card Canva import
+
+**Pattern:** Imported loyalty card as DAHExcwRQkc. Shortlink: /d/Z55jjyBaMXE1d2p. All 3 tattoo visual templates now in Canva Tattoo Masters folder.
+
+---
+
+### 2026-03-23 13:17 — Price List v2 Canva import
+
+**Pattern:** Re-imported updated price list (gold borders) as DAHExcHJfGI. Shortlink: /d/0as7bxnmqtPuytc
+
+---
+
 ### 2026-03-23 12:31 — Tattoo Price List Canva template
 
 **Pattern:** Built A4 portrait price list PDF with 3 pricing boxes, Unsplash photo, serif title. Imported into Canva as DAHExFlw-yg, moved to Tattoo Masters. Delivery shortlink: /d/PQFnv85iHnoc_gv. Registered in design_registry.json.

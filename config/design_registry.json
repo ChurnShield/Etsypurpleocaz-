@@ -109,19 +109,36 @@
         }
       },
       "price_list": {
-        "design_id": "DAHExFlw-yg",
-        "design_title": "Tattoo Studio Price List",
+        "design_id": "DAHExcHJfGI",
+        "design_title": "Tattoo Studio Price List v2",
         "page_count": 1,
         "approved": true,
         "approved_date": "2026-03-23",
         "dimensions": { "width": 595, "height": 842 },
         "format": "A4 portrait",
-        "delivery_shortlink": "https://www.canva.com/d/PQFnv85iHnoc_gv",
-        "edit_url": "https://www.canva.com/d/cz8PYL_ID3ihy5p",
+        "delivery_shortlink": "https://www.canva.com/d/0as7bxnmqtPuytc",
+        "edit_url": "https://www.canva.com/d/SXKH_k_0G8CCoaU",
         "folder": "FAHENuO2Vkc",
-        "spaces_pdf": "https://purpleocaz-assets.lon1.digitaloceanspaces.com/templates/tattoo-price-list/Tattoo_Price_List.pdf",
+        "spaces_pdf": "https://purpleocaz-assets.lon1.digitaloceanspaces.com/templates/tattoo-price-list/Tattoo_Price_List_v2.pdf",
+        "previous_design_id": "DAHExFlw-yg",
         "photos": [
           "assets/photos/tattoo_price_list/photo_1.jpg"
+        ]
+      },
+      "loyalty_card": {
+        "design_id": "DAHExcwRQkc",
+        "design_title": "Tattoo Studio Loyalty Card",
+        "page_count": 1,
+        "approved": true,
+        "approved_date": "2026-03-23",
+        "dimensions": { "width": 243, "height": 153 },
+        "format": "Credit card landscape (85.6mm x 54mm)",
+        "delivery_shortlink": "https://www.canva.com/d/Z55jjyBaMXE1d2p",
+        "edit_url": "https://www.canva.com/d/OnZuxpr7n6dlUTQ",
+        "folder": "FAHENuO2Vkc",
+        "spaces_pdf": "https://purpleocaz-assets.lon1.digitaloceanspaces.com/templates/tattoo-loyalty-card/Tattoo_Loyalty_Card.pdf",
+        "photos": [
+          "assets/photos/tattoo_loyalty_card/photo_1.jpg"
         ]
       },
       "gift_certificate": {

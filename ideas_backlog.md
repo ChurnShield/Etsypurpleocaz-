@@ -18,6 +18,8 @@ Auto-populated from weekly YouTube digest. Deduplicated 2026-03-23.
     - Frameworks to evaluate: agency-agents repo, Claude multi-agent API, n8n
     — Source: Strategic planning, 2026-03-11
 
+[ ] **Skills** Implement IndyDevDan's library.yaml pattern for skill management — treat skills as versioned distributable packages, single source of truth. Evaluate github.com/disler/the-library before building. Watch the Library Meta-Skill video first (26 mins, IndyDevDan, 2026-03-23 digest). Dedicated session required — do not tidy skills/ folder until this is decided. — Source: Strategic decision 2026-03-23
+
 [ ] **Agent Automation** Set up Mac Mini with autonomous agents for end-to-end device operation (GUI control, AirDrop delivery, 2-3 core skills max) — Source: Mac Mini Agents OpenClaw
 
 [ ] **Automation** Manus for weekly niche research — automated Monday morning runs, drops findings to Google Sheet — Source: Strategic planning, 2026-03-16

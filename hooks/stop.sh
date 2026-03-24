@@ -1,0 +1,17 @@
+#!/bin/bash
+echo "════════════════════════════════════"
+echo "PURPLEOCAZ SESSION END"
+echo "$(date)"
+echo "════════════════════════════════════"
+echo ""
+echo "Session ended at $(date)" >> /root/NEW-AI-PROJECT/CHANGELOG.md
+echo "Update STANDUP.md now with what was completed"
+echo ""
+echo "CHECKLIST:"
+echo "  [ ] STANDUP.md updated with what was completed + next priority"
+echo "  [ ] LESSONS.md updated with any new lessons"
+echo "  [ ] CHANGELOG.md updated"
+echo "  [ ] git add + commit + push"
+echo "  [ ] Confirm push with: git log --oneline -3"
+echo ""
+echo "════════════════════════════════════"

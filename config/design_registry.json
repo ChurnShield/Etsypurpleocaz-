@@ -626,6 +626,48 @@
           "shortlink": "kYD6o2BI10LFWOa"
         }
       }
+    },
+    "car_detail_email": {
+      "folder_id": "FAHE23DubUc",
+      "folder_url": "https://www.canva.com/folder/FAHE23DubUc",
+      "templates": {
+        "booking_confirm": {
+          "design_id": "DAHE25zaq4c",
+          "title": "Car Detail - Booking Confirmation",
+          "edit_url": "https://www.canva.com/d/qlh-Uz5BfylUXKz",
+          "shortlink": "qlh-Uz5BfylUXKz"
+        },
+        "appt_reminder": {
+          "design_id": "DAHE2werksI",
+          "title": "Car Detail - Appointment Reminder",
+          "edit_url": "https://www.canva.com/d/4a5-4p7_bSuyu8e",
+          "shortlink": "4a5-4p7_bSuyu8e"
+        },
+        "job_complete": {
+          "design_id": "DAHE2wjnUlQ",
+          "title": "Car Detail - Job Completion",
+          "edit_url": "https://www.canva.com/d/-bsJCScnt2_YKRC",
+          "shortlink": "-bsJCScnt2_YKRC"
+        },
+        "followup": {
+          "design_id": "DAHE25QzK-A",
+          "title": "Car Detail - Follow-Up",
+          "edit_url": "https://www.canva.com/d/UGmzvUrmerC9VU3",
+          "shortlink": "UGmzvUrmerC9VU3"
+        },
+        "referral": {
+          "design_id": "DAHE29UbmNM",
+          "title": "Car Detail - Referral Program",
+          "edit_url": "https://www.canva.com/d/qH1kxQAXAhJH2kr",
+          "shortlink": "qH1kxQAXAhJH2kr"
+        },
+        "seasonal_promo": {
+          "design_id": "DAHE2xw9Qmg",
+          "title": "Car Detail - Seasonal Promotion",
+          "edit_url": "https://www.canva.com/d/IqEKaKOH3KzLx2X",
+          "shortlink": "IqEKaKOH3KzLx2X"
+        }
+      }
     }
   },
   "generic_listing_pages": {

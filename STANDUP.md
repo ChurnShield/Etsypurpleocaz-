@@ -4,6 +4,24 @@ Most recent first.
 
 ---
 
+## 2026-03-24
+
+### Car Detailing Niche — LIVE
+- **4 listings published** with approved hero images, 7 images each, delivery PDFs attached
+  - Forms Bundle (8 forms) £4.99 — #4476619120 — https://www.etsy.com/listing/4476619120
+  - Visual Bundle (gift cert + price list + loyalty card) £4.99 — #4476619282 — https://www.etsy.com/listing/4476619282
+  - Flyer Pack (4 flyers) £4.99 — #4476619330 — https://www.etsy.com/listing/4476619330
+  - Business Bundle (all 15 templates) £9.99 — #4476610441 — https://www.etsy.com/listing/4476610441
+- **Hero images**: v3 forms, v10 visual (corrected price list crop), v4 flyer, v3 business
+- **All verified**: 7/7 images per listing, state=active, delivery PDFs confirmed
+
+### Tomorrow's priority
+1. **Deduplicate ideas_backlog.md** — consolidate repeated Mac Mini / agent entries
+2. **Tier 3 branding kits** — build for barbershop, nail tech, lash tech, hair salon (tattoo already exists at £24.95)
+3. **Tier 4 mega bundles** — combine all tiers per niche at £39.99
+
+---
+
 ## 2026-03-23 (overnight)
 
 ### Car Detailing Niche — Full Build

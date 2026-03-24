@@ -4,6 +4,19 @@ A living document updated every session. Most recent entries first.
 
 ---
 
+### 2026-03-24 — [WIN] Car detailing niche launched
+
+4 listings live, 15 templates, delivery PDFs with /d/ shortlinks, 7 images each.
+
+**Pipeline:** render PDFs to PNG → Spaces → PIL composite hero → Etsy upload → activate
+
+**Key learnings from this build:**
+- Etsy GET images endpoint uses `/listings/{id}/images` (no shops prefix), but POST upload and PATCH activate use `/shops/{shop_id}/listings/{id}/...`
+- Listings had 0 images despite earlier session creating them — always verify image state before assuming prior work survived
+- Full 7-image Star Seller standard enforced: hero + whats_inside + lifestyle + how_it_works + why_buy + canva_basics + please_note
+
+---
+
 ### 2026-03-23 06:46 — Price PATCH silently ignored on active listings
 
 **Rule:** PATCH price=9.99 on active listings returned 200 but price stayed at 19.99

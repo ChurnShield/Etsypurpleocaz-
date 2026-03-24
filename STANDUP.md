@@ -7,13 +7,25 @@ Most recent first.
 ## 2026-03-24
 
 ### Car Detailing Niche — LIVE
-- **4 listings published** with approved hero images, 7 images each, delivery PDFs attached
+- **5 listings published** with approved hero images, 7 images each, delivery PDFs attached
   - Forms Bundle (8 forms) £4.99 — #4476619120 — https://www.etsy.com/listing/4476619120
   - Visual Bundle (gift cert + price list + loyalty card) £4.99 — #4476619282 — https://www.etsy.com/listing/4476619282
   - Flyer Pack (4 flyers) £4.99 — #4476619330 — https://www.etsy.com/listing/4476619330
   - Business Bundle (all 15 templates) £9.99 — #4476610441 — https://www.etsy.com/listing/4476610441
-- **Hero images**: v3 forms, v10 visual (corrected price list crop), v4 flyer, v3 business
+  - **Branding Kit (6 templates) £6.99 — #4476893828 — https://www.etsy.com/listing/4476893828**
+- **Branding Kit includes**: business card front/back, letterhead, email signature, invoice, thank you card
+- **6 Canva templates imported** to Car-Detail-Branding folder (FAHE25mwQLc) with /d/ shortlinks
 - **All verified**: 7/7 images per listing, state=active, delivery PDFs confirmed
+
+### Product ladder (car detail)
+| Tier | Product | Price | Status |
+|------|---------|-------|--------|
+| 1 | Client Forms Bundle (8 PDFs) | £4.99 | LIVE #4476619120 |
+| 1 | Visual Bundle (3 templates) | £4.99 | LIVE #4476619282 |
+| 1 | Flyer Pack (4 flyers) | £4.99 | LIVE #4476619330 |
+| 2 | Business Bundle (all 15) | £9.99 | LIVE #4476610441 |
+| 3 | Branding Kit (6 templates) | £6.99 | LIVE #4476893828 |
+| 4 | Mega Bundle (all products) | £14.99 | TO BUILD |
 
 ### Tomorrow's priority
 1. **Deduplicate ideas_backlog.md** — consolidate repeated Mac Mini / agent entries

@@ -41,7 +41,7 @@ GREY_PLACEHOLDER = (160, 160, 160)
 LOCAL_PHOTOS = {
     "bc_front": PROJECT_ROOT / "assets/photos/car_detailing_close_up_shine/photo_1.jpg",
     "letterhead": PROJECT_ROOT / "assets/photos/luxury_car_detailing_studio_interior/photo_1.jpg",
-    "email_sig": PROJECT_ROOT / "assets/photos/car_detailing_professional_close_up/photo_2.jpg",
+    "email_sig": PROJECT_ROOT / "assets/photos/car-detail-branding/email_sig_photo.jpg",
     "thankyou": PROJECT_ROOT / "assets/photos/shiny_clean_car_exterior/photo_1.jpg",
 }
 

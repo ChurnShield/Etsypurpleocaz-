@@ -584,6 +584,48 @@
           "view_link": "https://www.canva.com/d/rELwFk2oHhvm98n"
         }
       }
+    },
+    "car_detail_branding": {
+      "folder_id": "FAHE25mwQLc",
+      "folder_url": "https://www.canva.com/folder/FAHE25mwQLc",
+      "templates": {
+        "bc_front": {
+          "design_id": "DAHE261ST3A",
+          "title": "Car Detail - Business Card Front",
+          "edit_url": "https://www.canva.com/d/ufSHsZ-CdmwOsQE",
+          "shortlink": "ufSHsZ-CdmwOsQE"
+        },
+        "bc_back": {
+          "design_id": "DAHE28-l0Pg",
+          "title": "Car Detail - Business Card Back",
+          "edit_url": "https://www.canva.com/d/Y4Q0Skv03_HlP7q",
+          "shortlink": "Y4Q0Skv03_HlP7q"
+        },
+        "letterhead": {
+          "design_id": "DAHE23fbfk0",
+          "title": "Car Detail - Letterhead",
+          "edit_url": "https://www.canva.com/d/WgXLFiQGw4lmAyb",
+          "shortlink": "WgXLFiQGw4lmAyb"
+        },
+        "email_sig": {
+          "design_id": "DAHE22e5xJc",
+          "title": "Car Detail - Email Signature",
+          "edit_url": "https://www.canva.com/d/XGZVkdrIhb-Sv4i",
+          "shortlink": "XGZVkdrIhb-Sv4i"
+        },
+        "invoice": {
+          "design_id": "DAHE21Ho_0A",
+          "title": "Car Detail - Invoice",
+          "edit_url": "https://www.canva.com/d/KA2Yn_0eiGYP19j",
+          "shortlink": "KA2Yn_0eiGYP19j"
+        },
+        "thankyou": {
+          "design_id": "DAHE24cHp9I",
+          "title": "Car Detail - Thank You Card",
+          "edit_url": "https://www.canva.com/d/kYD6o2BI10LFWOa",
+          "shortlink": "kYD6o2BI10LFWOa"
+        }
+      }
     }
   },
   "generic_listing_pages": {

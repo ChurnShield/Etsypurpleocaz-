@@ -9,8 +9,15 @@
           "page_count": 2,
           "approved": true,
           "approved_date": "2026-03-17",
-          "dimensions": { "width": 2100, "height": 1200 },
-          "color_scheme": { "background": "#1A1A1A", "accent": "#C9A96E", "text": "#FFFFFF" },
+          "dimensions": {
+            "width": 2100,
+            "height": 1200
+          },
+          "color_scheme": {
+            "background": "#1A1A1A",
+            "accent": "#C9A96E",
+            "text": "#FFFFFF"
+          },
           "front_elements": {
             "studio_name": {
               "element_id": "PBDNmT0PJ0pcpDPr-LBWhSyLCXqljfNGz",
@@ -55,8 +62,15 @@
           "page_count": 2,
           "approved": true,
           "approved_date": "2026-03-17",
-          "dimensions": { "width": 2100, "height": 1200 },
-          "color_scheme": { "background": "#E8E0D4", "accent": "#C9A96E", "text": "#2C2C2C" },
+          "dimensions": {
+            "width": 2100,
+            "height": 1200
+          },
+          "color_scheme": {
+            "background": "#E8E0D4",
+            "accent": "#C9A96E",
+            "text": "#2C2C2C"
+          },
           "front_elements": {
             "studio_name": {
               "element_id": "PByqxYLQvGQMdz6H-LBnMpswWS1TLYCtX-LBw7svKyDnwJFPr4",
@@ -114,7 +128,10 @@
         "page_count": 1,
         "approved": true,
         "approved_date": "2026-03-23",
-        "dimensions": { "width": 595, "height": 842 },
+        "dimensions": {
+          "width": 595,
+          "height": 842
+        },
         "format": "A4 portrait",
         "delivery_shortlink": "https://www.canva.com/d/0as7bxnmqtPuytc",
         "edit_url": "https://www.canva.com/d/SXKH_k_0G8CCoaU",
@@ -131,7 +148,10 @@
         "page_count": 1,
         "approved": true,
         "approved_date": "2026-03-23",
-        "dimensions": { "width": 243, "height": 153 },
+        "dimensions": {
+          "width": 243,
+          "height": 153
+        },
         "format": "Credit card landscape (85.6mm x 54mm)",
         "delivery_shortlink": "https://www.canva.com/d/Z55jjyBaMXE1d2p",
         "edit_url": "https://www.canva.com/d/OnZuxpr7n6dlUTQ",
@@ -147,7 +167,10 @@
         "page_count": 1,
         "approved": true,
         "approved_date": "2026-03-23",
-        "dimensions": { "width": 842, "height": 595 },
+        "dimensions": {
+          "width": 842,
+          "height": 595
+        },
         "format": "A4 landscape",
         "delivery_shortlink": "https://www.canva.com/d/YgKBSHN1dZ_U8qf",
         "edit_url": "https://www.canva.com/d/SID5VtuxVRLyWe4",
@@ -212,7 +235,10 @@
         "thumbnail_design_id": "DAHDc0gyebE",
         "thumbnail_design_title": "Etsy Listing - Business Card Thumbnail Template",
         "thumbnail_page_id": "PB7y4RXXMjNRSBxN",
-        "thumbnail_dimensions": { "width": 1587, "height": 2245 },
+        "thumbnail_dimensions": {
+          "width": 1587,
+          "height": 2245
+        },
         "thumbnail_approved": true,
         "thumbnail_approved_url": "https://purpleocaz-assets.lon1.digitaloceanspaces.com/thumbnails/tattoo_business_card_hero_APPROVED_1773687738456.png",
         "thumbnail_banner_color": "#000000",
@@ -431,6 +457,132 @@
         "visual_bundle": "https://purpleocaz-assets.lon1.digitaloceanspaces.com/templates/car-detail-heroes/hero_visual_bundle.png",
         "flyer_pack": "https://purpleocaz-assets.lon1.digitaloceanspaces.com/templates/car-detail-heroes/hero_flyer_pack.png",
         "starter_bundle": "https://purpleocaz-assets.lon1.digitaloceanspaces.com/templates/car-detail-heroes/hero_starter_bundle.png"
+      }
+    },
+    "car_detail_social": {
+      "folder_id": "FAHE2Crx9Sg",
+      "folder_url": "https://www.canva.com/folder/FAHE2Crx9Sg",
+      "posts": {
+        "post_01": {
+          "design_id": "DAHE2O22RBA",
+          "name": "Premium Detailing Services",
+          "shortlink": "https://www.canva.com/d/fKxNNBGipTeBPyj",
+          "view_link": "https://www.canva.com/d/fsA93fsfnw45zQK"
+        },
+        "post_02": {
+          "design_id": "DAHE2NDFEMc",
+          "name": "Ceramic Coating",
+          "shortlink": "https://www.canva.com/d/kL2az2XzQISNP33",
+          "view_link": "https://www.canva.com/d/ttrh1wrvehCKbEb"
+        },
+        "post_03": {
+          "design_id": "DAHE2IWtzLg",
+          "name": "Interior Detailing",
+          "shortlink": "https://www.canva.com/d/LISdwiNJTOZ37Ue",
+          "view_link": "https://www.canva.com/d/lXMipCEbtfZ8nkX"
+        },
+        "post_04": {
+          "design_id": "DAHE2FpwYmU",
+          "name": "Paint Correction",
+          "shortlink": "https://www.canva.com/d/hFqCQB5u0rQGM1K",
+          "view_link": "https://www.canva.com/d/UuadwP9kdDQhqYM"
+        },
+        "post_05": {
+          "design_id": "DAHE2VezoP4",
+          "name": "Detailing Packages",
+          "shortlink": "https://www.canva.com/d/a-nkYv1rV7Lsw_N",
+          "view_link": "https://www.canva.com/d/OKYdMcDvXv4hGIw"
+        },
+        "post_06": {
+          "design_id": "DAHE2QuQwUc",
+          "name": "Limited Time Offer",
+          "shortlink": "https://www.canva.com/d/51KqgMnKUlb-wzh",
+          "view_link": "https://www.canva.com/d/bArYFvLJMzM9FMk"
+        },
+        "post_07": {
+          "design_id": "DAHE2cfnefA",
+          "name": "Free Quote",
+          "shortlink": "https://www.canva.com/d/fZ6uOaXYSH4xezI",
+          "view_link": "https://www.canva.com/d/7wUfC21x8RDro5B"
+        },
+        "post_08": {
+          "design_id": "DAHE2Qo7iDU",
+          "name": "Referral Offer",
+          "shortlink": "https://www.canva.com/d/Fq2NlROLWuG3K5T",
+          "view_link": "https://www.canva.com/d/o8qmiuhyvUka_OQ"
+        },
+        "post_09": {
+          "design_id": "DAHE2eQtthw",
+          "name": "Seasonal Special",
+          "shortlink": "https://www.canva.com/d/ASUv_LZTcS1U2E5",
+          "view_link": "https://www.canva.com/d/cU_zeDLUMHKoSJs"
+        },
+        "post_10": {
+          "design_id": "DAHE2aEnXp8",
+          "name": "Five Star Review",
+          "shortlink": "https://www.canva.com/d/bcHcmfmCvfmN0Lb",
+          "view_link": "https://www.canva.com/d/2XViIeBAvpPulj1"
+        },
+        "post_11": {
+          "design_id": "DAHE2cJOdb4",
+          "name": "Before & After",
+          "shortlink": "https://www.canva.com/d/ZQ8Rc-o2AMNrmHA",
+          "view_link": "https://www.canva.com/d/S8yZN8Ukc9jwLDc"
+        },
+        "post_12": {
+          "design_id": "DAHE2chm_y8",
+          "name": "Customer Spotlight",
+          "shortlink": "https://www.canva.com/d/ajpNaWk1GzTNk8m",
+          "view_link": "https://www.canva.com/d/0sVtPk3EG04KSvr"
+        },
+        "post_13": {
+          "design_id": "DAHE2f7c9Vc",
+          "name": "Years In Business",
+          "shortlink": "https://www.canva.com/d/E-I4kGlLL5LHanb",
+          "view_link": "https://www.canva.com/d/Z5cpWE8HjtXEYNY"
+        },
+        "post_14": {
+          "design_id": "DAHE2fjv4_M",
+          "name": "Did You Know",
+          "shortlink": "https://www.canva.com/d/3Xlt9sNtiyxjvtl",
+          "view_link": "https://www.canva.com/d/F93GFPRckNF9H9B"
+        },
+        "post_15": {
+          "design_id": "DAHE2T3mw4g",
+          "name": "Why Ceramic Coating",
+          "shortlink": "https://www.canva.com/d/k6vs7kFALWVFgBx",
+          "view_link": "https://www.canva.com/d/vVok-grV7hiHKLG"
+        },
+        "post_16": {
+          "design_id": "DAHE2eDhxew",
+          "name": "Detailing Tip",
+          "shortlink": "https://www.canva.com/d/1vL7lMSQqiYK4xn",
+          "view_link": "https://www.canva.com/d/PtiR55OcuX5XlOL"
+        },
+        "post_17": {
+          "design_id": "DAHE2bPR2j8",
+          "name": "Before You Sell",
+          "shortlink": "https://www.canva.com/d/X8YpkC1EXFCpxJX",
+          "view_link": "https://www.canva.com/d/Fd05Kyr1MYhmwqu"
+        },
+        "post_18": {
+          "design_id": "DAHE2XTYYOk",
+          "name": "About Us",
+          "shortlink": "https://www.canva.com/d/sBDDodmH8zVWvVu",
+          "view_link": "https://www.canva.com/d/ZXJ3yq3-n-3w6nG"
+        },
+        "post_19": {
+          "design_id": "DAHE2QpzZBY",
+          "name": "Follow Us",
+          "shortlink": "https://www.canva.com/d/5De3Ho1sMXb1MQQ",
+          "view_link": "https://www.canva.com/d/xkfLphDHv-V_-_V"
+        },
+        "post_20": {
+          "design_id": "DAHE2d0TsUs",
+          "name": "Contact Us",
+          "shortlink": "https://www.canva.com/d/N_yHRe-6A5zj7S5",
+          "view_link": "https://www.canva.com/d/rELwFk2oHhvm98n"
+        }
       }
     }
   },

@@ -668,6 +668,30 @@
           "shortlink": "IqEKaKOH3KzLx2X"
         }
       }
+    },
+    "car_detail_job_forms": {
+      "folder_id": "FAHE21_OWUA",
+      "folder_url": "https://www.canva.com/folder/FAHE21_OWUA",
+      "templates": {
+        "condition_report": {
+          "design_id": "DAHE28pER3Y",
+          "title": "Car Detail - Condition Report",
+          "edit_url": "https://www.canva.com/d/tegCDgP2FkzVBAo",
+          "shortlink": "tegCDgP2FkzVBAo"
+        },
+        "job_checklist": {
+          "design_id": "DAHE20n6-yE",
+          "title": "Car Detail - Job Checklist",
+          "edit_url": "https://www.canva.com/d/vbSYRDs8v1WDIs9",
+          "shortlink": "vbSYRDs8v1WDIs9"
+        },
+        "handover": {
+          "design_id": "DAHE25W_RtU",
+          "title": "Car Detail - Handover Form",
+          "edit_url": "https://www.canva.com/d/3soeEB2fpq9OxxG",
+          "shortlink": "3soeEB2fpq9OxxG"
+        }
+      }
     }
   },
   "generic_listing_pages": {

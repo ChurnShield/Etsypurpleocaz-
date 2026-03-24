@@ -7,15 +7,16 @@ Most recent first.
 ## 2026-03-24
 
 ### Car Detailing Niche — LIVE
-- **6 listings published** with approved hero images, 7 images each, delivery PDFs attached
+- **7 listings published** with approved hero images, 7 images each, delivery PDFs attached
   - Forms Bundle (8 forms) £4.99 — #4476619120 — https://www.etsy.com/listing/4476619120
   - Visual Bundle (gift cert + price list + loyalty card) £4.99 — #4476619282 — https://www.etsy.com/listing/4476619282
   - Flyer Pack (4 flyers) £4.99 — #4476619330 — https://www.etsy.com/listing/4476619330
   - Business Bundle (all 15 templates) £9.99 — #4476610441 — https://www.etsy.com/listing/4476610441
   - Branding Kit (6 templates) £6.99 — #4476893828 — https://www.etsy.com/listing/4476893828
-  - **Email Templates (6 templates) £5.99 — #4476891933 — https://www.etsy.com/listing/4476891933**
-- **Email Templates include**: booking confirmation, appointment reminder, job completion + review request, follow-up, referral program, seasonal promo
-- **12 Canva templates imported** across Car-Detail-Branding (FAHE25mwQLc) and Car-Detail-Email (FAHE23DubUc) folders
+  - Email Templates (6 templates) £5.99 — #4476891933 — https://www.etsy.com/listing/4476891933
+  - **Job Forms (3 templates) £4.99 — #4476913230 — https://www.etsy.com/listing/4476913230**
+- **Job Forms include**: vehicle condition report, detailing job checklist, post-detail handover form
+- **15 Canva templates imported** across Car-Detail-Branding, Car-Detail-Email, and Car-Detail-Job-Forms folders
 - **All verified**: 7/7 images per listing, state=active, delivery PDFs confirmed
 
 ### Product ladder (car detail)
@@ -27,6 +28,7 @@ Most recent first.
 | 2 | Business Bundle (all 15) | £9.99 | LIVE #4476610441 |
 | 3 | Branding Kit (6 templates) | £6.99 | LIVE #4476893828 |
 | 3 | Email Templates (6 templates) | £5.99 | LIVE #4476891933 |
+| 3 | Job Forms (3 templates) | £4.99 | LIVE #4476913230 |
 | 4 | Mega Bundle (all products) | £14.99 | TO BUILD |
 
 ### Tomorrow's priority

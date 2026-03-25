@@ -692,6 +692,157 @@
           "shortlink": "3soeEB2fpq9OxxG"
         }
       }
+    },
+    "barbershop": {
+      "folder_id": "FAHE94J3odE",
+      "color_scheme": {
+        "background": "#1A1A1A",
+        "accent": "#C9A96E",
+        "text": "#FFFFFF"
+      },
+      "print": {
+        "business_card_front": {
+          "design_id": "DAHE904eQYU",
+          "view_url": "https://www.canva.com/design/DAHE904eQYU/view",
+          "title": "Barbershop - Business Card Front"
+        },
+        "business_card_back": {
+          "design_id": "DAHE9-TS2zg",
+          "view_url": "https://www.canva.com/design/DAHE9-TS2zg/view",
+          "title": "Barbershop - Business Card Back"
+        },
+        "appointment_card": {
+          "design_id": "DAHE9_1NC5s",
+          "view_url": "https://www.canva.com/design/DAHE9_1NC5s/view",
+          "title": "Barbershop - Appointment Card"
+        },
+        "thank_you_card": {
+          "design_id": "DAHE92C4P5E",
+          "view_url": "https://www.canva.com/design/DAHE92C4P5E/view",
+          "title": "Barbershop - Thank You Card"
+        },
+        "refer_a_friend": {
+          "design_id": "DAHE96mKjZ4",
+          "view_url": "https://www.canva.com/design/DAHE96mKjZ4/view",
+          "title": "Barbershop - Refer a Friend Card"
+        }
+      },
+      "instagram": {
+        "brand_welcome": {
+          "design_id": "DAHE9yGK0oc",
+          "view_url": "https://www.canva.com/design/DAHE9yGK0oc/view",
+          "title": "Barbershop - IG Brand Welcome"
+        },
+        "services_menu": {
+          "design_id": "DAHE98P6jCI",
+          "view_url": "https://www.canva.com/design/DAHE98P6jCI/view",
+          "title": "Barbershop - IG Services Menu"
+        },
+        "book_now": {
+          "design_id": "DAHE98lZL54",
+          "view_url": "https://www.canva.com/design/DAHE98lZL54/view",
+          "title": "Barbershop - IG Book Now"
+        },
+        "new_client_offer": {
+          "design_id": "DAHE99HNryM",
+          "view_url": "https://www.canva.com/design/DAHE99HNryM/view",
+          "title": "Barbershop - IG New Client Offer"
+        },
+        "testimonial": {
+          "design_id": "DAHE91unEHM",
+          "view_url": "https://www.canva.com/design/DAHE91unEHM/view",
+          "title": "Barbershop - IG Testimonial"
+        },
+        "tip_of_week": {
+          "design_id": "DAHE9y7ufiU",
+          "view_url": "https://www.canva.com/design/DAHE9y7ufiU/view",
+          "title": "Barbershop - IG Tip of the Week"
+        },
+        "before_after": {
+          "design_id": "DAHE979TbdM",
+          "view_url": "https://www.canva.com/design/DAHE979TbdM/view",
+          "title": "Barbershop - IG Before and After"
+        },
+        "meet_the_barber": {
+          "design_id": "DAHE9wigf2g",
+          "view_url": "https://www.canva.com/design/DAHE9wigf2g/view",
+          "title": "Barbershop - IG Meet the Barber"
+        },
+        "opening_hours": {
+          "design_id": "DAHE98jRbxk",
+          "view_url": "https://www.canva.com/design/DAHE98jRbxk/view",
+          "title": "Barbershop - IG Opening Hours"
+        },
+        "loyalty_program": {
+          "design_id": "DAHE93XY2Bg",
+          "view_url": "https://www.canva.com/design/DAHE93XY2Bg/view",
+          "title": "Barbershop - IG Loyalty Program"
+        },
+        "referral": {
+          "design_id": "DAHE98KnSX8",
+          "view_url": "https://www.canva.com/design/DAHE98KnSX8/view",
+          "title": "Barbershop - IG Referral"
+        },
+        "seasonal_promo": {
+          "design_id": "DAHE9wrkRnY",
+          "view_url": "https://www.canva.com/design/DAHE9wrkRnY/view",
+          "title": "Barbershop - IG Seasonal Promo"
+        }
+      },
+      "stories": {
+        "book_now": {
+          "design_id": "DAHE9x8Je80",
+          "view_url": "https://www.canva.com/design/DAHE9x8Je80/view",
+          "title": "Barbershop - Story Book Now"
+        },
+        "availability": {
+          "design_id": "DAHE95EvbmQ",
+          "view_url": "https://www.canva.com/design/DAHE95EvbmQ/view",
+          "title": "Barbershop - Story Availability"
+        },
+        "flash_deal": {
+          "design_id": "DAHE91FM14w",
+          "view_url": "https://www.canva.com/design/DAHE91FM14w/view",
+          "title": "Barbershop - Story Flash Deal"
+        },
+        "tip_of_day": {
+          "design_id": "DAHE93Ox_HU",
+          "view_url": "https://www.canva.com/design/DAHE93Ox_HU/view",
+          "title": "Barbershop - Story Tip of Day"
+        },
+        "client_shoutout": {
+          "design_id": "DAHE9wafYjE",
+          "view_url": "https://www.canva.com/design/DAHE9wafYjE/view",
+          "title": "Barbershop - Story Client Shoutout"
+        },
+        "weekend_special": {
+          "design_id": "DAHE9wiHDHA",
+          "view_url": "https://www.canva.com/design/DAHE9wiHDHA/view",
+          "title": "Barbershop - Story Weekend Special"
+        }
+      },
+      "utility": {
+        "google_review": {
+          "design_id": "DAHE92QOMis",
+          "view_url": "https://www.canva.com/design/DAHE92QOMis/view",
+          "title": "Barbershop - Google Review Card"
+        },
+        "tip_guide": {
+          "design_id": "DAHE92pj7cI",
+          "view_url": "https://www.canva.com/design/DAHE92pj7cI/view",
+          "title": "Barbershop - Grooming Tip Guide"
+        },
+        "price_list": {
+          "design_id": "DAHE90wQlQ0",
+          "view_url": "https://www.canva.com/design/DAHE90wQlQ0/view",
+          "title": "Barbershop - Price List Card"
+        },
+        "aftercare": {
+          "design_id": "DAHE9wVe8Ng",
+          "view_url": "https://www.canva.com/design/DAHE9wVe8Ng/view",
+          "title": "Barbershop - Aftercare Advice Card"
+        }
+      }
     }
   },
   "generic_listing_pages": {

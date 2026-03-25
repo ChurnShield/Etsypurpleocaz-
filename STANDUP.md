@@ -4,6 +4,34 @@ Most recent first.
 
 ---
 
+## 2026-03-25
+
+### Barbershop Mega Bundle — in progress
+
+**TASK 1 — Canva token auto-refresh ✅**
+- `scripts/refresh_canva_token.py` — reads refresh token, POSTs to Canva OAuth, updates .env + canva_tokens.json. Tested: `Token refreshed. Expires: 14400s`
+- `/etc/cron.d/canva-refresh` — runs every 3h
+- `hooks/session_start.sh` — calls refresh at every session start
+- LESSONS.md: CC auth — `ANTHROPIC_API_KEY=sk-ant-... claude --strict-mcp-config`
+
+**TASK 2 — Barbershop Mega Bundle (25+ templates)**
+
+| Category | Templates | Status |
+|----------|-----------|--------|
+| Print Essentials (CR80 + A6) | Business card F+B, Appointment, Thank You, Refer A Friend | ✅ Built (prior session) |
+| Instagram Posts 1080×1080 | 12 posts: brand, services, book now, offer, testimonial, tip, before/after, meet the barber, hours, loyalty, referral, seasonal | ✅ Built + Spaces verified |
+| Instagram Stories 1080×1920 | 6 stories: book now, availability, flash deal, tip, shoutout, weekend special | ✅ Built + Spaces verified |
+| Utility Cards | Google review card, tip guide, price list card, aftercare card | ✅ Built + Spaces verified |
+
+**Running total: 25 templates** (4 print + 12 IG posts + 6 stories + 4 utility) — all on Spaces
+
+### Tomorrow's priority
+1. **Publish barbershop mega bundle to Etsy** — delivery PDF with all 25+ Canva /d/ shortlinks, hero image, 7-image listing, activate
+2. **Tier 3 branding kits** — nail tech, lash tech, hair salon (tattoo + barbershop already built)
+3. **Tier 4 mega bundles** — combine all tiers per niche at £39.99
+
+---
+
 ## 2026-03-24
 
 ### Car Detailing Niche — LIVE

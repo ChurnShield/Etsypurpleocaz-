@@ -4,6 +4,17 @@ A living document updated every session. Most recent entries first.
 
 ---
 
+### 2026-03-25 — CC auth: use ANTHROPIC_API_KEY if claude.ai OAuth expired
+
+**Rule:** If claude.ai browser OAuth session expires, launch Claude Code with:
+`ANTHROPIC_API_KEY=sk-ant-... claude --strict-mcp-config`
+
+**Why:** claude.ai OAuth tokens expire. ANTHROPIC_API_KEY env var bypasses browser auth entirely and works from any terminal session.
+
+**How to apply:** If `claude` fails with auth errors, set the env var explicitly before launching. Keep the key handy in a secure note.
+
+---
+
 ### 2026-03-24 — [WIN] Car detailing niche launched
 
 4 listings live, 15 templates, delivery PDFs with /d/ shortlinks, 7 images each.

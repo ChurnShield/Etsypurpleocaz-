@@ -25,10 +25,16 @@ Most recent first.
 
 **Running total: 25 templates** (4 print + 12 IG posts + 6 stories + 4 utility) — all on Spaces
 
+**Barbershop Mega Bundle LIVE ✓**
+- Listing #4477586457 — https://www.etsy.com/listing/4477586457
+- Price: £14.99 | Images: 7/7 | Files: 1 | State: active
+- Delivery PDF: 27 links with File → Make a copy instruction
+- 27 designs in Canva folder FAHE94J3odE, all registered in design_registry.json
+
 ### Tomorrow's priority
-1. **Publish barbershop mega bundle to Etsy** — delivery PDF with all 25+ Canva /d/ shortlinks, hero image, 7-image listing, activate
-2. **Tier 3 branding kits** — nail tech, lash tech, hair salon (tattoo + barbershop already built)
-3. **Tier 4 mega bundles** — combine all tiers per niche at £39.99
+1. **Tier 3 branding kits** — nail tech, lash tech, hair salon (tattoo + barbershop already done)
+2. **Tier 4 mega bundles** — combine all tiers per niche at £39.99
+3. **Upgrade listing images** — swap /view links for /d/ shortlinks when Canva Share menu available
 
 ---
 

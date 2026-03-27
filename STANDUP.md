@@ -4,7 +4,37 @@ Most recent first.
 
 ---
 
-## 2026-03-27
+## 2026-03-27 (end of day update)
+
+### Dog Daycare Mega Bundle — LIVE #4478880990
+
+- **Listing #4478880990** — https://www.etsy.com/listing/4478880990
+- 32 templates (AI-generated config): 9 branding, 9 marketing (inc 5 social), 6 forms, 2 operations
+- Palette: steel blue [58,110,165], gold [210,170,90], cream, charcoal
+- Built end-to-end via **CrewAI crew** (first successful full run)
+- Delivery PDF regenerated with clean layout — template name bold on own line, URL below
+- Price: £39.99 | 13 tags (all valid) | verify: 9/9 PASSED | State: active
+- evaluate: 1 false positive (hero dark palette flagged as text-only — see lessons)
+
+### CrewAI PurpleOcaz Listing Crew — Phase 1 LIVE
+
+- **`crewai_crew/`** — two-agent crew committed and pushed
+- Planner: reads sample_niche.json, designs config, validates 13 tags ≤20 chars, writes JSON
+- Builder: factory → hero → verify → evaluate → sprint contract
+- Sprint contract: `outputs/{slug}/sprint_contract.md` with 10-item checklist
+- First run: dog-daycare — 3 factory bugs caught and fixed during live run
+- Listing left as DRAFT by crew, Andy activates manually
+
+### Tomorrow's priorities
+
+1. **Canva conversion session (laptop only)** — convert Pillow PNGs to editable Canva designs with `/d/` shortlinks for dog-daycare bundle. Canva MCP only works from local laptop with Canva desktop app open.
+2. **Fix evaluate_listing.py dark palette threshold** — 79% false positive on steel-blue/dark niches; raise `HERO_MONO_THRESHOLD` or exclude background from check.
+3. **Run CrewAI on new niche** — confirm crew generalises beyond dog-daycare. Restaurant/cafe recommended as first test.
+4. **Research overnight briefing** — review opportunities surfaced by YT/Twitter experts in latest digests.
+
+---
+
+## 2026-03-27 (morning)
 
 ### Pet Business Mega Bundle Batch — ALL 3 LIVE ✅
 

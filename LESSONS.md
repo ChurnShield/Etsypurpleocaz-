@@ -4,6 +4,28 @@ A living document updated every session. Most recent entries first.
 
 ---
 
+### 2026-03-27 — CrewAI crew + Dog Daycare bundle
+
+**Canva MCP only works from local laptop, not the droplet.**
+The Canva MCP tools (`upload-asset-from-url`, `generate-design`, `start-editing-transaction`, etc.) are served by the Canva desktop app on your local machine. They cannot run on the DigitalOcean droplet. If you need a Canva conversion session, do it from the laptop with Claude Code running locally and the Canva desktop app open. `purpleocaz-canva-mcp` is a helper library, not an MCP server — it has no `src/index.ts` entry point.
+
+**CrewAI palette keys are hardcoded in the factory — never rename them.**
+`niche_template_factory.py` calls `p(cfg, "gold")`, `p(cfg, "cream")`, `p(cfg, "cream_alt")`, `p(cfg, "charcoal")`, `p(cfg, "primary")` by exact name. If the Planner renames any of these (e.g. `warm_sand` instead of `gold`), the factory crashes with `KeyError`. The RGB values should be customised per niche, but the key names are immutable. This rule is now enforced in `agents.yaml`.
+
+**CrewAI LLM model needs `anthropic/` prefix for LiteLLM routing.**
+`LLM(model="claude-sonnet-4-6")` routes to OpenAI (401 error). Must be `LLM(model="anthropic/claude-sonnet-4-6")` for LiteLLM to route to Anthropic's API. Rule: always prefix Claude model IDs with `anthropic/` in CrewAI.
+
+**tasks.yaml: don't use `{variable}` notation for literal text — use `<variable>` instead.**
+CrewAI interpolates all `{word}` patterns in task descriptions as input variables. `configs/niches/{slug}.json` caused `KeyError: 'slug'` at kickoff. Use angle-bracket notation for literal placeholders in task descriptions.
+
+**Etsy PATCH activate: use shop-specific endpoint, not generic `/listings/{id}`.**
+`PATCH /application/listings/{id}` returns 404. `PATCH /application/shops/{shop_id}/listings/{id}` works. Always use the shop-specific path for listing updates.
+
+**evaluate_listing.py hero check gives false positives on dark-palette niches.**
+The 70% near-black/white threshold flags dark backgrounds (steel blue #3A6EA5 counts as near-black). Dog daycare hero was flagged at 79% despite being a full composite mockup. Fix: raise `HERO_MONO_THRESHOLD` from 0.70 to ~0.85, or check HSV saturation rather than raw brightness.
+
+---
+
 ### 2026-03-27 — Pet Business Mega Bundle Batch (Dog Walking, Dog Training, Pet Photography)
 
 **Worked:**

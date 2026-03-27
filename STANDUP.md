@@ -6,6 +6,37 @@ Most recent first.
 
 ## 2026-03-27
 
+### Pet Photography Mega Bundle — DRAFT #4478768783
+
+- **Draft listing #4478768783** — https://www.etsy.com/listing/4478768783
+- 26 Canva templates: 8 branding, 8 marketing (inc 5 social), 7 client forms, 4 operations
+- Palette: dusty rose #C4878E, gold #C9A96E, cream #F5F0E8, charcoal #1A1A1A
+- 27 template PNGs uploaded to Spaces under `templates/pet-photography/`
+- 7 listing images uploaded (ranks 1–7), delivery PDF attached: PP_Mega_Bundle_DELIVERY.pdf (13.6 KB)
+- Price: £39.99 | 13 tags (all ≤20 chars) | State: draft
+- verify_listing.py: **9/9 ALL CHECKS PASSED**
+- Scripts: `scripts/publish_pet_photography_mega_bundle.py`
+
+### Dog Training Mega Bundle — DRAFT #4478748731
+
+- **Draft listing #4478748731** — https://www.etsy.com/listing/4478748731
+- 31 Canva templates: 9 branding, 8 marketing, 9 client forms, 5 operations (inc Certificate of Completion)
+- Palette: navy #1B3A5C, gold #C9A96E, cream #F5F0E8, charcoal #1A1A1A
+- 7 listing images uploaded, delivery PDF attached
+- Price: £39.99 | 13 tags | State: draft
+- verify_listing.py: 8/9 PASSED (price check false positive — mega bundle expected)
+- Scripts: `scripts/dog_training_design_system.py`, `scripts/publish_dog_training_mega_bundle.py`
+
+### Dog Walking Mega Bundle — DRAFT #4478742330
+
+- **Draft listing #4478742330** — https://www.etsy.com/listing/4478742330
+- 30 Canva templates: 9 branding, 8 marketing, 8 client forms, 4 operations
+- Palette: forest green #2D5F3E, gold #C9A96E, cream #F5F0E8, charcoal #1A1A1A
+- 7 listing images uploaded, delivery PDF attached
+- Price: £39.99 | 13 tags | State: draft
+- verify_listing.py: 8/9 PASSED (price check false positive — mega bundle expected)
+- Scripts: `scripts/dog_walking_design_system.py`, `scripts/publish_dog_walking_mega_bundle.py`
+
 ### Dog Grooming Mega Bundle — DRAFT LISTING CREATED #4478726787
 
 - **Draft listing #4478726787** — https://www.etsy.com/listing/4478726787

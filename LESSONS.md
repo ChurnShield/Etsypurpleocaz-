@@ -4,6 +4,29 @@ A living document updated every session. Most recent entries first.
 
 ---
 
+### 2026-03-27 — Pet Business Mega Bundle Batch (Dog Walking, Dog Training, Pet Photography)
+
+**Worked:**
+- Pillow bundle pattern scales cleanly across niches — reuse design system file, swap palette tuples, done. Dog walking → dog training → pet photography took ~1 session each.
+- Inline Etsy phase recovery: when a script crashes after templates/PDF are already built and uploaded to Spaces, skip phases 1-3 and run only the Etsy creation/upload steps inline. No need to rebuild anything.
+- Token refresh inline Python (no dedicated script needed): POST grant_type=refresh_token to Etsy OAuth endpoint, write updated tokens back to etsy_tokens.json.
+- `verify_listing.py --bundle` flag skips the hardcoded £2.99 price check — always use this flag for £39.99 mega bundles.
+
+**Failed:**
+- Tag length assertions caught before Etsy API call (good), but three tags slipped through initial writing:
+  - `"pet photography bundle"` (22) → `"pet photo bundle"` (16)
+  - `"photo editing tracker"` (21) → `"editing tracker"` (15)
+  - `"dog trainer templates"` (21) → `"trainer templates"` (17)
+- **Rule: count tag chars during writing. Any tag with 4+ words is likely >20 chars — check immediately.**
+- Background Bash execution unreliable for scripts >60s — output files were empty when checked mid-run. Use foreground execution with explicit timeout for long-running scripts.
+- `x-api-key` header must be `keystring:shared_secret` (colon-separated). Keystring alone returns 403 "Shared secret is required."
+
+**Pattern confirmed:**
+- Activate listings via PATCH `state=active` — one call per listing, sequential, <5s total.
+- User may pass `{listing_id}` placeholders in instructions — use the IDs from the current session's build log.
+
+---
+
 ### 2026-03-27 — Etsy price update: use PUT /listings/{id}/inventory with float price
 
 **Rule:** To update the price of an active listing, use:
@@ -351,3 +374,26 @@ A living document updated every session. Most recent entries first.
 **Next:**
 - Sub-agent architecture is the logical next layer above Big Brain/Small Brain. Orchestrator assigns tasks to specialist agents (Research, Design, Listing, QA, Outreach, Analytics) — all propose, Andy approves. Dedicated architecture session needed before building.
 - Pre-stock Canva asset folders per niche before design sessions — MCP `insert_fill` can leverage these without creating from scratch. Dog grooming assets needed before next week's session.
+
+---
+
+### 2026-03-27 — Pet Business Mega Bundle Batch (Dog Walking, Dog Training, Pet Photography)
+
+**Worked:**
+- Pillow bundle pattern scales cleanly across niches — reuse design system file, swap palette tuples, done. Dog walking → dog training → pet photography took ~1 session each.
+- Inline Etsy phase recovery: when a script crashes after templates/PDF are already built and uploaded to Spaces, skip phases 1-3 and run just the Etsy creation/upload steps inline. No need to rebuild anything.
+- Token refresh inline Python (no dedicated script needed): POST grant_type=refresh_token to Etsy OAuth endpoint, write updated tokens back to etsy_tokens.json.
+- `verify_listing.py --bundle` flag skips the hardcoded £2.99 price check — always use this flag for £39.99 mega bundles.
+
+**Failed:**
+- Tag length assertions caught before Etsy API call (good), but two bundles had tags >20 chars that slipped through initial writing:
+  - `"pet photography bundle"` (22) → fixed to `"pet photo bundle"` (16)
+  - `"photo editing tracker"` (21) → fixed to `"editing tracker"` (15)
+  - `"dog trainer templates"` (21) → fixed to `"trainer templates"` (17)
+- **Rule: always count tag chars during writing, not just at assertion time.** Anything with 4+ words is likely over 20.
+- Background Bash execution unreliable for long-running scripts (>60s) — output files were empty until checked manually. Use foreground execution with explicit timeout for scripts that take >30s.
+- `x-api-key` header must be `keystring:shared_secret` format (colon-separated). Using keystring alone returns 403 "Shared secret is required."
+
+**Pattern confirmed:**
+- Activate listings via PATCH `state=active` after verify passes — one call per listing, sequential, takes <5s total.
+- User may pass `{listing_id}` placeholders in activate instructions — use the IDs from the current session's build log.

@@ -6,9 +6,19 @@ Most recent first.
 
 ## 2026-03-27
 
-### Pet Photography Mega Bundle — DRAFT #4478768783
+### Pet Business Mega Bundle Batch — ALL 3 LIVE ✅
 
-- **Draft listing #4478768783** — https://www.etsy.com/listing/4478768783
+| Bundle | Listing | State | Verify |
+|--------|---------|-------|--------|
+| Dog Walking / Pet Sitting | [#4478742330](https://www.etsy.com/listing/4478742330) | active | 9/9 |
+| Dog Training / Puppy School | [#4478748731](https://www.etsy.com/listing/4478748731) | active | 9/9 |
+| Pet Photography | [#4478768783](https://www.etsy.com/listing/4478768783) | active | 9/9 |
+
+All activated 2026-03-27. 3 new £39.99 listings live.
+
+### Pet Photography Mega Bundle — LIVE #4478768783
+
+- **Listing #4478768783** — https://www.etsy.com/listing/4478768783
 - 26 Canva templates: 8 branding, 8 marketing (inc 5 social), 7 client forms, 4 operations
 - Palette: dusty rose #C4878E, gold #C9A96E, cream #F5F0E8, charcoal #1A1A1A
 - 27 template PNGs uploaded to Spaces under `templates/pet-photography/`
@@ -17,7 +27,7 @@ Most recent first.
 - verify_listing.py: **9/9 ALL CHECKS PASSED**
 - Scripts: `scripts/publish_pet_photography_mega_bundle.py`
 
-### Dog Training Mega Bundle — DRAFT #4478748731
+### Dog Training Mega Bundle — LIVE #4478748731
 
 - **Draft listing #4478748731** — https://www.etsy.com/listing/4478748731
 - 31 Canva templates: 9 branding, 8 marketing, 9 client forms, 5 operations (inc Certificate of Completion)
@@ -27,7 +37,7 @@ Most recent first.
 - verify_listing.py: 8/9 PASSED (price check false positive — mega bundle expected)
 - Scripts: `scripts/dog_training_design_system.py`, `scripts/publish_dog_training_mega_bundle.py`
 
-### Dog Walking Mega Bundle — DRAFT #4478742330
+### Dog Walking Mega Bundle — LIVE #4478742330
 
 - **Draft listing #4478742330** — https://www.etsy.com/listing/4478742330
 - 30 Canva templates: 9 branding, 8 marketing, 8 client forms, 4 operations

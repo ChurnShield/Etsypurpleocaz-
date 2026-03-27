@@ -1,0 +1,376 @@
+{
+  "_comment": "SAMPLE NICHE CONFIG — shows every supported template type and field.",
+  "_usage": "python3 scripts/niche_template_factory.py configs/niches/sample_niche.json",
+  "_flags": "--skip-etsy (build PNGs only)  |  --only-pdf (rebuild delivery PDF only)",
+
+  "niche": {
+    "name": "Dog Grooming",
+    "slug": "dog-grooming",
+    "etsy": {
+      "title": "Dog Grooming Business Bundle — 27 Canva Templates | Business Cards, Forms, Certificates",
+      "description": "Everything a dog grooming business needs to look professional from day one.\n\nIncludes 27 ready-to-edit Canva templates:\n• Business cards (dark + light)\n• Appointment cards\n• Price list\n• Gift certificate\n• Client intake form\n• Grooming record card\n• Invoice\n• Welcome sign\n• Opening hours sign\n• 3 Instagram post templates\n\nAll templates are fully editable in Canva Free.\nDownload instantly. Edit in minutes. Print at home or at a local printer.\n\n✅ Instant digital download\n✅ Works with Canva FREE\n✅ A4 + US Letter sizes included\n✅ Lifetime access",
+      "price": 39.99,
+      "tags": [
+        "dog grooming",
+        "grooming templates",
+        "pet business",
+        "groomer forms",
+        "canva templates",
+        "business card",
+        "grooming invoice",
+        "pet intake form",
+        "appointment card",
+        "price list",
+        "gift certificate",
+        "small business kit",
+        "dog walker"
+      ],
+      "taxonomy_id": 1874
+    }
+  },
+
+  "palette": {
+    "_comment": "All values are [R, G, B] arrays. Max 4–5 colours per niche.",
+    "primary":    [13, 92, 99],
+    "primary_lt": [20, 130, 140],
+    "gold":       [201, 169, 110],
+    "cream":      [245, 240, 232],
+    "cream_alt":  [235, 228, 218],
+    "charcoal":   [26, 26, 26],
+    "white":      [255, 255, 255],
+    "grey":       [136, 136, 136]
+  },
+
+  "brand": {
+    "_comment": "Placeholder text shown on templates. Buyer replaces with their own info.",
+    "name_placeholder":    "YOUR GROOMING STUDIO",
+    "subtitle":            "Professional Dog Grooming",
+    "contact_line":        "📞 07700 900000  |  hello@yourgroomer.co.uk",
+    "email_line":          "hello@yourgroomer.co.uk",
+    "address_line":        "123 High Street, Your Town, AB1 2CD",
+    "tagline":             "Looking great, feeling great.",
+    "website":             "www.yourgroomingstudio.co.uk"
+  },
+
+  "icon": "paw",
+  "_icon_options": ["paw", "scissors", "camera", "flower", "star", "heart", "none"],
+
+  "spaces": {
+    "prefix": "templates/dog-grooming"
+  },
+
+  "templates": [
+
+    {
+      "_comment": "--- BRANDING ---",
+      "type": "business_card",
+      "variant": "dark",
+      "title": "Business Card (Dark)",
+      "filename": "DG_Business_Card_Dark.png",
+      "category": "Branding",
+      "canva_url": "https://www.canva.com/d/REPLACE_WITH_SHORTCODE"
+    },
+
+    {
+      "type": "business_card",
+      "variant": "light",
+      "title": "Business Card (Light)",
+      "filename": "DG_Business_Card_Light.png",
+      "category": "Branding",
+      "canva_url": "https://www.canva.com/d/REPLACE_WITH_SHORTCODE"
+    },
+
+    {
+      "type": "appointment_card",
+      "variant": "dark",
+      "title": "Appointment Card",
+      "filename": "DG_Appointment_Card_Dark.png",
+      "category": "Branding",
+      "canva_url": "https://www.canva.com/d/REPLACE_WITH_SHORTCODE",
+      "_fields": "date, time, service, pet_name, notes"
+    },
+
+    {
+      "_comment": "--- OPERATIONS FORMS (A4) ---",
+      "type": "form_a4",
+      "title": "Pet Intake Form",
+      "filename": "DG_Pet_Intake_Form.png",
+      "category": "Operations",
+      "canva_url": "https://www.canva.com/d/REPLACE_WITH_SHORTCODE",
+      "form_title": "PET INTAKE FORM",
+      "rows": [
+        { "type": "section_header", "label": "Owner Information" },
+        { "type": "field_pair",   "labels": ["Owner Name", "Phone Number"] },
+        { "type": "field_pair",   "labels": ["Email Address", "Emergency Contact"] },
+        { "type": "field_single", "label": "Home Address", "height": 60 },
+        { "type": "section_header", "label": "Pet Information" },
+        { "type": "field_pair",   "labels": ["Pet Name", "Breed"] },
+        { "type": "field_pair",   "labels": ["Age", "Weight (kg)"] },
+        { "type": "field_pair",   "labels": ["Colour / Markings", "Microchip Number"] },
+        { "type": "section_header", "label": "Health & Behaviour" },
+        { "type": "field_pair",   "labels": ["Vet Name", "Vet Phone"] },
+        { "type": "checkbox_group", "label": "Known conditions:", "items": ["Skin allergies", "Hip problems", "Anxiety", "Aggression", "Heart condition", "Other"] },
+        { "type": "field_single", "label": "Medications / Special Notes", "height": 80 },
+        { "type": "section_header", "label": "Grooming Preferences" },
+        { "type": "field_pair",   "labels": ["Preferred Style", "Coat Length"] },
+        { "type": "checkbox_group", "label": "Services requested:", "items": ["Full groom", "Bath & dry", "Nail trim", "Ear clean", "Teeth clean", "De-shedding"] },
+        { "type": "field_single", "label": "Additional Notes", "height": 80 }
+      ]
+    },
+
+    {
+      "type": "form_a4",
+      "title": "Grooming Record Card",
+      "filename": "DG_Grooming_Record_Card.png",
+      "category": "Operations",
+      "canva_url": "https://www.canva.com/d/REPLACE_WITH_SHORTCODE",
+      "form_title": "GROOMING RECORD CARD",
+      "rows": [
+        { "type": "section_header", "label": "Pet Details" },
+        { "type": "field_pair",   "labels": ["Pet Name", "Owner Name"] },
+        { "type": "field_pair",   "labels": ["Breed", "Date of Birth"] },
+        { "type": "section_header", "label": "Visit Log" },
+        {
+          "type": "table",
+          "headers": ["Date", "Services", "Groomer", "Notes", "Price"],
+          "col_widths": [0.15, 0.30, 0.15, 0.25, 0.15],
+          "rows": 12
+        }
+      ]
+    },
+
+    {
+      "type": "invoice",
+      "title": "Invoice",
+      "filename": "DG_Invoice.png",
+      "category": "Operations",
+      "canva_url": "https://www.canva.com/d/REPLACE_WITH_SHORTCODE",
+      "line_items": [
+        "Full Groom",
+        "Bath & Blow Dry",
+        "Nail Trim",
+        "Ear Clean",
+        "Teeth Clean",
+        "De-shedding Treatment",
+        "Additional Services"
+      ]
+    },
+
+    {
+      "_comment": "--- MARKETING ---",
+      "type": "price_list",
+      "title": "Price List",
+      "filename": "DG_Price_List.png",
+      "category": "Marketing",
+      "canva_url": "https://www.canva.com/d/REPLACE_WITH_SHORTCODE",
+      "sections": [
+        {
+          "heading": "Small Breeds (under 10kg)",
+          "items": [
+            ["Full Groom",         "£35"],
+            ["Bath & Dry",         "£20"],
+            ["Nail Trim",          "£8"],
+            ["Ear Clean",          "£6"]
+          ]
+        },
+        {
+          "heading": "Medium Breeds (10–25kg)",
+          "items": [
+            ["Full Groom",         "£50"],
+            ["Bath & Dry",         "£30"],
+            ["Nail Trim",          "£10"],
+            ["Ear Clean",          "£8"]
+          ]
+        },
+        {
+          "heading": "Large Breeds (25kg+)",
+          "items": [
+            ["Full Groom",         "£65"],
+            ["Bath & Dry",         "£40"],
+            ["Nail Trim",          "£12"],
+            ["Ear Clean",          "£10"]
+          ]
+        },
+        {
+          "heading": "Add-ons",
+          "items": [
+            ["Teeth Clean",        "£8"],
+            ["De-shedding",        "£15"],
+            ["Puppy First Groom",  "£25"]
+          ]
+        }
+      ]
+    },
+
+    {
+      "type": "gift_certificate",
+      "title": "Gift Certificate",
+      "filename": "DG_Gift_Certificate.png",
+      "category": "Marketing",
+      "canva_url": "https://www.canva.com/d/REPLACE_WITH_SHORTCODE",
+      "headline": "Gift Certificate",
+      "subheadline": "Professional Dog Grooming",
+      "body": "This certificate entitles the bearer to a grooming treatment\nat YOUR GROOMING STUDIO",
+      "fields": ["Recipient", "Service", "Value", "Expiry Date", "Issued By"]
+    },
+
+    {
+      "type": "flyer_a4",
+      "title": "Promotional Flyer",
+      "filename": "DG_Promo_Flyer.png",
+      "category": "Marketing",
+      "canva_url": "https://www.canva.com/d/REPLACE_WITH_SHORTCODE",
+      "headline": "New Client Special",
+      "offer": "20% OFF\nYour First Groom",
+      "body": "Book your dog's first appointment and receive 20% off.\nMention this flyer when booking.",
+      "footer": "Valid for new clients only. One offer per pet. Cannot be combined with other promotions."
+    },
+
+    {
+      "_comment": "--- SIGNAGE ---",
+      "type": "welcome_sign",
+      "title": "Welcome Sign",
+      "filename": "DG_Welcome_Sign.png",
+      "category": "Signage",
+      "canva_url": "https://www.canva.com/d/REPLACE_WITH_SHORTCODE",
+      "headline": "Welcome!",
+      "subheadline": "Please let us know you've arrived",
+      "body": "We love all our furry clients.\nPlease keep your pet on a lead until called in.",
+      "contact_visible": true
+    },
+
+    {
+      "type": "opening_hours_sign",
+      "title": "Opening Hours Sign",
+      "filename": "DG_Opening_Hours.png",
+      "category": "Signage",
+      "canva_url": "https://www.canva.com/d/REPLACE_WITH_SHORTCODE",
+      "headline": "Opening Hours",
+      "hours": [
+        ["Monday",    "9:00 am – 5:00 pm"],
+        ["Tuesday",   "9:00 am – 5:00 pm"],
+        ["Wednesday", "9:00 am – 5:00 pm"],
+        ["Thursday",  "9:00 am – 5:00 pm"],
+        ["Friday",    "9:00 am – 5:00 pm"],
+        ["Saturday",  "10:00 am – 4:00 pm"],
+        ["Sunday",    "Closed"]
+      ]
+    },
+
+    {
+      "_comment": "--- SOCIAL MEDIA (1080×1080) ---",
+      "type": "social_1080",
+      "variant": "offer",
+      "title": "Social Post — New Client Offer",
+      "filename": "DG_Social_Offer.png",
+      "category": "Social Media",
+      "canva_url": "https://www.canva.com/d/REPLACE_WITH_SHORTCODE",
+      "headline": "New Client?",
+      "subheadline": "Get 20% off your first groom",
+      "cta": "Book now — link in bio"
+    },
+
+    {
+      "type": "social_1080",
+      "variant": "tip",
+      "title": "Social Post — Grooming Tip",
+      "filename": "DG_Social_Tip.png",
+      "category": "Social Media",
+      "canva_url": "https://www.canva.com/d/REPLACE_WITH_SHORTCODE",
+      "headline": "Grooming Tip",
+      "tip_number": "01",
+      "tip_text": "Brush your dog 3× a week to prevent matting and keep their coat healthy between grooms.",
+      "cta": "Follow for weekly grooming tips"
+    },
+
+    {
+      "type": "social_1080",
+      "variant": "review",
+      "title": "Social Post — 5-Star Review",
+      "filename": "DG_Social_Review.png",
+      "category": "Social Media",
+      "canva_url": "https://www.canva.com/d/REPLACE_WITH_SHORTCODE",
+      "review_text": "\"Absolutely amazing! My dog came out looking incredible and was so calm afterwards. Will definitely be back!\"",
+      "reviewer": "— Sarah M.",
+      "cta": "Book your dog's next groom"
+    },
+
+    {
+      "_comment": "--- LOYALTY & REFERRAL CARDS ---",
+      "type": "loyalty_card",
+      "title": "Loyalty Card",
+      "filename": "DG_Loyalty_Card.png",
+      "category": "Branding",
+      "canva_url": "https://www.canva.com/d/REPLACE_WITH_SHORTCODE",
+      "headline": "LOYALTY CARD",
+      "offer": "6th Groom FREE",
+      "stamp_count": 6
+    },
+
+    {
+      "type": "referral_card",
+      "title": "Referral Card",
+      "filename": "DG_Referral_Card.png",
+      "category": "Branding",
+      "canva_url": "https://www.canva.com/d/REPLACE_WITH_SHORTCODE",
+      "headline": "Refer a Friend",
+      "offer": "Both get £5 off",
+      "body": "Give this card to a friend. When they book their first groom, you both receive £5 off your next visit.",
+      "fields": ["Referred By", "Code"]
+    },
+
+    {
+      "type": "thank_you_card",
+      "title": "Thank You Card",
+      "filename": "DG_Thank_You_Card.png",
+      "category": "Branding",
+      "canva_url": "https://www.canva.com/d/REPLACE_WITH_SHORTCODE",
+      "headline": "Thank You!",
+      "body": "It was a pleasure grooming [pet name] today.\nWe hope to see you both again soon.",
+      "cta": "Leave us a review — it makes a huge difference!",
+      "contact_visible": true
+    },
+
+    {
+      "_comment": "--- FINANCE TRACKERS ---",
+      "type": "income_tracker",
+      "title": "Monthly Income Tracker",
+      "filename": "DG_Income_Tracker.png",
+      "category": "Finance",
+      "canva_url": "https://www.canva.com/d/REPLACE_WITH_SHORTCODE",
+      "month_col": true,
+      "extra_cols": ["Client / Pet", "Service", "Payment Method", "Amount (£)", "Notes"]
+    }
+  ],
+
+  "_template_types_reference": {
+    "business_card":        "1050×600px landscape. variant: dark or light.",
+    "appointment_card":     "1050×600px landscape. Fields: date, time, service, pet_name, notes.",
+    "loyalty_card":         "1050×600px landscape. stamp_count: number of stamps before reward.",
+    "referral_card":        "1050×600px landscape. offer + body + fields.",
+    "thank_you_card":       "1050×600px landscape. headline + body + cta.",
+    "gift_certificate":     "2550×1800px landscape. headline + body + fields list.",
+    "welcome_sign":         "2480×3508px A4 portrait. headline + body + optional contact.",
+    "opening_hours_sign":   "2480×3508px A4 portrait. hours: [[day, time], ...] array.",
+    "flyer_a4":             "2480×3508px A4 portrait. headline + offer + body + footer.",
+    "price_list":           "2480×3508px A4 portrait. sections: [{heading, items:[name,price]}].",
+    "form_a4":              "2480×3508px A4 portrait. rows: row-spec objects (see below).",
+    "invoice":              "2480×3508px A4 portrait. line_items: list of service name strings.",
+    "booking_confirmation": "2480×3508px A4 portrait. fields: list of field label strings.",
+    "social_1080":          "1080×1080px square. variant: offer|tip|review|announce.",
+    "certificate":          "2550×1800px landscape. headline + body + fields.",
+    "income_tracker":       "2480×3508px A4 portrait. extra_cols: column header strings.",
+    "expenses_tracker":     "2480×3508px A4 portrait. extra_cols: column header strings."
+  },
+
+  "_row_spec_reference": {
+    "section_header":  "{ type, label }  — Bold heading bar across full width",
+    "field_single":    "{ type, label, height? }  — One labelled field spanning full width",
+    "field_pair":      "{ type, labels: [left, right] }  — Two equal-width fields side by side",
+    "field_triple":    "{ type, labels: [a, b, c] }  — Three equal-width fields",
+    "checkbox_group":  "{ type, label, items: [...] }  — Label above a row of checkboxes",
+    "table":           "{ type, headers: [...], col_widths: [0.x, ...], rows: N }  — Lined table (widths must sum to 1.0)",
+    "text_block":      "{ type, text, height? }  — Free text / instructions paragraph",
+    "spacer":          "{ type, height }  — Blank vertical gap"
+  }
+}

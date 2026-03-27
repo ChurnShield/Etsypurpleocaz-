@@ -16,6 +16,44 @@ Every niche bundle follows the same structure. Document it once here; don't rein
 
 ---
 
+## PREFERRED METHOD — Use the Factory (3rd niche onwards)
+
+> **RULE (CLAUDE.md):** After 2 niches built with per-niche scripts, ALWAYS use the factory for new niches.
+
+```bash
+# Build a new niche from a JSON config — full pipeline in one command
+python3 scripts/niche_template_factory.py configs/niches/my_niche.json
+
+# Flags
+--skip-etsy    # Build PNGs + PDF only (no Etsy API calls)
+--only-pdf     # Rebuild delivery PDF only (templates already on Spaces)
+```
+
+**To add a new niche:**
+1. Copy `configs/niches/sample_niche.json` to `configs/niches/{slug}.json`
+2. Edit: palette, brand placeholders, icon type, Etsy copy, templates list
+3. Run the factory — it handles rendering, Spaces upload, delivery PDF, Etsy listing creation + activation
+4. Run `python scripts/verify_listing.py {listing_id} --bundle`
+
+**Config reference:** `configs/niches/sample_niche.json` — fully documented, shows every template type and every row spec type for `form_a4`.
+
+**Template types supported by factory:**
+`business_card`, `appointment_card`, `loyalty_card`, `referral_card`, `thank_you_card`,
+`gift_certificate`, `welcome_sign`, `opening_hours_sign`, `flyer_a4`, `price_list`,
+`form_a4`, `invoice`, `booking_confirmation`, `social_1080`, `certificate`, `income_tracker`, `expenses_tracker`
+
+**Row spec types for `form_a4`:**
+`section_header`, `field_single`, `field_pair`, `field_triple`, `checkbox_group`, `table`, `text_block`, `spacer`
+
+---
+
+## Legacy Method — Per-Niche Scripts (first 2 niches only)
+
+The pattern below documents how the first niches were built (barbershop, car detail, pet bundles).
+It remains valid for **patching or extending existing niches**. Do NOT use it to start a new niche.
+
+---
+
 ## The Pattern
 
 ```

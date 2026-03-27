@@ -5,6 +5,12 @@ Most recent first. Read this to repeat what works.
 
 ---
 
+### 2026-03-27 10:16 — Tattoo Business Card Listing #2 Published
+
+**Pattern:** Draft #4478348991 — exported 3 listing images from DAHD6ICQCWU, added 2 generic images from existing listing + Spaces canva_basics + please_note to reach 7-image Star Seller standard. Delivery PDF with /d/ shortlinks (dark: e21A6ZQJ3XcCIq-, light: vyaBAtIupW1g7zH). All 9 verify_listing.py checks passed. State: active. URL: https://www.etsy.com/listing/4478348991
+
+---
+
 ### 2026-03-23 21:59 — Car Detail Listing Images
 
 **Pattern:** Built 28 Etsy listing images (7 per listing x 4 listings) at 2000x2000px star-seller standard. Dark automotive brand aesthetic (#0D0D0D bg, #E02020 red accent, white text). All uploaded to DO Spaces + Etsy API. Each listing verified with GET: 7 images, ranks 1-7. Pipeline: car_detail_thumbnails.py (build+upload) + car_detail_upload_images.py (Etsy upload+verify).

@@ -45,6 +45,7 @@ If SOUL.md is missing from disk, stop immediately and tell Andy.
 - NEVER skip `logger.flush()` in finally blocks → Brain goes blind without it
 - NEVER use raw sqlite3 → ALWAYS use SQLiteClient from `lib/common_tools/sqlite_client.py`
 - NEVER write Etsy listing copy without reading `skills/stop-slop/SKILL.md` first → score must be 35/50+
+- NEVER build a 3rd niche using copy-paste-modify of existing scripts → After 2 niches use the same pattern, PROPOSE a factory/abstraction in PROPOSALS.md before building the 3rd. The pattern today: 5 niche builds used near-identical Pillow scripts when a JSON config + generic renderer (`scripts/niche_template_factory.py`) would have saved 80% of tokens. Use the factory.
 
 *All Etsy API rules → `.claude/rules/etsy.md`. All Canva rules → `.claude/rules/canva.md`. All infra/credentials → `.claude/rules/infra.md`.*
 

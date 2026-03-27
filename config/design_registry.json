@@ -843,6 +843,136 @@
           "title": "Barbershop - Aftercare Advice Card"
         }
       }
+    },
+    "dog_grooming": {
+      "_meta": {
+        "niche": "dog_grooming",
+        "registered": "2026-03-27",
+        "palette": {
+          "teal": "#0D5C63",
+          "gold": "#C9A96E",
+          "cream": "#F5F0E8",
+          "charcoal": "#1A1A1A",
+          "white": "#FFFFFF"
+        },
+        "canva_folder_id": "TBD",
+        "spaces_prefix": "templates/dog-grooming/",
+        "listing_id": "TBD",
+        "template_count": 33,
+        "categories": [
+          "branding",
+          "marketing",
+          "forms",
+          "operations"
+        ]
+      },
+      "branding": {
+        "business_card_dark": {
+          "spaces_key": "templates/dog-grooming/branding/DG_Business_Card_Dark.png"
+        },
+        "business_card_light": {
+          "spaces_key": "templates/dog-grooming/branding/DG_Business_Card_Light.png"
+        },
+        "appointment_card_dark": {
+          "spaces_key": "templates/dog-grooming/branding/DG_Appointment_Card_Dark.png"
+        },
+        "appointment_card_light": {
+          "spaces_key": "templates/dog-grooming/branding/DG_Appointment_Card_Light.png"
+        },
+        "loyalty_card": {
+          "spaces_key": "templates/dog-grooming/branding/DG_Loyalty_Card.png"
+        },
+        "gift_certificate": {
+          "spaces_key": "templates/dog-grooming/branding/DG_Gift_Certificate.png"
+        },
+        "welcome_sign": {
+          "spaces_key": "templates/dog-grooming/branding/DG_Welcome_Sign.png"
+        },
+        "thank_you_card": {
+          "spaces_key": "templates/dog-grooming/branding/DG_Thank_You_Card.png"
+        },
+        "referral_card": {
+          "spaces_key": "templates/dog-grooming/branding/DG_Referral_Card.png"
+        },
+        "opening_hours_sign": {
+          "spaces_key": "templates/dog-grooming/branding/DG_Opening_Hours_Sign.png"
+        }
+      },
+      "marketing": {
+        "flyer_promo": {
+          "spaces_key": "templates/dog-grooming/marketing/DG_Flyer_Services_Promo.png"
+        },
+        "flyer_new_client": {
+          "spaces_key": "templates/dog-grooming/marketing/DG_Flyer_New_Client.png"
+        },
+        "price_list": {
+          "spaces_key": "templates/dog-grooming/marketing/DG_Price_List.png"
+        },
+        "social_booking": {
+          "spaces_key": "templates/dog-grooming/marketing/DG_Social_Booking_Reminder.png"
+        },
+        "social_before_after": {
+          "spaces_key": "templates/dog-grooming/marketing/DG_Social_Before_After.png"
+        },
+        "social_tips": {
+          "spaces_key": "templates/dog-grooming/marketing/DG_Social_Grooming_Tips.png"
+        },
+        "social_testimonial": {
+          "spaces_key": "templates/dog-grooming/marketing/DG_Social_Testimonial.png"
+        },
+        "social_seasonal": {
+          "spaces_key": "templates/dog-grooming/marketing/DG_Social_Seasonal_Promo.png"
+        }
+      },
+      "forms": {
+        "client_consent": {
+          "spaces_key": "templates/dog-grooming/forms/DG_Client_Consent_Form.png"
+        },
+        "health_assessment": {
+          "spaces_key": "templates/dog-grooming/forms/DG_PreGroom_Health_Assessment.png"
+        },
+        "pet_intake": {
+          "spaces_key": "templates/dog-grooming/forms/DG_Pet_Intake_Form.png"
+        },
+        "grooming_record": {
+          "spaces_key": "templates/dog-grooming/forms/DG_Grooming_Record_Card.png"
+        },
+        "matting_consent": {
+          "spaces_key": "templates/dog-grooming/forms/DG_Matting_Consent.png"
+        },
+        "photo_release": {
+          "spaces_key": "templates/dog-grooming/forms/DG_Photo_Video_Release.png"
+        },
+        "cancellation_policy": {
+          "spaces_key": "templates/dog-grooming/forms/DG_Cancellation_Policy.png"
+        },
+        "invoice": {
+          "spaces_key": "templates/dog-grooming/forms/DG_Invoice.png"
+        },
+        "booking_confirmation": {
+          "spaces_key": "templates/dog-grooming/forms/DG_Booking_Confirmation.png"
+        }
+      },
+      "operations": {
+        "daily_schedule": {
+          "spaces_key": "templates/dog-grooming/operations/DG_Daily_Schedule.png"
+        },
+        "cleaning_checklist": {
+          "spaces_key": "templates/dog-grooming/operations/DG_Cleaning_Checklist.png"
+        },
+        "tool_sanitisation_log": {
+          "spaces_key": "templates/dog-grooming/operations/DG_Tool_Sanitisation_Log.png"
+        },
+        "flea_policy": {
+          "spaces_key": "templates/dog-grooming/operations/DG_Flea_Policy.png"
+        },
+        "expenses_tracker": {
+          "spaces_key": "templates/dog-grooming/operations/DG_Expenses_Tracker.png"
+        },
+        "income_tracker": {
+          "spaces_key": "templates/dog-grooming/operations/DG_Income_Tracker.png"
+        }
+      }
     }
   },
   "generic_listing_pages": {

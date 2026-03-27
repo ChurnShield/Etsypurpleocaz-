@@ -33,9 +33,10 @@ python3 scripts/niche_template_factory.py configs/niches/my_niche.json
 1. Copy `configs/niches/sample_niche.json` to `configs/niches/{slug}.json`
 2. Edit: palette, brand placeholders, icon type, Etsy copy, templates list
 3. Run the factory — it handles rendering, Spaces upload, delivery PDF, Etsy listing creation + activation
-4. Run `python scripts/verify_listing.py {listing_id} --bundle`
-5. Run `python scripts/evaluate_listing.py {listing_id}` — duplicate detection, hero quality, variant coverage
-6. Both must pass before the listing is considered done
+4. **Build the hero with hero_pipeline_v3.py** (see below) — review Spaces URL before pushing to Etsy
+5. Run `python scripts/verify_listing.py {listing_id} --bundle`
+6. Run `python scripts/evaluate_listing.py {listing_id}` — duplicate detection, hero quality, variant coverage
+7. Both must pass before the listing is considered done
 
 **Config reference:** `configs/niches/sample_niche.json` — fully documented, shows every template type and every row spec type for `form_a4`.
 
@@ -46,6 +47,40 @@ python3 scripts/niche_template_factory.py configs/niches/my_niche.json
 
 **Row spec types for `form_a4`:**
 `section_header`, `field_single`, `field_pair`, `field_triple`, `checkbox_group`, `table`, `text_block`, `spacer`
+
+---
+
+## Hero Image — hero_pipeline_v3.py (preferred hero builder)
+
+Replaces flat fan composites with device mockups + perspective printed cards.
+
+```bash
+python3 scripts/hero_pipeline_v3.py \
+    --niche dog_grooming \
+    --templates-dir outputs/dog-grooming/ \
+    --output outputs/dog-grooming/listing/hero_v3.png \
+    --accent "13,92,99" \
+    --price "£39.99"
+# Add --listing-id 4478726787 to also replace rank 1 on Etsy (prompts confirmation)
+# Add --skip-ideogram to reuse cached /tmp/hero_bg_{niche}.png (saves API call)
+```
+
+**Layers (back to front):**
+1. Ideogram lifestyle background (auto-cached to `/tmp/hero_bg_{niche}.png`)
+2. iPad frame (dark bezel, rounded corners) — price list / A4 form on screen, rotated -6°
+3. Phone frame (dark bezel, dynamic island) — social post on screen, rotated +10°
+4. 3 business cards with perspective transform — physical-print look, contact shadows
+5. Dark gradient (280px) fading into solid accent-colour banner (210px)
+6. Title: "{count} Professional Canva Templates" — subtitle — price badge
+
+**Template auto-selection** (from `--templates-dir`):
+- iPad:  portrait PNGs (ratio < 0.80) — prefers price_list, invoice, forms
+- Phone: square PNGs (ratio 0.88–1.12) — prefers social post variants
+- Cards: landscape PNGs (ratio > 1.20) — prefers business_card, appointment, loyalty
+
+**Layout constants** live in `LAYOUT` dict — adjust there without touching compositing logic.
+
+**Built-in niche prompts:** dog_grooming, dog_walking, dog_training, pet_photography, car_detail, tattoo, barbershop, generic. Add new prompts to `NICHE_PROMPTS` dict.
 
 ---
 

@@ -1,0 +1,54 @@
+# PurpleOcaz Skill Library
+# Catalog of all skills for this project.
+# Pattern: github.com/disler/the-library
+# Source repo: github.com/ChurnShield/Etsypurpleocaz-
+#
+# This file is a catalog — it points to skills, never contains content.
+# To use a skill: load its SKILL.md into context.
+# To add a skill: add an entry here and create the SKILL.md at the source path.
+
+default_dirs:
+  skills:
+    - default: .claude/skills/
+    - global: ~/.claude/skills/
+
+library:
+  skills:
+    - name: purpleocaz-pipeline
+      description: "Etsy listing pipeline — entry point for all listing work. Pre-publish
+                    checklist, gotchas, and verify command."
+      source: /root/NEW-AI-PROJECT/.claude/skills/purpleocaz-pipeline/SKILL.md
+      requires:
+        - skill:canva-mcp
+
+    - name: canva-mcp
+      description: "Canva MCP workflows — export pages, hero thumbnail pipeline,
+                    new design creation, and delivery PDF assembly."
+      source: /root/NEW-AI-PROJECT/.claude/skills/canva-mcp/SKILL.md
+
+    - name: etsy-forms-bundle
+      description: "Tattoo client forms bundle — 8-form PDF build, Ideogram+Pillow
+                    fan composite hero, listing images, Etsy publish."
+      source: /root/NEW-AI-PROJECT/.claude/skills/etsy-forms-bundle/SKILL.md
+      requires:
+        - skill:purpleocaz-pipeline
+
+    - name: pdf-bundle
+      description: "Tattoo PDF form generation with reportlab — palette, layout
+                    conventions, typography, form structure, run command."
+      source: /root/NEW-AI-PROJECT/.claude/skills/pdf-bundle/SKILL.md
+
+    - name: stop-slop
+      description: "Remove AI writing patterns from prose. Score listing copy 35/50+
+                    before publishing. External skill by Hardik Pandya."
+      source: /root/NEW-AI-PROJECT/skills/stop-slop/SKILL.md
+
+    - name: tool-creator
+      description: "Create new BaseTool / BaseValidator files following project
+                    conventions. Includes required structure and post-creation steps."
+      source: /root/NEW-AI-PROJECT/.claude/skills/tool-creator/SKILL.md
+
+    - name: workflow-runner
+      description: "Run and debug orchestrated pipeline workflows. Covers execution
+                    protocol, failure diagnosis, and phase order."
+      source: /root/NEW-AI-PROJECT/.claude/skills/workflow-runner/SKILL.md

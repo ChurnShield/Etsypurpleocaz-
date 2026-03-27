@@ -1,5 +1,5 @@
 # CLAUDE.md — PurpleOcaz AI Brain
-## Last updated: 2026-03-24
+## Last updated: 2026-03-27
 
 ---
 
@@ -34,32 +34,6 @@ If SOUL.md is missing from disk, stop immediately and tell Andy.
 - NEVER mark a task done without API confirmation → ALWAYS run GET after every POST and show the response
 - NEVER assume an upload worked from the POST response alone → ALWAYS verify with a separate GET call
 
-### Etsy API
-
-- NEVER use PUT on Etsy listings → ALWAYS use PATCH for listing updates (PUT returns 404)
-- NEVER set Etsy price via PATCH on any listing → ALWAYS set price at creation time, or use PUT /listings/{id}/inventory to change later
-- NEVER use tags over 20 characters on Etsy → ALWAYS validate tag length before submitting (API returns 400)
-- NEVER submit duplicate Etsy tags → ALWAYS check for duplicates before posting (API returns 400)
-- NEVER try to clone/copy an Etsy listing → no clone endpoint exists in Etsy v3 API
-- NEVER delete the last image on an active listing → ALWAYS upload the replacement first, then delete the old one
-
-### Canva
-
-- NEVER upload to Canva using Canva export URLs — they expire → ALWAYS upload via DO Spaces public URL
-- NEVER run more than one operation per Canva transaction → ALWAYS one operation, commit, then next operation
-- NEVER use `/design/.../edit` links in delivery PDFs → ALWAYS use `/d/{shortcode}` links only (edit links expose master designs)
-- NEVER use `update_fill` on shape elements → it only works on image/video containers (shapes return "does not contain an editable fill")
-- NEVER use `generate-design` for custom branded listing images → it ignores colour instructions and defaults to blue. Only useful as aesthetic base for card-type designs
-- NEVER try to insert new text elements via Canva API → only `insert_fill` for images/videos exists. Plan around existing text elements
-- NEVER use Canva REST editing API endpoints directly (`/designs/{id}/editing_sessions`) → they return 404. Use MCP tools only
-- NEVER export Canva designs at a width that doesn't match aspect ratio → causes black borders/letterboxing. Omit width for native dimensions
-
-### DO Spaces
-
-- NEVER load DO Spaces credentials from `NEW-AI-PROJECT/.env` → ALWAYS load from `purpleocaz-canva-mcp/.env` (that's where the keys live)
-- NEVER upload to Spaces without ACL → ALWAYS include `ACL='public-read'` in every `s3.put_object()` call
-- NEVER use Spaces URLs that are permanent as if they expire → Spaces URLs are permanent. Canva export URLs expire. Never mix them up.
-
 ### Git & Security
 
 - NEVER commit .env files or token files to GitHub → ALWAYS check .gitignore before committing
@@ -72,6 +46,8 @@ If SOUL.md is missing from disk, stop immediately and tell Andy.
 - NEVER use raw sqlite3 → ALWAYS use SQLiteClient from `lib/common_tools/sqlite_client.py`
 - NEVER write Etsy listing copy without reading `skills/stop-slop/SKILL.md` first → score must be 35/50+
 
+*All Etsy API rules → `.claude/rules/etsy.md`. All Canva rules → `.claude/rules/canva.md`. All infra/credentials → `.claude/rules/infra.md`.*
+
 ---
 
 ## VERIFICATION RULES
@@ -81,14 +57,14 @@ After EVERY action, verify it worked. Show the proof. Never assume.
 **After Etsy image upload:**
 ```bash
 curl -s "https://openapi.etsy.com/v3/application/listings/{ID}/images" \
-  -H "x-api-key: 19d2q2xcg1ccipoj4doub0ee"
+  -H "x-api-key: 19d2q2xcg1ccipoj4doub0ee:rj7ou7mzjq"
 ```
 Count the images. Show the count. Only continue if count matches expected.
 
 **After Etsy file upload:**
 ```bash
 curl -s "https://openapi.etsy.com/v3/application/shops/34071205/listings/{ID}/files" \
-  -H "x-api-key: 19d2q2xcg1ccipoj4doub0ee"
+  -H "x-api-key: 19d2q2xcg1ccipoj4doub0ee:rj7ou7mzjq"
 ```
 Show filename and file_id. Only continue if file is present.
 
@@ -157,60 +133,16 @@ This appends the successful pattern to WINS.md so we repeat what works.
 
 ---
 
-## THE STAR SELLER STANDARD
-
-Every Etsy listing must have 7 images minimum before being published:
-
-| Rank | Image | Purpose |
-|------|-------|---------|
-| 1 | Hero | Stops the scroll |
-| 2 | What's Inside | Removes doubt |
-| 3 | Lifestyle Mockup | Builds desire |
-| 4 | How It Works | Removes friction |
-| 5 | Why Buy This | Justifies purchase |
-| 6 | Canva Basics | Handles objections |
-| 7 | Please Note | Builds trust |
-
-A listing with fewer than 7 images is NOT ready to publish.
-A listing with a weak hero image is NOT ready to publish.
-
----
-
-## KEY CREDENTIALS AND IDs
-
-| Item | Value |
-|------|-------|
-| Shop ID | `34071205` |
-| Etsy API Key | `19d2q2xcg1ccipoj4doub0ee` |
-| Canva Client ID | `OC-AZyAz47KwCUv` |
-| DO Spaces bucket | `purpleocaz-assets.lon1.digitaloceanspaces.com` |
-| Droplet IP | `167.99.90.58` |
-| Project root | `/root/NEW-AI-PROJECT/` |
-| Etsy tokens | `workflows/etsy_analytics/etsy_tokens.json` |
-| Canva tokens | `workflows/auto_listing_creator/canva_tokens.json` |
-| DO Spaces creds | `purpleocaz-canva-mcp/.env` |
-
-**Canva Folders:**
-
-| Folder | ID |
-|--------|----|
-| PurpleOcaz root | `FAHENpMANrQ` |
-| Tattoo Masters | `FAHENuO2Vkc` |
-| Listing Templates | `FAHENvJko1A` |
-| Thumbnails Hero | `FAHENqKrgvk` |
-| Car Detail | `FAFN0i-UFTI` |
-
----
-
 ## RULES (auto-loaded by Claude Code)
 
 | File | Scope |
 |------|-------|
-| `.claude/rules/pipeline.md` | Listing pipeline: image sources, hero thumbnails, design flow |
-| `.claude/rules/canva.md` | Canva MCP: delivery links, folder IDs, element limits, gotchas |
-| `.claude/rules/etsy.md` | Etsy API: tags, pricing, auth, verification |
+| `.claude/rules/pipeline.md` | Listing pipeline: image sources, hero thumbnails, star seller standard |
+| `.claude/rules/canva.md` | Canva MCP: delivery links, folder IDs, element limits, design IDs, colour palettes |
+| `.claude/rules/etsy.md` | Etsy API: tags, pricing, auth, verification, standard listing spec |
+| `.claude/rules/infra.md` | Infrastructure: credentials, Spaces, server, env files, token paths |
 | `.claude/rules/database.md` | SQLiteClient access, schema rules |
-| `.claude/rules/security.md` | Credentials, protected files, Brain safety |
+| `.claude/rules/security.md` | Protected files, Brain safety |
 | `.claude/rules/testing.md` | pytest conventions, mocking, coverage |
 | `.claude/rules/tool-conventions.md` | BaseTool / BaseValidator contracts |
 
@@ -259,7 +191,7 @@ Crontab is on the VPS. Edit with `crontab -e`. Logs go to `logs/`.
 ## EMERGENCY PROCEDURES
 
 - **Etsy 401/403**: Check key format (`keystring:shared_secret`) or re-run OAuth. Token file: `workflows/etsy_analytics/etsy_tokens.json`
-- **No logs after run**: Missing `logger.flush()` in finally → see 02-orchestrator.md
+- **No logs after run**: Missing `logger.flush()` in finally → see tool-conventions.md
 - **Database corruption**: `python scripts/init_db.py` (WARNING: loses data)
 - **Import errors**: Check `__init__.py` and sys.path
 - **Cron jobs not running**: `crontab -l` to verify, check `logs/` for output

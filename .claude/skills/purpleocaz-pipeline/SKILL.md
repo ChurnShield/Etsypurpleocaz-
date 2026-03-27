@@ -4,99 +4,74 @@ description: "PurpleOcaz Etsy listing pipeline: Canva design, image sourcing, Et
               publishing, and verification. Loads automatically for all listing,
               design, and publishing work. Contains every production failure as a gotcha."
 user-invocable: false
+requires:
+  - rules/etsy.md
+  - rules/canva.md
+  - rules/pipeline.md
+  - rules/infra.md
 ---
 
 # PurpleOcaz Pipeline
 
-Complete reference for building and publishing Etsy digital product listings.
-Read `.claude/rules/etsy.md`, `.claude/rules/canva.md`, and `.claude/rules/pipeline.md`
-for the full rule sets. This skill is the summary + gotchas layer on top.
+Entry point for all listing work. Rules live in `.claude/rules/` — this skill contains the pre-publish checklist and the gotchas not already captured in rules.
 
 ---
 
-## Quick Reference
+## Pre-Publish Checklist
 
-### Standard Listing Spec
-| Field | Value |
-|-------|-------|
-| Price | £2.99 (set at creation, not patchable on drafts) |
-| Quantity | 999 |
-| who_made | `i_did` |
-| when_made | `2020_2025` |
-| taxonomy_id | `1874` |
-| type | `download` |
-| Tags | 13 tags, each max 20 chars, no duplicates |
+Run through this before every Etsy listing create, update, or activate call.
 
-### Standard Images (3 per listing)
-| Rank | Source | What |
-|------|--------|------|
-| 1 | `DAHDc0gyebE` p1 | Hero thumbnail (product-specific) |
-| 2 | `DAFx_dsWpTA` p3 | Canva Basics (reusable) |
-| 3 | `DAFx_dsWpTA` p5 | Please Note (reusable) |
+**Copy**
+- [ ] Read `skills/stop-slop/SKILL.md` and score the listing copy — must be 35/50+
+- [ ] If exact copy was provided, use it VERBATIM — never rewrite
 
-### Canva Folder IDs
-| Folder | ID |
-|--------|----|
-| Root | `FAHENpMANrQ` |
-| Tattoo Masters | `FAHENuO2Vkc` |
-| Listing Templates | `FAHENvJko1A` |
-| Thumbnails / Hero | `FAHENqKrgvk` |
+**Tags** (see `rules/etsy.md` for full rules)
+- [ ] Exactly 13 tags
+- [ ] Every tag ≤ 20 characters
+- [ ] No duplicate tags (case-insensitive)
 
-### Delivery Links
-- YES: `https://www.canva.com/d/{shortcode}`
-- NO: `https://www.canva.com/design/{id}/view` or `/edit`
+**Fields** (see `rules/etsy.md` for standard spec)
+- [ ] Price set at creation time (not patchable on drafts)
+- [ ] `who_made: i_did`, `when_made: 2020_2025`, `taxonomy_id: 1874`, `type: download`
+
+**Images** (see `rules/pipeline.md` for star seller standard)
+- [ ] 7 images minimum, ranks 1–7 populated
+- [ ] Hero shows ALL product items — no subset for bundles
+- [ ] Canva Basics (DAFx_dsWpTA p3) at rank 6
+- [ ] Please Note (DAFx_dsWpTA p5) at rank 7
+
+**Delivery PDF**
+- [ ] PDF attached
+- [ ] All Canva links use `/d/{shortcode}` format — click-verified
+
+**Post-publish**
+- [ ] Run `python scripts/verify_listing.py {listing_id}`
+- [ ] GET images — confirm count and rank order
+- [ ] GET files — confirm PDF attached
 
 ---
 
-## Gotchas — Production Failures
+## Gotchas Not Already in Rules
 
-Every item below caused a real failure. Do not repeat them.
+These caused real failures and aren't captured elsewhere:
 
-### Etsy API
-
-1. **PUT returns 404.** Always PATCH for listing updates.
-2. **Price on drafts is immutable via API.** Set at creation. Dashboard only after.
-3. **Tags > 20 chars = 400.** Validate every tag length before submission.
-4. **Duplicate tags = 400.** Deduplicate the list.
-5. **No clone endpoint.** `copy_listing` does not exist.
-6. **Never report success without GET confirmation.** POST response is not proof.
-7. **Token expires mid-upload.** Loop handles 401 auto-refresh — don't abort.
-
-### Canva MCP
-
-8. **`update_fill` on shapes fails.** "Does not contain an editable fill." Image/video containers only.
-9. **`insert_fill` z-order uncontrollable.** Always on top, covers text. Export + post-process instead.
-10. **`update_fill` crop/zoom uncontrollable.** Verify visually after every swap.
-11. **Curved text is permanent.** Baked into container. Can't straighten by replacing text.
-12. **Cannot insert text elements.** Only `insert_fill` for images/videos.
-13. **`generate-design` = personal business cards only.** Generate for aesthetic, restyle for function.
-14. **No clone/duplicate design tool.** Generate fresh or manual copy in UI.
-15. **`replace_text` grouped elements: use 3-segment IDs.** `page-group-element` from richtexts. 2-segment = "not_found."
-16. **No search-templates or search-elements tool.** Don't promise what doesn't exist.
-17. **Preview URLs auth-gated.** `design.canva.ai/*` → 403. Use `get-design-thumbnail`.
-18. **One transaction per change, commit before next.** Prevents cascading failures.
-19. **Asset upload is binary.** `application/octet-stream` + base64 metadata header. Not JSON. Name max 50 chars.
-20. **Export width must match aspect ratio.** Wrong width = black borders.
-21. **REST editing API (`/designs/{id}/editing_sessions`) = 404.** Use MCP tools only.
-22. **After `replace_text`, always `format_text`.** Repurposed headings inherit large font size → overflow.
-
-### Design & Pipeline
-
-23. **Don't synthesize shadows.** Pillow/Sharp compositing always looks fake. Use Canva template flatlay.
-24. **Audit element count before planning.** Count text elements vs required fields. Flag gaps immediately.
-25. **Register design IDs in `config/design_registry.json` immediately.** Unregistered IDs lost on crash.
-26. **Export to Spaces CDN for review before editing.** Prevents wasted edit cycles on rejected designs.
-27. **Canva export defaults to tiny 336x192.** Specify `format.width: 2100` (or 3000) for full resolution.
-28. **Export response shape is `job.urls[0]`** (plain string). Not `job.result.urls[0].url`.
-29. **Canva `update_fill` visual verify required.** API success doesn't mean it looks right — internal crop may differ.
+1. **Etsy GET images uses a different endpoint prefix than POST.** GET is `/listings/{id}/images` (no shops prefix). POST upload and PATCH activate use `/shops/{shop_id}/listings/{id}/...`.
+2. **Images from a previous session may be gone.** Always verify image state on session start — don't assume prior work survived.
+3. **`when_made` requires `who_made` and `is_supply` in the same PATCH call** or the API returns 400.
+4. **Canva export URL in delivery PDFs.** Export URLs expire. Only Spaces CDN URLs are permanent. Always upload to Spaces before using in a PDF.
+5. **Hero images for bundles must show ALL items.** A forms bundle of 8 shows 8 pages — not 4. Etsy buyers make decisions on thumbnail alone.
+6. **After any image swap, verify all ranks still exist.** Deleting rank 1 can shift remaining ranks or leave gaps.
 
 ---
 
 ## Verification
 
-After every listing build, run:
+After every listing build:
+
 ```bash
 python scripts/verify_listing.py {listing_id}
 ```
 
-Checks: image count/ranks, PDF attached, tag lengths, price, state, PDF link format.
+Use `--bundle` flag for non-standard pricing (skips £2.99 check).
+
+Checks: image count/ranks, PDF attached, tag lengths, tag duplicates, price, state, PDF link format.

@@ -2,11 +2,15 @@
 name: tool-creator
 description: "Creates new tools and validators following project conventions. Use when
               adding a new tool, validator, or extending an existing workflow with new steps."
+requires:
+  - rules/tool-conventions.md
 ---
 
-## Tool Creation Protocol
+# Tool Creation Protocol
 
-When creating a new tool:
+All BaseTool / BaseValidator contracts and the `logger.flush()` rule are in `.claude/rules/tool-conventions.md`. This skill contains only the creation steps.
+
+## Steps
 
 1. Read `docs/architecture/03-tool-patterns.md` for the full pattern
 2. Read `lib/orchestrator/base_tool.py` to understand the ABC contract
@@ -27,7 +31,6 @@ class MyNewTool(BaseTool):
     def execute(self, **kwargs):
         logger = ExecutionLogger(workflow="workflow_name", tool="my_new_tool")
         try:
-            # Tool logic here
             result = self._do_work(**kwargs)
             logger.log_success(metadata={"key": "value"})
             return {
@@ -47,15 +50,16 @@ class MyNewTool(BaseTool):
                 "metadata": {}
             }
         finally:
-            logger.flush()  # NEVER skip this
+            logger.flush()  # NEVER skip — see rules/tool-conventions.md
 ```
 
 ## Validator Creation
 
-Follow `docs/architecture/04-validator-patterns.md` and extend `BaseValidator`.
+Extend `BaseValidator` per `docs/architecture/04-validator-patterns.md`.
 Return: `{passed, issues, needs_more, validator_name, metadata}`
 
 ## After Creation
-- Add a test file in `tests/test_{tool_name}.py`
+
+- Add test file in `tests/test_{tool_name}.py`
 - Run `pytest tests/ -v` to verify
 - Wire the tool into the workflow's phase configuration

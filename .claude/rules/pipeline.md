@@ -23,14 +23,6 @@
 8. **Post-export**: Sharp pixel swap — brightness < 180 below y=82% → black #000000
 9. Upload to Spaces + Etsy as rank 1 image
 
-## Design Creation Pattern
-
-1. `generate-design` with detailed aesthetic prompt (colors, style, illustration type)
-2. Save candidate → export to Spaces CDN → Andy reviews on phone
-3. If approved: `start-editing-transaction` → `replace_text` → `format_text` + `resize_element` + `position_element` → commit
-4. One transaction per page, commit between
-5. Export final PNGs to Spaces, register in `config/design_registry.json`
-
 ## Pipeline Flow
 
 ```
@@ -64,13 +56,20 @@ On session start: check GitHub commits, Canva folders, and Etsy drafts API to au
 
 Register design IDs in `config/design_registry.json` immediately after creation. Unregistered IDs are lost if a session crashes.
 
-## Proven Design IDs
+## Star Seller Standard — 7 Images Minimum
 
-| Design | ID | Purpose |
-|--------|----|---------|
-| Dark business card | `DAHD07F9MsY` | page 1 |
-| Light business card | `DAHD15IcxRs` | page 1 |
-| Dark appointment card | `DAHENCEJGjk` | black/gold/botanical |
-| Light appointment card | `DAHENKnCBoM` | cream/charcoal/gold/botanical |
-| Hero thumbnail template | `DAHDc0gyebE` | flatlay with natural shadows |
-| Listing pages (5-page) | `DAFx_dsWpTA` | generic pages for all listings |
+Every listing must have 7 images before publishing. A listing with fewer is NOT ready to publish.
+
+| Rank | Image | Purpose |
+|------|-------|---------|
+| 1 | Hero | Stops the scroll |
+| 2 | What's Inside | Removes doubt |
+| 3 | Lifestyle Mockup | Builds desire |
+| 4 | How It Works | Removes friction |
+| 5 | Why Buy This | Justifies purchase |
+| 6 | Canva Basics | Handles objections |
+| 7 | Please Note | Builds trust |
+
+A listing with a weak hero image is also NOT ready to publish.
+
+See `rules/canva.md` for proven design IDs.

@@ -51,3 +51,35 @@ Rules learned from production. Every one caused a real failure.
 ## Shadows
 - Never synthesize shadows programmatically (Pillow/Sharp). Always looks fake.
 - Use Canva templates with built-in flatlay shadows. The template IS the shadow system.
+
+## Tattoo Niche Colour Palette
+
+| Token | Hex | Usage |
+|-------|-----|-------|
+| Dark / Text | `#1A1A1A` | Headlines, body copy, dark card backgrounds |
+| Gold accent | `#C9A96E` | Borders, foil details, decorative elements |
+| Background | `#FFFFFF` | Card backgrounds, listing image backgrounds |
+| Cream alt | `#F5F0EB` | Light card variant backgrounds |
+| Full black | `#000000` | Full-black card variant, post-processed banner |
+
+Tattoo forms sub-palette (oxblood/gold):
+- Oxblood `#8B1A1A` — headers, section titles, accent bars
+- Gold `#C9A96E` — dividers, footers, accents
+- Charcoal `#1A1A1A` — body text
+- Cream `#F5F0E8` — page backgrounds
+
+Never introduce colours outside the niche palette without Andy's approval.
+
+## Proven Design IDs
+
+| Design | ID | Pages | Notes |
+|--------|----|-------|-------|
+| Dark business card | `DAHD07F9MsY` | 1 | Black/gold |
+| Light business card | `DAHD15IcxRs` | 1 | White/gold |
+| Dark appointment card | `DAHENCEJGjk` | 2 | Black/gold/botanical |
+| Light appointment card | `DAHENKnCBoM` | 2 | Cream/charcoal/gold/botanical |
+| Hero thumbnail template | `DAHDc0gyebE` | 1 | Flatlay with natural shadows — do not modify base |
+| Generic listing pages | `DAFx_dsWpTA` | 5 | Only pages 3 and 5 are reusable |
+
+Full element IDs and asset IDs are in `config/design_registry.json`. Read it before editing any design.
+Never create a new template when a proven design already covers the use case.

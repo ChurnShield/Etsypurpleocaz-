@@ -165,7 +165,7 @@ def check_hero_quality(images: list, result: EvalResult):
         result.ok("Hero dimensions", f"{w}×{h}px")
 
     # Text-only detection: count pixels near pure black or pure white
-    pixels = img.getdata()
+    pixels = list(img.getdata())
     total = len(pixels)
     mono = sum(
         1 for r, g, b in pixels
@@ -190,7 +190,7 @@ def check_variant_coverage(images: list, result: EvalResult):
         rank = img_meta.get("rank", "?")
         try:
             img = _fetch_image(url).resize((64, 64))  # thumbnail for speed
-            pixels = list(img.getdata())
+            pixels = list(img.getdata())  # noqa: PIL compat
             avg = sum(r + g + b for r, g, b in pixels) / (len(pixels) * 3)
             if avg < PALETTE_DARK_CUTOFF:
                 dark_count += 1

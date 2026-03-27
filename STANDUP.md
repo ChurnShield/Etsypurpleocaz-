@@ -6,6 +6,20 @@ Most recent first.
 
 ## 2026-03-27
 
+### Dog Grooming Mega Bundle — DRAFT LISTING CREATED #4478726787
+
+- **Draft listing #4478726787** — https://www.etsy.com/listing/4478726787
+- 33+ Canva templates across 6 categories (branding, marketing, forms, operations, social, print)
+- 7 listing images uploaded (ranks 1–7), all verified via GET
+- Delivery PDF attached: DG_Mega_Bundle_DELIVERY.pdf (18.8 KB)
+- Price: £39.99 | Tags: 13 valid | State: draft (pending activation)
+- verify_listing.py: 8/9 PASSED (price check is false positive — mega bundle at £39.99, not £2.99)
+- Bug fixed: publish script now uses `listing_file_id` not `file_id` for file verification print
+
+**Next for this listing:**
+1. Activate: PATCH state=active
+2. Update STANDUP once live
+
 ### Car Detailing Mega Bundle — UPGRADED to 53 templates, £39.99
 
 - **Listing #4476909005 updated** — https://www.etsy.com/listing/4476909005

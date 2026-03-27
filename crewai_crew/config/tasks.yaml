@@ -1,0 +1,83 @@
+plan_niche:
+  description: >
+    Create a production-ready niche JSON config for: {niche_name}
+
+    STEP 1 — Read the sample config:
+    Use the read_file tool on 'configs/niches/sample_niche.json'.
+    Study the exact JSON structure, all field names, and all template type examples.
+
+    STEP 2 — Design the niche config:
+    Create a complete config for "{niche_name}" following this checklist:
+    - slug: lowercase, hyphens only (e.g. "nail-tech")
+    - Etsy title: under 140 chars, includes niche name + "Canva Templates" + key use case
+    - Etsy description: 200-300 words, bullet list of templates, 4 trust badges at end
+    - 13 tags: EVERY tag must be ≤20 chars, no duplicates, no 4-word tags
+    - price: 39.99
+    - palette: 4-5 colours that match the niche aesthetic (NOT generic)
+    - brand placeholders: professional, niche-specific (e.g. "YOUR NAIL STUDIO")
+    - icon: choose from paw, scissors, camera, flower, star, heart, none
+    - Minimum 30 templates covering ALL 4 categories:
+        Branding: business_card (dark+light), appointment_card, loyalty_card,
+                  referral_card, thank_you_card, gift_certificate, welcome_sign,
+                  opening_hours_sign
+        Marketing: price_list, flyer_a4 (x2), social_1080 (x5)
+        Forms: form_a4 (intake + consent), invoice, booking_confirmation
+        Operations: income_tracker, expenses_tracker + 1-2 niche-specific forms
+
+    STEP 3 — Tag validation (MANDATORY before writing):
+    List every tag and its character count. Mark any over 20 chars.
+    Replace any that exceed 20 chars before proceeding.
+    Common failures: "canva templates" (15 ✓), "business bundle" (15 ✓),
+    "digital download" (16 ✓), but "nail technician kit" (19 ✓ just passes),
+    "nail technician forms" (21 ✗ — too long).
+
+    STEP 4 — Write the config:
+    Use write_file to save to 'configs/niches/{slug}.json'.
+    The JSON must be valid (no trailing commas, no comments in the final file).
+
+  expected_output: >
+    The absolute path to the written config file, e.g.:
+    /root/NEW-AI-PROJECT/configs/niches/nail-tech.json
+    Plus a brief summary: niche name, slug, template count, tag validation results.
+
+  agent: planner
+
+build_listing:
+  description: >
+    Execute the full build pipeline using the config from the Planner.
+
+    The Planner's output contains the config file path. Use that path for all tool calls.
+
+    STEP 1 — Run factory:
+    Call run_template_factory with the config path from the previous task.
+    Parse "LISTING ID: <number>" from the output. Store this ID — you need it for every
+    subsequent step. If exit code is not 0, stop and report the error.
+
+    STEP 2 — Build hero image:
+    Call run_hero_pipeline with the config path and the listing ID from Step 1.
+    If exit code is not 0, report the error but continue to verification.
+
+    STEP 3 — Verify listing:
+    Call run_verify with the listing ID. Record PASS or FAIL.
+
+    STEP 4 — Evaluate listing:
+    Call run_evaluate with the listing ID. Record PASS or FAIL.
+
+    STEP 5 — Write sprint contract:
+    Call write_sprint_contract with:
+      - slug (from config filename)
+      - listing_id (from Step 1)
+      - factory_passed: true/false based on Step 1 exit code
+      - hero_passed: true/false based on Step 2 exit code
+      - verify_passed: true/false based on Step 3 result
+      - evaluate_passed: true/false based on Step 4 result
+      - notes: any errors or warnings from any step
+
+  expected_output: >
+    The full sprint contract markdown, showing PASS/FAIL for each of the 10 checklist items.
+    Must include the listing ID and the Etsy draft URL.
+    Final line must state either "ALL CHECKS PASSED" or list which checks failed.
+
+  agent: builder
+  context:
+    - plan_niche

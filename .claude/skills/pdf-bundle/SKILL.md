@@ -4,6 +4,9 @@ description: "Tattoo client forms PDF generation with reportlab — colour palet
               conventions, typography, and form structure. Use when building or modifying
               the 8-form tattoo studio PDF bundle."
 user-invocable: false
+requires:
+  - rules/infra.md
+  - rules/pipeline.md
 ---
 
 # PDF Bundle — Tattoo Client Forms

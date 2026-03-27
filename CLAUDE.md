@@ -54,34 +54,13 @@ If SOUL.md is missing from disk, stop immediately and tell Andy.
 
 After EVERY action, verify it worked. Show the proof. Never assume.
 
-**After Etsy image upload:**
-```bash
-curl -s "https://openapi.etsy.com/v3/application/listings/{ID}/images" \
-  -H "x-api-key: 19d2q2xcg1ccipoj4doub0ee:rj7ou7mzjq"
-```
-Count the images. Show the count. Only continue if count matches expected.
+- Etsy image upload → GET `/listings/{id}/images`, count matches expected
+- Etsy file upload → GET `/shops/{shop_id}/listings/{id}/files`, show filename + file_id
+- DO Spaces upload → `curl -I {SPACES_URL}`, must return HTTP 200
+- Git commit → `git log --oneline -3`, confirm commit is present
+- Canva design creation → `get-design` with design ID, confirm folder
 
-**After Etsy file upload:**
-```bash
-curl -s "https://openapi.etsy.com/v3/application/shops/34071205/listings/{ID}/files" \
-  -H "x-api-key: 19d2q2xcg1ccipoj4doub0ee:rj7ou7mzjq"
-```
-Show filename and file_id. Only continue if file is present.
-
-**After DO Spaces upload:**
-```bash
-curl -I "{SPACES_URL}"
-```
-Must return HTTP 200. If not 200 — stop and fix before continuing.
-
-**After every git commit:**
-```bash
-git log --oneline -3
-```
-Show the output. Confirm the commit is there.
-
-**After Canva design creation:**
-Run `get-design` with the design ID. Confirm it exists and is in the correct folder.
+Full curl commands and auth format: see `.claude/rules/etsy.md` and `.claude/rules/infra.md`.
 
 ---
 

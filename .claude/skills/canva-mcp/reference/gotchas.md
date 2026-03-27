@@ -1,5 +1,7 @@
 # Canva MCP Gotchas
 
+> **Source of truth:** `.claude/rules/canva.md` is authoritative for all Canva rules (folder IDs, design IDs, element limits, link format, colour palettes). This file adds prose context and failure narrative only — it does not replace or override rules/canva.md.
+
 Every entry here caused a real production failure. Read before any Canva work.
 
 ---

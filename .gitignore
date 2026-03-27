@@ -80,4 +80,4 @@ CanvaAutomationSuite/
 
 # Large ZIP bundles (delivery files)
 outputs/**/*.zip
-stop-slop/
+/skills/stop-slop/

@@ -38,10 +38,17 @@ library:
                     conventions, typography, form structure, run command."
       source: /root/NEW-AI-PROJECT/.claude/skills/pdf-bundle/SKILL.md
 
+    - name: pillow-bundle
+      description: "Pillow PNG template bundle pattern — design system, generators,
+                    Spaces upload, delivery PDF, Etsy file attach, niche expansion checklist."
+      source: /root/NEW-AI-PROJECT/.claude/skills/pillow-bundle/SKILL.md
+      requires:
+        - skill:purpleocaz-pipeline
+
     - name: stop-slop
-      description: "Remove AI writing patterns from prose. Score listing copy 35/50+
-                    before publishing. External skill by Hardik Pandya."
-      source: /root/NEW-AI-PROJECT/skills/stop-slop/SKILL.md
+      description: "Etsy listing copy quality gate — score 35/50+ before publishing.
+                    Adapter for external stop-slop skill (Hardik Pandya)."
+      source: /root/NEW-AI-PROJECT/.claude/skills/stop-slop/SKILL.md
 
     - name: tool-creator
       description: "Create new BaseTool / BaseValidator files following project

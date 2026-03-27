@@ -4,6 +4,41 @@ Most recent first.
 
 ---
 
+## 2026-03-27
+
+### Car Detailing Mega Bundle — UPGRADED to 53 templates, £39.99
+
+- **Listing #4476909005 updated** — https://www.etsy.com/listing/4476909005
+- Added 3 new templates: Appointment Card Dark, Appointment Card Light, Welcome Sign (A4)
+- Built with Pillow — uploaded to DO Spaces (`templates/car-detail-appointment-cards/`, `templates/car-detail-welcome-sign/`)
+- Delivery PDF regenerated: 53 templates, 8 sections, 11 pages with all Canva /d/ shortlinks
+- Price: £34.99 → £39.99 (via PUT inventory endpoint with float price)
+- Title updated: "Car Detailing Business Bundle | 53 Canva Templates | ..."
+- Description updated to reflect all 8 categories
+- verify_listing.py: 9/9 PASSED | state=active | 7 images | 1 file attached
+
+**New Spaces URLs:**
+- Dark card: https://purpleocaz-assets.lon1.digitaloceanspaces.com/templates/car-detail-appointment-cards/CD_Appointment_Card_Dark.png
+- Light card: https://purpleocaz-assets.lon1.digitaloceanspaces.com/templates/car-detail-appointment-cards/CD_Appointment_Card_Light.png
+- Welcome sign: https://purpleocaz-assets.lon1.digitaloceanspaces.com/templates/car-detail-welcome-sign/CD_Welcome_Sign.png
+
+**Lesson learned:** Inventory price update requires PUT /listings/{id}/inventory with `"price": 39.99` (float), not PATCH /listings or PATCH /shops/{id}/listings.
+
+### Tattoo Business Card Listing #2 — LIVE
+
+- **Draft #4478348991 published** — https://www.etsy.com/listing/4478348991/tattoo-studio-business-card-template
+- Design: DAHD6ICQCWU (3-page Etsy listing image set, 3000×2250 landscape)
+- Images: 7/7 (3 from DAHD6ICQCWU + Canva Basics + Please Note from Spaces + 2 generic from existing listing #4472977919)
+- Delivery PDF: dark=`/d/e21A6ZQJ3XcCIq-`, light=`/d/vyaBAtIupW1g7zH`
+- Price: £2.99 | Tags: 13 valid | verify_listing.py: 9/9 PASSED | State: active
+
+### Tomorrow's priority
+1. Tier 3 branding kits — nail tech, lash tech, hair salon (tattoo + barbershop already done)
+2. Tier 4 mega bundles — combine all tiers per niche at £39.99
+3. Upgrade listing images — swap /view links for /d/ shortlinks when Canva Share menu available
+
+---
+
 ## 2026-03-25
 
 ### Barbershop Mega Bundle — in progress

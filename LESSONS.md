@@ -4,6 +4,18 @@ A living document updated every session. Most recent entries first.
 
 ---
 
+### 2026-03-27 — Etsy price update: use PUT /listings/{id}/inventory with float price
+
+**Rule:** To update the price of an active listing, use:
+`PUT /listings/{listing_id}/inventory` with `Content-Type: application/json` and body:
+`{"products": [{"sku": "", "property_values": [], "offerings": [{"price": 39.99, "quantity": 999, "is_enabled": true}]}]}`
+
+**Why:** PATCH `/listings/{id}` returns 404. PATCH `/shops/{id}/listings/{id}` accepts but silently ignores the price field. The inventory endpoint with a float price value is the only way to update price via API on active listings.
+
+**How to apply:** Whenever a listing price needs updating, go via the inventory endpoint with `"price": <float>`. Not `{"amount": 3999, "divisor": 100}` — that returns "Expected float value".
+
+---
+
 ### 2026-03-25 — CC auth: use ANTHROPIC_API_KEY if claude.ai OAuth expired
 
 **Rule:** If claude.ai browser OAuth session expires, launch Claude Code with:

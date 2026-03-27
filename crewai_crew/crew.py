@@ -23,7 +23,7 @@ from crewai_crew.tools.verify_tool import (
 # ── LLM ──────────────────────────────────────────────────────────────────────
 # Both agents use Claude Sonnet 4.6 via the ANTHROPIC_API_KEY in .env
 _llm = LLM(
-    model="claude-sonnet-4-6",
+    model="anthropic/claude-sonnet-4-6",
     api_key=os.environ.get("ANTHROPIC_API_KEY"),
     temperature=0.2,         # low temp for structured JSON output
     max_tokens=8192,

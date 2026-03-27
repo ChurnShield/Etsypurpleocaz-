@@ -32,7 +32,7 @@ plan_niche:
     "nail technician forms" (21 ✗ — too long).
 
     STEP 4 — Write the config:
-    Use write_file to save to 'configs/niches/{slug}.json'.
+    Use write_file to save to 'configs/niches/<slug>.json' (replace <slug> with the actual slug value).
     The JSON must be valid (no trailing commas, no comments in the final file).
 
   expected_output: >

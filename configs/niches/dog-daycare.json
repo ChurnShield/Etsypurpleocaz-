@@ -1,0 +1,457 @@
+{
+  "niche": {
+    "name": "Dog Daycare",
+    "slug": "dog-daycare",
+    "etsy": {
+      "title": "Dog Daycare Business Bundle — 32 Canva Templates | Forms, Cards, Signs & Trackers",
+      "description": "Everything a dog daycare business needs to look professional and run smoothly from day one.\n\nIncludes 32 ready-to-edit Canva templates:\n• Business cards (dark + light)\n• Appointment cards\n• Loyalty card & referral card\n• Thank you card\n• Gift certificate\n• Welcome sign & opening hours sign\n• Price list\n• 2× promotional flyers\n• 5× Instagram / social media posts\n• Dog intake form\n• Vaccination & health consent form\n• Daily report card\n• Booking confirmation\n• Invoice\n• Monthly income tracker\n• Expenses tracker\n• Incident report form\n\nAll templates are fully editable in Canva Free.\nDownload instantly. Edit in minutes. Print at home or at a local printer.\n\n✅ Instant digital download\n✅ Works with Canva FREE\n✅ A4 + US Letter sizes included\n✅ Lifetime access",
+      "price": 39.99,
+      "tags": [
+        "dog daycare",
+        "daycare templates",
+        "pet business",
+        "canva templates",
+        "dog owner forms",
+        "business card",
+        "digital download",
+        "booking form",
+        "price list",
+        "gift certificate",
+        "small business kit",
+        "dog walker",
+        "pet care bundle"
+      ],
+      "taxonomy_id": 1874
+    }
+  },
+
+  "palette": {
+    "primary":    [58, 110, 75],
+    "primary_lt": [88, 155, 105],
+    "gold":       [210, 165, 80],
+    "cream":      [248, 243, 230],
+    "cream_alt":  [236, 229, 210],
+    "charcoal":   [30, 30, 28],
+    "warm_sand":  [195, 175, 140]
+  },
+
+  "brand": {
+    "name_placeholder": "YOUR DOG DAYCARE",
+    "subtitle":         "Professional Dog Daycare & Boarding",
+    "contact_line":     "📞 07700 900000  |  hello@yourdogdaycare.co.uk",
+    "email_line":       "hello@yourdogdaycare.co.uk",
+    "address_line":     "123 Park Lane, Your Town, AB1 2CD",
+    "tagline":          "Where tails never stop wagging.",
+    "website":          "www.yourdogdaycare.co.uk"
+  },
+
+  "icon": "paw",
+
+  "spaces": {
+    "prefix": "templates/dog-daycare"
+  },
+
+  "templates": [
+
+    {
+      "type": "business_card",
+      "variant": "dark",
+      "title": "Business Card (Dark)",
+      "filename": "DD_Business_Card_Dark.png",
+      "category": "Branding",
+      "canva_url": "https://www.canva.com/d/REPLACE_WITH_SHORTCODE"
+    },
+
+    {
+      "type": "business_card",
+      "variant": "light",
+      "title": "Business Card (Light)",
+      "filename": "DD_Business_Card_Light.png",
+      "category": "Branding",
+      "canva_url": "https://www.canva.com/d/REPLACE_WITH_SHORTCODE"
+    },
+
+    {
+      "type": "appointment_card",
+      "variant": "dark",
+      "title": "Appointment Card",
+      "filename": "DD_Appointment_Card.png",
+      "category": "Branding",
+      "canva_url": "https://www.canva.com/d/REPLACE_WITH_SHORTCODE",
+      "_fields": "date, time, service, pet_name, notes"
+    },
+
+    {
+      "type": "loyalty_card",
+      "title": "Loyalty Card",
+      "filename": "DD_Loyalty_Card.png",
+      "category": "Branding",
+      "canva_url": "https://www.canva.com/d/REPLACE_WITH_SHORTCODE",
+      "headline": "LOYALTY CARD",
+      "offer": "10th Day FREE",
+      "stamp_count": 10
+    },
+
+    {
+      "type": "referral_card",
+      "title": "Referral Card",
+      "filename": "DD_Referral_Card.png",
+      "category": "Branding",
+      "canva_url": "https://www.canva.com/d/REPLACE_WITH_SHORTCODE",
+      "headline": "Refer a Friend",
+      "offer": "Both get £10 off",
+      "body": "Give this card to a friend. When they book their first daycare session, you both receive £10 off your next booking.",
+      "fields": ["Referred By", "Code"]
+    },
+
+    {
+      "type": "thank_you_card",
+      "title": "Thank You Card",
+      "filename": "DD_Thank_You_Card.png",
+      "category": "Branding",
+      "canva_url": "https://www.canva.com/d/REPLACE_WITH_SHORTCODE",
+      "headline": "Thank You!",
+      "body": "It was a joy having [pet name] with us today.\nWe hope to see you both again very soon!",
+      "cta": "Leave us a review — it means the world to us!",
+      "contact_visible": true
+    },
+
+    {
+      "type": "gift_certificate",
+      "title": "Gift Certificate",
+      "filename": "DD_Gift_Certificate.png",
+      "category": "Branding",
+      "canva_url": "https://www.canva.com/d/REPLACE_WITH_SHORTCODE",
+      "headline": "Gift Certificate",
+      "subheadline": "Professional Dog Daycare",
+      "body": "This certificate entitles the bearer to a daycare session\nat YOUR DOG DAYCARE",
+      "fields": ["Recipient", "Service", "Value", "Expiry Date", "Issued By"]
+    },
+
+    {
+      "type": "welcome_sign",
+      "title": "Welcome Sign",
+      "filename": "DD_Welcome_Sign.png",
+      "category": "Branding",
+      "canva_url": "https://www.canva.com/d/REPLACE_WITH_SHORTCODE",
+      "headline": "Welcome!",
+      "subheadline": "Please sign in at reception",
+      "body": "We love every dog that walks through our door.\nPlease keep your dog on a lead until a member of staff greets you.",
+      "contact_visible": true
+    },
+
+    {
+      "type": "opening_hours_sign",
+      "title": "Opening Hours Sign",
+      "filename": "DD_Opening_Hours.png",
+      "category": "Branding",
+      "canva_url": "https://www.canva.com/d/REPLACE_WITH_SHORTCODE",
+      "headline": "Opening Hours",
+      "hours": [
+        ["Monday",    "7:00 am – 7:00 pm"],
+        ["Tuesday",   "7:00 am – 7:00 pm"],
+        ["Wednesday", "7:00 am – 7:00 pm"],
+        ["Thursday",  "7:00 am – 7:00 pm"],
+        ["Friday",    "7:00 am – 7:00 pm"],
+        ["Saturday",  "8:00 am – 6:00 pm"],
+        ["Sunday",    "Closed"]
+      ]
+    },
+
+    {
+      "type": "price_list",
+      "title": "Price List",
+      "filename": "DD_Price_List.png",
+      "category": "Marketing",
+      "canva_url": "https://www.canva.com/d/REPLACE_WITH_SHORTCODE",
+      "sections": [
+        {
+          "heading": "Daycare Sessions",
+          "items": [
+            ["Full Day (7am–7pm)",   "£35"],
+            ["Half Day (am)",        "£20"],
+            ["Half Day (pm)",        "£20"],
+            ["Weekend Full Day",     "£40"]
+          ]
+        },
+        {
+          "heading": "Boarding",
+          "items": [
+            ["Overnight Stay",       "£45"],
+            ["Weekend Package",      "£85"],
+            ["Weekly Package",       "£200"]
+          ]
+        },
+        {
+          "heading": "Add-ons",
+          "items": [
+            ["Extra Playtime",       "£5"],
+            ["Bath & Dry",           "£15"],
+            ["Training Session",     "£20"],
+            ["Photo Update",         "£3"]
+          ]
+        },
+        {
+          "heading": "Packages",
+          "items": [
+            ["5-Day Bundle",         "£160"],
+            ["10-Day Bundle",        "£300"],
+            ["Monthly Unlimited",    "£550"]
+          ]
+        }
+      ]
+    },
+
+    {
+      "type": "flyer_a4",
+      "title": "Promotional Flyer — New Client",
+      "filename": "DD_Promo_Flyer_New_Client.png",
+      "category": "Marketing",
+      "canva_url": "https://www.canva.com/d/REPLACE_WITH_SHORTCODE",
+      "headline": "New to Dog Daycare?",
+      "offer": "FIRST DAY FREE\nWith Any 5-Day Bundle",
+      "body": "Give your dog the socialisation and care they deserve.\nBook a free trial day when you purchase a 5-day bundle.",
+      "footer": "Valid for new clients only. One offer per dog. Cannot be combined with other promotions."
+    },
+
+    {
+      "type": "flyer_a4",
+      "title": "Promotional Flyer — Seasonal",
+      "filename": "DD_Promo_Flyer_Seasonal.png",
+      "category": "Marketing",
+      "canva_url": "https://www.canva.com/d/REPLACE_WITH_SHORTCODE",
+      "headline": "Summer Holiday Cover",
+      "offer": "BOOK EARLY & SAVE 15%",
+      "body": "Going away this summer? We'll look after your dog like family.\nEarly booking discount available for stays booked 4+ weeks in advance.",
+      "footer": "Subject to availability. Discount applied at checkout. T&Cs apply."
+    },
+
+    {
+      "type": "social_1080",
+      "variant": "offer",
+      "title": "Social Post — New Client Offer",
+      "filename": "DD_Social_Offer.png",
+      "category": "Marketing",
+      "canva_url": "https://www.canva.com/d/REPLACE_WITH_SHORTCODE",
+      "headline": "First Day Free!",
+      "subheadline": "With any 5-day daycare bundle",
+      "cta": "Book now — link in bio"
+    },
+
+    {
+      "type": "social_1080",
+      "variant": "tip",
+      "title": "Social Post — Dog Care Tip",
+      "filename": "DD_Social_Tip.png",
+      "category": "Marketing",
+      "canva_url": "https://www.canva.com/d/REPLACE_WITH_SHORTCODE",
+      "headline": "Dog Care Tip",
+      "tip_number": "01",
+      "tip_text": "Socialisation is key! Dogs who attend daycare regularly are calmer, more confident, and better behaved at home.",
+      "cta": "Follow for weekly dog care tips"
+    },
+
+    {
+      "type": "social_1080",
+      "variant": "review",
+      "title": "Social Post — 5-Star Review",
+      "filename": "DD_Social_Review.png",
+      "category": "Marketing",
+      "canva_url": "https://www.canva.com/d/REPLACE_WITH_SHORTCODE",
+      "review_text": "\"Our dog absolutely loves it here! He gets so excited when we pull into the car park. The team are incredible and we always get photo updates.\"",
+      "reviewer": "— Emma T.",
+      "cta": "Book your dog's first session today"
+    },
+
+    {
+      "type": "social_1080",
+      "variant": "announce",
+      "title": "Social Post — New Service Announcement",
+      "filename": "DD_Social_Announce.png",
+      "category": "Marketing",
+      "canva_url": "https://www.canva.com/d/REPLACE_WITH_SHORTCODE",
+      "headline": "Now Offering Overnight Boarding!",
+      "subheadline": "Safe, cosy & full of love",
+      "cta": "Enquire today — link in bio"
+    },
+
+    {
+      "type": "social_1080",
+      "variant": "offer",
+      "title": "Social Post — Bundle Deal",
+      "filename": "DD_Social_Bundle.png",
+      "category": "Marketing",
+      "canva_url": "https://www.canva.com/d/REPLACE_WITH_SHORTCODE",
+      "headline": "Save with a Bundle",
+      "subheadline": "10-day pack — only £300",
+      "cta": "DM us to book your bundle"
+    },
+
+    {
+      "type": "form_a4",
+      "title": "Dog Intake Form",
+      "filename": "DD_Dog_Intake_Form.png",
+      "category": "Forms",
+      "canva_url": "https://www.canva.com/d/REPLACE_WITH_SHORTCODE",
+      "form_title": "DOG INTAKE FORM",
+      "rows": [
+        { "type": "section_header", "label": "Owner Information" },
+        { "type": "field_pair",     "labels": ["Owner Name", "Phone Number"] },
+        { "type": "field_pair",     "labels": ["Email Address", "Emergency Contact"] },
+        { "type": "field_single",   "label": "Home Address", "height": 60 },
+        { "type": "section_header", "label": "Dog Information" },
+        { "type": "field_pair",     "labels": ["Dog's Name", "Breed"] },
+        { "type": "field_pair",     "labels": ["Date of Birth", "Weight (kg)"] },
+        { "type": "field_pair",     "labels": ["Colour / Markings", "Microchip Number"] },
+        { "type": "field_pair",     "labels": ["Neutered / Spayed?", "Gender"] },
+        { "type": "section_header", "label": "Health & Veterinary Details" },
+        { "type": "field_pair",     "labels": ["Vet Practice Name", "Vet Phone Number"] },
+        { "type": "checkbox_group", "label": "Vaccinations up to date:", "items": ["Distemper", "Parvovirus", "Hepatitis", "Leptospirosis", "Kennel Cough", "Rabies"] },
+        { "type": "checkbox_group", "label": "Known conditions:", "items": ["Allergies", "Anxiety", "Aggression", "Joint problems", "Heart condition", "Other"] },
+        { "type": "field_single",   "label": "Medications / Special Requirements", "height": 70 },
+        { "type": "section_header", "label": "Behaviour & Preferences" },
+        { "type": "checkbox_group", "label": "Good with:", "items": ["Other dogs", "Children", "Cats", "Strangers", "On lead", "Off lead"] },
+        { "type": "field_single",   "label": "Feeding Instructions", "height": 60 },
+        { "type": "field_single",   "label": "Additional Notes", "height": 70 }
+      ]
+    },
+
+    {
+      "type": "form_a4",
+      "title": "Vaccination & Health Consent Form",
+      "filename": "DD_Consent_Form.png",
+      "category": "Forms",
+      "canva_url": "https://www.canva.com/d/REPLACE_WITH_SHORTCODE",
+      "form_title": "VACCINATION & HEALTH CONSENT FORM",
+      "rows": [
+        { "type": "section_header", "label": "Dog & Owner Details" },
+        { "type": "field_pair",     "labels": ["Dog's Name", "Owner Name"] },
+        { "type": "field_pair",     "labels": ["Breed", "Date of Birth"] },
+        { "type": "section_header", "label": "Vaccination Records" },
+        {
+          "type": "table",
+          "headers": ["Vaccine", "Date Given", "Due Date", "Vet Verified"],
+          "col_widths": [0.35, 0.25, 0.25, 0.15],
+          "rows": 6
+        },
+        { "type": "section_header", "label": "Health Declaration" },
+        { "type": "text_block",     "text": "I confirm that my dog is in good health, up to date with vaccinations, and has not shown signs of illness in the past 14 days. I agree to notify YOUR DOG DAYCARE immediately if my dog's health status changes.", "height": 80 },
+        { "type": "field_pair",     "labels": ["Owner Signature", "Date"] },
+        { "type": "section_header", "label": "Emergency Authorisation" },
+        { "type": "text_block",     "text": "In the event of a medical emergency, I authorise YOUR DOG DAYCARE to seek veterinary treatment on my behalf. I accept responsibility for any costs incurred.", "height": 70 },
+        { "type": "field_pair",     "labels": ["Owner Signature", "Date"] }
+      ]
+    },
+
+    {
+      "type": "invoice",
+      "title": "Invoice",
+      "filename": "DD_Invoice.png",
+      "category": "Forms",
+      "canva_url": "https://www.canva.com/d/REPLACE_WITH_SHORTCODE",
+      "line_items": [
+        "Full Day Daycare",
+        "Half Day Daycare",
+        "Overnight Boarding",
+        "Weekend Boarding",
+        "Extra Playtime",
+        "Bath & Dry",
+        "Training Session",
+        "Photo Update Package",
+        "Additional Services"
+      ]
+    },
+
+    {
+      "type": "booking_confirmation",
+      "title": "Booking Confirmation",
+      "filename": "DD_Booking_Confirmation.png",
+      "category": "Forms",
+      "canva_url": "https://www.canva.com/d/REPLACE_WITH_SHORTCODE",
+      "fields": [
+        "Booking Reference",
+        "Owner Name",
+        "Dog's Name",
+        "Service Booked",
+        "Drop-off Date & Time",
+        "Pick-up Date & Time",
+        "Total Cost",
+        "Deposit Paid",
+        "Balance Due",
+        "Special Instructions",
+        "Confirmed By"
+      ]
+    },
+
+    {
+      "type": "form_a4",
+      "title": "Daily Report Card",
+      "filename": "DD_Daily_Report_Card.png",
+      "category": "Forms",
+      "canva_url": "https://www.canva.com/d/REPLACE_WITH_SHORTCODE",
+      "form_title": "DAILY REPORT CARD",
+      "rows": [
+        { "type": "section_header", "label": "Dog Details" },
+        { "type": "field_pair",     "labels": ["Dog's Name", "Date"] },
+        { "type": "field_pair",     "labels": ["Staff Member", "Session Type"] },
+        { "type": "section_header", "label": "Activities Today" },
+        { "type": "checkbox_group", "label": "Activities completed:", "items": ["Group play", "Solo play", "Training", "Walk", "Rest time", "Swimming"] },
+        { "type": "section_header", "label": "Behaviour & Mood" },
+        { "type": "checkbox_group", "label": "Mood today:", "items": ["Happy", "Calm", "Energetic", "Anxious", "Tired", "Unsettled"] },
+        { "type": "field_single",   "label": "Behaviour Notes", "height": 70 },
+        { "type": "section_header", "label": "Feeding & Health" },
+        { "type": "field_pair",     "labels": ["Food Given", "Amount Eaten"] },
+        { "type": "field_pair",     "labels": ["Water Intake", "Toilet Breaks"] },
+        { "type": "field_single",   "label": "Health Observations", "height": 60 },
+        { "type": "section_header", "label": "Staff Sign-off" },
+        { "type": "field_pair",     "labels": ["Staff Signature", "Time"] }
+      ]
+    },
+
+    {
+      "type": "form_a4",
+      "title": "Incident Report Form",
+      "filename": "DD_Incident_Report.png",
+      "category": "Forms",
+      "canva_url": "https://www.canva.com/d/REPLACE_WITH_SHORTCODE",
+      "form_title": "INCIDENT REPORT FORM",
+      "rows": [
+        { "type": "section_header", "label": "Incident Details" },
+        { "type": "field_pair",     "labels": ["Date of Incident", "Time of Incident"] },
+        { "type": "field_pair",     "labels": ["Location", "Staff Present"] },
+        { "type": "section_header", "label": "Dog(s) Involved" },
+        { "type": "field_pair",     "labels": ["Dog Name(s)", "Owner Name(s)"] },
+        { "type": "section_header", "label": "Description of Incident" },
+        { "type": "field_single",   "label": "What happened? (describe in full)", "height": 120 },
+        { "type": "section_header", "label": "Action Taken" },
+        { "type": "field_single",   "label": "Immediate action taken", "height": 80 },
+        { "type": "checkbox_group", "label": "Follow-up required:", "items": ["Vet visit", "Owner notified", "Insurance claim", "Review policy", "Staff debrief", "None"] },
+        { "type": "field_single",   "label": "Additional Notes", "height": 70 },
+        { "type": "section_header", "label": "Sign-off" },
+        { "type": "field_pair",     "labels": ["Staff Signature", "Date"] },
+        { "type": "field_pair",     "labels": ["Manager Signature", "Date"] }
+      ]
+    },
+
+    {
+      "type": "income_tracker",
+      "title": "Monthly Income Tracker",
+      "filename": "DD_Income_Tracker.png",
+      "category": "Operations",
+      "canva_url": "https://www.canva.com/d/REPLACE_WITH_SHORTCODE",
+      "month_col": true,
+      "extra_cols": ["Client / Dog Name", "Service", "Sessions", "Payment Method", "Amount (£)", "Notes"]
+    },
+
+    {
+      "type": "expenses_tracker",
+      "title": "Monthly Expenses Tracker",
+      "filename": "DD_Expenses_Tracker.png",
+      "category": "Operations",
+      "canva_url": "https://www.canva.com/d/REPLACE_WITH_SHORTCODE",
+      "month_col": true,
+      "extra_cols": ["Date", "Supplier / Vendor", "Category", "Description", "Payment Method", "Amount (£)", "Receipt?"]
+    }
+
+  ]
+}

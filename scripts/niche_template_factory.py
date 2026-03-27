@@ -249,7 +249,7 @@ def render_rows(draw, x, y, rows, margin_w, cfg):
         y += row.get("gap_before", 0)
 
         if rt == "section_header":
-            y = section_head(draw, x, y, row["text"], W_content, cfg)
+            y = section_head(draw, x, y, row.get("label", row.get("text", "")), W_content, cfg)
 
         elif rt == "field_single":
             y = field_line(draw, x, y, row["label"], W_content, cfg,
@@ -524,7 +524,8 @@ def render_gift_certificate(tmpl, cfg, out_path):
         ("Valid Until:", ""),
     ])
     fy = 500
-    for label, _ in fields:
+    for item in fields:
+        label = item[0] if isinstance(item, (list, tuple)) else item
         draw.text((120, fy), label, fill=GOLD, font=font(44, bold=True))
         hline(draw, fy + 58, 120 + 380, W - 120, fg if variant == "dark" else PRIMARY, thickness=2)
         fy += 130

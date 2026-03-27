@@ -21,6 +21,10 @@ planner:
     form_a4, invoice, booking_confirmation, social_1080, certificate,
     income_tracker, expenses_tracker.
     Do NOT invent template types outside this list — the factory will crash.
+    CRITICAL PALETTE RULE: The factory hardcodes these palette key names. You MUST include ALL of them
+    exactly as shown — do NOT rename them: primary, gold, cream, cream_alt, charcoal.
+    You MAY add extra keys (e.g. primary_lt, warm_sand) but the five above are REQUIRED.
+    Customise the RGB VALUES to match the niche — never the key names.
   verbose: true
   allow_delegation: false
   max_iter: 3

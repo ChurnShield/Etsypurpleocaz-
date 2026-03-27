@@ -34,6 +34,8 @@ python3 scripts/niche_template_factory.py configs/niches/my_niche.json
 2. Edit: palette, brand placeholders, icon type, Etsy copy, templates list
 3. Run the factory — it handles rendering, Spaces upload, delivery PDF, Etsy listing creation + activation
 4. Run `python scripts/verify_listing.py {listing_id} --bundle`
+5. Run `python scripts/evaluate_listing.py {listing_id}` — duplicate detection, hero quality, variant coverage
+6. Both must pass before the listing is considered done
 
 **Config reference:** `configs/niches/sample_niche.json` — fully documented, shows every template type and every row spec type for `form_a4`.
 
@@ -63,6 +65,7 @@ It remains valid for **patching or extending existing niches**. Do NOT use it to
 4. Delivery PDF            → reportlab, one page per section, /d/ links for Canva items
 5. Etsy file attach        → DELETE old file, POST new file (multipart, name field required)
 6. verify_listing.py       → confirm file attached, image count, tags, price
+7. evaluate_listing.py     → duplicate images, hero quality, variant coverage
 ```
 
 ---

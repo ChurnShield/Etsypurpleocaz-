@@ -28,7 +28,7 @@ Auto-populated from weekly YouTube digest. Deduplicated 2026-03-23.
     - PRIORITY: High — apply to Etsy listing skill, flyer build skill, and thumbnail pipeline first
     — Source: @alex_prompter on Twitter, 2026-03-23
 
-[ ] **Skills** Implement IndyDevDan's library.yaml pattern for skill management — treat skills as versioned distributable packages, single source of truth. Evaluate github.com/disler/the-library before building. Watch the Library Meta-Skill video first (26 mins, IndyDevDan, 2026-03-23 digest). Dedicated session required — do not tidy skills/ folder until this is decided. — Source: Strategic decision 2026-03-23
+[x] **Skills** Implement IndyDevDan's library.yaml pattern for skill management — treat skills as versioned distributable packages, single source of truth. Evaluate github.com/disler/the-library before building. Watch the Library Meta-Skill video first (26 mins, IndyDevDan, 2026-03-23 digest). Dedicated session required — do not tidy skills/ folder until this is decided. — Source: Strategic decision 2026-03-23 — DONE: 2026-03-27, commit e84c690
 
 [ ] **Agent Automation** Set up Mac Mini with autonomous agents for end-to-end device operation (GUI control, AirDrop delivery, 2-3 core skills max) — Source: Mac Mini Agents OpenClaw
 
@@ -36,7 +36,7 @@ Auto-populated from weekly YouTube digest. Deduplicated 2026-03-23.
 
 [ ] **Vision** Overnight listing pipeline — Andy approves niche on phone → pipeline runs overnight → draft listing ready next morning. Zero manual steps. — Source: Strategic planning, 2026-03-16
 
-[ ] **Pipeline** Build private skill distribution system using library.yaml — Source: The Library Meta-Skill, 2026-03-23
+[x] **Pipeline** Build private skill distribution system using library.yaml — Source: The Library Meta-Skill, 2026-03-23 — DONE: 2026-03-27, commit e84c690
 
 [ ] **Automation** Think in complete workflows rather than individual tasks — Source: You Have To Think In Workflows, 2026-03-23
 

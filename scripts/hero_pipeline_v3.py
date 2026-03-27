@@ -23,7 +23,7 @@ Flags:
     --price "£39.99"          price badge text
 """
 
-import argparse, io, json, os, sys, urllib.request, uuid
+import argparse, glob, io, json, os, sys, urllib.request, uuid
 from pathlib import Path
 import numpy as np
 from PIL import Image, ImageDraw, ImageFilter, ImageFont
@@ -167,7 +167,7 @@ def card_contact_shadow(warped: Image.Image, offset=(20,28), blur=26, opacity=12
 def pick_templates(templates_dir: Path):
     """Classify PNGs by aspect ratio, return (ipad_path, phone_path, [card_paths])."""
     portrait, square, landscape = [], [], []
-    for p in sorted(Path(templates_dir).rglob("*.png")):
+    for p in sorted(Path(p) for p in glob.glob(str(templates_dir) + "/**/*.png", recursive=True)):
         if any(x in p.name.lower() for x in EXCLUDE_NAMES):
             continue
         try:
@@ -364,7 +364,7 @@ def build_hero(niche: str, templates_dir: Path, output: Path,
 
     # ── Layer 6: Text ────────────────────────────────────────────────────────
     count = sum(
-        1 for p in Path(templates_dir).rglob("*.png")
+        1 for p in (Path(p) for p in glob.glob(str(templates_dir) + "/**/*.png", recursive=True))
         if not any(x in p.name.lower() for x in EXCLUDE_NAMES)
     )
     niche_label = niche.replace("_", " ").title()

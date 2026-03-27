@@ -983,60 +983,104 @@ def upload_to_spaces(local_path, spaces_key, content_type="image/png"):
 # ── Delivery PDF ──────────────────────────────────────────────────────────────
 
 def build_delivery_pdf(cfg, template_urls, out_path):
-    """Build delivery PDF listing all templates with CDN URLs."""
+    """Build delivery PDF listing all templates — name + URL on separate lines."""
     from reportlab.pdfgen import canvas as rc
     from reportlab.lib.pagesizes import A4 as RA4
-    from reportlab.lib import colors as rlc
 
     niche_name = cfg["niche"]["name"]
-    PRIMARY    = tuple(c / 255 for c in cfg["palette"]["primary"])
-    GOLD_RL    = tuple(c / 255 for c in cfg["palette"]["gold"])
+    PRIMARY    = tuple(v / 255 for v in cfg["palette"]["primary"])
+    GOLD_RL    = tuple(v / 255 for v in cfg["palette"]["gold"])
+    DARK       = (26 / 255, 26 / 255, 26 / 255)
+    GREY       = (100 / 255, 100 / 255, 100 / 255)
 
     c = rc.Canvas(str(out_path), pagesize=RA4)
     W, H = RA4
+    MARGIN = 40
+    FOOTER_H = 50
 
-    # Cover page
+    def draw_footer():
+        c.setFillColorRGB(*PRIMARY)
+        c.rect(0, 0, W, FOOTER_H, fill=1, stroke=0)
+        c.setFillColorRGB(*GOLD_RL)
+        c.setFont("Helvetica", 9)
+        c.drawCentredString(W / 2, 18, "© PurpleOcaz — purpleocaz.etsy.com")
+
+    def new_template_page(page_label="YOUR PRINT-READY TEMPLATES"):
+        c.setFillColorRGB(1, 1, 1)
+        c.rect(0, 0, W, H, fill=1, stroke=0)
+        # Header bar
+        c.setFillColorRGB(*PRIMARY)
+        c.rect(0, H - 80, W, 80, fill=1, stroke=0)
+        c.setFillColorRGB(*GOLD_RL)
+        c.setFont("Helvetica-Bold", 18)
+        c.drawCentredString(W / 2, H - 52, page_label)
+        draw_footer()
+        return H - 110  # starting y below header
+
+    # ── Cover page ────────────────────────────────────────────────────────────
     c.setFillColorRGB(*PRIMARY)
     c.rect(0, 0, W, H, fill=1, stroke=0)
     c.setFillColorRGB(*GOLD_RL)
     c.setFont("Helvetica-Bold", 28)
     c.drawCentredString(W / 2, H - 100, niche_name.upper())
     c.setFont("Helvetica-Bold", 20)
-    c.drawCentredString(W / 2, H - 140, "MEGA BUNDLE — DELIVERY LINKS")
+    c.drawCentredString(W / 2, H - 140, "MEGA BUNDLE — DELIVERY FILES")
     c.setFillColorRGB(1, 1, 1)
     c.setFont("Helvetica", 12)
-    c.drawCentredString(W / 2, H - 180,
-                        "Click each link to open your Canva template. Duplicate to edit.")
+    c.drawCentredString(W / 2, H - 185,
+        "These are high-resolution print-ready templates.")
+    c.drawCentredString(W / 2, H - 205,
+        "Download each PNG and print at home or send to your local printer.")
     c.showPage()
 
-    # One page: list all templates
+    # ── Template list pages ───────────────────────────────────────────────────
+    # Intro note at top of first page
     c.setFillColorRGB(1, 1, 1)
     c.rect(0, 0, W, H, fill=1, stroke=0)
     c.setFillColorRGB(*PRIMARY)
     c.rect(0, H - 80, W, 80, fill=1, stroke=0)
     c.setFillColorRGB(*GOLD_RL)
     c.setFont("Helvetica-Bold", 18)
-    c.drawCentredString(W / 2, H - 52, "ALL TEMPLATES")
+    c.drawCentredString(W / 2, H - 52, "YOUR PRINT-READY TEMPLATES")
+    draw_footer()
 
-    y = H - 110
-    c.setFont("Helvetica", 11)
+    # Intro note
+    note_y = H - 108
+    c.setFillColorRGB(*DARK)
+    c.setFont("Helvetica-Oblique", 9)
+    c.drawString(MARGIN, note_y,
+        "These are high-resolution print-ready templates. Download each PNG and "
+        "print at home or send to your local printer.")
+    y = note_y - 22
+
+    # Divider line
+    c.setStrokeColorRGB(*PRIMARY)
+    c.setLineWidth(0.5)
+    c.line(MARGIN, y, W - MARGIN, y)
+    y -= 14
+
+    # Each template: name (bold) then URL (small, indented) with spacing
+    ENTRY_H = 38   # pixels per entry (name + url + gap)
+    MIN_Y   = FOOTER_H + 14
+
     for tmpl_name, url in template_urls:
-        if y < 60:
+        if y - ENTRY_H < MIN_Y:
             c.showPage()
-            c.setFillColorRGB(1, 1, 1)
-            c.rect(0, 0, W, H, fill=1, stroke=0)
-            y = H - 60
-        c.setFillColorRGB(*tuple(c2 / 255 for c2 in (26, 26, 26)))
-        c.drawString(40, y, f"• {tmpl_name}")
-        c.setFillColorRGB(*PRIMARY)
-        c.drawRightString(W - 40, y, url)
-        y -= 22
+            y = new_template_page(page_label="YOUR PRINT-READY TEMPLATES (cont.)")
+            y -= 4
 
-    c.setFillColorRGB(*PRIMARY)
-    c.rect(0, 0, W, 50, fill=1, stroke=0)
-    c.setFillColorRGB(*GOLD_RL)
-    c.setFont("Helvetica", 9)
-    c.drawCentredString(W / 2, 18, "© PurpleOcaz — purpleocaz.etsy.com")
+        # Template name — bold, dark
+        c.setFillColorRGB(*DARK)
+        c.setFont("Helvetica-Bold", 11)
+        c.drawString(MARGIN, y, tmpl_name)
+        y -= 14
+
+        # URL — smaller, grey, indented
+        c.setFillColorRGB(*GREY)
+        c.setFont("Helvetica", 8)
+        c.drawString(MARGIN + 12, y, url)
+        y -= (ENTRY_H - 28)  # gap before next entry
+
     c.save()
     print(f"  PDF saved → {out_path}")
 

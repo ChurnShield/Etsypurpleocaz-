@@ -64,9 +64,11 @@ ETSY API/
 
 # Claude Code (machine-local / personal files - NEVER commit)
 .claude/settings.local.json
+.claude/settings.local.json.bak
+.claude/settings.json.bak
 .claude/projects/
-# NOTE: .claude/hooks/, .claude/agents/, .claude/commands/, .claude/state/
-# ARE committed — they are project infrastructure, not personal settings.
+.claude/state/
+# NOTE: .claude/hooks/, .claude/agents/, .claude/commands/ ARE committed — project infrastructure.
 
 # Logs
 logs/
@@ -78,6 +80,6 @@ browser_profile/
 # Canva automation suite (external tooling)
 CanvaAutomationSuite/
 
-# Large ZIP bundles (delivery files)
-outputs/**/*.zip
+# Generated outputs (PNGs, PDFs, ZIPs — built artefacts, not source)
+outputs/
 /skills/stop-slop/

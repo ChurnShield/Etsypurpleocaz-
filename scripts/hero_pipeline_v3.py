@@ -56,6 +56,7 @@ NICHE_PROMPTS = {
     "tattoo":          "Professional top-down flatlay, white marble surface, tattoo machine, ink pot, succulent, warm soft lighting, no text, photorealistic",
     "barbershop":      "Professional top-down flatlay, marble barbershop counter, straight razor, comb, scissors, warm soft lighting, no text, photorealistic",
     "generic":         "Professional top-down flatlay, white marble desk, coffee cup, green plant, notebook, warm soft lighting, no text, photorealistic",
+    "restaurant_cafe": "Professional top-down flatlay, warm rustic reclaimed wood cafe table, latte art espresso cup, fresh croissant, small white flower, scattered coffee beans, brass spoon, olive branch sprig, warm golden-hour light, rich deep shadows, appetising rich colours, no text, photorealistic",
 }
 
 EXCLUDE_NAMES = {"listing", "preview", "hero", "grid", "eval"}

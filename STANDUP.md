@@ -28,11 +28,11 @@ Most recent first.
 | Pin 5 — Full Bundle CTA | https://purpleocaz-assets.lon1.digitaloceanspaces.com/pinterest/restaurant-cafe-pin-5.png |
 | Video Pin (10s Ken Burns) | https://purpleocaz-assets.lon1.digitaloceanspaces.com/pinterest/restaurant-cafe-video-pin.mp4 |
 
-### To activate this listing (when ready):
+### LIVE ✅
 
-1. Review hero_v3 at the Spaces URL above
-2. If approved: `python3 scripts/hero_pipeline_v3.py --niche restaurant_cafe --templates-dir outputs/restaurant-cafe-coffee-shop/templates/ --output outputs/restaurant-cafe-coffee-shop/listing/hero_v3.png --accent "74,42,22" --price "£39.99" --listing-id 4479049403 --skip-ideogram`
-3. PATCH state=active: `PATCH /application/shops/34071205/listings/4479049403` with `state=active`
+- Hero v3 pushed to Etsy rank 1 (image_id 7851804238) — coffee cup icon, white price badge, espresso text
+- State: **active** — https://www.etsy.com/listing/4479049403
+- verify_listing.py --bundle: **9/9 ALL CHECKS PASSED**
 
 ### Tomorrow's priorities
 

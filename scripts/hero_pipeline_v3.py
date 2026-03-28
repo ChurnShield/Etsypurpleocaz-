@@ -423,14 +423,17 @@ def build_hero(niche: str, templates_dir: Path, output: Path,
     draw.text(((CANVAS-sw)//2, ty+th+12), subtitle, fill=GOLD+(255,), font=sub_f)
 
     # Price badge — right-aligned, vertically centred in banner
+    # NOTE: canvas is RGBA; PIL composites RGBA→RGB against white, so any
+    # fill with alpha<255 composites against white, not the drawn banner pixel.
+    # Fix: use fully opaque white badge + dark accent text — never rely on alpha here.
     pb  = draw.textbbox((0,0), price, font=price_f)
     pw, ph = pb[2]-pb[0], pb[3]-pb[1]
-    pad = 22
-    bx  = CANVAS - pw - pad*2 - 50
-    by  = banner_y + (banner_h - ph) // 2 - pad//2
+    pad = 28
+    bx  = CANVAS - pw - pad*2 - 60
+    by  = banner_y + (banner_h - ph) // 2
     draw.rounded_rectangle([bx-pad, by-pad//2, bx+pw+pad, by+ph+pad//2],
-                            radius=16, fill=(255,255,255,45))
-    draw.text((bx, by), price, fill=(255,255,255,255), font=price_f)
+                            radius=18, fill=(255, 255, 255, 255))
+    draw.text((bx, by), price, fill=accent+(255,), font=price_f)
 
     # ── Save ─────────────────────────────────────────────────────────────────
     output.parent.mkdir(parents=True, exist_ok=True)

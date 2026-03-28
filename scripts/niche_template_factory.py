@@ -115,6 +115,82 @@ def scissors_icon(draw, cx, cy, size=50, fill=(201, 169, 110)):
         draw.ellipse([bx - r, by - r, bx + r, by + r], outline=fill, width=max(3, s // 12))
 
 
+def coffee_cup_icon(draw, cx, cy, size=55, fill=(201, 169, 110)):
+    """Side-view coffee cup: tapered body, handle arc, saucer, steam curls."""
+    s = size
+    bw_top = int(s * 1.1)
+    bw_bot = int(s * 0.85)
+    bh = int(s * 1.2)
+    top_y = cy - bh // 2
+    bot_y = cy + bh // 2
+    # Cup body (tapered polygon)
+    draw.polygon([(cx - bw_top, top_y), (cx + bw_top, top_y),
+                  (cx + bw_bot, bot_y), (cx - bw_bot, bot_y)], fill=fill)
+    # Handle — arc on the right
+    hr = int(s * 0.7)
+    hx = cx + bw_bot + int(s * 0.1)
+    hy_top = top_y + int(bh * 0.2)
+    hy_bot = bot_y - int(bh * 0.2)
+    hw = max(3, s // 10)
+    draw.arc([hx - hr, hy_top, hx + hr, hy_bot], start=300, end=60, fill=fill, width=hw)
+    # Saucer
+    sw = int(s * 1.4)
+    sh = int(s * 0.22)
+    sy = bot_y + int(s * 0.08)
+    draw.ellipse([cx - sw, sy, cx + sw, sy + sh], fill=fill)
+    # Steam — two short wavy lines
+    for sx_base in [cx - int(s * 0.3), cx + int(s * 0.3)]:
+        sw_w = max(2, s // 14)
+        sy_start = top_y - int(s * 0.55)
+        sy_mid   = top_y - int(s * 0.35)
+        sy_end   = top_y - int(s * 0.15)
+        draw.line([(sx_base, sy_start),
+                   (sx_base + int(s * 0.18), sy_mid),
+                   (sx_base, sy_end)], fill=fill, width=sw_w)
+
+
+def fork_icon(draw, cx, cy, size=55, fill=(201, 169, 110)):
+    """Simple fork: handle + 3 tines with crossbar."""
+    s = size
+    lw = max(3, s // 12)
+    draw.line([(cx, cy - s), (cx, cy + s)], fill=fill, width=lw * 2)
+    tine_h = int(s * 0.7)
+    tine_offsets = [-int(s * 0.35), 0, int(s * 0.35)]
+    for tx in tine_offsets:
+        draw.line([(cx + tx, cy - s), (cx + tx, cy - s + tine_h)], fill=fill, width=lw)
+    draw.line([(cx + tine_offsets[0], cy - s + tine_h),
+               (cx + tine_offsets[-1], cy - s + tine_h)], fill=fill, width=lw)
+
+
+def star_icon(draw, cx, cy, size=55, fill=(201, 169, 110)):
+    """5-point star."""
+    import math
+    points = []
+    for i in range(10):
+        angle = math.radians(i * 36 - 90)
+        r = size if i % 2 == 0 else int(size * 0.42)
+        points.append((cx + r * math.cos(angle), cy + r * math.sin(angle)))
+    draw.polygon(points, fill=fill)
+
+
+def heart_icon(draw, cx, cy, size=55, fill=(201, 169, 110)):
+    r = int(size * 0.55)
+    draw.ellipse([cx - size, cy - r, cx, cy + r], fill=fill)
+    draw.ellipse([cx, cy - r, cx + size, cy + r], fill=fill)
+    draw.polygon([(cx - size, cy + r // 2), (cx + size, cy + r // 2),
+                  (cx, cy + size + r // 2)], fill=fill)
+
+
+def flower_icon(draw, cx, cy, size=55, fill=(201, 169, 110)):
+    import math
+    r = int(size * 0.55)
+    for a in range(0, 360, 60):
+        px = cx + int(r * math.cos(math.radians(a)))
+        py = cy + int(r * math.sin(math.radians(a)))
+        draw.ellipse([px - r, py - r, px + r, py + r], fill=fill)
+    draw.ellipse([cx - r, cy - r, cx + r, cy + r], fill=fill)
+
+
 def niche_icon(draw, cx, cy, size, fill, icon_type):
     """Dispatch to the right icon based on niche icon_type."""
     if icon_type == "paw":
@@ -123,8 +199,21 @@ def niche_icon(draw, cx, cy, size, fill, icon_type):
         camera_icon(draw, cx, cy, size, fill)
     elif icon_type == "scissors":
         scissors_icon(draw, cx, cy, size, fill)
+    elif icon_type == "coffee":
+        coffee_cup_icon(draw, cx, cy, size, fill)
+    elif icon_type == "fork":
+        fork_icon(draw, cx, cy, size, fill)
+    elif icon_type == "star":
+        star_icon(draw, cx, cy, size, fill)
+    elif icon_type == "heart":
+        heart_icon(draw, cx, cy, size, fill)
+    elif icon_type == "flower":
+        flower_icon(draw, cx, cy, size, fill)
+    elif icon_type == "none":
+        pass  # intentionally no icon
     else:
-        paw_print(draw, cx, cy, size, fill)  # default
+        # Safe fallback — filled circle, never a paw
+        draw.ellipse([cx - size, cy - size, cx + size, cy + size], fill=fill)
 
 
 # ── Palette helper ────────────────────────────────────────────────────────────

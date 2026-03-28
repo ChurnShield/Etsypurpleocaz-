@@ -3,8 +3,8 @@
     "name": "Restaurant Cafe Coffee Shop",
     "slug": "restaurant-cafe-coffee-shop",
     "etsy": {
-      "title": "Cafe & Coffee Shop Business Bundle — 32 Canva Templates | Cards, Forms, Menus & More",
-      "description": "Everything your cafe, coffee shop, or restaurant needs to look polished and professional from day one.\n\nIncludes 32 ready-to-edit Canva templates:\n• Business cards (dark + light)\n• Appointment & booking cards\n• Loyalty card (stamp-style)\n• Referral card\n• Thank you card\n• Gift certificate\n• Welcome sign\n• Opening hours sign\n• Price list / menu board\n• Promotional flyers (x2)\n• 5 Instagram / social media post templates\n• Client intake form\n• Allergy & dietary consent form\n• Invoice\n• Booking confirmation\n• Staff schedule\n• Daily checklist\n• Monthly income tracker\n• Monthly expenses tracker\n\nAll templates are fully editable in Canva Free.\nDownload instantly. Edit in minutes. Print at home or at a local printer.\n\n✅ Instant digital download\n✅ Works with Canva FREE\n✅ A4 + US Letter sizes included\n✅ Lifetime access",
+      "title": "Cafe & Coffee Shop Business Bundle \u2014 32 Canva Templates | Cards, Forms, Menus & More",
+      "description": "Everything your cafe, coffee shop, or restaurant needs to look polished and professional from day one.\n\nIncludes 32 ready-to-edit Canva templates:\n\u2022 Business cards (dark + light)\n\u2022 Appointment & booking cards\n\u2022 Loyalty card (stamp-style)\n\u2022 Referral card\n\u2022 Thank you card\n\u2022 Gift certificate\n\u2022 Welcome sign\n\u2022 Opening hours sign\n\u2022 Price list / menu board\n\u2022 Promotional flyers (x2)\n\u2022 5 Instagram / social media post templates\n\u2022 Client intake form\n\u2022 Allergy & dietary consent form\n\u2022 Invoice\n\u2022 Booking confirmation\n\u2022 Staff schedule\n\u2022 Daily checklist\n\u2022 Monthly income tracker\n\u2022 Monthly expenses tracker\n\nAll templates are fully editable in Canva Free.\nDownload instantly. Edit in minutes. Print at home or at a local printer.\n\n\u2705 Instant digital download\n\u2705 Works with Canva FREE\n\u2705 A4 + US Letter sizes included\n\u2705 Lifetime access",
       "price": 39.99,
       "tags": [
         "cafe templates",
@@ -24,36 +24,62 @@
       "taxonomy_id": 1874
     }
   },
-
   "palette": {
-    "primary":    [74, 42, 22],
-    "primary_lt": [120, 75, 40],
-    "gold":       [193, 154, 89],
-    "cream":      [245, 238, 225],
-    "cream_alt":  [232, 222, 205],
-    "charcoal":   [28, 24, 20],
-    "espresso":   [45, 25, 10],
-    "latte":      [210, 185, 155]
+    "primary": [
+      74,
+      42,
+      22
+    ],
+    "primary_lt": [
+      120,
+      75,
+      40
+    ],
+    "gold": [
+      193,
+      154,
+      89
+    ],
+    "cream": [
+      245,
+      238,
+      225
+    ],
+    "cream_alt": [
+      232,
+      222,
+      205
+    ],
+    "charcoal": [
+      28,
+      24,
+      20
+    ],
+    "espresso": [
+      45,
+      25,
+      10
+    ],
+    "latte": [
+      210,
+      185,
+      155
+    ]
   },
-
   "brand": {
     "name_placeholder": "YOUR CAFE & COFFEE SHOP",
-    "subtitle":         "Specialty Coffee & Fresh Food",
-    "contact_line":     "📞 07700 900000  |  hello@yourcafe.co.uk",
-    "email_line":       "hello@yourcafe.co.uk",
-    "address_line":     "123 High Street, Your Town, AB1 2CD",
-    "tagline":          "Good coffee. Good food. Good vibes.",
-    "website":          "www.yourcafeshop.co.uk"
+    "subtitle": "Specialty Coffee & Fresh Food",
+    "contact_line": "\ud83d\udcde 07700 900000  |  hello@yourcafe.co.uk",
+    "email_line": "hello@yourcafe.co.uk",
+    "address_line": "123 High Street, Your Town, AB1 2CD",
+    "tagline": "Good coffee. Good food. Good vibes.",
+    "website": "www.yourcafeshop.co.uk"
   },
-
-  "icon": "star",
-
+  "icon": "coffee",
   "spaces": {
     "prefix": "templates/restaurant-cafe-coffee-shop"
   },
-
   "templates": [
-
     {
       "type": "business_card",
       "variant": "dark",
@@ -62,7 +88,6 @@
       "category": "Branding",
       "canva_url": "https://www.canva.com/d/REPLACE_WITH_SHORTCODE"
     },
-
     {
       "type": "business_card",
       "variant": "light",
@@ -71,7 +96,6 @@
       "category": "Branding",
       "canva_url": "https://www.canva.com/d/REPLACE_WITH_SHORTCODE"
     },
-
     {
       "type": "appointment_card",
       "variant": "dark",
@@ -81,7 +105,6 @@
       "canva_url": "https://www.canva.com/d/REPLACE_WITH_SHORTCODE",
       "_fields": "date, time, party_size, table_number, notes"
     },
-
     {
       "type": "loyalty_card",
       "title": "Loyalty Stamp Card",
@@ -92,7 +115,6 @@
       "offer": "10th Coffee FREE",
       "stamp_count": 10
     },
-
     {
       "type": "referral_card",
       "title": "Referral Card",
@@ -100,11 +122,13 @@
       "category": "Branding",
       "canva_url": "https://www.canva.com/d/REPLACE_WITH_SHORTCODE",
       "headline": "Refer a Friend",
-      "offer": "Both get £3 off",
-      "body": "Give this card to a friend. When they visit for the first time, you both receive £3 off your next order.",
-      "fields": ["Referred By", "Code"]
+      "offer": "Both get \u00a33 off",
+      "body": "Give this card to a friend. When they visit for the first time, you both receive \u00a33 off your next order.",
+      "fields": [
+        "Referred By",
+        "Code"
+      ]
     },
-
     {
       "type": "thank_you_card",
       "title": "Thank You Card",
@@ -113,10 +137,9 @@
       "canva_url": "https://www.canva.com/d/REPLACE_WITH_SHORTCODE",
       "headline": "Thank You!",
       "body": "We loved having you with us today.\nWe hope to see you again very soon.",
-      "cta": "Leave us a review — it means the world to us!",
+      "cta": "Leave us a review \u2014 it means the world to us!",
       "contact_visible": true
     },
-
     {
       "type": "gift_certificate",
       "title": "Gift Certificate",
@@ -126,9 +149,14 @@
       "headline": "Gift Certificate",
       "subheadline": "Specialty Coffee & Fresh Food",
       "body": "This certificate entitles the bearer to enjoy a treat\nat YOUR CAFE & COFFEE SHOP",
-      "fields": ["Recipient", "Value", "Message", "Expiry Date", "Issued By"]
+      "fields": [
+        "Recipient",
+        "Value",
+        "Message",
+        "Expiry Date",
+        "Issued By"
+      ]
     },
-
     {
       "type": "welcome_sign",
       "title": "Welcome Sign",
@@ -140,7 +168,6 @@
       "body": "We're so glad you're here.\nSit back, relax, and enjoy the moment.",
       "contact_visible": true
     },
-
     {
       "type": "opening_hours_sign",
       "title": "Opening Hours Sign",
@@ -149,16 +176,36 @@
       "canva_url": "https://www.canva.com/d/REPLACE_WITH_SHORTCODE",
       "headline": "Opening Hours",
       "hours": [
-        ["Monday",    "7:30 am – 5:00 pm"],
-        ["Tuesday",   "7:30 am – 5:00 pm"],
-        ["Wednesday", "7:30 am – 5:00 pm"],
-        ["Thursday",  "7:30 am – 5:00 pm"],
-        ["Friday",    "7:30 am – 6:00 pm"],
-        ["Saturday",  "8:00 am – 6:00 pm"],
-        ["Sunday",    "9:00 am – 4:00 pm"]
+        [
+          "Monday",
+          "7:30 am \u2013 5:00 pm"
+        ],
+        [
+          "Tuesday",
+          "7:30 am \u2013 5:00 pm"
+        ],
+        [
+          "Wednesday",
+          "7:30 am \u2013 5:00 pm"
+        ],
+        [
+          "Thursday",
+          "7:30 am \u2013 5:00 pm"
+        ],
+        [
+          "Friday",
+          "7:30 am \u2013 6:00 pm"
+        ],
+        [
+          "Saturday",
+          "8:00 am \u2013 6:00 pm"
+        ],
+        [
+          "Sunday",
+          "9:00 am \u2013 4:00 pm"
+        ]
       ]
     },
-
     {
       "type": "price_list",
       "title": "Menu & Price List",
@@ -169,46 +216,96 @@
         {
           "heading": "Hot Drinks",
           "items": [
-            ["Espresso",          "£2.50"],
-            ["Americano",         "£3.00"],
-            ["Flat White",        "£3.50"],
-            ["Cappuccino",        "£3.50"],
-            ["Latte",             "£3.80"],
-            ["Mocha",             "£4.00"]
+            [
+              "Espresso",
+              "\u00a32.50"
+            ],
+            [
+              "Americano",
+              "\u00a33.00"
+            ],
+            [
+              "Flat White",
+              "\u00a33.50"
+            ],
+            [
+              "Cappuccino",
+              "\u00a33.50"
+            ],
+            [
+              "Latte",
+              "\u00a33.80"
+            ],
+            [
+              "Mocha",
+              "\u00a34.00"
+            ]
           ]
         },
         {
           "heading": "Cold Drinks",
           "items": [
-            ["Iced Latte",        "£4.00"],
-            ["Cold Brew",         "£4.50"],
-            ["Smoothie",          "£4.50"],
-            ["Fresh Juice",       "£3.50"]
+            [
+              "Iced Latte",
+              "\u00a34.00"
+            ],
+            [
+              "Cold Brew",
+              "\u00a34.50"
+            ],
+            [
+              "Smoothie",
+              "\u00a34.50"
+            ],
+            [
+              "Fresh Juice",
+              "\u00a33.50"
+            ]
           ]
         },
         {
           "heading": "Food",
           "items": [
-            ["Toasted Sandwich",  "£5.50"],
-            ["Avocado Toast",     "£7.00"],
-            ["Granola Bowl",      "£6.00"],
-            ["Soup of the Day",   "£5.00"]
+            [
+              "Toasted Sandwich",
+              "\u00a35.50"
+            ],
+            [
+              "Avocado Toast",
+              "\u00a37.00"
+            ],
+            [
+              "Granola Bowl",
+              "\u00a36.00"
+            ],
+            [
+              "Soup of the Day",
+              "\u00a35.00"
+            ]
           ]
         },
         {
           "heading": "Extras & Add-ons",
           "items": [
-            ["Extra Shot",        "£0.50"],
-            ["Oat / Soy Milk",    "£0.50"],
-            ["Syrup",             "£0.50"]
+            [
+              "Extra Shot",
+              "\u00a30.50"
+            ],
+            [
+              "Oat / Soy Milk",
+              "\u00a30.50"
+            ],
+            [
+              "Syrup",
+              "\u00a30.50"
+            ]
           ]
         }
       ]
     },
-
     {
       "type": "flyer_a4",
-      "title": "Promotional Flyer — New Customer Offer",
+      "title": "Promotional Flyer \u2014 New Customer Offer",
       "filename": "RC_Promo_Flyer_New_Customer.png",
       "category": "Marketing",
       "canva_url": "https://www.canva.com/d/REPLACE_WITH_SHORTCODE",
@@ -217,10 +314,9 @@
       "body": "Visit us for the first time and enjoy a complimentary coffee with any food purchase.\nShow this flyer at the counter.",
       "footer": "Valid for new customers only. One offer per person. Cannot be combined with other promotions."
     },
-
     {
       "type": "flyer_a4",
-      "title": "Promotional Flyer — Seasonal Special",
+      "title": "Promotional Flyer \u2014 Seasonal Special",
       "filename": "RC_Promo_Flyer_Seasonal.png",
       "category": "Marketing",
       "canva_url": "https://www.canva.com/d/REPLACE_WITH_SHORTCODE",
@@ -229,23 +325,21 @@
       "body": "Discover our freshly crafted seasonal menu featuring locally sourced ingredients.\nAvailable for a limited time only.",
       "footer": "While stocks last. Ask a member of staff for today's specials."
     },
-
     {
       "type": "social_1080",
       "variant": "offer",
-      "title": "Social Post — New Customer Offer",
+      "title": "Social Post \u2014 New Customer Offer",
       "filename": "RC_Social_Offer.png",
       "category": "Marketing",
       "canva_url": "https://www.canva.com/d/REPLACE_WITH_SHORTCODE",
       "headline": "First Visit?",
       "subheadline": "Get a FREE coffee with any food order",
-      "cta": "Come in and say hello — link in bio"
+      "cta": "Come in and say hello \u2014 link in bio"
     },
-
     {
       "type": "social_1080",
       "variant": "tip",
-      "title": "Social Post — Coffee Tip",
+      "title": "Social Post \u2014 Coffee Tip",
       "filename": "RC_Social_Tip.png",
       "category": "Marketing",
       "canva_url": "https://www.canva.com/d/REPLACE_WITH_SHORTCODE",
@@ -254,43 +348,39 @@
       "tip_text": "A flat white uses a double ristretto shot for a stronger, sweeter flavour than a regular latte. Try one today!",
       "cta": "Follow us for daily coffee tips"
     },
-
     {
       "type": "social_1080",
       "variant": "review",
-      "title": "Social Post — 5-Star Review",
+      "title": "Social Post \u2014 5-Star Review",
       "filename": "RC_Social_Review.png",
       "category": "Marketing",
       "canva_url": "https://www.canva.com/d/REPLACE_WITH_SHORTCODE",
       "review_text": "\"Best coffee in town! The atmosphere is cosy, the staff are lovely, and the food is absolutely delicious. My new favourite spot!\"",
-      "reviewer": "— Emma T.",
+      "reviewer": "\u2014 Emma T.",
       "cta": "Come and see what the fuss is about"
     },
-
     {
       "type": "social_1080",
       "variant": "announce",
-      "title": "Social Post — New Menu Announcement",
+      "title": "Social Post \u2014 New Menu Announcement",
       "filename": "RC_Social_Announce.png",
       "category": "Marketing",
       "canva_url": "https://www.canva.com/d/REPLACE_WITH_SHORTCODE",
-      "headline": "New Menu — Just Dropped!",
+      "headline": "New Menu \u2014 Just Dropped!",
       "subheadline": "Fresh seasonal dishes & drinks now available",
-      "cta": "See the full menu — link in bio"
+      "cta": "See the full menu \u2014 link in bio"
     },
-
     {
       "type": "social_1080",
       "variant": "offer",
-      "title": "Social Post — Loyalty Promotion",
+      "title": "Social Post \u2014 Loyalty Promotion",
       "filename": "RC_Social_Loyalty.png",
       "category": "Marketing",
       "canva_url": "https://www.canva.com/d/REPLACE_WITH_SHORTCODE",
       "headline": "Join Our Loyalty Club",
-      "subheadline": "Collect 10 stamps — get your 10th coffee FREE",
+      "subheadline": "Collect 10 stamps \u2014 get your 10th coffee FREE",
       "cta": "Ask for your card at the counter"
     },
-
     {
       "type": "form_a4",
       "title": "Customer Intake & Preferences Form",
@@ -299,23 +389,96 @@
       "canva_url": "https://www.canva.com/d/REPLACE_WITH_SHORTCODE",
       "form_title": "CUSTOMER INTAKE FORM",
       "rows": [
-        { "type": "section_header", "label": "Personal Details" },
-        { "type": "field_pair",   "labels": ["Full Name", "Phone Number"] },
-        { "type": "field_pair",   "labels": ["Email Address", "Date of Birth"] },
-        { "type": "field_single", "label": "Home Address", "height": 60 },
-        { "type": "section_header", "label": "Dining Preferences" },
-        { "type": "checkbox_group", "label": "Dietary requirements:", "items": ["Vegetarian", "Vegan", "Gluten-Free", "Dairy-Free", "Halal", "Kosher", "Other"] },
-        { "type": "field_single", "label": "Known Allergies (please list)", "height": 70 },
-        { "type": "field_pair",   "labels": ["Preferred Seating", "Usual Order"] },
-        { "type": "section_header", "label": "Contact Preferences" },
-        { "type": "checkbox_group", "label": "How would you like to hear from us?", "items": ["Email", "SMS", "WhatsApp", "Post", "No marketing"] },
-        { "type": "field_single", "label": "How did you hear about us?", "height": 50 },
-        { "type": "section_header", "label": "Special Occasions" },
-        { "type": "field_pair",   "labels": ["Birthday Month", "Anniversary Month"] },
-        { "type": "field_single", "label": "Any other notes or preferences", "height": 80 }
+        {
+          "type": "section_header",
+          "label": "Personal Details"
+        },
+        {
+          "type": "field_pair",
+          "labels": [
+            "Full Name",
+            "Phone Number"
+          ]
+        },
+        {
+          "type": "field_pair",
+          "labels": [
+            "Email Address",
+            "Date of Birth"
+          ]
+        },
+        {
+          "type": "field_single",
+          "label": "Home Address",
+          "height": 60
+        },
+        {
+          "type": "section_header",
+          "label": "Dining Preferences"
+        },
+        {
+          "type": "checkbox_group",
+          "label": "Dietary requirements:",
+          "items": [
+            "Vegetarian",
+            "Vegan",
+            "Gluten-Free",
+            "Dairy-Free",
+            "Halal",
+            "Kosher",
+            "Other"
+          ]
+        },
+        {
+          "type": "field_single",
+          "label": "Known Allergies (please list)",
+          "height": 70
+        },
+        {
+          "type": "field_pair",
+          "labels": [
+            "Preferred Seating",
+            "Usual Order"
+          ]
+        },
+        {
+          "type": "section_header",
+          "label": "Contact Preferences"
+        },
+        {
+          "type": "checkbox_group",
+          "label": "How would you like to hear from us?",
+          "items": [
+            "Email",
+            "SMS",
+            "WhatsApp",
+            "Post",
+            "No marketing"
+          ]
+        },
+        {
+          "type": "field_single",
+          "label": "How did you hear about us?",
+          "height": 50
+        },
+        {
+          "type": "section_header",
+          "label": "Special Occasions"
+        },
+        {
+          "type": "field_pair",
+          "labels": [
+            "Birthday Month",
+            "Anniversary Month"
+          ]
+        },
+        {
+          "type": "field_single",
+          "label": "Any other notes or preferences",
+          "height": 80
+        }
       ]
     },
-
     {
       "type": "form_a4",
       "title": "Allergy & Dietary Consent Form",
@@ -324,21 +487,92 @@
       "canva_url": "https://www.canva.com/d/REPLACE_WITH_SHORTCODE",
       "form_title": "ALLERGY & DIETARY CONSENT FORM",
       "rows": [
-        { "type": "section_header", "label": "Guest Information" },
-        { "type": "field_pair",   "labels": ["Guest Name", "Date of Visit"] },
-        { "type": "field_pair",   "labels": ["Table Number", "Server Name"] },
-        { "type": "section_header", "label": "Allergy Declaration" },
-        { "type": "text_block",   "text": "Please indicate any allergies or intolerances below. Our team will do their best to accommodate your needs, however we cannot guarantee a completely allergen-free environment.", "height": 70 },
-        { "type": "checkbox_group", "label": "Allergens (tick all that apply):", "items": ["Gluten", "Crustaceans", "Eggs", "Fish", "Peanuts", "Soybeans", "Milk", "Nuts", "Celery", "Mustard", "Sesame", "Sulphites", "Lupin", "Molluscs"] },
-        { "type": "field_single", "label": "Other allergies or intolerances", "height": 60 },
-        { "type": "section_header", "label": "Dietary Requirements" },
-        { "type": "checkbox_group", "label": "Dietary preference:", "items": ["Vegetarian", "Vegan", "Gluten-Free", "Dairy-Free", "Halal", "Kosher"] },
-        { "type": "section_header", "label": "Consent & Signature" },
-        { "type": "text_block",   "text": "I confirm that the information provided above is accurate to the best of my knowledge. I understand that the establishment will take reasonable steps to accommodate my requirements.", "height": 60 },
-        { "type": "field_pair",   "labels": ["Guest Signature", "Date"] }
+        {
+          "type": "section_header",
+          "label": "Guest Information"
+        },
+        {
+          "type": "field_pair",
+          "labels": [
+            "Guest Name",
+            "Date of Visit"
+          ]
+        },
+        {
+          "type": "field_pair",
+          "labels": [
+            "Table Number",
+            "Server Name"
+          ]
+        },
+        {
+          "type": "section_header",
+          "label": "Allergy Declaration"
+        },
+        {
+          "type": "text_block",
+          "text": "Please indicate any allergies or intolerances below. Our team will do their best to accommodate your needs, however we cannot guarantee a completely allergen-free environment.",
+          "height": 70
+        },
+        {
+          "type": "checkbox_group",
+          "label": "Allergens (tick all that apply):",
+          "items": [
+            "Gluten",
+            "Crustaceans",
+            "Eggs",
+            "Fish",
+            "Peanuts",
+            "Soybeans",
+            "Milk",
+            "Nuts",
+            "Celery",
+            "Mustard",
+            "Sesame",
+            "Sulphites",
+            "Lupin",
+            "Molluscs"
+          ]
+        },
+        {
+          "type": "field_single",
+          "label": "Other allergies or intolerances",
+          "height": 60
+        },
+        {
+          "type": "section_header",
+          "label": "Dietary Requirements"
+        },
+        {
+          "type": "checkbox_group",
+          "label": "Dietary preference:",
+          "items": [
+            "Vegetarian",
+            "Vegan",
+            "Gluten-Free",
+            "Dairy-Free",
+            "Halal",
+            "Kosher"
+          ]
+        },
+        {
+          "type": "section_header",
+          "label": "Consent & Signature"
+        },
+        {
+          "type": "text_block",
+          "text": "I confirm that the information provided above is accurate to the best of my knowledge. I understand that the establishment will take reasonable steps to accommodate my requirements.",
+          "height": 60
+        },
+        {
+          "type": "field_pair",
+          "labels": [
+            "Guest Signature",
+            "Date"
+          ]
+        }
       ]
     },
-
     {
       "type": "invoice",
       "title": "Invoice",
@@ -356,7 +590,6 @@
         "Discount / Voucher"
       ]
     },
-
     {
       "type": "booking_confirmation",
       "title": "Booking Confirmation",
@@ -375,7 +608,6 @@
         "Confirmed By"
       ]
     },
-
     {
       "type": "form_a4",
       "title": "Staff Daily Checklist",
@@ -384,18 +616,77 @@
       "canva_url": "https://www.canva.com/d/REPLACE_WITH_SHORTCODE",
       "form_title": "DAILY OPENING & CLOSING CHECKLIST",
       "rows": [
-        { "type": "field_pair",   "labels": ["Date", "Staff Member"] },
-        { "type": "section_header", "label": "Opening Tasks" },
-        { "type": "checkbox_group", "label": "Complete before opening:", "items": ["Unlock & disarm alarm", "Turn on equipment", "Check stock levels", "Prepare coffee station", "Set up tables & chairs", "Check cleanliness of toilets", "Display daily specials board", "Check till & float"] },
-        { "type": "section_header", "label": "Midday Tasks" },
-        { "type": "checkbox_group", "label": "Complete during service:", "items": ["Restock condiments", "Clear & wipe tables", "Check toilet cleanliness", "Refill display cabinet", "Monitor stock levels"] },
-        { "type": "section_header", "label": "Closing Tasks" },
-        { "type": "checkbox_group", "label": "Complete before closing:", "items": ["Cash up till", "Clean coffee machine", "Wipe all surfaces", "Mop floors", "Take out bins", "Lock up & set alarm", "Complete waste log"] },
-        { "type": "field_single", "label": "Notes / Issues to Report", "height": 80 },
-        { "type": "field_pair",   "labels": ["Staff Signature", "Manager Sign-Off"] }
+        {
+          "type": "field_pair",
+          "labels": [
+            "Date",
+            "Staff Member"
+          ]
+        },
+        {
+          "type": "section_header",
+          "label": "Opening Tasks"
+        },
+        {
+          "type": "checkbox_group",
+          "label": "Complete before opening:",
+          "items": [
+            "Unlock & disarm alarm",
+            "Turn on equipment",
+            "Check stock levels",
+            "Prepare coffee station",
+            "Set up tables & chairs",
+            "Check cleanliness of toilets",
+            "Display daily specials board",
+            "Check till & float"
+          ]
+        },
+        {
+          "type": "section_header",
+          "label": "Midday Tasks"
+        },
+        {
+          "type": "checkbox_group",
+          "label": "Complete during service:",
+          "items": [
+            "Restock condiments",
+            "Clear & wipe tables",
+            "Check toilet cleanliness",
+            "Refill display cabinet",
+            "Monitor stock levels"
+          ]
+        },
+        {
+          "type": "section_header",
+          "label": "Closing Tasks"
+        },
+        {
+          "type": "checkbox_group",
+          "label": "Complete before closing:",
+          "items": [
+            "Cash up till",
+            "Clean coffee machine",
+            "Wipe all surfaces",
+            "Mop floors",
+            "Take out bins",
+            "Lock up & set alarm",
+            "Complete waste log"
+          ]
+        },
+        {
+          "type": "field_single",
+          "label": "Notes / Issues to Report",
+          "height": 80
+        },
+        {
+          "type": "field_pair",
+          "labels": [
+            "Staff Signature",
+            "Manager Sign-Off"
+          ]
+        }
       ]
     },
-
     {
       "type": "form_a4",
       "title": "Weekly Staff Schedule",
@@ -404,19 +695,54 @@
       "canva_url": "https://www.canva.com/d/REPLACE_WITH_SHORTCODE",
       "form_title": "WEEKLY STAFF SCHEDULE",
       "rows": [
-        { "type": "field_pair",   "labels": ["Week Commencing", "Manager"] },
-        { "type": "section_header", "label": "Staff Rota" },
+        {
+          "type": "field_pair",
+          "labels": [
+            "Week Commencing",
+            "Manager"
+          ]
+        },
+        {
+          "type": "section_header",
+          "label": "Staff Rota"
+        },
         {
           "type": "table",
-          "headers": ["Staff Name", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun", "Total Hrs"],
-          "col_widths": [0.22, 0.10, 0.10, 0.10, 0.10, 0.10, 0.10, 0.10, 0.08],
+          "headers": [
+            "Staff Name",
+            "Mon",
+            "Tue",
+            "Wed",
+            "Thu",
+            "Fri",
+            "Sat",
+            "Sun",
+            "Total Hrs"
+          ],
+          "col_widths": [
+            0.22,
+            0.1,
+            0.1,
+            0.1,
+            0.1,
+            0.1,
+            0.1,
+            0.1,
+            0.08
+          ],
           "rows": 10
         },
-        { "type": "section_header", "label": "Notes" },
-        { "type": "field_single", "label": "Shift Notes / Cover Arrangements", "height": 80 }
+        {
+          "type": "section_header",
+          "label": "Notes"
+        },
+        {
+          "type": "field_single",
+          "label": "Shift Notes / Cover Arrangements",
+          "height": 80
+        }
       ]
     },
-
     {
       "type": "form_a4",
       "title": "Event & Private Hire Enquiry Form",
@@ -425,20 +751,81 @@
       "canva_url": "https://www.canva.com/d/REPLACE_WITH_SHORTCODE",
       "form_title": "EVENT & PRIVATE HIRE ENQUIRY FORM",
       "rows": [
-        { "type": "section_header", "label": "Contact Details" },
-        { "type": "field_pair",   "labels": ["Full Name", "Phone Number"] },
-        { "type": "field_pair",   "labels": ["Email Address", "Company / Organisation"] },
-        { "type": "section_header", "label": "Event Details" },
-        { "type": "field_pair",   "labels": ["Event Date", "Event Start Time"] },
-        { "type": "field_pair",   "labels": ["Event End Time", "Number of Guests"] },
-        { "type": "field_pair",   "labels": ["Type of Event", "Indoor / Outdoor"] },
-        { "type": "checkbox_group", "label": "Services required:", "items": ["Full venue hire", "Catering", "Bar service", "Coffee station", "Cake / desserts", "AV equipment", "Decoration"] },
-        { "type": "field_single", "label": "Dietary Requirements / Allergies", "height": 60 },
-        { "type": "field_single", "label": "Additional Notes or Special Requests", "height": 80 },
-        { "type": "field_pair",   "labels": ["Estimated Budget", "How did you hear about us?"] }
+        {
+          "type": "section_header",
+          "label": "Contact Details"
+        },
+        {
+          "type": "field_pair",
+          "labels": [
+            "Full Name",
+            "Phone Number"
+          ]
+        },
+        {
+          "type": "field_pair",
+          "labels": [
+            "Email Address",
+            "Company / Organisation"
+          ]
+        },
+        {
+          "type": "section_header",
+          "label": "Event Details"
+        },
+        {
+          "type": "field_pair",
+          "labels": [
+            "Event Date",
+            "Event Start Time"
+          ]
+        },
+        {
+          "type": "field_pair",
+          "labels": [
+            "Event End Time",
+            "Number of Guests"
+          ]
+        },
+        {
+          "type": "field_pair",
+          "labels": [
+            "Type of Event",
+            "Indoor / Outdoor"
+          ]
+        },
+        {
+          "type": "checkbox_group",
+          "label": "Services required:",
+          "items": [
+            "Full venue hire",
+            "Catering",
+            "Bar service",
+            "Coffee station",
+            "Cake / desserts",
+            "AV equipment",
+            "Decoration"
+          ]
+        },
+        {
+          "type": "field_single",
+          "label": "Dietary Requirements / Allergies",
+          "height": 60
+        },
+        {
+          "type": "field_single",
+          "label": "Additional Notes or Special Requests",
+          "height": 80
+        },
+        {
+          "type": "field_pair",
+          "labels": [
+            "Estimated Budget",
+            "How did you hear about us?"
+          ]
+        }
       ]
     },
-
     {
       "type": "income_tracker",
       "title": "Monthly Income Tracker",
@@ -446,9 +833,15 @@
       "category": "Operations",
       "canva_url": "https://www.canva.com/d/REPLACE_WITH_SHORTCODE",
       "month_col": true,
-      "extra_cols": ["Date", "Description / Source", "Category", "Payment Method", "Amount (£)", "Notes"]
+      "extra_cols": [
+        "Date",
+        "Description / Source",
+        "Category",
+        "Payment Method",
+        "Amount (\u00a3)",
+        "Notes"
+      ]
     },
-
     {
       "type": "expenses_tracker",
       "title": "Monthly Expenses Tracker",
@@ -456,9 +849,16 @@
       "category": "Operations",
       "canva_url": "https://www.canva.com/d/REPLACE_WITH_SHORTCODE",
       "month_col": true,
-      "extra_cols": ["Date", "Supplier / Vendor", "Category", "Payment Method", "Amount (£)", "VAT (£)", "Notes"]
+      "extra_cols": [
+        "Date",
+        "Supplier / Vendor",
+        "Category",
+        "Payment Method",
+        "Amount (\u00a3)",
+        "VAT (\u00a3)",
+        "Notes"
+      ]
     },
-
     {
       "type": "form_a4",
       "title": "Waste & Stock Log",
@@ -467,25 +867,62 @@
       "canva_url": "https://www.canva.com/d/REPLACE_WITH_SHORTCODE",
       "form_title": "DAILY WASTE & STOCK LOG",
       "rows": [
-        { "type": "field_pair",   "labels": ["Date", "Staff Member"] },
-        { "type": "section_header", "label": "Waste Log" },
+        {
+          "type": "field_pair",
+          "labels": [
+            "Date",
+            "Staff Member"
+          ]
+        },
+        {
+          "type": "section_header",
+          "label": "Waste Log"
+        },
         {
           "type": "table",
-          "headers": ["Item", "Quantity Wasted", "Reason", "Value (£)"],
-          "col_widths": [0.35, 0.25, 0.25, 0.15],
+          "headers": [
+            "Item",
+            "Quantity Wasted",
+            "Reason",
+            "Value (\u00a3)"
+          ],
+          "col_widths": [
+            0.35,
+            0.25,
+            0.25,
+            0.15
+          ],
           "rows": 10
         },
-        { "type": "section_header", "label": "Stock Check" },
+        {
+          "type": "section_header",
+          "label": "Stock Check"
+        },
         {
           "type": "table",
-          "headers": ["Item", "Opening Stock", "Used", "Closing Stock", "Reorder?"],
-          "col_widths": [0.30, 0.18, 0.14, 0.20, 0.18],
+          "headers": [
+            "Item",
+            "Opening Stock",
+            "Used",
+            "Closing Stock",
+            "Reorder?"
+          ],
+          "col_widths": [
+            0.3,
+            0.18,
+            0.14,
+            0.2,
+            0.18
+          ],
           "rows": 10
         },
-        { "type": "field_single", "label": "Notes / Actions Required", "height": 70 }
+        {
+          "type": "field_single",
+          "label": "Notes / Actions Required",
+          "height": 70
+        }
       ]
     },
-
     {
       "type": "certificate",
       "title": "Employee of the Month Certificate",
@@ -494,28 +931,31 @@
       "canva_url": "https://www.canva.com/d/REPLACE_WITH_SHORTCODE",
       "headline": "Employee of the Month",
       "body": "This certificate is proudly awarded to a valued member of the team at YOUR CAFE & COFFEE SHOP in recognition of outstanding service and dedication.",
-      "fields": ["Recipient Name", "Month & Year", "Awarded By", "Signature"]
+      "fields": [
+        "Recipient Name",
+        "Month & Year",
+        "Awarded By",
+        "Signature"
+      ]
     }
-
   ],
-
   "_template_types_reference": {
-    "business_card":        "1050x600px landscape. variant: dark or light.",
-    "appointment_card":     "1050x600px landscape. Fields: date, time, party_size, table_number, notes.",
-    "loyalty_card":         "1050x600px landscape. stamp_count: number of stamps before reward.",
-    "referral_card":        "1050x600px landscape. offer + body + fields.",
-    "thank_you_card":       "1050x600px landscape. headline + body + cta.",
-    "gift_certificate":     "2550x1800px landscape. headline + body + fields list.",
-    "welcome_sign":         "2480x3508px A4 portrait. headline + body + optional contact.",
-    "opening_hours_sign":   "2480x3508px A4 portrait. hours: [[day, time], ...] array.",
-    "flyer_a4":             "2480x3508px A4 portrait. headline + offer + body + footer.",
-    "price_list":           "2480x3508px A4 portrait. sections: [{heading, items:[name,price]}].",
-    "form_a4":              "2480x3508px A4 portrait. rows: row-spec objects.",
-    "invoice":              "2480x3508px A4 portrait. line_items: list of service name strings.",
+    "business_card": "1050x600px landscape. variant: dark or light.",
+    "appointment_card": "1050x600px landscape. Fields: date, time, party_size, table_number, notes.",
+    "loyalty_card": "1050x600px landscape. stamp_count: number of stamps before reward.",
+    "referral_card": "1050x600px landscape. offer + body + fields.",
+    "thank_you_card": "1050x600px landscape. headline + body + cta.",
+    "gift_certificate": "2550x1800px landscape. headline + body + fields list.",
+    "welcome_sign": "2480x3508px A4 portrait. headline + body + optional contact.",
+    "opening_hours_sign": "2480x3508px A4 portrait. hours: [[day, time], ...] array.",
+    "flyer_a4": "2480x3508px A4 portrait. headline + offer + body + footer.",
+    "price_list": "2480x3508px A4 portrait. sections: [{heading, items:[name,price]}].",
+    "form_a4": "2480x3508px A4 portrait. rows: row-spec objects.",
+    "invoice": "2480x3508px A4 portrait. line_items: list of service name strings.",
     "booking_confirmation": "2480x3508px A4 portrait. fields: list of field label strings.",
-    "social_1080":          "1080x1080px square. variant: offer|tip|review|announce.",
-    "certificate":          "2550x1800px landscape. headline + body + fields.",
-    "income_tracker":       "2480x3508px A4 portrait. extra_cols: column header strings.",
-    "expenses_tracker":     "2480x3508px A4 portrait. extra_cols: column header strings."
+    "social_1080": "1080x1080px square. variant: offer|tip|review|announce.",
+    "certificate": "2550x1800px landscape. headline + body + fields.",
+    "income_tracker": "2480x3508px A4 portrait. extra_cols: column header strings.",
+    "expenses_tracker": "2480x3508px A4 portrait. extra_cols: column header strings."
   }
 }

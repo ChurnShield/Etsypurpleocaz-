@@ -4,6 +4,16 @@ A living document updated every session. Most recent entries first.
 
 ---
 
+### 2026-03-28 06:50 — Restaurant hero generation
+
+**Rule:** Ideogram generated background with dog paw/animal elements in a restaurant niche hero
+
+**Why:** hero_pipeline_v3.py never passed negative_prompt to Ideogram API. Generic 'warm flatlay' aesthetic shares training-data DNA with pet niches — Ideogram hallucinated paws without explicit exclusion.
+
+**How to apply:** Added negative_prompt field to all NICHE_PROMPTS entries (now tuples). Restaurant gets explicit animal/pet/paw exclusion list. generate_background() unpacks and passes it to Ideogram API. All pet niches exclude food/restaurant elements.
+
+---
+
 ### 2026-03-27 — CrewAI crew + Dog Daycare bundle
 
 **Canva MCP only works from local laptop, not the droplet.**

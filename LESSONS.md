@@ -4,6 +4,16 @@ A living document updated every session. Most recent entries first.
 
 ---
 
+### 2026-03-28 07:03 — Restaurant business card icon + hero price badge
+
+**Rule:** Business cards showed paw icon (wrong niche). Price badge rendered as invisible white text on white rectangle.
+
+**Why:** niche_icon() had no handler for 'star','coffee','fork','heart','flower' — else fell through to paw_print(). Price badge used fill=(255,255,255,45) on RGBA canvas; PIL composites RGBA→RGB against WHITE not black, so any white-source fill always becomes RGB(255,255,255) regardless of alpha — text was white-on-white.
+
+**How to apply:** Added coffee_cup_icon, fork_icon, star_icon, heart_icon, flower_icon to factory. Safe else fallback is now a circle. Restaurant config icon changed to coffee. Price badge now uses fully opaque white with accent-coloured text — zero alpha ambiguity.
+
+---
+
 ### 2026-03-28 06:50 — Restaurant hero generation
 
 **Rule:** Ideogram generated background with dog paw/animal elements in a restaurant niche hero

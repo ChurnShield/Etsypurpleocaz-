@@ -4,6 +4,45 @@ Most recent first.
 
 ---
 
+## 2026-03-28
+
+### Restaurant Cafe Coffee Shop — DRAFT #4479049403
+
+- **Listing #4479049403** — https://www.etsy.com/listing/4479049403
+- 28 templates (CrewAI Planner): branding, menus, social, forms, operations
+- Palette: espresso [74,42,22], brass [193,154,89], cream [245,238,225], charcoal [28,24,20]
+- CrewAI Phases 1–3 clean; Phase 4 failed (double `&` in title → HTTP 400, fixed manually)
+- Etsy lesson: title may not contain `&` more than once — use `+` or `and` for the second
+- Price: £39.99 | 13 tags (all ≤20 chars) | verify: 9/9 PASSED | State: DRAFT
+- Hero v3: https://purpleocaz-assets.lon1.digitaloceanspaces.com/thumbnails/heroes/restaurant_cafe-hero-v3.png
+- evaluate: 2/2 real checks passed (dark hero false positive — known issue)
+
+### Pinterest Pack — COMPLETE
+
+| Asset | URL |
+|-------|-----|
+| Pin 1 — Hero Overview | https://purpleocaz-assets.lon1.digitaloceanspaces.com/pinterest/restaurant-cafe-pin-1.png |
+| Pin 2 — Menu & Branding | https://purpleocaz-assets.lon1.digitaloceanspaces.com/pinterest/restaurant-cafe-pin-2.png |
+| Pin 3 — Social Media Kit | https://purpleocaz-assets.lon1.digitaloceanspaces.com/pinterest/restaurant-cafe-pin-3.png |
+| Pin 4 — Forms + Operations | https://purpleocaz-assets.lon1.digitaloceanspaces.com/pinterest/restaurant-cafe-pin-4.png |
+| Pin 5 — Full Bundle CTA | https://purpleocaz-assets.lon1.digitaloceanspaces.com/pinterest/restaurant-cafe-pin-5.png |
+| Video Pin (10s Ken Burns) | https://purpleocaz-assets.lon1.digitaloceanspaces.com/pinterest/restaurant-cafe-video-pin.mp4 |
+
+### To activate this listing (when ready):
+
+1. Review hero_v3 at the Spaces URL above
+2. If approved: `python3 scripts/hero_pipeline_v3.py --niche restaurant_cafe --templates-dir outputs/restaurant-cafe-coffee-shop/templates/ --output outputs/restaurant-cafe-coffee-shop/listing/hero_v3.png --accent "74,42,22" --price "£39.99" --listing-id 4479049403 --skip-ideogram`
+3. PATCH state=active: `PATCH /application/shops/34071205/listings/4479049403` with `state=active`
+
+### Tomorrow's priorities
+
+1. **Activate restaurant listing** after reviewing hero_v3 and pins above
+2. **Fix evaluate_listing.py dark palette threshold** — persistent false positive on dark niches (espresso brown flagged same as dog daycare steel blue)
+3. **Canva conversion session (laptop only)** — convert restaurant Pillow PNGs to editable Canva designs with `/d/` shortlinks
+4. **Next niche via CrewAI** — confirm restaurant confirms crew generalises; nail tech or hair salon next
+
+---
+
 ## 2026-03-27 (end of day update)
 
 ### Dog Daycare Mega Bundle — LIVE #4478880990

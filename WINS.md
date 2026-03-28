@@ -5,6 +5,12 @@ Most recent first. Read this to repeat what works.
 
 ---
 
+### 2026-03-28 06:42 — Restaurant Cafe Pinterest Build
+
+**Pattern:** Full niche pipeline: CrewAI crew built 28 templates (Phases 1-3 clean), Etsy listing fixed manually after HTTP 400 from double-& in title, 9/9 verify passed, 5 Pinterest pins + Ken Burns video pin (2.4MB) all HTTP 200, hero_pipeline_v3 restaurant_cafe prompt added. Pattern: warm espresso/brass palette, light+dark pin variants, mini card mockups drawn inline with PIL.
+
+---
+
 ### 2026-03-27 10:16 — Tattoo Business Card Listing #2 Published
 
 **Pattern:** Draft #4478348991 — exported 3 listing images from DAHD6ICQCWU, added 2 generic images from existing listing + Spaces canva_basics + please_note to reach 7-image Star Seller standard. Delivery PDF with /d/ shortlinks (dark: e21A6ZQJ3XcCIq-, light: vyaBAtIupW1g7zH). All 9 verify_listing.py checks passed. State: active. URL: https://www.etsy.com/listing/4478348991

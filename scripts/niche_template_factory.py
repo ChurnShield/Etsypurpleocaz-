@@ -1521,6 +1521,22 @@ def main(config_path, skip_etsy=False, only_pdf=False):
     print(f"https://www.etsy.com/listing/{listing_id}")
     print(f"{'='*60}")
 
+    # Auto-mark any matching backlog ideas as ACTIONED
+    niche_name = cfg.get("niche", {}).get("name", "")
+    slug = cfg.get("niche", {}).get("slug", "")
+    keywords = [w for w in (niche_name + " " + slug).lower().split() if len(w) > 3]
+    if keywords:
+        import subprocess as _sp
+        mark_script = Path(__file__).parent / "mark_idea_actioned.py"
+        for kw in keywords[:3]:   # check up to 3 significant words
+            result = _sp.run(
+                ["python3", str(mark_script), "--keyword", kw,
+                 "--note", f"niche built via factory — listing #{listing_id}"],
+                capture_output=True, text=True, cwd=str(Path(__file__).parent.parent)
+            )
+            if "Marked ACTIONED" in result.stdout:
+                print(result.stdout.strip())
+
     return listing_id
 
 

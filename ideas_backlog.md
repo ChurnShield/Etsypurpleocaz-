@@ -6,7 +6,7 @@ Auto-populated from weekly YouTube digest. Deduplicated 2026-03-23.
 
 ## Agent Architecture & Automation
 
-[ ] **Architecture** Sub-agent architecture for PurpleOcaz + ChurnShield
+[NEW] **Architecture** Sub-agent architecture for PurpleOcaz + ChurnShield
     - Orchestrator (Big Brain) assigns tasks to specialist sub-agents
     - Research Agent: YouTube feed monitoring, niche trends, ideas_backlog updates
     - Design Agent: asset sourcing + Canva MCP design building
@@ -18,7 +18,7 @@ Auto-populated from weekly YouTube digest. Deduplicated 2026-03-23.
     - Frameworks to evaluate: agency-agents repo, Claude multi-agent API, n8n
     — Source: Strategic planning, 2026-03-11
 
-[ ] **Autoresearch System** Self-improving prompt loop for CC skills (Karpathy method). 5 components:
+[NEW] **Autoresearch System** Self-improving prompt loop for CC skills (Karpathy method). 5 components:
     1. FIND WHY SKILLS FAIL — Act as skill diagnostician. Audit skill prompt, run against 5 test inputs, score each, identify failure patterns (vague instructions, missing constraints, weak output format), rank by frequency and impact, deliver diagnosis before fixes.
     2. BUILD SCORING CHECKLIST — Act as quality criteria specialist. Turn vague "good output" into 3-6 precise yes/no scoring questions. No subjectivity.
     3. RUN THE AUTORESEARCH LOOP — Act as autonomous prompt optimization agent. One change at a time, scored against checklist. Continuous improvement until plateau.
@@ -28,70 +28,70 @@ Auto-populated from weekly YouTube digest. Deduplicated 2026-03-23.
     - PRIORITY: High — apply to Etsy listing skill, flyer build skill, and thumbnail pipeline first
     — Source: @alex_prompter on Twitter, 2026-03-23
 
-[x] **Skills** Implement IndyDevDan's library.yaml pattern for skill management — treat skills as versioned distributable packages, single source of truth. Evaluate github.com/disler/the-library before building. Watch the Library Meta-Skill video first (26 mins, IndyDevDan, 2026-03-23 digest). Dedicated session required — do not tidy skills/ folder until this is decided. — Source: Strategic decision 2026-03-23 — DONE: 2026-03-27, commit e84c690
+[ACTIONED: 2026-03-27] **Skills** Implement IndyDevDan's library.yaml pattern for skill management — treat skills as versioned distributable packages, single source of truth. Evaluate github.com/disler/the-library before building. Watch the Library Meta-Skill video first (26 mins, IndyDevDan, 2026-03-23 digest). Dedicated session required — do not tidy skills/ folder until this is decided. — Source: Strategic decision 2026-03-23 — DONE: 2026-03-27, commit e84c690
 
-[ ] **Agent Automation** Set up Mac Mini with autonomous agents for end-to-end device operation (GUI control, AirDrop delivery, 2-3 core skills max) — Source: Mac Mini Agents OpenClaw
+[NEW] **Agent Automation** Set up Mac Mini with autonomous agents for end-to-end device operation (GUI control, AirDrop delivery, 2-3 core skills max) — Source: Mac Mini Agents OpenClaw
 
-[ ] **Automation** Manus for weekly niche research — automated Monday morning runs, drops findings to Google Sheet — Source: Strategic planning, 2026-03-16
+[ACTIONED: 2026-03-28] **Automation** Manus for weekly niche research — automated Monday morning runs, drops findings to Google Sheet — Source: Strategic planning, 2026-03-16 — CrewAI crew replaces Manus for niche research — same outcome, native stack
 
-[ ] **Vision** Overnight listing pipeline — Andy approves niche on phone → pipeline runs overnight → draft listing ready next morning. Zero manual steps. — Source: Strategic planning, 2026-03-16
+[ACTIONED: 2026-03-28] **Vision** Overnight listing pipeline — Andy approves niche on phone → pipeline runs overnight → draft listing ready next morning. Zero manual steps. — Source: Strategic planning, 2026-03-16 — CrewAI crew now runs full niche pipeline overnight — Phase 1 complete
 
-[x] **Pipeline** Build private skill distribution system using library.yaml — Source: The Library Meta-Skill, 2026-03-23 — DONE: 2026-03-27, commit e84c690
+[ACTIONED: 2026-03-27] **Pipeline** Build private skill distribution system using library.yaml — Source: The Library Meta-Skill, 2026-03-23 — DONE: 2026-03-27, commit e84c690
 
-[ ] **Automation** Think in complete workflows rather than individual tasks — Source: You Have To Think In Workflows, 2026-03-23
+[NEW] **Automation** Think in complete workflows rather than individual tasks — Source: You Have To Think In Workflows, 2026-03-23
 
-[x] **Architecture** Verification agent step — GET verification after every API call. DONE: implemented in SOP and all publish workflows. — Source: 2026-03-16
+[ACTIONED: 2026-03-27] **Architecture** Verification agent step — GET verification after every API call. DONE: implemented in SOP and all publish workflows. — Source: 2026-03-16
 
-[x] **Process** TODO.md per session — CC creates task list at session start. DONE: using TaskCreate/TaskUpdate. — Source: 2026-03-16
+[ACTIONED: 2026-03-27] **Process** TODO.md per session — CC creates task list at session start. DONE: using TaskCreate/TaskUpdate. — Source: 2026-03-16
 
 ## PurpleOcaz — Etsy Strategy
 
-[ ] **Etsy Keywords** Target "Ita bags" as unsaturated high-opportunity keyword — Source: eRank Trend Report, 2026-03-16
+[NEW] **Etsy Keywords** Target "Ita bags" as unsaturated high-opportunity keyword — Source: eRank Trend Report, 2026-03-16
 
-[ ] **Etsy Trends** Create spring 2026 products around trending colors/themes/aesthetics — Source: Our 2026 Spring Trends Forecast, 2026-03-16
+[NEW] **Etsy Trends** Create spring 2026 products around trending colors/themes/aesthetics — Source: Our 2026 Spring Trends Forecast, 2026-03-16
 
-[ ] **Etsy Trends** Target crochet-related keywords showing fast growth — Source: This Etsy Keyword is GROWING FAST, 2026-03-16
+[NEW] **Etsy Trends** Target crochet-related keywords showing fast growth — Source: This Etsy Keyword is GROWING FAST, 2026-03-16
 
-[ ] **Etsy SEO** Implement 5-step SEO optimization framework for better discoverability — Source: Struggling to get noticed on Etsy, 2026-03-16
+[NEW] **Etsy SEO** Implement 5-step SEO optimization framework for better discoverability — Source: Struggling to get noticed on Etsy, 2026-03-16
 
-[ ] **Etsy Strategy** Focus on broad customer appeal vs narrow niches to maximize revenue — Source: Why Niches LOSE You Money, 2026-03-16
+[NEW] **Etsy Strategy** Focus on broad customer appeal vs narrow niches to maximize revenue — Source: Why Niches LOSE You Money, 2026-03-16
 
-[ ] **AI Tools** Test Nano Banana AI for digital template/product creation — Source: I discovered how to make $100K with Nano Banana AI, 2026-03-11
+[NEW] **AI Tools** Test Nano Banana AI for digital template/product creation — Source: I discovered how to make $100K with Nano Banana AI, 2026-03-11
 
-[ ] **Pricing Strategy** Avoid constant sales and deceptive pricing tactics on Etsy — Source: Constant Sales, Deceptive Pricing, 2026-03-11
+[NEW] **Pricing Strategy** Avoid constant sales and deceptive pricing tactics on Etsy — Source: Constant Sales, Deceptive Pricing, 2026-03-11
 
-[ ] **Marketplace** Monitor Etsy competitors like GoImagine for strategic insights — Source: Why Etsy's Biggest Alternative is Closing Down, 2026-03-11
+[NEW] **Marketplace** Monitor Etsy competitors like GoImagine for strategic insights — Source: Why Etsy's Biggest Alternative is Closing Down, 2026-03-11
 
-[ ] **Conversion** Optimize for conversion rate over traffic volume — Source: Top Etsy sellers aren't working harder, 2026-03-11
+[NEW] **Conversion** Optimize for conversion rate over traffic volume — Source: Top Etsy sellers aren't working harder, 2026-03-11
 
 ## PurpleOcaz — Etsy (Added 2026-03-23)
 
-[ ] **Etsy SEO** Avoid jumping on trending keyword spikes — track trends for consistency first — Source: A BIG mistake Etsy sellers make
-[ ] **Etsy Strategy** Monitor offsite ads performance and understand auto opt-in implications — Source: Do You Understand Etsy Offsite Ads
-[ ] **Keyword Research** Replace "digital" with specific niches like "digital planner templates" — Source: Dont use this Etsy Trending Keyword
-[ ] **Trend Analysis** Pull trends from fashion/Pinterest into Etsy before they become saturated — Source: Etsy Trends To Sell NOW
-[ ] **Listing Optimization** Use exclusive data on best days/times to list on Etsy — Source: Exclusive Data The Best Day to List on Etsy
-[ ] **Template Creation** Focus on Canva template tutorials with step-by-step mockup process — Source: How to Sell Canva Templates
-[ ] **Market Positioning** Position as ahead of saturation curve rather than following trends — Source: Is Etsy TOO Saturated in 2026
-[ ] **Success Stories** Document low-start success stories ($5/month to growth) for social proof — Source: Sarah Started With $5Month on Etsy
-[ ] **Trend Research** Implement Pinterest-first trend identification before Etsy adoption — Source: The BEST Trends To Sell on Etsy in 2026
-[ ] **Quick Wins** Focus on immediate traffic generation techniques for first $100 — Source: The FASTEST Way To Make Money on Etsy
+[NEW] **Etsy SEO** Avoid jumping on trending keyword spikes — track trends for consistency first — Source: A BIG mistake Etsy sellers make
+[NEW] **Etsy Strategy** Monitor offsite ads performance and understand auto opt-in implications — Source: Do You Understand Etsy Offsite Ads
+[NEW] **Keyword Research** Replace "digital" with specific niches like "digital planner templates" — Source: Dont use this Etsy Trending Keyword
+[NEW] **Trend Analysis** Pull trends from fashion/Pinterest into Etsy before they become saturated — Source: Etsy Trends To Sell NOW
+[NEW] **Listing Optimization** Use exclusive data on best days/times to list on Etsy — Source: Exclusive Data The Best Day to List on Etsy
+[NEW] **Template Creation** Focus on Canva template tutorials with step-by-step mockup process — Source: How to Sell Canva Templates
+[NEW] **Market Positioning** Position as ahead of saturation curve rather than following trends — Source: Is Etsy TOO Saturated in 2026
+[NEW] **Success Stories** Document low-start success stories ($5/month to growth) for social proof — Source: Sarah Started With $5Month on Etsy
+[NEW] **Trend Research** Implement Pinterest-first trend identification before Etsy adoption — Source: The BEST Trends To Sell on Etsy in 2026
+[NEW] **Quick Wins** Focus on immediate traffic generation techniques for first $100 — Source: The FASTEST Way To Make Money on Etsy
 
 ## ChurnShield
 
-[ ] **ChurnShield** Apply "saying no" principle to feature requests and scope creep — Source: You Have To Learn To Say No, 2026-03-11
+[NEW] **ChurnShield** Apply "saying no" principle to feature requests and scope creep — Source: You Have To Learn To Say No, 2026-03-11
 
 ## Business & Mindset
 
-[ ] **Business Focus** Concentrate on mastering one business before expanding to multiple — Source: I Don't Fear The Man With 10 Businesses, 2026-03-16
-[ ] **Business Metrics** Understand difference between gross vs net profit for decision making — Source: Gross Profit VS Net Profit, 2026-03-11
-[ ] **Customer Targeting** Ensure marketing attracts the right customer segments — Source: I'm Attracting The Wrong People, 2026-03-16
-[ ] **Decision Making** Know when to push through vs pivot business strategies — Source: Push vs Pivot, 2026-03-16
-[ ] **Business Resilience** Prepare for economic uncertainty affecting consumer spending — Source: The US-Iran War WILL Impact Small Businesses, 2026-03-23
-[ ] **Customer Relationships** Let customers set their own goals to increase buy-in — Source: Let Them Set The Goal, 2026-03-23
-[ ] **Value Creation** Create customer dependency through solving critical business problems — Source: Make Them Need You, 2026-03-23
-[ ] **AI Strategy** Focus on human-AI collaboration gap as competitive advantage — Source: The Gap AI Is Creating, 2026-03-23
-[ ] **Business Philosophy** Apply Rockefeller's systematic approach to wealth building — Source: The Greatest Lesson From Rockefeller, 2026-03-23
+[NEW] **Business Focus** Concentrate on mastering one business before expanding to multiple — Source: I Don't Fear The Man With 10 Businesses, 2026-03-16
+[NEW] **Business Metrics** Understand difference between gross vs net profit for decision making — Source: Gross Profit VS Net Profit, 2026-03-11
+[NEW] **Customer Targeting** Ensure marketing attracts the right customer segments — Source: I'm Attracting The Wrong People, 2026-03-16
+[NEW] **Decision Making** Know when to push through vs pivot business strategies — Source: Push vs Pivot, 2026-03-16
+[NEW] **Business Resilience** Prepare for economic uncertainty affecting consumer spending — Source: The US-Iran War WILL Impact Small Businesses, 2026-03-23
+[NEW] **Customer Relationships** Let customers set their own goals to increase buy-in — Source: Let Them Set The Goal, 2026-03-23
+[NEW] **Value Creation** Create customer dependency through solving critical business problems — Source: Make Them Need You, 2026-03-23
+[NEW] **AI Strategy** Focus on human-AI collaboration gap as competitive advantage — Source: The Gap AI Is Creating, 2026-03-23
+[NEW] **Business Philosophy** Apply Rockefeller's systematic approach to wealth building — Source: The Greatest Lesson From Rockefeller, 2026-03-23
 
 ## From Weekly Digest 2026-03-23
 

@@ -47,16 +47,45 @@ API_KEY      = "19d2q2xcg1ccipoj4doub0ee:rj7ou7mzjq"
 ETSY_BASE    = "https://openapi.etsy.com/v3/application"
 IDEOGRAM_URL = "https://api.ideogram.ai/v1/ideogram-v3/generate"
 
+# Each entry is (prompt, negative_prompt).
+# negative_prompt prevents cross-niche contamination (e.g. pet elements bleeding into food niches).
 NICHE_PROMPTS = {
-    "dog_grooming":    "Professional top-down flatlay, grooming salon desk, white marble surface, dog brush, squeaky toy, paw print towel, warm soft lighting, no text, photorealistic",
-    "dog_walking":     "Professional top-down flatlay, wooden desk, dog leash coiled neatly, tennis ball, treat bag, house keys, warm soft lighting, no text, photorealistic",
-    "dog_training":    "Professional top-down flatlay, training mat surface, dog clicker, treat pouch, rope toy, open notebook, warm soft lighting, no text, photorealistic",
-    "pet_photography": "Professional top-down flatlay, light wood desk, camera lens, scattered polaroid photos, small white flowers, warm soft lighting, no text, photorealistic",
-    "car_detail":      "Professional top-down flatlay, dark concrete surface, microfiber cloth, spray bottle, detailing brush, warm lighting, no text, photorealistic",
-    "tattoo":          "Professional top-down flatlay, white marble surface, tattoo machine, ink pot, succulent, warm soft lighting, no text, photorealistic",
-    "barbershop":      "Professional top-down flatlay, marble barbershop counter, straight razor, comb, scissors, warm soft lighting, no text, photorealistic",
-    "generic":         "Professional top-down flatlay, white marble desk, coffee cup, green plant, notebook, warm soft lighting, no text, photorealistic",
-    "restaurant_cafe": "Professional top-down flatlay, warm rustic reclaimed wood cafe table, latte art espresso cup, fresh croissant, small white flower, scattered coffee beans, brass spoon, olive branch sprig, warm golden-hour light, rich deep shadows, appetising rich colours, no text, photorealistic",
+    "dog_grooming":    (
+        "Professional top-down flatlay, grooming salon desk, white marble surface, dog brush, squeaky toy, paw print towel, warm soft lighting, no text, photorealistic",
+        "food, menu, coffee, restaurant, text, watermark",
+    ),
+    "dog_walking":     (
+        "Professional top-down flatlay, wooden desk, dog leash coiled neatly, tennis ball, treat bag, house keys, warm soft lighting, no text, photorealistic",
+        "food, menu, coffee, restaurant, text, watermark",
+    ),
+    "dog_training":    (
+        "Professional top-down flatlay, training mat surface, dog clicker, treat pouch, rope toy, open notebook, warm soft lighting, no text, photorealistic",
+        "food, menu, coffee, restaurant, text, watermark",
+    ),
+    "pet_photography": (
+        "Professional top-down flatlay, light wood desk, camera lens, scattered polaroid photos, small white flowers, warm soft lighting, no text, photorealistic",
+        "food, menu, coffee, restaurant, text, watermark",
+    ),
+    "car_detail":      (
+        "Professional top-down flatlay, dark concrete surface, microfiber cloth, spray bottle, detailing brush, warm lighting, no text, photorealistic",
+        "animals, pets, paws, food, text, watermark",
+    ),
+    "tattoo":          (
+        "Professional top-down flatlay, white marble surface, tattoo machine, ink pot, succulent, warm soft lighting, no text, photorealistic",
+        "animals, pets, paws, food, text, watermark",
+    ),
+    "barbershop":      (
+        "Professional top-down flatlay, marble barbershop counter, straight razor, comb, scissors, warm soft lighting, no text, photorealistic",
+        "animals, pets, paws, food, text, watermark",
+    ),
+    "generic":         (
+        "Professional top-down flatlay, white marble desk, coffee cup, green plant, notebook, warm soft lighting, no text, photorealistic",
+        "animals, pets, paws, text, watermark",
+    ),
+    "restaurant_cafe": (
+        "Professional top-down flatlay, rustic dark wooden restaurant table, single espresso cup with foam art, folded linen napkin, silver cutlery, small glass vase with herb sprig, scattered whole coffee beans, warm amber candlelight, rich warm tones, appetising, no text, photorealistic, no animals",
+        "animal, pet, dog, cat, paw, paw print, bird, fur, leash, collar, collar tag, text, watermark, logo",
+    ),
 }
 
 EXCLUDE_NAMES = {"listing", "preview", "hero", "grid", "eval"}
@@ -210,10 +239,15 @@ def generate_background(niche: str, skip: bool) -> Image.Image:
         print(f"  [BG] Loading cached background ({cache})")
         return Image.open(cache).convert("RGB")
     print("  [BG] Calling Ideogram...", end=" ", flush=True)
-    prompt = NICHE_PROMPTS.get(niche, NICHE_PROMPTS["generic"])
-    payload = json.dumps({"prompt": prompt, "magic_prompt": "OFF",
-                          "resolution": "1024x1024", "rendering_speed": "QUALITY",
-                          "num_images": 1}).encode()
+    prompt_entry = NICHE_PROMPTS.get(niche, NICHE_PROMPTS["generic"])
+    if isinstance(prompt_entry, tuple):
+        prompt, negative_prompt = prompt_entry
+    else:
+        prompt, negative_prompt = prompt_entry, "text, watermark"
+    payload_dict = {"prompt": prompt, "negative_prompt": negative_prompt,
+                    "magic_prompt": "OFF", "resolution": "1024x1024",
+                    "rendering_speed": "QUALITY", "num_images": 1}
+    payload = json.dumps(payload_dict).encode()
     req = urllib.request.Request(IDEOGRAM_URL, data=payload, method="POST")
     req.add_header("Api-Key", os.environ["IDEOGRAM_API_KEY"])
     req.add_header("Content-Type", "application/json")

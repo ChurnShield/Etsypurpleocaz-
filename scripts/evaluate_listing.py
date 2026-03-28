@@ -33,7 +33,7 @@ TOKEN_FILE = Path(__file__).parent.parent / "workflows/etsy_analytics/etsy_token
 ETSY_BASE = "https://openapi.etsy.com/v3/application"
 DUPE_HAMMING_THRESHOLD = 5     # hash distance below this = duplicate
 HERO_MIN_DIMENSION    = 2000   # px — shortest side
-HERO_MONO_THRESHOLD   = 0.70   # >70% near-black/white = text-only hero
+HERO_MONO_THRESHOLD   = 0.85   # >85% near-black/white = text-only hero
 MONO_TOLERANCE        = 40     # channel distance from 0 or 255 to count as near-mono
 PALETTE_DARK_CUTOFF   = 128    # average R+G+B below this = "dark" image
 

@@ -86,6 +86,10 @@ NICHE_PROMPTS = {
         "Professional top-down flatlay, rustic dark wooden restaurant table, single espresso cup with foam art, folded linen napkin, silver cutlery, small glass vase with herb sprig, scattered whole coffee beans, warm amber candlelight, rich warm tones, appetising, no text, photorealistic, no animals",
         "animal, pet, dog, cat, paw, paw print, bird, fur, leash, collar, collar tag, text, watermark, logo",
     ),
+    "dentist": (
+        "Professional top-down flatlay, clean white marble surface, dental mirror, toothbrush in holder, small mint plant, fresh white towel, dental floss, clinical bright lighting, clean minimal aesthetic, no text, photorealistic",
+        "animal, pet, dog, cat, paw, food, restaurant, coffee, tattoo, text, watermark, logo",
+    ),
 }
 
 EXCLUDE_NAMES = {"listing", "preview", "hero", "grid", "eval"}

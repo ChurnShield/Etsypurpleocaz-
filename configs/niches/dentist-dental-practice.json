@@ -1,0 +1,486 @@
+{
+  "niche": {
+    "name": "Dentist Dental Practice",
+    "slug": "dentist-dental-practice",
+    "etsy": {
+      "title": "Dental Practice Business Bundle — 32 Canva Templates | Business Cards, Forms, Patient Intake",
+      "description": "Everything a dental practice needs to look polished and professional from day one.\n\nIncludes 32 ready-to-edit Canva templates:\n• Business cards (dark + light)\n• Appointment cards\n• Loyalty card & referral card\n• Thank you card\n• Gift certificate\n• Welcome sign & opening hours sign\n• Price list\n• 2× promotional flyers\n• 5× social media posts (1080×1080)\n• Patient intake form\n• Dental consent form\n• Treatment record form\n• Invoice\n• Booking confirmation\n• Monthly income tracker\n• Expenses tracker\n• Appointment schedule log\n\nAll templates are fully editable in Canva Free.\nDownload instantly. Edit in minutes. Print at home or at a local printer.\n\n✅ Instant digital download\n✅ Works with Canva FREE\n✅ A4 + US Letter sizes included\n✅ Lifetime access",
+      "price": 39.99,
+      "tags": [
+        "dental practice",
+        "dentist templates",
+        "canva templates",
+        "dental forms",
+        "patient intake",
+        "business card",
+        "appointment card",
+        "dental invoice",
+        "price list",
+        "gift certificate",
+        "digital download",
+        "small business kit",
+        "consent form"
+      ],
+      "taxonomy_id": 1874
+    }
+  },
+
+  "palette": {
+    "primary":    [0, 102, 153],
+    "primary_lt": [0, 153, 204],
+    "gold":       [180, 155, 100],
+    "cream":      [240, 247, 250],
+    "cream_alt":  [220, 237, 245],
+    "charcoal":   [22, 34, 44],
+    "white":      [255, 255, 255],
+    "mint":       [200, 235, 225]
+  },
+
+  "brand": {
+    "name_placeholder": "YOUR DENTAL PRACTICE",
+    "subtitle":         "Professional Dental Care",
+    "contact_line":     "📞 07700 900000  |  hello@yourdentist.co.uk",
+    "email_line":       "hello@yourdentist.co.uk",
+    "address_line":     "123 High Street, Your Town, AB1 2CD",
+    "tagline":          "Healthy smiles, happy lives.",
+    "website":          "www.yourdentalcare.co.uk"
+  },
+
+  "icon": "star",
+
+  "spaces": {
+    "prefix": "templates/dentist-dental-practice"
+  },
+
+  "templates": [
+
+    {
+      "type": "business_card",
+      "variant": "dark",
+      "title": "Business Card (Dark)",
+      "filename": "DD_Business_Card_Dark.png",
+      "category": "Branding",
+      "canva_url": "https://www.canva.com/d/REPLACE_WITH_SHORTCODE"
+    },
+
+    {
+      "type": "business_card",
+      "variant": "light",
+      "title": "Business Card (Light)",
+      "filename": "DD_Business_Card_Light.png",
+      "category": "Branding",
+      "canva_url": "https://www.canva.com/d/REPLACE_WITH_SHORTCODE"
+    },
+
+    {
+      "type": "appointment_card",
+      "variant": "dark",
+      "title": "Appointment Card",
+      "filename": "DD_Appointment_Card.png",
+      "category": "Branding",
+      "canva_url": "https://www.canva.com/d/REPLACE_WITH_SHORTCODE",
+      "_fields": "date, time, dentist, treatment, notes"
+    },
+
+    {
+      "type": "loyalty_card",
+      "title": "Loyalty Card",
+      "filename": "DD_Loyalty_Card.png",
+      "category": "Branding",
+      "canva_url": "https://www.canva.com/d/REPLACE_WITH_SHORTCODE",
+      "headline": "LOYALTY CARD",
+      "offer": "6th Check-up FREE",
+      "stamp_count": 6
+    },
+
+    {
+      "type": "referral_card",
+      "title": "Referral Card",
+      "filename": "DD_Referral_Card.png",
+      "category": "Branding",
+      "canva_url": "https://www.canva.com/d/REPLACE_WITH_SHORTCODE",
+      "headline": "Refer a Friend",
+      "offer": "Both get £10 off",
+      "body": "Give this card to a friend. When they book their first appointment, you both receive £10 off your next visit.",
+      "fields": ["Referred By", "Code"]
+    },
+
+    {
+      "type": "thank_you_card",
+      "title": "Thank You Card",
+      "filename": "DD_Thank_You_Card.png",
+      "category": "Branding",
+      "canva_url": "https://www.canva.com/d/REPLACE_WITH_SHORTCODE",
+      "headline": "Thank You!",
+      "body": "It was a pleasure seeing you today.\nWe look forward to keeping your smile healthy.",
+      "cta": "Leave us a review — it means the world to us!",
+      "contact_visible": true
+    },
+
+    {
+      "type": "gift_certificate",
+      "title": "Gift Certificate",
+      "filename": "DD_Gift_Certificate.png",
+      "category": "Branding",
+      "canva_url": "https://www.canva.com/d/REPLACE_WITH_SHORTCODE",
+      "headline": "Gift Certificate",
+      "subheadline": "Professional Dental Care",
+      "body": "This certificate entitles the bearer to a dental treatment\nat YOUR DENTAL PRACTICE",
+      "fields": ["Recipient", "Treatment", "Value", "Expiry Date", "Issued By"]
+    },
+
+    {
+      "type": "welcome_sign",
+      "title": "Welcome Sign",
+      "filename": "DD_Welcome_Sign.png",
+      "category": "Branding",
+      "canva_url": "https://www.canva.com/d/REPLACE_WITH_SHORTCODE",
+      "headline": "Welcome!",
+      "subheadline": "Please let reception know you have arrived",
+      "body": "We are delighted to have you here.\nPlease take a seat and a member of our team will be with you shortly.",
+      "contact_visible": true
+    },
+
+    {
+      "type": "opening_hours_sign",
+      "title": "Opening Hours Sign",
+      "filename": "DD_Opening_Hours.png",
+      "category": "Branding",
+      "canva_url": "https://www.canva.com/d/REPLACE_WITH_SHORTCODE",
+      "headline": "Opening Hours",
+      "hours": [
+        ["Monday",    "8:30 am – 5:30 pm"],
+        ["Tuesday",   "8:30 am – 5:30 pm"],
+        ["Wednesday", "8:30 am – 5:30 pm"],
+        ["Thursday",  "8:30 am – 7:00 pm"],
+        ["Friday",    "8:30 am – 4:30 pm"],
+        ["Saturday",  "9:00 am – 2:00 pm"],
+        ["Sunday",    "Closed"]
+      ]
+    },
+
+    {
+      "type": "price_list",
+      "title": "Price List",
+      "filename": "DD_Price_List.png",
+      "category": "Marketing",
+      "canva_url": "https://www.canva.com/d/REPLACE_WITH_SHORTCODE",
+      "sections": [
+        {
+          "heading": "General Dentistry",
+          "items": [
+            ["Check-up & Scale",       "£55"],
+            ["X-Rays (per film)",      "£12"],
+            ["Tooth Extraction",       "£95"],
+            ["Emergency Appointment",  "£75"]
+          ]
+        },
+        {
+          "heading": "Cosmetic Treatments",
+          "items": [
+            ["Teeth Whitening",        "£299"],
+            ["Composite Bonding",      "£250"],
+            ["Porcelain Veneers",      "£650"],
+            ["Smile Makeover",         "POA"]
+          ]
+        },
+        {
+          "heading": "Restorative",
+          "items": [
+            ["White Filling",          "£120"],
+            ["Dental Crown",           "£550"],
+            ["Root Canal Treatment",   "£450"],
+            ["Dental Implant",         "£2,200"]
+          ]
+        },
+        {
+          "heading": "Orthodontics",
+          "items": [
+            ["Invisalign (full)",      "£3,500"],
+            ["Retainer",               "£150"],
+            ["Fixed Braces",           "£2,800"]
+          ]
+        }
+      ]
+    },
+
+    {
+      "type": "flyer_a4",
+      "title": "New Patient Flyer",
+      "filename": "DD_New_Patient_Flyer.png",
+      "category": "Marketing",
+      "canva_url": "https://www.canva.com/d/REPLACE_WITH_SHORTCODE",
+      "headline": "Welcoming New Patients!",
+      "offer": "FREE Check-up\nFor New Patients",
+      "body": "Register with us today and receive a complimentary check-up.\nOur friendly team is here to make your visit as comfortable as possible.",
+      "footer": "Valid for new patients only. One offer per person. Subject to availability. Call to book."
+    },
+
+    {
+      "type": "flyer_a4",
+      "title": "Teeth Whitening Promo Flyer",
+      "filename": "DD_Whitening_Promo_Flyer.png",
+      "category": "Marketing",
+      "canva_url": "https://www.canva.com/d/REPLACE_WITH_SHORTCODE",
+      "headline": "Brighten Your Smile",
+      "offer": "20% OFF\nTeeth Whitening This Month",
+      "body": "Professional teeth whitening in just one visit.\nAchieve a brighter, more confident smile today.",
+      "footer": "Limited appointments available. Cannot be combined with other offers. Book online or call us."
+    },
+
+    {
+      "type": "social_1080",
+      "variant": "offer",
+      "title": "Social Post — New Patient Offer",
+      "filename": "DD_Social_Offer.png",
+      "category": "Marketing",
+      "canva_url": "https://www.canva.com/d/REPLACE_WITH_SHORTCODE",
+      "headline": "New Patient?",
+      "subheadline": "Get a FREE check-up when you register",
+      "cta": "Book now — link in bio"
+    },
+
+    {
+      "type": "social_1080",
+      "variant": "tip",
+      "title": "Social Post — Dental Tip",
+      "filename": "DD_Social_Tip.png",
+      "category": "Marketing",
+      "canva_url": "https://www.canva.com/d/REPLACE_WITH_SHORTCODE",
+      "headline": "Dental Tip",
+      "tip_number": "01",
+      "tip_text": "Brush for 2 minutes twice a day and floss daily to prevent gum disease and keep your smile healthy.",
+      "cta": "Follow for weekly dental tips"
+    },
+
+    {
+      "type": "social_1080",
+      "variant": "review",
+      "title": "Social Post — 5-Star Review",
+      "filename": "DD_Social_Review.png",
+      "category": "Marketing",
+      "canva_url": "https://www.canva.com/d/REPLACE_WITH_SHORTCODE",
+      "review_text": "\"Absolutely fantastic practice! The team made me feel so at ease. Best dental experience I've ever had!\"",
+      "reviewer": "— James T.",
+      "cta": "Book your appointment today"
+    },
+
+    {
+      "type": "social_1080",
+      "variant": "announce",
+      "title": "Social Post — Whitening Promotion",
+      "filename": "DD_Social_Whitening.png",
+      "category": "Marketing",
+      "canva_url": "https://www.canva.com/d/REPLACE_WITH_SHORTCODE",
+      "headline": "Smile Brighter",
+      "subheadline": "20% off teeth whitening this month only",
+      "cta": "DM us or call to book"
+    },
+
+    {
+      "type": "social_1080",
+      "variant": "tip",
+      "title": "Social Post — Did You Know",
+      "filename": "DD_Social_DidYouKnow.png",
+      "category": "Marketing",
+      "canva_url": "https://www.canva.com/d/REPLACE_WITH_SHORTCODE",
+      "headline": "Did You Know?",
+      "tip_number": "02",
+      "tip_text": "You should replace your toothbrush every 3 months. A worn brush is far less effective at cleaning your teeth.",
+      "cta": "Follow for more dental health tips"
+    },
+
+    {
+      "type": "form_a4",
+      "title": "Patient Intake Form",
+      "filename": "DD_Patient_Intake_Form.png",
+      "category": "Forms",
+      "canva_url": "https://www.canva.com/d/REPLACE_WITH_SHORTCODE",
+      "form_title": "PATIENT INTAKE FORM",
+      "rows": [
+        { "type": "section_header", "label": "Personal Information" },
+        { "type": "field_pair",   "labels": ["Full Name", "Date of Birth"] },
+        { "type": "field_pair",   "labels": ["Phone Number", "Email Address"] },
+        { "type": "field_single", "label": "Home Address", "height": 60 },
+        { "type": "field_pair",   "labels": ["Emergency Contact Name", "Emergency Contact Phone"] },
+        { "type": "section_header", "label": "Medical History" },
+        { "type": "checkbox_group", "label": "Do you have any of the following?", "items": ["Heart condition", "Diabetes", "Blood disorder", "Allergies", "Epilepsy", "Osteoporosis"] },
+        { "type": "field_single", "label": "Current Medications", "height": 60 },
+        { "type": "field_pair",   "labels": ["Are you pregnant?", "Do you smoke?"] },
+        { "type": "section_header", "label": "Dental History" },
+        { "type": "field_pair",   "labels": ["Previous Dentist", "Last Visit Date"] },
+        { "type": "checkbox_group", "label": "Reason for visit:", "items": ["Check-up", "Pain / Emergency", "Cosmetic", "Whitening", "Orthodontics", "Other"] },
+        { "type": "field_single", "label": "Any concerns or additional notes?", "height": 80 },
+        { "type": "section_header", "label": "Declaration" },
+        { "type": "text_block", "text": "I confirm that the information provided above is accurate and complete to the best of my knowledge.", "height": 40 },
+        { "type": "field_pair",   "labels": ["Patient Signature", "Date"] }
+      ]
+    },
+
+    {
+      "type": "form_a4",
+      "title": "Dental Consent Form",
+      "filename": "DD_Consent_Form.png",
+      "category": "Forms",
+      "canva_url": "https://www.canva.com/d/REPLACE_WITH_SHORTCODE",
+      "form_title": "DENTAL CONSENT FORM",
+      "rows": [
+        { "type": "section_header", "label": "Patient Details" },
+        { "type": "field_pair",   "labels": ["Patient Name", "Date of Birth"] },
+        { "type": "field_pair",   "labels": ["Date", "Dentist Name"] },
+        { "type": "section_header", "label": "Proposed Treatment" },
+        { "type": "field_single", "label": "Treatment / Procedure", "height": 60 },
+        { "type": "field_single", "label": "Tooth / Area", "height": 40 },
+        { "type": "section_header", "label": "Consent Declaration" },
+        { "type": "text_block", "text": "I confirm that the proposed treatment has been explained to me, including the risks, benefits, and alternatives. I have had the opportunity to ask questions and I give my informed consent to proceed.", "height": 80 },
+        { "type": "checkbox_group", "label": "I understand that:", "items": ["Treatment may require multiple visits", "There are risks associated with dental procedures", "I may withdraw consent at any time", "Costs have been explained to me"] },
+        { "type": "field_pair",   "labels": ["Patient Signature", "Date"] },
+        { "type": "field_pair",   "labels": ["Guardian Signature (if under 18)", "Relationship to Patient"] },
+        { "type": "field_pair",   "labels": ["Dentist Signature", "Date"] }
+      ]
+    },
+
+    {
+      "type": "form_a4",
+      "title": "Treatment Record Form",
+      "filename": "DD_Treatment_Record.png",
+      "category": "Forms",
+      "canva_url": "https://www.canva.com/d/REPLACE_WITH_SHORTCODE",
+      "form_title": "TREATMENT RECORD",
+      "rows": [
+        { "type": "section_header", "label": "Patient Details" },
+        { "type": "field_pair",   "labels": ["Patient Name", "Patient ID"] },
+        { "type": "field_pair",   "labels": ["Date of Birth", "NHS / Private"] },
+        { "type": "section_header", "label": "Visit Log" },
+        {
+          "type": "table",
+          "headers": ["Date", "Treatment", "Tooth/Area", "Dentist", "Cost", "Notes"],
+          "col_widths": [0.13, 0.25, 0.12, 0.15, 0.10, 0.25],
+          "rows": 14
+        },
+        { "type": "section_header", "label": "Next Appointment" },
+        { "type": "field_pair",   "labels": ["Date & Time", "Treatment Planned"] }
+      ]
+    },
+
+    {
+      "type": "invoice",
+      "title": "Invoice",
+      "filename": "DD_Invoice.png",
+      "category": "Forms",
+      "canva_url": "https://www.canva.com/d/REPLACE_WITH_SHORTCODE",
+      "line_items": [
+        "Check-up & Scale",
+        "X-Rays",
+        "Teeth Whitening",
+        "Composite Bonding",
+        "White Filling",
+        "Dental Crown",
+        "Root Canal Treatment",
+        "Dental Implant",
+        "Orthodontic Consultation",
+        "Additional Services"
+      ]
+    },
+
+    {
+      "type": "booking_confirmation",
+      "title": "Booking Confirmation",
+      "filename": "DD_Booking_Confirmation.png",
+      "category": "Forms",
+      "canva_url": "https://www.canva.com/d/REPLACE_WITH_SHORTCODE",
+      "fields": [
+        "Patient Name",
+        "Date of Appointment",
+        "Appointment Time",
+        "Dentist / Clinician",
+        "Treatment / Reason for Visit",
+        "Location / Surgery Number",
+        "Arrival Instructions",
+        "Cancellation Policy",
+        "Contact Number"
+      ]
+    },
+
+    {
+      "type": "form_a4",
+      "title": "Appointment Schedule Log",
+      "filename": "DD_Appointment_Schedule.png",
+      "category": "Operations",
+      "canva_url": "https://www.canva.com/d/REPLACE_WITH_SHORTCODE",
+      "form_title": "DAILY APPOINTMENT SCHEDULE",
+      "rows": [
+        { "type": "section_header", "label": "Practice Details" },
+        { "type": "field_pair",   "labels": ["Date", "Dentist / Clinician"] },
+        { "type": "section_header", "label": "Appointment Log" },
+        {
+          "type": "table",
+          "headers": ["Time", "Patient Name", "Treatment", "Surgery", "Status", "Notes"],
+          "col_widths": [0.10, 0.22, 0.25, 0.10, 0.13, 0.20],
+          "rows": 16
+        },
+        { "type": "section_header", "label": "End of Day Notes" },
+        { "type": "field_single", "label": "Summary / Follow-ups Required", "height": 80 }
+      ]
+    },
+
+    {
+      "type": "form_a4",
+      "title": "Daily Checklist",
+      "filename": "DD_Daily_Checklist.png",
+      "category": "Operations",
+      "canva_url": "https://www.canva.com/d/REPLACE_WITH_SHORTCODE",
+      "form_title": "DAILY PRACTICE CHECKLIST",
+      "rows": [
+        { "type": "section_header", "label": "Opening Procedures" },
+        { "type": "checkbox_group", "label": "Morning checks:", "items": ["Reception area clean & tidy", "Appointment list printed", "Sterilisation equipment checked", "Dental chairs sanitised", "Stock levels checked", "Emergency kit inspected"] },
+        { "type": "section_header", "label": "During the Day" },
+        { "type": "checkbox_group", "label": "Ongoing tasks:", "items": ["Patient records updated", "Consent forms signed", "Payments processed", "Lab work dispatched", "Referrals sent", "Follow-up calls made"] },
+        { "type": "section_header", "label": "Closing Procedures" },
+        { "type": "checkbox_group", "label": "End of day checks:", "items": ["All instruments sterilised", "Surgery surfaces disinfected", "Waste disposed correctly", "Cash reconciled", "Alarm set", "Doors locked"] },
+        { "type": "field_pair",   "labels": ["Completed By", "Date"] },
+        { "type": "field_single", "label": "Notes / Issues to Report", "height": 60 }
+      ]
+    },
+
+    {
+      "type": "income_tracker",
+      "title": "Monthly Income Tracker",
+      "filename": "DD_Income_Tracker.png",
+      "category": "Operations",
+      "canva_url": "https://www.canva.com/d/REPLACE_WITH_SHORTCODE",
+      "month_col": true,
+      "extra_cols": ["Patient Name", "Treatment", "NHS / Private", "Payment Method", "Amount (£)", "Notes"]
+    },
+
+    {
+      "type": "expenses_tracker",
+      "title": "Monthly Expenses Tracker",
+      "filename": "DD_Expenses_Tracker.png",
+      "category": "Operations",
+      "canva_url": "https://www.canva.com/d/REPLACE_WITH_SHORTCODE",
+      "month_col": true,
+      "extra_cols": ["Date", "Supplier / Vendor", "Category", "Description", "Payment Method", "Amount (£)", "Receipt Ref"]
+    }
+
+  ],
+
+  "_template_types_reference": {
+    "business_card":        "1050×600px landscape. variant: dark or light.",
+    "appointment_card":     "1050×600px landscape. Fields: date, time, service, notes.",
+    "loyalty_card":         "1050×600px landscape. stamp_count: number of stamps before reward.",
+    "referral_card":        "1050×600px landscape. offer + body + fields.",
+    "thank_you_card":       "1050×600px landscape. headline + body + cta.",
+    "gift_certificate":     "2550×1800px landscape. headline + body + fields list.",
+    "welcome_sign":         "2480×3508px A4 portrait. headline + body + optional contact.",
+    "opening_hours_sign":   "2480×3508px A4 portrait. hours: [[day, time], ...] array.",
+    "flyer_a4":             "2480×3508px A4 portrait. headline + offer + body + footer.",
+    "price_list":           "2480×3508px A4 portrait. sections: [{heading, items:[name,price]}].",
+    "form_a4":              "2480×3508px A4 portrait. rows: row-spec objects.",
+    "invoice":              "2480×3508px A4 portrait. line_items: list of service name strings.",
+    "booking_confirmation": "2480×3508px A4 portrait. fields: list of field label strings.",
+    "social_1080":          "1080×1080px square. variant: offer|tip|review|announce.",
+    "income_tracker":       "2480×3508px A4 portrait. extra_cols: column header strings.",
+    "expenses_tracker":     "2480×3508px A4 portrait. extra_cols: column header strings."
+  }
+}

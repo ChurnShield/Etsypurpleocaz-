@@ -119,3 +119,13 @@ Auto-populated from weekly YouTube digest. Deduplicated 2026-03-23.
 [APPROVED: 2026-03-29] **Niche Idea** wedding planner — Score: 80/100 — see outputs/evaluations/niche_wedding-planner_score.md
 
 [APPROVED: 2026-03-29] **Niche Idea** wedding planner — Score: 80/100 — see outputs/evaluations/niche_wedding-planner_score.md
+
+[APPROVED: 2026-03-29] **Niche Idea** yoga studio — Score: 95/100 — see outputs/evaluations/niche_yoga-studio_score.md
+
+[APPROVED: 2026-03-29] **Niche Idea** personal trainer fitness — Score: 85/100 — see outputs/evaluations/niche_personal-trainer-fitness_score.md
+
+[REVIEW: 2026-03-29] **Niche Idea** florist flower shop — Score: 65/100 — see outputs/evaluations/niche_florist-flower-shop_score.md
+
+[APPROVED: 2026-03-29] **Niche Idea** real estate agent — Score: 80/100 — see outputs/evaluations/niche_real-estate-agent_score.md
+
+[APPROVED: 2026-03-29] **Niche Idea** cleaning business — Score: 85/100 — see outputs/evaluations/niche_cleaning-business_score.md

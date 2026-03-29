@@ -4,6 +4,11 @@ A living document updated every session. Most recent entries first.
 
 ---
 
+## 2026-03-29 — Non-functional blind spot
+- Built 12+ scripts over 2 sessions without caching, retry logic, deduplication, or cost tracking. Every script optimised for 'does it work' not 'does it work efficiently'. Added NFR checklist to CLAUDE.md to prevent this class of oversight on all future builds.
+
+---
+
 ## 2026-03-29 — Sunday Build Session
 - design_researcher.py works: Vision API analyses top Etsy competitor images and extracts winning palettes. Yoga studio: sage #4a5d4a, sand #d4b896, serif headings scored 9/10.
 - niche_evaluator.py works: Etsy API search data scores niches 0-100. Yoga studio 95, cleaning 85, personal trainer 85.

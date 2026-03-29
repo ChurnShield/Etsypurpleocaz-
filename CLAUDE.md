@@ -59,6 +59,15 @@ If SOUL.md is missing from disk, stop immediately and tell Andy.
 - BLAST RADIUS CHECK: Before any change, list all files that import or reference the file being modified. If >3 files affected, describe the impact before proceeding.
 - SMALLEST CHANGE: Always make the minimum change needed. Do not refactor adjacent code while fixing a bug. One concern per commit.
 
+### Non-Functional Checklist
+
+Before marking any script or feature done, verify:
+- [ ] CACHING: Does it cache expensive calls (API, Vision, Ideogram)? Cache for 24h minimum. Store in outputs/ or Spaces, not /tmp/.
+- [ ] RETRY: Does it retry on transient failures (HTTP 500, timeout)? One retry with 3s delay, then fail gracefully.
+- [ ] DEDUP: Does it deduplicate outputs? Never append to backlog/queue if identical entry exists.
+- [ ] COST: Does it log token/credit usage? Print cost estimate at end of run.
+- [ ] RATE LIMITS: Does it handle API rate limits? Back off on 429, don't crash.
+
 *All Etsy API rules → `.claude/rules/etsy.md`. All Canva rules → `.claude/rules/canva.md`. All infra/credentials → `.claude/rules/infra.md`.*
 
 ---

@@ -115,3 +115,7 @@ Auto-populated from weekly YouTube digest. Deduplicated 2026-03-23.
 - **Apply to:** ChurnShield
 - **Action:** Position ChurnShield as essential business survival tool, not just nice-to-have analytics
 - **Effort:** Medium
+
+[APPROVED: 2026-03-29] **Niche Idea** wedding planner — Score: 80/100 — see outputs/evaluations/niche_wedding-planner_score.md
+
+[APPROVED: 2026-03-29] **Niche Idea** wedding planner — Score: 80/100 — see outputs/evaluations/niche_wedding-planner_score.md

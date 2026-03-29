@@ -4,6 +4,25 @@ Most recent first.
 
 ---
 
+## 2026-03-29 — Sunday Build Session
+
+### Shipped
+
+- **niche_evaluator.py** — scores niche ideas 0-100 using live Etsy API search data. Four dimensions: demand (40pts), competition gap (25pts), coverage check (20pts), build cost (15pts). Appends APPROVED/REVIEW/SKIPPED to ideas_backlog.md.
+- **design_researcher.py** — downloads top 3 Etsy competitor hero images, runs Claude vision analysis, extracts winning palette + layout. Outputs `_brief.md` + `_config.json` to `outputs/design_research/`.
+- **5 niches scored** — yoga studio 95 (APPROVED), cleaning business 85, personal trainer 85, real estate agent 80, florist 65 (REVIEW).
+- **Yoga studio pipeline run** — CrewAI crew: listing #4479761817 created as DRAFT, all 10 checks passed.
+- **Design research: yoga studio** — winner: sage `#4a5d4a`, sand `#d4b896`, serif headings, grid layout, 9/10 quality.
+
+### Next session priorities
+
+1. **Wire design_researcher _config.json into factory** — factory should read palette from `outputs/design_research/{slug}_config.json` if present, overriding sample defaults.
+2. **Activate yoga studio draft #4479761817** — review on Etsy, activate when happy.
+3. **Run CrewAI on personal trainer (85/100)** — next highest scored niche.
+4. **Fix evaluate_listing.py dark palette false positive** — persistent issue across sessions.
+
+---
+
 ## 2026-03-28
 
 ### Restaurant Cafe Coffee Shop — DRAFT #4479049403

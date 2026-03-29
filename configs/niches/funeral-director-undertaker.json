@@ -1,0 +1,822 @@
+{
+  "niche": {
+    "name": "Funeral Director Undertaker",
+    "slug": "funeral-director-undertaker",
+    "etsy": {
+      "title": "Funeral Director Undertaker Business Bundle — 32 Canva Templates | Forms, Cards, Signs",
+      "description": "Everything a funeral director or undertaker business needs to look professional and compassionate from day one. This comprehensive bundle provides a dignified and cohesive brand presence, allowing you to focus on serving families during difficult times.\n\nIncludes 32 ready-to-edit Canva templates:\n• Business Cards (dark + light)\n• Appointment Cards\n• Loyalty Card\n• Referral Card\n• Thank You Cards\n• Gift Certificates\n• Welcome Sign\n• Opening Hours Sign\n• Price List\n• Flyers (x3)\n• Social Media Posts (x6)\n• Client Intake Form\n• Consent for Services\n• Embalming Authorization\n• Cremation Authorization\n• Death Certificate Request\n• Invoice\n• Booking Confirmation\n• Income Tracker\n• Expenses Tracker\n• Funeral Service Checklist\n• Memorial Service Planner\n• Aftercare Follow-up Log\n• Supplier Contact List\n\nAll templates are fully editable in Canva Free.\nDownload instantly. Edit in minutes. Print at home or at a local printer.\n\n✅ Instant digital download\n✅ Works with Canva FREE\n✅ A4 + US Letter sizes included\n✅ Lifetime access",
+      "price": 39.99,
+      "tags": [
+        "funeral director",
+        "undertaker",
+        "funeral home",
+        "mortician",
+        "death care",
+        "canva templates",
+        "business forms",
+        "client forms",
+        "service list",
+        "memorial",
+        "bereavement",
+        "small business",
+        "digital download"
+      ],
+      "taxonomy_id": 1874
+    }
+  },
+  "brand": {
+    "name_placeholder": "YOUR FUNERAL HOME",
+    "subtitle": "Compassionate Funeral Services",
+    "tagline": "Honouring Lives, Comforting Hearts.",
+    "address_line": "123 Serenity Lane, Townsville, AB1 2CD",
+    "contact_line": "📞 0123 456 7890 | info@yourfuneralhome.co.uk",
+    "email_line": "info@yourfuneralhome.co.uk",
+    "website": "www.yourfuneralhome.co.uk"
+  },
+  "icon": "flower",
+  "palette": {
+    "primary": [
+      30,
+      45,
+      60
+    ],
+    "gold": [
+      180,
+      160,
+      120
+    ],
+    "cream": [
+      245,
+      240,
+      235
+    ],
+    "cream_alt": [
+      230,
+      225,
+      220
+    ],
+    "charcoal": [
+      50,
+      50,
+      50
+    ],
+    "silver": [
+      170,
+      170,
+      170
+    ]
+  },
+  "spaces": {
+    "prefix": "templates/funeral-director-undertaker"
+  },
+  "templates": [
+    {
+      "type": "business_card",
+      "variant": "dark",
+      "title": "Business Card (Dark)",
+      "category": "Branding",
+      "filename": "FD_Business_Card_Dark.png",
+      "canva_url": "https://www.canva.com/d/REPLACE_WITH_SHORTCODE"
+    },
+    {
+      "type": "business_card",
+      "variant": "light",
+      "title": "Business Card (Light)",
+      "category": "Branding",
+      "filename": "FD_Business_Card_Light.png",
+      "canva_url": "https://www.canva.com/d/REPLACE_WITH_SHORTCODE"
+    },
+    {
+      "type": "appointment_card",
+      "title": "Appointment Card",
+      "category": "Branding",
+      "filename": "FD_Appointment_Card.png",
+      "canva_url": "https://www.canva.com/d/REPLACE_WITH_SHORTCODE",
+      "_fields": "date, time, service, family_name, notes"
+    },
+    {
+      "type": "loyalty_card",
+      "title": "Support Card",
+      "category": "Branding",
+      "filename": "FD_Support_Card.png",
+      "canva_url": "https://www.canva.com/d/REPLACE_WITH_SHORTCODE",
+      "headline": "SUPPORT CARD",
+      "offer": "Gesture of Appreciation",
+      "stamp_count": 6
+    },
+    {
+      "type": "referral_card",
+      "title": "Referral Card",
+      "category": "Branding",
+      "filename": "FD_Referral_Card.png",
+      "canva_url": "https://www.canva.com/d/REPLACE_WITH_SHORTCODE",
+      "headline": "Refer a Family",
+      "offer": "Both receive a gesture of appreciation",
+      "body": "When a family you refer uses our services, both you and the referred family will receive a gesture of appreciation from us.",
+      "fields": [
+        "Referred By",
+        "Code"
+      ]
+    },
+    {
+      "type": "thank_you_card",
+      "title": "Thank You Card",
+      "category": "Branding",
+      "filename": "FD_Thank_You_Card.png",
+      "canva_url": "https://www.canva.com/d/REPLACE_WITH_SHORTCODE",
+      "headline": "With Our Deepest Gratitude",
+      "body": "Thank you for entrusting us with the care of your loved one. We are here to support you.",
+      "cta": "Please reach out if you need further assistance.",
+      "contact_visible": true
+    },
+    {
+      "type": "gift_certificate",
+      "title": "Gift of Support Certificate",
+      "category": "Branding",
+      "filename": "FD_Gift_Certificate.png",
+      "canva_url": "https://www.canva.com/d/REPLACE_WITH_SHORTCODE",
+      "headline": "Gift of Support",
+      "subheadline": "Compassionate Funeral Services",
+      "body": "This certificate can be used towards funeral arrangements or memorial services at YOUR FUNERAL HOME.",
+      "fields": [
+        "Recipient",
+        "Value",
+        "Issued By",
+        "Expiry Date"
+      ]
+    },
+    {
+      "type": "welcome_sign",
+      "title": "Welcome Sign",
+      "category": "Branding",
+      "filename": "FD_Welcome_Sign.png",
+      "canva_url": "https://www.canva.com/d/REPLACE_WITH_SHORTCODE",
+      "headline": "Welcome",
+      "subheadline": "We are here to support you during this difficult time.",
+      "body": "Please let us know how we can assist.",
+      "contact_visible": true
+    },
+    {
+      "type": "opening_hours_sign",
+      "title": "Office Hours Sign",
+      "category": "Branding",
+      "filename": "FD_Opening_Hours_Sign.png",
+      "canva_url": "https://www.canva.com/d/REPLACE_WITH_SHORTCODE",
+      "headline": "Office Hours",
+      "hours": [
+        [
+          "Monday",
+          "9:00 am – 5:00 pm"
+        ],
+        [
+          "Tuesday",
+          "9:00 am – 5:00 pm"
+        ],
+        [
+          "Wednesday",
+          "9:00 am – 5:00 pm"
+        ],
+        [
+          "Thursday",
+          "9:00 am – 5:00 pm"
+        ],
+        [
+          "Friday",
+          "9:00 am – 5:00 pm"
+        ],
+        [
+          "Saturday",
+          "By Appointment"
+        ],
+        [
+          "Sunday",
+          "Closed"
+        ]
+      ]
+    },
+    {
+      "type": "price_list",
+      "title": "Service Price List",
+      "category": "Marketing",
+      "filename": "FD_Price_List.png",
+      "canva_url": "https://www.canva.com/d/REPLACE_WITH_SHORTCODE",
+      "sections": [
+        {
+          "heading": "Funeral Services",
+          "items": [
+            [
+              "Direct Cremation",
+              "£1,500"
+            ],
+            [
+              "Traditional Burial",
+              "£3,500"
+            ],
+            [
+              "Memorial Service",
+              "£800"
+            ]
+          ]
+        },
+        {
+          "heading": "Additional Options",
+          "items": [
+            [
+              "Embalming",
+              "£300"
+            ],
+            [
+              "Viewing & Visitation",
+              "£250"
+            ],
+            [
+              "Floral Tributes",
+              "POA"
+            ],
+            [
+              "Death Certificates",
+              "£10 each"
+            ]
+          ]
+        }
+      ]
+    },
+    {
+      "type": "flyer_a4",
+      "title": "Flyer — Pre-Need Planning",
+      "category": "Marketing",
+      "filename": "FD_Flyer_Pre_Need.png",
+      "canva_url": "https://www.canva.com/d/REPLACE_WITH_SHORTCODE",
+      "headline": "Plan Ahead with Peace of Mind",
+      "offer": "Pre-Need Funeral Planning",
+      "body": "Ease the burden on your loved ones by planning your funeral arrangements in advance. Contact us for a consultation.",
+      "footer": "Secure your wishes today."
+    },
+    {
+      "type": "flyer_a4",
+      "title": "Flyer — Grief Support Resources",
+      "category": "Marketing",
+      "filename": "FD_Flyer_Grief_Support.png",
+      "canva_url": "https://www.canva.com/d/REPLACE_WITH_SHORTCODE",
+      "headline": "Grief Support Resources",
+      "offer": "Compassionate Care",
+      "body": "We offer resources and connections to local grief support groups to help you through your journey.",
+      "footer": "You are not alone."
+    },
+    {
+      "type": "flyer_a4",
+      "title": "Flyer — Cremation Services",
+      "category": "Marketing",
+      "filename": "FD_Flyer_Cremation_Services.png",
+      "canva_url": "https://www.canva.com/d/REPLACE_WITH_SHORTCODE",
+      "headline": "Dignified Cremation Services",
+      "offer": "Respectful & Affordable",
+      "body": "We provide comprehensive cremation services with care and respect, tailored to your family's needs.",
+      "footer": "Contact us for details."
+    },
+    {
+      "type": "social_1080",
+      "variant": "offer",
+      "title": "Social Post — Pre-Need Planning Offer",
+      "category": "Marketing",
+      "filename": "FD_Social_Offer_Pre_Need.png",
+      "canva_url": "https://www.canva.com/d/REPLACE_WITH_SHORTCODE",
+      "headline": "Pre-Need Planning",
+      "subheadline": "Peace of Mind for Your Family",
+      "cta": "Learn More"
+    },
+    {
+      "type": "social_1080",
+      "variant": "tip",
+      "title": "Social Post — Grief Tip 1",
+      "category": "Marketing",
+      "filename": "FD_Social_Tip_Grief_1.png",
+      "canva_url": "https://www.canva.com/d/REPLACE_WITH_SHORTCODE",
+      "headline": "Grief Support Tip",
+      "tip_number": "01",
+      "tip_text": "Allow yourself to feel all emotions. There's no right or wrong way to grieve.",
+      "cta": "Find support"
+    },
+    {
+      "type": "social_1080",
+      "variant": "review",
+      "title": "Social Post — 5-Star Review",
+      "category": "Marketing",
+      "filename": "FD_Social_Review.png",
+      "canva_url": "https://www.canva.com/d/REPLACE_WITH_SHORTCODE",
+      "review_text": "\"The team at YOUR FUNERAL HOME provided exceptional care and guidance during a very difficult time. We are so grateful.\"",
+      "reviewer": "— A Grateful Family",
+      "cta": "Read more testimonials"
+    },
+    {
+      "type": "social_1080",
+      "variant": "announce",
+      "title": "Social Post — New Grief Support Group",
+      "category": "Marketing",
+      "filename": "FD_Social_Announce_Support_Group.png",
+      "canva_url": "https://www.canva.com/d/REPLACE_WITH_SHORTCODE",
+      "headline": "New Grief Support Group",
+      "subheadline": "Starting Next Month",
+      "cta": "Register Your Interest"
+    },
+    {
+      "type": "social_1080",
+      "variant": "announce",
+      "title": "Social Post — Our Services",
+      "category": "Marketing",
+      "filename": "FD_Social_Announce_Services.png",
+      "canva_url": "https://www.canva.com/d/REPLACE_WITH_SHORTCODE",
+      "headline": "Our Services",
+      "subheadline": "Dignified & Compassionate Care",
+      "cta": "Visit Our Website"
+    },
+    {
+      "type": "social_1080",
+      "variant": "tip",
+      "title": "Social Post — Grief Tip 2",
+      "category": "Marketing",
+      "filename": "FD_Social_Tip_Grief_2.png",
+      "canva_url": "https://www.canva.com/d/REPLACE_WITH_SHORTCODE",
+      "headline": "Grief Support Tip",
+      "tip_number": "02",
+      "tip_text": "Connect with others who understand your loss. Sharing can help in healing.",
+      "cta": "Find local groups"
+    },
+    {
+      "type": "form_a4",
+      "title": "Client Intake Form",
+      "category": "Forms",
+      "filename": "FD_Client_Intake_Form.png",
+      "canva_url": "https://www.canva.com/d/REPLACE_WITH_SHORTCODE",
+      "form_title": "CLIENT INTAKE FORM",
+      "rows": [
+        {
+          "type": "section_header",
+          "label": "Family Representative Information"
+        },
+        {
+          "type": "field_pair",
+          "labels": [
+            "Name",
+            "Relationship to Deceased"
+          ]
+        },
+        {
+          "type": "field_pair",
+          "labels": [
+            "Phone Number",
+            "Email Address"
+          ]
+        },
+        {
+          "type": "field_single",
+          "label": "Home Address",
+          "height": 60
+        },
+        {
+          "type": "section_header",
+          "label": "Deceased Information"
+        },
+        {
+          "type": "field_pair",
+          "labels": [
+            "Full Name",
+            "Date of Birth"
+          ]
+        },
+        {
+          "type": "field_pair",
+          "labels": [
+            "Date of Passing",
+            "Place of Passing"
+          ]
+        },
+        {
+          "type": "field_single",
+          "label": "Occupation"
+        },
+        {
+          "type": "section_header",
+          "label": "Service Preferences"
+        },
+        {
+          "type": "checkbox_group",
+          "label": "Desired Services:",
+          "items": [
+            "Burial",
+            "Cremation",
+            "Memorial Service",
+            "Viewing/Visitation"
+          ]
+        },
+        {
+          "type": "field_single",
+          "label": "Special Requests / Notes",
+          "height": 80
+        }
+      ]
+    },
+    {
+      "type": "form_a4",
+      "title": "Consent for Services Form",
+      "category": "Forms",
+      "filename": "FD_Consent_Form.png",
+      "canva_url": "https://www.canva.com/d/REPLACE_WITH_SHORTCODE",
+      "form_title": "CONSENT FOR SERVICES",
+      "rows": [
+        {
+          "type": "section_header",
+          "label": "Agreement for Services"
+        },
+        {
+          "type": "text_block",
+          "text": "I, [Client Name], hereby authorize YOUR FUNERAL HOME to provide the funeral and/or memorial services as outlined and agreed upon for [Deceased Name]."
+        },
+        {
+          "type": "field_pair",
+          "labels": [
+            "Signature",
+            "Date"
+          ]
+        },
+        {
+          "type": "spacer",
+          "height": 20
+        },
+        {
+          "type": "section_header",
+          "label": "Embalming Consent"
+        },
+        {
+          "type": "checkbox_group",
+          "label": "Embalming:",
+          "items": [
+            "I consent to embalming",
+            "I do not consent to embalming"
+          ]
+        },
+        {
+          "type": "field_pair",
+          "labels": [
+            "Signature",
+            "Date"
+          ]
+        }
+      ]
+    },
+    {
+      "type": "invoice",
+      "title": "Invoice",
+      "category": "Forms",
+      "filename": "FD_Invoice.png",
+      "canva_url": "https://www.canva.com/d/REPLACE_WITH_SHORTCODE",
+      "line_items": [
+        "Funeral Service Package",
+        "Cremation Fee",
+        "Burial Plot",
+        "Embalming",
+        "Floral Arrangements",
+        "Death Certificates",
+        "Urn/Casket",
+        "Memorial Cards",
+        "Transportation"
+      ]
+    },
+    {
+      "type": "booking_confirmation",
+      "title": "Booking Confirmation",
+      "category": "Forms",
+      "filename": "FD_Booking_Confirmation.png",
+      "canva_url": "https://www.canva.com/d/REPLACE_WITH_SHORTCODE",
+      "fields": [
+        "Family Name",
+        "Deceased Name",
+        "Service Type",
+        "Date",
+        "Time",
+        "Location",
+        "Officiant",
+        "Notes"
+      ]
+    },
+    {
+      "type": "form_a4",
+      "title": "Embalming Authorization Form",
+      "category": "Forms",
+      "filename": "FD_Embalming_Authorization_Form.png",
+      "canva_url": "https://www.canva.com/d/REPLACE_WITH_SHORTCODE",
+      "form_title": "EMBALMING AUTHORIZATION",
+      "rows": [
+        {
+          "type": "section_header",
+          "label": "Authorization"
+        },
+        {
+          "type": "text_block",
+          "text": "I, [Client Name], hereby authorize YOUR FUNERAL HOME to perform embalming on the deceased, [Deceased Name], in accordance with all applicable laws and regulations."
+        },
+        {
+          "type": "field_pair",
+          "labels": [
+            "Signature",
+            "Date"
+          ]
+        },
+        {
+          "type": "field_single",
+          "label": "Relationship to Deceased"
+        }
+      ]
+    },
+    {
+      "type": "form_a4",
+      "title": "Cremation Authorization Form",
+      "category": "Forms",
+      "filename": "FD_Cremation_Authorization_Form.png",
+      "canva_url": "https://www.canva.com/d/REPLACE_WITH_SHORTCODE",
+      "form_title": "CREMATION AUTHORIZATION",
+      "rows": [
+        {
+          "type": "section_header",
+          "label": "Authorization"
+        },
+        {
+          "type": "text_block",
+          "text": "I, [Client Name], hereby authorize YOUR FUNERAL HOME to arrange for the cremation of the deceased, [Deceased Name], as per the wishes of the family."
+        },
+        {
+          "type": "field_pair",
+          "labels": [
+            "Signature",
+            "Date"
+          ]
+        },
+        {
+          "type": "field_single",
+          "label": "Relationship to Deceased"
+        }
+      ]
+    },
+    {
+      "type": "form_a4",
+      "title": "Death Certificate Request Form",
+      "category": "Forms",
+      "filename": "FD_Death_Certificate_Request_Form.png",
+      "canva_url": "https://www.canva.com/d/REPLACE_WITH_SHORTCODE",
+      "form_title": "DEATH CERTIFICATE REQUEST",
+      "rows": [
+        {
+          "type": "section_header",
+          "label": "Deceased Information"
+        },
+        {
+          "type": "field_pair",
+          "labels": [
+            "Full Name",
+            "Date of Passing"
+          ]
+        },
+        {
+          "type": "section_header",
+          "label": "Request Details"
+        },
+        {
+          "type": "field_pair",
+          "labels": [
+            "Number of Copies",
+            "Purpose of Request"
+          ]
+        },
+        {
+          "type": "field_single",
+          "label": "Requester Name"
+        },
+        {
+          "type": "field_pair",
+          "labels": [
+            "Signature",
+            "Date"
+          ]
+        }
+      ]
+    },
+    {
+      "type": "income_tracker",
+      "title": "Monthly Income Tracker",
+      "category": "Operations",
+      "filename": "FD_Income_Tracker.png",
+      "canva_url": "https://www.canva.com/d/REPLACE_WITH_SHORTCODE",
+      "month_col": true,
+      "extra_cols": [
+        "Family Name",
+        "Deceased Name",
+        "Service Type",
+        "Amount (£)",
+        "Payment Method",
+        "Notes"
+      ]
+    },
+    {
+      "type": "expenses_tracker",
+      "title": "Monthly Expenses Tracker",
+      "category": "Operations",
+      "filename": "FD_Expenses_Tracker.png",
+      "canva_url": "https://www.canva.com/d/REPLACE_WITH_SHORTCODE",
+      "extra_cols": [
+        "Date",
+        "Description",
+        "Vendor",
+        "Amount (£)",
+        "Category",
+        "Notes"
+      ]
+    },
+    {
+      "type": "form_a4",
+      "title": "Funeral Service Checklist",
+      "category": "Operations",
+      "filename": "FD_Service_Checklist.png",
+      "canva_url": "https://www.canva.com/d/REPLACE_WITH_SHORTCODE",
+      "form_title": "FUNERAL SERVICE CHECKLIST",
+      "rows": [
+        {
+          "type": "section_header",
+          "label": "Initial Arrangements"
+        },
+        {
+          "type": "checkbox_group",
+          "label": "Tasks:",
+          "items": [
+            "First Call",
+            "Transfer of Deceased",
+            "Meet with Family",
+            "Obtain Death Certificate",
+            "Prepare Obituary"
+          ]
+        },
+        {
+          "type": "section_header",
+          "label": "Service Planning"
+        },
+        {
+          "type": "checkbox_group",
+          "label": "Tasks:",
+          "items": [
+            "Casket/Urn Selection",
+            "Floral Arrangements",
+            "Music Selection",
+            "Officiant Booking",
+            "Order of Service Design"
+          ]
+        },
+        {
+          "type": "section_header",
+          "label": "Logistics"
+        },
+        {
+          "type": "checkbox_group",
+          "label": "Tasks:",
+          "items": [
+            "Venue Booking",
+            "Transportation",
+            "Pallbearers Arranged",
+            "Catering Confirmed",
+            "Memorial Items Prepared"
+          ]
+        }
+      ]
+    },
+    {
+      "type": "form_a4",
+      "title": "Memorial Service Planner",
+      "category": "Operations",
+      "filename": "FD_Memorial_Planner.png",
+      "canva_url": "https://www.canva.com/d/REPLACE_WITH_SHORTCODE",
+      "form_title": "MEMORIAL SERVICE PLANNER",
+      "rows": [
+        {
+          "type": "section_header",
+          "label": "Service Details"
+        },
+        {
+          "type": "field_triple",
+          "labels": [
+            "Date",
+            "Time",
+            "Location"
+          ]
+        },
+        {
+          "type": "field_pair",
+          "labels": [
+            "Officiant",
+            "Theme/Focus"
+          ]
+        },
+        {
+          "type": "section_header",
+          "label": "Order of Service"
+        },
+        {
+          "type": "table",
+          "headers": [
+            "Item",
+            "Person Responsible",
+            "Notes"
+          ],
+          "col_widths": [
+            0.3,
+            0.3,
+            0.4
+          ],
+          "rows": 10
+        },
+        {
+          "type": "section_header",
+          "label": "Readings & Music"
+        },
+        {
+          "type": "field_single",
+          "label": "Readings/Poems"
+        },
+        {
+          "type": "field_single",
+          "label": "Music Selections"
+        }
+      ]
+    },
+    {
+      "type": "form_a4",
+      "title": "Aftercare Follow-up Log",
+      "category": "Operations",
+      "filename": "FD_Aftercare_Log.png",
+      "canva_url": "https://www.canva.com/d/REPLACE_WITH_SHORTCODE",
+      "form_title": "AFTERCARE FOLLOW-UP LOG",
+      "rows": [
+        {
+          "type": "section_header",
+          "label": "Client Information"
+        },
+        {
+          "type": "field_pair",
+          "labels": [
+            "Family Name",
+            "Deceased Name"
+          ]
+        },
+        {
+          "type": "section_header",
+          "label": "Follow-up Log"
+        },
+        {
+          "type": "table",
+          "headers": [
+            "Date",
+            "Contact Method",
+            "Notes",
+            "Next Follow-up"
+          ],
+          "col_widths": [
+            0.15,
+            0.2,
+            0.45,
+            0.2
+          ],
+          "rows": 10
+        }
+      ]
+    },
+    {
+      "type": "form_a4",
+      "title": "Supplier Contact List",
+      "category": "Operations",
+      "filename": "FD_Supplier_Contact_List.png",
+      "canva_url": "https://www.canva.com/d/REPLACE_WITH_SHORTCODE",
+      "form_title": "SUPPLIER CONTACT LIST",
+      "rows": [
+        {
+          "type": "section_header",
+          "label": "Key Suppliers"
+        },
+        {
+          "type": "table",
+          "headers": [
+            "Service",
+            "Company",
+            "Contact Person",
+            "Phone",
+            "Email"
+          ],
+          "col_widths": [
+            0.2,
+            0.2,
+            0.2,
+            0.2,
+            0.2
+          ],
+          "rows": 10
+        }
+      ]
+    }
+  ]
+}

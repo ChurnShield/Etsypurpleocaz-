@@ -110,6 +110,49 @@ def read_file(path: str) -> str:
     return full.read_text(encoding="utf-8")
 
 
+def _sanitize_json_string(content: str) -> str:
+    """
+    Fix invalid control characters embedded inside JSON string values.
+    Gemini Flash sometimes emits literal newlines/tabs inside strings.
+    Walks char-by-char: inside a string, replaces raw \\n/\\r/\\t with escapes.
+    Then re-dumps via json.loads/dumps to guarantee canonical formatting.
+    """
+    result = []
+    in_string = False
+    i = 0
+    while i < len(content):
+        c = content[i]
+        if in_string:
+            if c == '\\':
+                result.append(c)
+                if i + 1 < len(content):
+                    result.append(content[i + 1])
+                i += 2
+                continue
+            elif c == '"':
+                in_string = False
+                result.append(c)
+            elif c == '\n':
+                result.append('\\n')
+            elif c == '\r':
+                result.append('\\r')
+            elif c == '\t':
+                result.append('\\t')
+            else:
+                result.append(c)
+        else:
+            if c == '"':
+                in_string = True
+                result.append(c)
+            else:
+                result.append(c)
+        i += 1
+    fixed = ''.join(result)
+    # Re-parse and re-dump to catch any remaining structural issues
+    parsed = json.loads(fixed)
+    return json.dumps(parsed, indent=2, ensure_ascii=False)
+
+
 @tool("write_file")
 def write_file(path: str, content: str) -> str:
     """
@@ -122,6 +165,11 @@ def write_file(path: str, content: str) -> str:
     """
     full = PROJECT / path
     full.parent.mkdir(parents=True, exist_ok=True)
+    if path.endswith(".json"):
+        try:
+            content = _sanitize_json_string(content)
+        except (json.JSONDecodeError, Exception) as e:
+            return f"ERROR: JSON sanitization failed for {path}: {e}\nContent preview:\n{content[:500]}"
     full.write_text(content, encoding="utf-8")
     return f"Written {len(content)} chars to {full}"
 

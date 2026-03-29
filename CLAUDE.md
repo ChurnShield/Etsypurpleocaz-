@@ -185,6 +185,14 @@ Crontab is on the VPS. Edit with `crontab -e`. Logs go to `logs/`.
 
 ---
 
+## EFFICIENCY RULES
+- Use /compact when context exceeds 50%
+- Before multi-step builds, describe the plan first — do not start executing immediately
+- Self-critique: identify failure modes before presenting proposals
+- Slash commands: /status for pipeline overview, /eval {listing_id} for verification
+
+---
+
 ## WHAT SUCCESS LOOKS LIKE FOR ANDY
 
 Andy is a beginner running this solo from his phone and a DigitalOcean droplet.

@@ -53,6 +53,12 @@ If SOUL.md is missing from disk, stop immediately and tell Andy.
   - NEVER use Opus for automated tasks
   - If a task needs no LLM, do NOT call an LLM
 
+### Code Discipline
+
+- GREP FIRST: Before modifying any file, grep for existing usage of the function/variable being changed. Never assume you know all callers.
+- BLAST RADIUS CHECK: Before any change, list all files that import or reference the file being modified. If >3 files affected, describe the impact before proceeding.
+- SMALLEST CHANGE: Always make the minimum change needed. Do not refactor adjacent code while fixing a bug. One concern per commit.
+
 *All Etsy API rules → `.claude/rules/etsy.md`. All Canva rules → `.claude/rules/canva.md`. All infra/credentials → `.claude/rules/infra.md`.*
 
 ---
@@ -190,6 +196,11 @@ Crontab is on the VPS. Edit with `crontab -e`. Logs go to `logs/`.
 - Before multi-step builds, describe the plan first — do not start executing immediately
 - Self-critique: identify failure modes before presenting proposals
 - Slash commands: /status for pipeline overview, /eval {listing_id} for verification
+
+### Self-Critique Enforcement
+- Before presenting ANY proposal, prompt, or plan to Andy: internally write it, find 3+ failure modes, fix each one, then present the FIXED version
+- Include a 'Risks mitigated' section showing what was caught and fixed
+- If you cannot find 3 problems, you have not thought hard enough
 
 ---
 

@@ -20,12 +20,31 @@ from crewai_crew.tools.verify_tool import (
     write_sprint_contract,
 )
 
-# ── LLM ──────────────────────────────────────────────────────────────────────
-# Both agents use Claude Sonnet 4.6 via the ANTHROPIC_API_KEY in .env
-_llm = LLM(
+# ── LLMs ─────────────────────────────────────────────────────────────────────
+# Planner: Gemini Flash (free tier) — cost-efficient planning/analysis
+# Builder: Claude Sonnet 4.6 (paid) — reliable structured JSON execution
+import logging as _logging
+
+try:
+    _planner_llm = LLM(
+        model="gemini/gemini-2.5-flash",
+        api_key=os.environ.get("GEMINI_API_KEY"),
+        temperature=0.2,
+        max_tokens=8192,
+    )
+except Exception as _e:
+    _logging.warning(f"Gemini Flash unavailable ({_e}), falling back to Claude Sonnet for Planner")
+    _planner_llm = LLM(
+        model="anthropic/claude-sonnet-4-6",
+        api_key=os.environ.get("ANTHROPIC_API_KEY"),
+        temperature=0.2,
+        max_tokens=8192,
+    )
+
+_builder_llm = LLM(
     model="anthropic/claude-sonnet-4-6",
     api_key=os.environ.get("ANTHROPIC_API_KEY"),
-    temperature=0.2,         # low temp for structured JSON output
+    temperature=0.2,
     max_tokens=8192,
 )
 
@@ -44,7 +63,7 @@ class PurpleOcazCrew:
         return Agent(
             config=self.agents_config["planner"],  # type: ignore[index]
             tools=[read_file, write_file],
-            llm=_llm,
+            llm=_planner_llm,
             verbose=True,
         )
 
@@ -59,7 +78,7 @@ class PurpleOcazCrew:
                 run_evaluate,
                 write_sprint_contract,
             ],
-            llm=_llm,
+            llm=_builder_llm,
             verbose=True,
         )
 

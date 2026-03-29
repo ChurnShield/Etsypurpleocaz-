@@ -47,6 +47,11 @@ If SOUL.md is missing from disk, stop immediately and tell Andy.
 - NEVER write Etsy listing copy without reading `skills/stop-slop/SKILL.md` first → score must be 35/50+
 - NEVER build a 3rd niche using copy-paste-modify of existing scripts → After 2 niches use the same pattern, PROPOSE a factory/abstraction in PROPOSALS.md before building the 3rd. The pattern today: 5 niche builds used near-identical Pillow scripts when a JSON config + generic renderer (`scripts/niche_template_factory.py`) would have saved 80% of tokens. Use the factory.
 - AFTER EVERY LISTING PUBLISH run BOTH scripts → `verify_listing.py` (metadata/tags/files) AND `evaluate_listing.py` (duplicate images, hero quality, variant coverage). A listing is NOT done until both pass.
+- COST RULES:
+  - CrewAI Planner: ALWAYS gemini/gemini-2.5-flash (free)
+  - CrewAI Builder: ALWAYS anthropic/claude-sonnet-4-6 (paid)
+  - NEVER use Opus for automated tasks
+  - If a task needs no LLM, do NOT call an LLM
 
 *All Etsy API rules → `.claude/rules/etsy.md`. All Canva rules → `.claude/rules/canva.md`. All infra/credentials → `.claude/rules/infra.md`.*
 

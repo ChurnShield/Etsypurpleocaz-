@@ -1,0 +1,822 @@
+{
+  "_comment": "YOGA STUDIO NICHE CONFIG",
+  "_flags": "--skip-etsy (build PNGs only)  |  --only-pdf (rebuild delivery PDF only)",
+  "_icon_options": [
+    "paw",
+    "scissors",
+    "camera",
+    "flower",
+    "star",
+    "heart",
+    "none"
+  ],
+  "_row_spec_reference": {
+    "checkbox_group": "{ type, label, items: [...] }  — Label above a row of checkboxes",
+    "field_pair": "{ type, labels: [left, right] }  — Two equal-width fields side by side",
+    "field_single": "{ type, label, height? }  — One labelled field spanning full width",
+    "field_triple": "{ type, labels: [a, b, c] }  — Three equal-width fields",
+    "section_header": "{ type, label }  — Bold heading bar across full width",
+    "spacer": "{ type, height }  — Blank vertical gap",
+    "table": "{ type, headers: [...], col_widths: [0.x, ...], rows: N }  — Lined table (widths must sum to 1.0)",
+    "text_block": "{ type, text, height? }  — Free text / instructions paragraph"
+  },
+  "_template_types_reference": {
+    "appointment_card": "1050×600px landscape. Fields: date, time, service, pet_name, notes.",
+    "booking_confirmation": "2480×3508px A4 portrait. fields: list of field label strings.",
+    "business_card": "1050×600px landscape. variant: dark or light.",
+    "certificate": "2550×1800px landscape. headline + body + fields.",
+    "expenses_tracker": "2480×3508px A4 portrait. extra_cols: column header strings.",
+    "flyer_a4": "2480×3508px A4 portrait. headline + offer + body + footer.",
+    "form_a4": "2480×3508px A4 portrait. rows: row-spec objects (see below).",
+    "gift_certificate": "2550×1800px landscape. headline + body + fields list.",
+    "income_tracker": "2480×3508px A4 portrait. extra_cols: column header strings.",
+    "invoice": "2480×3508px A4 portrait. line_items: list of service name strings.",
+    "loyalty_card": "1050×600px landscape. stamp_count: number of stamps before reward.",
+    "opening_hours_sign": "2480×3508px A4 portrait. hours: [[day, time], ...] array.",
+    "price_list": "2480×3508px A4 portrait. sections: [{heading, items:[name,price]}].",
+    "referral_card": "1050×600px landscape. offer + body + fields.",
+    "social_1080": "1080×1080px square. variant: offer|tip|review|announce.",
+    "thank_you_card": "1050×600px landscape. headline + body + cta.",
+    "welcome_sign": "2480×3508px A4 portrait. headline + body + optional contact."
+  },
+  "_usage": "python3 scripts/niche_template_factory.py configs/niches/yoga-studio.json",
+  "brand": {
+    "_comment": "Placeholder text shown on templates. Buyer replaces with their own info.",
+    "address_line": "123 Serenity Lane, Yoga Town, YS1 2YZ",
+    "contact_line": "📞 07700 900000 | hello@youryogastudio.co.uk",
+    "email_line": "hello@youryogastudio.co.uk",
+    "name_placeholder": "YOUR YOGA STUDIO",
+    "subtitle": "Mindful Movement & Wellness",
+    "tagline": "Find Your Flow",
+    "website": "www.youryogastudio.co.uk"
+  },
+  "icon": "flower",
+  "niche": {
+    "etsy": {
+      "description": "Everything a yoga studio needs to create a serene and professional brand presence.\n\nIncludes 30+ ready-to-edit Canva templates:\n• Business cards (dark + light)\n• Appointment & Loyalty cards\n• Price list & Flyers\n• Gift certificates\n• Client intake & Waiver forms\n• Invoice & Booking confirmation\n• Welcome & Opening Hours signs\n• 11 Social media posts\n• Income & Expenses trackers\n• Class Schedule & Attendance trackers\n• Yoga Teacher Training & Workshop Completion Certificates\n\nAll templates are fully editable in Canva Free.\nDownload instantly. Edit in minutes. Print at home or at a local printer.\n\n✅ Instant digital download\n✅ Works with Canva FREE\n✅ A4 + US Letter sizes included\n✅ Lifetime access",
+      "price": 39.99,
+      "tags": [
+        "yoga studio",
+        "yoga templates",
+        "canva templates",
+        "yoga business",
+        "studio forms",
+        "yoga cards",
+        "wellness forms",
+        "fitness business",
+        "digital download",
+        "small business kit",
+        "yoga instructor",
+        "class schedule",
+        "client intake"
+      ],
+      "taxonomy_id": 1874,
+      "title": "Yoga Studio Business Bundle — 30+ Canva Templates | Forms, Cards, Social Media & More"
+    },
+    "name": "Yoga Studio",
+    "slug": "yoga-studio"
+  },
+  "palette": {
+    "_comment": "All values are [R, G, B] arrays. Max 4–5 colours per niche.",
+    "charcoal": [
+      50,
+      50,
+      50
+    ],
+    "cream": [
+      245,
+      245,
+      245
+    ],
+    "cream_alt": [
+      255,
+      255,
+      255
+    ],
+    "gold": [
+      212,
+      184,
+      150
+    ],
+    "primary": [
+      74,
+      93,
+      74
+    ]
+  },
+  "spaces": {
+    "prefix": "templates/yoga-studio"
+  },
+  "templates": [
+    {
+      "_comment": "--- BRANDING ---",
+      "canva_url": "https://www.canva.com/d/REPLACE_WITH_SHORTCODE",
+      "category": "Branding",
+      "filename": "YS_Business_Card_Dark.png",
+      "title": "Business Card (Dark)",
+      "type": "business_card",
+      "variant": "dark"
+    },
+    {
+      "canva_url": "https://www.canva.com/d/REPLACE_WITH_SHORTCODE",
+      "category": "Branding",
+      "filename": "YS_Business_Card_Light.png",
+      "title": "Business Card (Light)",
+      "type": "business_card",
+      "variant": "light"
+    },
+    {
+      "_fields": "date, time, class, instructor, notes",
+      "canva_url": "https://www.canva.com/d/REPLACE_WITH_SHORTCODE",
+      "category": "Branding",
+      "filename": "YS_Appointment_Card.png",
+      "title": "Appointment Card",
+      "type": "appointment_card"
+    },
+    {
+      "canva_url": "https://www.canva.com/d/REPLACE_WITH_SHORTCODE",
+      "category": "Branding",
+      "filename": "YS_Loyalty_Card.png",
+      "headline": "LOYALTY CARD",
+      "offer": "6th Class FREE",
+      "stamp_count": 5,
+      "title": "Loyalty Card",
+      "type": "loyalty_card"
+    },
+    {
+      "body": "Give this card to a friend. When they book their first class, you both receive £10 off your next booking.",
+      "canva_url": "https://www.canva.com/d/REPLACE_WITH_SHORTCODE",
+      "category": "Branding",
+      "fields": [
+        "Referred By",
+        "Code"
+      ],
+      "filename": "YS_Referral_Card.png",
+      "headline": "Refer a Friend",
+      "offer": "Both get £10 off",
+      "title": "Referral Card",
+      "type": "referral_card"
+    },
+    {
+      "body": "We appreciate you joining our community. We hope to see you on the mat again soon.",
+      "canva_url": "https://www.com/d/REPLACE_WITH_SHORTCODE",
+      "category": "Branding",
+      "contact_visible": true,
+      "cta": "Leave us a review — it makes a huge difference!",
+      "filename": "YS_Thank_You_Card.png",
+      "headline": "Thank You!",
+      "title": "Thank You Card",
+      "type": "thank_you_card"
+    },
+    {
+      "body": "This certificate entitles the bearer to a yoga class or workshop at YOUR YOGA STUDIO",
+      "canva_url": "https://www.canva.com/d/REPLACE_WITH_SHORTCODE",
+      "category": "Branding",
+      "fields": [
+        "Recipient",
+        "Class/Workshop",
+        "Value",
+        "Expiry Date",
+        "Issued By"
+      ],
+      "filename": "YS_Gift_Certificate.png",
+      "headline": "Gift Certificate",
+      "subheadline": "Mindful Movement & Wellness",
+      "title": "Gift Certificate",
+      "type": "gift_certificate"
+    },
+    {
+      "body": "Please remove your shoes and silence your phones. Find your space and relax.",
+      "canva_url": "https://www.canva.com/d/REPLACE_WITH_SHORTCODE",
+      "category": "Branding",
+      "contact_visible": true,
+      "filename": "YS_Welcome_Sign.png",
+      "headline": "Welcome Yogis!",
+      "subheadline": "Find Your Flow",
+      "title": "Welcome Sign",
+      "type": "welcome_sign"
+    },
+    {
+      "canva_url": "https://www.canva.com/d/REPLACE_WITH_SHORTCODE",
+      "category": "Branding",
+      "filename": "YS_Opening_Hours.png",
+      "headline": "Studio Hours",
+      "hours": [
+        [
+          "Monday",
+          "7:00 am – 8:00 pm"
+        ],
+        [
+          "Tuesday",
+          "7:00 am – 8:00 pm"
+        ],
+        [
+          "Wednesday",
+          "7:00 am – 8:00 pm"
+        ],
+        [
+          "Thursday",
+          "7:00 am – 8:00 pm"
+        ],
+        [
+          "Friday",
+          "7:00 am – 7:00 pm"
+        ],
+        [
+          "Saturday",
+          "8:00 am – 2:00 pm"
+        ],
+        [
+          "Sunday",
+          "Closed"
+        ]
+      ],
+      "title": "Opening Hours Sign",
+      "type": "opening_hours_sign"
+    },
+    {
+      "_comment": "--- MARKETING ---",
+      "canva_url": "https://www.canva.com/d/REPLACE_WITH_SHORTCODE",
+      "category": "Marketing",
+      "filename": "YS_Price_List.png",
+      "sections": [
+        {
+          "heading": "Drop-in Classes",
+          "items": [
+            [
+              "Single Class",
+              "£15"
+            ],
+            [
+              "New Client Intro Offer",
+              "£25 (3 classes)"
+            ]
+          ]
+        },
+        {
+          "heading": "Class Packs",
+          "items": [
+            [
+              "5 Class Pack",
+              "£65"
+            ],
+            [
+              "10 Class Pack",
+              "£120"
+            ]
+          ]
+        },
+        {
+          "heading": "Memberships",
+          "items": [
+            [
+              "Monthly Unlimited",
+              "£80"
+            ],
+            [
+              "Annual Unlimited",
+              "£850"
+            ]
+          ]
+        },
+        {
+          "heading": "Workshops",
+          "items": [
+            [
+              "Beginner's Yoga",
+              "£30"
+            ],
+            [
+              "Chakra Balancing",
+              "£45"
+            ]
+          ]
+        }
+      ],
+      "title": "Price List",
+      "type": "price_list"
+    },
+    {
+      "body": "Discover the benefits of yoga with our introductory offer.",
+      "canva_url": "https://www.canva.com/d/REPLACE_WITH_SHORTCODE",
+      "category": "Marketing",
+      "filename": "YS_Promo_Flyer.png",
+      "footer": "Valid for new clients only. One offer per person. Cannot be combined with other promotions.",
+      "headline": "Find Your Inner Peace",
+      "offer": "First Class FREE",
+      "title": "Promotional Flyer",
+      "type": "flyer_a4"
+    },
+    {
+      "body": "Join us for a variety of classes designed for all levels.",
+      "canva_url": "https://www.canva.com/d/REPLACE_WITH_SHORTCODE",
+      "category": "Marketing",
+      "filename": "YS_Class_Schedule_Flyer.png",
+      "footer": "Book online or at the studio.",
+      "headline": "Weekly Class Schedule",
+      "offer": "Your Journey Starts Here",
+      "title": "Class Schedule Flyer",
+      "type": "flyer_a4"
+    },
+    {
+      "canva_url": "https://www.canva.com/d/REPLACE_WITH_SHORTCODE",
+      "category": "Social Media",
+      "cta": "Book now — link in bio",
+      "filename": "YS_Social_Offer.png",
+      "headline": "New to Yoga?",
+      "subheadline": "Your First Class is FREE!",
+      "title": "Social Post — New Client Offer",
+      "type": "social_1080",
+      "variant": "offer"
+    },
+    {
+      "canva_url": "https://www.canva.com/d/REPLACE_WITH_SHORTCODE",
+      "category": "Social Media",
+      "cta": "Follow for more yoga tips",
+      "filename": "YS_Social_Tip.png",
+      "headline": "Yoga Tip",
+      "tip_number": "01",
+      "tip_text": "Listen to your body and modify poses as needed. It's your practice!",
+      "title": "Social Post — Yoga Tip",
+      "type": "social_1080",
+      "variant": "tip"
+    },
+    {
+      "canva_url": "https://www.canva.com/d/REPLACE_WITH_SHORTCODE",
+      "category": "Social Media",
+      "cta": "Share your experience!",
+      "filename": "YS_Social_Review.png",
+      "review_text": "\"A truly serene and welcoming studio. The instructors are amazing and I always leave feeling refreshed.\"",
+      "title": "Social Post — 5-Star Review",
+      "type": "social_1080",
+      "variant": "review"
+    },
+    {
+      "canva_url": "https://www.canva.com/d/REPLACE_WITH_SHORTCODE",
+      "category": "Social Media",
+      "cta": "Sign up today!",
+      "filename": "YS_Social_Announce.png",
+      "headline": "New Class Alert!",
+      "subheadline": "Restorative Yoga with Sarah",
+      "title": "Social Post — New Class Announcement",
+      "type": "social_1080",
+      "variant": "announce"
+    },
+    {
+      "canva_url": "https://www.canva.com/d/REPLACE_WITH_SHORTCODE",
+      "category": "Social Media",
+      "cta": "Find your journey",
+      "filename": "YS_Social_Quote.png",
+      "headline": "Inspiration",
+      "subheadline": "\"Yoga is the journey of the self, through the self, to the self.\"",
+      "title": "Social Post — Inspirational Quote",
+      "type": "social_1080",
+      "variant": "announce"
+    },
+    {
+      "canva_url": "https://www.canva.com/d/REPLACE_WITH_SHORTCODE",
+      "category": "Social Media",
+      "cta": "Limited spots - book now!",
+      "filename": "YS_Social_Event.png",
+      "headline": "Workshop",
+      "subheadline": "Chakra Balancing Workshop",
+      "title": "Social Post — Event/Workshop",
+      "type": "social_1080",
+      "variant": "announce"
+    },
+    {
+      "canva_url": "https://www.canva.com/d/REPLACE_WITH_SHORTCODE",
+      "category": "Social Media",
+      "cta": "Start your transformation",
+      "filename": "YS_Social_Testimonial.png",
+      "headline": "Student Spotlight",
+      "subheadline": "\"Yoga has transformed my life, bringing peace and strength.\"",
+      "title": "Social Post — Student Testimonial",
+      "type": "social_1080",
+      "variant": "review"
+    },
+    {
+      "canva_url": "https://www.canva.com/d/REPLACE_WITH_SHORTCODE",
+      "category": "Social Media",
+      "cta": "Join Maria's class!",
+      "filename": "YS_Social_Instructor.png",
+      "headline": "Meet Our Instructor",
+      "subheadline": "Introducing Maria - Vinyasa Flow Expert",
+      "title": "Social Post — Instructor Spotlight",
+      "type": "social_1080",
+      "variant": "announce"
+    },
+    {
+      "_comment": "--- FORMS (A4) ---",
+      "canva_url": "https://www.canva.com/d/REPLACE_WITH_SHORTCODE",
+      "category": "Forms",
+      "filename": "YS_Client_Intake_Form.png",
+      "form_title": "CLIENT INTAKE FORM",
+      "rows": [
+        {
+          "label": "Personal Information",
+          "type": "section_header"
+        },
+        {
+          "labels": [
+            "Full Name",
+            "Date of Birth"
+          ],
+          "type": "field_pair"
+        },
+        {
+          "labels": [
+            "Email Address",
+            "Phone Number"
+          ],
+          "type": "field_pair"
+        },
+        {
+          "height": 60,
+          "label": "Home Address",
+          "type": "field_single"
+        },
+        {
+          "label": "Emergency Contact",
+          "type": "section_header"
+        },
+        {
+          "labels": [
+            "Name",
+            "Relationship"
+          ],
+          "type": "field_pair"
+        },
+        {
+          "labels": [
+            "Phone Number",
+            "Email Address"
+          ],
+          "type": "field_pair"
+        },
+        {
+          "label": "Health & Wellness",
+          "type": "section_header"
+        },
+        {
+          "items": [
+            "Back pain",
+            "Knee issues",
+            "Shoulder problems",
+            "High blood pressure",
+            "Pregnancy",
+            "Other"
+          ],
+          "label": "Known conditions:",
+          "type": "checkbox_group"
+        },
+        {
+          "height": 80,
+          "label": "Medications / Injuries / Special Notes",
+          "type": "field_single"
+        },
+        {
+          "label": "Yoga Experience & Goals",
+          "type": "section_header"
+        },
+        {
+          "labels": [
+            "Previous Yoga Experience",
+            "Preferred Class Style"
+          ],
+          "type": "field_pair"
+        },
+        {
+          "height": 80,
+          "label": "What are your goals for practicing yoga?",
+          "type": "field_single"
+        }
+      ],
+      "title": "Client Intake Form",
+      "type": "form_a4"
+    },
+    {
+      "canva_url": "https://www.canva.com/d/REPLACE_WITH_SHORTCODE",
+      "category": "Forms",
+      "filename": "YS_Waiver_Consent_Form.png",
+      "form_title": "WAIVER & CONSENT FORM",
+      "rows": [
+        {
+          "label": "Participant Information",
+          "type": "section_header"
+        },
+        {
+          "labels": [
+            "Full Name",
+            "Date"
+          ],
+          "type": "field_pair"
+        },
+        {
+          "label": "Health Declaration",
+          "type": "section_header"
+        },
+        {
+          "text": "I declare that I am physically fit and have no medical conditions that would prevent me from participating in yoga classes. I understand that it is my responsibility to consult with a physician prior to and regarding my participation in any yoga program.",
+          "type": "text_block"
+        },
+        {
+          "label": "Assumption of Risk",
+          "type": "section_header"
+        },
+        {
+          "text": "I understand that yoga involves physical exertion and carries with it the risk of injury. I voluntarily assume all risks associated with my participation in classes and workshops at YOUR YOGA STUDIO.",
+          "type": "text_block"
+        },
+        {
+          "label": "Consent & Release",
+          "type": "section_header"
+        },
+        {
+          "text": "I hereby release YOUR YOGA STUDIO, its instructors, and staff from any and all liability for any injuries or damages that may occur during my participation.",
+          "type": "text_block"
+        },
+        {
+          "label": "Signature",
+          "type": "section_header"
+        },
+        {
+          "labels": [
+            "Signature",
+            "Date"
+          ],
+          "type": "field_pair"
+        },
+        {
+          "labels": [
+            "Printed Name",
+            "Witness Signature"
+          ],
+          "type": "field_pair"
+        }
+      ],
+      "title": "Waiver & Consent Form",
+      "type": "form_a4"
+    },
+    {
+      "canva_url": "https://www.canva.com/d/REPLACE_WITH_SHORTCODE",
+      "category": "Forms",
+      "filename": "YS_Invoice.png",
+      "line_items": [
+        "Drop-in Class",
+        "5 Class Pack",
+        "Monthly Membership",
+        "Workshop Fee",
+        "Private Session",
+        "Merchandise"
+      ],
+      "title": "Invoice",
+      "type": "invoice"
+    },
+    {
+      "canva_url": "https://www.canva.com/d/REPLACE_WITH_SHORTCODE",
+      "category": "Forms",
+      "filename": "YS_Booking_Confirmation.png",
+      "fields": [
+        "Client Name",
+        "Class Name",
+        "Date",
+        "Time",
+        "Instructor",
+        "Studio Location",
+        "Booking Reference"
+      ],
+      "title": "Booking Confirmation",
+      "type": "booking_confirmation"
+    },
+    {
+      "_comment": "--- OPERATIONS ---",
+      "canva_url": "https://www.canva.com/d/REPLACE_WITH_SHORTCODE",
+      "category": "Operations",
+      "extra_cols": [
+        "Client Name",
+        "Service/Product",
+        "Payment Method",
+        "Amount (£)",
+        "Notes"
+      ],
+      "filename": "YS_Income_Tracker.png",
+      "month_col": true,
+      "title": "Monthly Income Tracker",
+      "type": "income_tracker"
+    },
+    {
+      "canva_url": "https://www.canva.com/d/REPLACE_WITH_SHORTCODE",
+      "category": "Operations",
+      "extra_cols": [
+        "Date",
+        "Category",
+        "Description",
+        "Payment Method",
+        "Amount (£)",
+        "Notes"
+      ],
+      "filename": "YS_Expenses_Tracker.png",
+      "month_col": true,
+      "title": "Monthly Expenses Tracker",
+      "type": "expenses_tracker"
+    },
+    {
+      "canva_url": "https://www.canva.com/d/REPLACE_WITH_SHORTCODE",
+      "category": "Operations",
+      "filename": "YS_Class_Schedule.png",
+      "form_title": "WEEKLY CLASS SCHEDULE",
+      "rows": [
+        {
+          "label": "Monday",
+          "type": "section_header"
+        },
+        {
+          "col_widths": [
+            0.2,
+            0.4,
+            0.4
+          ],
+          "headers": [
+            "Time",
+            "Class",
+            "Instructor"
+          ],
+          "rows": 4,
+          "type": "table"
+        },
+        {
+          "label": "Tuesday",
+          "type": "section_header"
+        },
+        {
+          "col_widths": [
+            0.2,
+            0.4,
+            0.4
+          ],
+          "headers": [
+            "Time",
+            "Class",
+            "Instructor"
+          ],
+          "rows": 4,
+          "type": "table"
+        },
+        {
+          "label": "Wednesday",
+          "type": "section_header"
+        },
+        {
+          "col_widths": [
+            0.2,
+            0.4,
+            0.4
+          ],
+          "headers": [
+            "Time",
+            "Class",
+            "Instructor"
+          ],
+          "rows": 4,
+          "type": "table"
+        },
+        {
+          "label": "Thursday",
+          "type": "section_header"
+        },
+        {
+          "col_widths": [
+            0.2,
+            0.4,
+            0.4
+          ],
+          "headers": [
+            "Time",
+            "Class",
+            "Instructor"
+          ],
+          "rows": 4,
+          "type": "table"
+        },
+        {
+          "label": "Friday",
+          "type": "section_header"
+        },
+        {
+          "col_widths": [
+            0.2,
+            0.4,
+            0.4
+          ],
+          "headers": [
+            "Time",
+            "Class",
+            "Instructor"
+          ],
+          "rows": 3,
+          "type": "table"
+        },
+        {
+          "label": "Saturday",
+          "type": "section_header"
+        },
+        {
+          "col_widths": [
+            0.2,
+            0.4,
+            0.4
+          ],
+          "headers": [
+            "Time",
+            "Class",
+            "Instructor"
+          ],
+          "rows": 2,
+          "type": "table"
+        },
+        {
+          "label": "Sunday",
+          "type": "section_header"
+        },
+        {
+          "col_widths": [
+            0.2,
+            0.4,
+            0.4
+          ],
+          "headers": [
+            "Time",
+            "Class",
+            "Instructor"
+          ],
+          "rows": 1,
+          "type": "table"
+        }
+      ],
+      "title": "Weekly Class Schedule",
+      "type": "form_a4"
+    },
+    {
+      "canva_url": "https://www.canva.com/d/REPLACE_WITH_SHORTCODE",
+      "category": "Operations",
+      "filename": "YS_Attendance_Tracker.png",
+      "form_title": "CLASS ATTENDANCE TRACKER",
+      "rows": [
+        {
+          "labels": [
+            "Month",
+            "Year"
+          ],
+          "type": "field_pair"
+        },
+        {
+          "col_widths": [
+            0.15,
+            0.2,
+            0.2,
+            0.45
+          ],
+          "headers": [
+            "Date",
+            "Class",
+            "Instructor",
+            "Student Names"
+          ],
+          "rows": 20,
+          "type": "table"
+        }
+      ],
+      "title": "Class Attendance Tracker",
+      "type": "form_a4"
+    },
+    {
+      "body": "This certifies that [Student Name] has successfully completed the [Course Name] Yoga Teacher Training.",
+      "canva_url": "https://www.canva.com/d/REPLACE_WITH_SHORTCODE",
+      "category": "Operations",
+      "fields": [
+        "Date",
+        "Lead Trainer",
+        "Studio Director"
+      ],
+      "filename": "YS_Yoga_Teacher_Training_Certificate.png",
+      "headline": "Certificate of Completion",
+      "title": "Yoga Teacher Training Certificate",
+      "type": "certificate"
+    },
+    {
+      "body": "This certifies that [Participant Name] has successfully completed the [Workshop Name] Workshop.",
+      "canva_url": "https://www.canva.com/d/REPLACE_WITH_SHORTCODE",
+      "category": "Operations",
+      "fields": [
+        "Date",
+        "Instructor",
+        "Studio"
+      ],
+      "filename": "YS_Workshop_Completion_Certificate.png",
+      "headline": "Certificate of Completion",
+      "title": "Workshop Completion Certificate",
+      "type": "certificate"
+    }
+  ]
+}

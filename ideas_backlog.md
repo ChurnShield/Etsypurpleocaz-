@@ -129,3 +129,43 @@ Auto-populated from weekly YouTube digest. Deduplicated 2026-03-23.
 [APPROVED: 2026-03-29] **Niche Idea** real estate agent — Score: 80/100 — see outputs/evaluations/niche_real-estate-agent_score.md
 
 [APPROVED: 2026-03-29] **Niche Idea** cleaning business — Score: 85/100 — see outputs/evaluations/niche_cleaning-business_score.md
+
+## From Weekly Digest 2026-03-30
+
+- **Idea:** Track trends before they spike on Etsy by monitoring Pinterest and social media, then bringing fresh trends to Etsy before competition arrives
+- **Apply to:** PurpleOcaz
+- **Action:** Set up Pinterest monitoring workflow in n8n to identify emerging design trends 2-3 months before they hit Etsy
+- **Effort:** Medium
+- **Idea:** Implement "Library Meta-Skill" system for distributing and versioning AI skills/prompts across devices and projects using library.yaml config
+- **Apply to:** AgentPipeline
+- **Action:** Build library.yaml system to manage Claude Code skills and n8n workflows centrally
+- **Effort:** High
+- **Idea:** Niche down trending keywords instead of using broad terms - "digital planner templates" vs just "digital"
+- **Apply to:** PurpleOcaz
+- **Action:** Audit current listings and replace broad keywords with specific niche variations using eRank data
+- **Effort:** Low
+- **Idea:** Use best day/time data for Etsy listings to maximize visibility in algorithm
+- **Apply to:** PurpleOcaz
+- **Action:** Extract specific timing data from Starla Moore's exclusive research and schedule listings accordingly
+- **Effort:** Low
+- **Idea:** Build customer dependency through solving critical problems rather than just being convenient
+- **Apply to:** ChurnShield
+- **Action:** Position ChurnShield as essential business survival tool, not just nice-to-have analytics
+- **Effort:** Medium
+
+## Added 2026-03-30
+
+[ ] PurpleOcaz Use eRank to track competitor shops and analyze their best-performing listings — Source: How to Find Competitors Best Listings on Etsy using eRank!
+[ ] PurpleOcaz Create premium product bundles instead of competing on low prices — Source: The ONLY Way to Make Money Selling Digital Products in 2026
+[ ] PurpleOcaz Focus on specific customer personas rather than generic audiences — Source: The BEST Etsy Customers To Sell To
+[ ] PurpleOcaz Avoid copyright violations and generic designs in POD products — Source: POD Failures Explained What Etsy Sellers Get Wrong
+[ ] PurpleOcaz Prepare for Etsy removing materials fields from listings — Source: Etsy is REMOVING Materials From Our Listings
+[ ] PurpleOcaz Drive external traffic via Pinterest (multiple pins per product) and Facebook groups — Source: The BEST Growth Tactics for Etsy Sellers
+[ ] PurpleOcaz Use trend research tools to find seasonal opportunities — Source: How to Research Top Etsy Trends
+[ ] PurpleOcaz Enter Etsy Seller's Choice Awards for community exposure — Source: Etsy Seller's Choice Awards
+[ ] ChurnShield Focus on selling higher-value solutions rather than competing on price — Source: Sell Cheap Or Expensive Things?
+[ ] ChurnShield Position as premium service rather than budget option — Source: You're Not Charging Enough
+[ ] AgentPipeline Build CEO-level decision making agents with Claude 1M context — Source: Pi CEO Agents. Claude 1M Context. Multi-Agent Teams.
+[ ] AgentPipeline Implement multi-agent orchestration for strategic business decisions — Source: Pi CEO Agents. Claude 1M Context. Multi-Agent Teams.
+[ ] General Create structured daily schedule focusing on high-leverage activities — Source: Schedule For New Entrepreneurs
+[ ] General Develop better AI prompting skills for business applications — Source: How Good Are You At Using AI
